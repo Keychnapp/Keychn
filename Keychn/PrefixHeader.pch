@@ -1,0 +1,57 @@
+//
+//  PrefixHeader.pch
+//  Keychn
+//
+//  Created by Keychn Experience SL on 03/12/15.
+//  Copyright © 2015 Keychn Experience SL. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* PrefixHeader_pch */
+
+#pragma mark - Global Imports
+
+#import "UIColor+KCColor.h"
+#import "UIFont+KCFont.h"
+#import "KCConstant.h"
+#import "KCUtility.h"
+#import "KCUserProfile.h"
+#import "KCUIAlert.h"
+#import "NSString+KCValidation.h"
+#import "UIImage+KCImage.h"
+#import "KCProgressIndicator.h"
+#import "NSDate+KCDateTime.h"
+#import "KCAppWebViewViewController.h"
+#import "KCAppLabel.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
+#import "KCPlaceholderImage.h"
+#import "Mixpanel/Mixpanel.h"
+
+
+#define AppLabel       [KCAppLabel sharedInstance]
+#define AppPlaceholder [KCPlaceholderImage sharedInstance]
+
+#pragma mark - Method Logger
+
+
+#pragma mark - Debug Logger
+
+#define DEBUGGING YES
+
+#ifndef NO
+
+#define START_METHOD  NSLog(@"START --> %s",__FUNCTION__);
+#define END_METHOD    NSLog(@"END --> %s",__FUNCTION__);
+
+#else
+
+#define START_METHOD  ;
+#define END_METHOD    ;
+
+#endif
