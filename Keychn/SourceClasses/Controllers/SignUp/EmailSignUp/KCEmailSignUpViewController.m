@@ -253,6 +253,7 @@
     [mixpanel track:@"signup_newsletter_toggle"
          properties:@{@"is_subscribed":@(sender.isOn)}];
     [self.editingTextField resignFirstResponder];
+    if(DEBUGGING) NSLog(@"Newsletter preference is on : %@",@(sender.isOn));
     _userProfile.receiveNewsletter = [NSNumber numberWithBool:sender.isOn];
 }
 
@@ -284,7 +285,7 @@
     if([self validateTextFields]) {
         if(isNetworkReachable) {
             Mixpanel *mixpanel = [Mixpanel sharedInstance];
-            [mixpanel track:@"login_signup_button"
+            [mixpanel track:@"signup_button"
                  properties:@{@"":@""}];
             //text field validated, try to register user
             if(!_signUpManager) {

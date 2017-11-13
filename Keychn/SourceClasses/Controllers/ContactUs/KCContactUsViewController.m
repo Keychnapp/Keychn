@@ -159,8 +159,8 @@
         [KCProgressIndicator showProgressIndicatortWithText:AppLabel.activitySubmittingQuery];
         [_contactUsWebManager submitQueryWithParameter:parametes withCompletionHandler:^(NSDictionary *responseDictionary) {
             // Request completed
+            [KCProgressIndicator hideActivityIndicator];
             [KCUIAlert showInformationAlertWithHeader:AppLabel.informationTitle message:AppLabel.querySubmittedSuccessfully withButtonTapHandler:^{
-                [KCProgressIndicator hideActivityIndicator];
                 // Back to Setting ViewController
                 [weakSelf.navigationController popViewControllerAnimated:YES];
             }];

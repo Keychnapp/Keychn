@@ -105,7 +105,7 @@
 - (IBAction)skipButtonTapped:(id)sender {
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel track:@"skipped_screen"
-         properties:@{ @"screen_number": [NSString stringWithFormat:@"%@",@(self.onboardPageControl.currentPage)] }];
+         properties:@{ @"screen_number": [NSString stringWithFormat:@"%@",@(self.onboardPageControl.currentPage+1)] }];
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
