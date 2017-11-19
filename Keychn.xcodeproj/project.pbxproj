@@ -124,6 +124,7 @@
 		653717F01F68653B002B4292 /* KCTutorialWebManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6537176D1F68653B002B4292 /* KCTutorialWebManager.m */; };
 		653717F11F68653B002B4292 /* KCUserScheduleWebManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 653717701F68653B002B4292 /* KCUserScheduleWebManager.m */; };
 		653717F21F68653B002B4292 /* KCWebConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 653717731F68653B002B4292 /* KCWebConnection.m */; };
+		6556069A1FC072F400CF6C15 /* KCNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 655606991FC072F400CF6C15 /* KCNavigationController.m */; };
 		65A34F2C1FA8BD5A00449513 /* AgoraRtcEngineKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A34F2B1FA8BD5900449513 /* AgoraRtcEngineKit.framework */; };
 		65A34F2E1FA8BF3500449513 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A34F2D1FA8BF3500449513 /* libresolv.tbd */; };
 		65B352F81FAB2294003AB539 /* EventStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B352F71FAB2294003AB539 /* EventStore.m */; };
@@ -626,6 +627,8 @@
 		653717701F68653B002B4292 /* KCUserScheduleWebManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCUserScheduleWebManager.m; sourceTree = "<group>"; };
 		653717721F68653B002B4292 /* KCWebConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCWebConnection.h; sourceTree = "<group>"; };
 		653717731F68653B002B4292 /* KCWebConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCWebConnection.m; sourceTree = "<group>"; };
+		655606981FC072F400CF6C15 /* KCNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KCNavigationController.h; sourceTree = "<group>"; };
+		655606991FC072F400CF6C15 /* KCNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KCNavigationController.m; sourceTree = "<group>"; };
 		65A34F2B1FA8BD5900449513 /* AgoraRtcEngineKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AgoraRtcEngineKit.framework; sourceTree = "<group>"; };
 		65A34F2D1FA8BF3500449513 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		65B352F61FAB2294003AB539 /* EventStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventStore.h; sourceTree = "<group>"; };
@@ -1066,6 +1069,7 @@
 		653715FC1F68653A002B4292 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				655606971FC072CC00CF6C15 /* NavigatonController */,
 				653715FD1F68653A002B4292 /* AppWebView */,
 				653716001F68653A002B4292 /* ChangePassword */,
 				653716091F68653A002B4292 /* ContactUs */,
@@ -2114,6 +2118,15 @@
 			path = WebConnection;
 			sourceTree = "<group>";
 		};
+		655606971FC072CC00CF6C15 /* NavigatonController */ = {
+			isa = PBXGroup;
+			children = (
+				655606981FC072F400CF6C15 /* KCNavigationController.h */,
+				655606991FC072F400CF6C15 /* KCNavigationController.m */,
+			);
+			path = NavigatonController;
+			sourceTree = "<group>";
+		};
 		65A34F2A1FA8BD5900449513 /* Library */ = {
 			isa = PBXGroup;
 			children = (
@@ -2759,7 +2772,7 @@
 					AA88766C1C1069C200D2CEF4 = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = VNBHUF22T6;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -3249,6 +3262,7 @@
 				653717911F68653B002B4292 /* KCLanguageSelectionViewController.m in Sources */,
 				6537177F1F68653B002B4292 /* KCChangePasswordTableViewCell.m in Sources */,
 				653717891F68653B002B4292 /* KCItemIngredientsTableViewCell.m in Sources */,
+				6556069A1FC072F400CF6C15 /* KCNavigationController.m in Sources */,
 				653717B11F68653B002B4292 /* KCGroupSessionHostEndViewController.m in Sources */,
 				653717AD1F68653B002B4292 /* KCSplashViewController.m in Sources */,
 				653717DA1F68653B002B4292 /* KCPageControl.m in Sources */,
@@ -3379,10 +3393,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Keychn/Keychn.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Keychn Experience SL (VNBHUF22T6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = VNBHUF22T6;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3398,8 +3412,8 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrome.Keychn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "2b8028d1-1523-4f17-9025-a95f51dfa513";
+				PROVISIONING_PROFILE_SPECIFIER = Adhoc_Nov_3;
 				VALIDATE_PRODUCT = NO;
 				VALID_ARCHS = "armv7 arm64 armv7s";
 			};
@@ -3412,10 +3426,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Keychn/Keychn.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Keychn Experience SL (VNBHUF22T6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = VNBHUF22T6;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3431,8 +3445,8 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrome.Keychn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "2b8028d1-1523-4f17-9025-a95f51dfa513";
+				PROVISIONING_PROFILE_SPECIFIER = Adhoc_Nov_3;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7 arm64 armv7s";
 			};

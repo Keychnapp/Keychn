@@ -77,6 +77,9 @@
     if(_currentDevice == iPad) {
         _cellHeight = 450;
     }
+    else if (_currentDevice == iPhoneX) {
+        _cellHeight = 310;
+    }
     else {
         NSInteger apsectRatio        = kBaseWidth/kBaseHeight;
         float widthDifference        = CGRectGetWidth(self.view.frame) - kBaseWidth;
@@ -85,7 +88,7 @@
     }
     _fontSize                        = [self fontSizeForMasterChefName];
     
-    [self addBottomBar];
+//    [self addBottomBar];
     
     // Request for iCalendar permission
     EventStore *store = [EventStore new];
@@ -325,6 +328,9 @@
     switch (_currentDevice) {
         case iPad:
             fontSize = 80;
+            break;
+        case iPhoneX:
+            fontSize = 70;
             break;
         case iPhone6Plus:
             fontSize = 75;

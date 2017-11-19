@@ -35,6 +35,7 @@
 }
 
 // New Outlets
+
 @property (weak, nonatomic) IBOutlet UIView  *containerView;
 @property (weak, nonatomic) IBOutlet UILabel *dateAndMonthLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
@@ -46,7 +47,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *attendButton;
 @property (weak, nonatomic) IBOutlet UIImageView *attendCheckmarkImageView;
 @property (weak, nonatomic) IBOutlet UIButton *playVideoButton;
-
 
 
 @end
@@ -72,6 +72,7 @@
     
     // Add right swipe gesture to navigate back
     [self addLeftSwipeGesture];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -86,6 +87,12 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [KCProgressIndicator hideActivityIndicator];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    // Change orientation to Portratit
+//    [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];
 }
 
 #pragma mark - Button Actions
@@ -209,7 +216,6 @@
 }
 
 #pragma mark - Instance Methods
-
 
 - (void)customizeUI {
     // Set layout, font, color etc

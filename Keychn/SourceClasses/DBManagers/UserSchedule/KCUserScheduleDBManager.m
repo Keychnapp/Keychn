@@ -62,7 +62,7 @@
                         // Update user schedule if the time is updated
                         if (mySchedule.scheduleDate != timeInterval) {
                             // Update the iCalendar event and Reschedule notitificaion
-                            [self rescheduleLocalNotificationWithTimeInterval:timeInterval scheduleId:sessionID andMasterchefName:hostName isHostingMasterclass:[isHosting boolValue]];
+                            [self rescheduleLocalNotificationWithTimeInterval:timeInterval scheduleId:sessionID andMasterchefName:hostName chefUserId:userID conferenceId:conferenceID isHostingMasterclass:[isHosting boolValue]];
                             if ([NSString validateString:mySchedule.eventId]) {
                                 // Edit event
                                 mySchedule.eventId =  [_eventStore editEvent:mySchedule.eventId withTimeInterval:timeInterval andChefName:hostName];
@@ -79,7 +79,7 @@
                     }
                     else {
                         // Schedule a local notifaction for this Masterclass
-                        [self scheduleMasterclassWithTimeInterval:timeInterval scheduleId:sessionID andMasterchefName:hostName isHostingMasterclass:[isHosting boolValue]];
+                        [self scheduleMasterclassWithTimeInterval:timeInterval scheduleId:sessionID andMasterchefName:hostName chefUserId:userID conferenceId:conferenceID isHostingMasterclass:[isHosting boolValue]];
                         
                         // Create calendar event
                         NSString *eventIdentifier = [_eventStore addEventWithTimerInterval:timeInterval chefName:hostName];
@@ -203,13 +203,15 @@
     }];
 }
 
-- (void)rescheduleLocalNotificationWithTimeInterval:(NSTimeInterval)timeinterval scheduleId:(NSNumber *)scheduleId andMasterchefName:(NSString *)name isHostingMasterclass:(BOOL)isHosting {
+- (void)rescheduleLocalNotificationWithTimeInterval:(NSTimeInterval)timeinterval scheduleId:(NSNumber *)scheduleId andMasterchefName:(NSString *)name chefUserId:(NSString *)chefUserId conferenceId:(NSString *)conferenceId isHostingMasterclass:(BOOL)isHosting {
     // Cancel Masterclass Local Notificaion
     UNUserNotificationCenter *center            = [UNUserNotificationCenter currentNotificationCenter];
     __block NSNumber *sessionId                 = scheduleId;
     __block NSTimeInterval sessionTimerInteval  = timeinterval;
     __block NSString *chefName                  = name;
     __block BOOL isHostingMasterclass           = isHosting;
+    __block NSString *userId                    = chefUserId;
+    __block NSString *keychnConferenceId        = conferenceId;
     __weak id weakSelf = self;
      [center getPendingNotificationRequestsWithCompletionHandler:^(NSArray<UNNotificationRequest *> * requests) {
          NSMutableArray *identifiers = [[NSMutableArray alloc] init];
@@ -229,17 +231,19 @@
              [center removePendingNotificationRequestsWithIdentifiers:identifiers];
          }
          // Reschedule Masterclass
-         [weakSelf scheduleMasterclassWithTimeInterval:sessionTimerInteval scheduleId:sessionId andMasterchefName:chefName isHostingMasterclass:isHostingMasterclass];
+         [weakSelf scheduleMasterclassWithTimeInterval:sessionTimerInteval scheduleId:sessionId andMasterchefName:chefName chefUserId:userId conferenceId:keychnConferenceId isHostingMasterclass:isHostingMasterclass];
      }];
 }
 
-- (void)scheduleMasterclassWithTimeInterval:(NSTimeInterval)timeinterval scheduleId:(NSNumber *)scheduleId andMasterchefName:(NSString *)name isHostingMasterclass:(BOOL)isHosting {
+- (void)scheduleMasterclassWithTimeInterval:(NSTimeInterval)timeinterval scheduleId:(NSNumber *)scheduleId andMasterchefName:(NSString *)name chefUserId:(NSString *)chefUserId conferenceId:(NSString *)conferenceId isHostingMasterclass:(BOOL)isHosting {
+    
+    // Conference id, host name, schedule id, chef_user_id, isHosting
     
     // Notification for 20 minutes prior to the Masterclass
     
     UNMutableNotificationContent* content = [[UNMutableNotificationContent alloc] init];
     content.title     = [NSString localizedUserNotificationStringForKey:@"Ready for Masterclass" arguments:nil];
-    content.userInfo  = @{kScheduleID:scheduleId};
+    content.userInfo  = @{kScheduleID:scheduleId, kUserID:chefUserId, kConferenceID:conferenceId, kMasterChefName: name, kIsHosting:[NSNumber numberWithBool:isHosting]};
     NSString *message = [NSString stringWithFormat:@"%@ is preparing for your class! Don’t forget to attend in 20 mins!", name];
     if(isHosting) {
         message       = [NSString stringWithFormat:@"All the best %@! Your Masterclass is scheduled in 20 minutes.", name];
@@ -254,7 +258,7 @@
         
         // Create the request object.
         UNNotificationRequest* request = [UNNotificationRequest
-                                          requestWithIdentifier:@"Masterclass20MinutesBefore" content:content trigger:trigger];
+                                          requestWithIdentifier:beforeMasteclass content:content trigger:trigger];
         
         [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error) {
             if (error != nil) {
@@ -266,7 +270,8 @@
     // Notification for when Masterclass has started
     UNMutableNotificationContent *masterclassContent = [[UNMutableNotificationContent alloc] init];
     masterclassContent.title     = [NSString localizedUserNotificationStringForKey:@"Ready for Masterclass" arguments:nil];
-    masterclassContent.userInfo  = @{kScheduleID:scheduleId};
+    masterclassContent.userInfo  = @{kScheduleID:scheduleId, kUserID:chefUserId, kConferenceID:conferenceId, kMasterChefName: name, kIsHosting:[NSNumber numberWithBool:isHosting], kScheduleDate:[NSNumber numberWithDouble:timeinterval]};
+    masterclassContent.categoryIdentifier = joinActionCategory;
     NSString *masterclassMessage = [NSString stringWithFormat:@"%@ is waiting for you. Start Your Masterclass Now!.", name];
     if(isHosting) {
         masterclassMessage       = [NSString stringWithFormat:@"Hey %@, all the Starcooks are waiting for you. Start Your Masterclass Now!", name];
@@ -280,7 +285,7 @@
         
         // Create the request object.
         UNNotificationRequest *masterClassrequest = [UNNotificationRequest
-                                                     requestWithIdentifier:@"MasterclassCurreenTime" content:masterclassContent trigger:masterclassTrigger];
+                                                     requestWithIdentifier:joinMasteclass content:masterclassContent trigger:masterclassTrigger];
         [center addNotificationRequest:masterClassrequest withCompletionHandler:^(NSError * _Nullable error) {
             if (error != nil) {
                 NSLog(@"%@", error.localizedDescription);

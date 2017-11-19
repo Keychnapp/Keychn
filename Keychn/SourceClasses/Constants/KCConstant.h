@@ -45,6 +45,7 @@ typedef NS_ENUM(NSUInteger,IOSDevices) {
     iPhone5,
     iPhone6,
     iPhone6Plus,
+    iPhoneX,
     iPad
 };
 
@@ -163,6 +164,14 @@ extern NSNumber     *defaultLanguage;
 #define KEYCHN_POINT_ARRAY              @[@"100", @"230", @"350", @"480", @"600"]
 #define INAPP_PURCHASE_PRODUCT_ID_ARRAY @[@"com.chrome.keychn.100pts", @"com.chrome.keychn.230pts", @"com.chrome.keychn.350pts", @"com.chrome.keychn.480pts", @"com.chrome.keychn.600pts"]
 #define kInAppPurchaseSusbcriptionArray @[@"com.keychn.monthly", @"com.keychn.yearly"]
+
+
+#pragma mark - Notification Identifier
+
+extern NSString *beforeMasteclass;
+extern NSString *joinMasteclass;
+extern NSString *joinActionIdentifier;
+extern NSString *joinActionCategory;
 
 #pragma mark - URLs and Actions
 

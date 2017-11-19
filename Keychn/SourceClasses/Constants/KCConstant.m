@@ -22,6 +22,14 @@
 BOOL isNetworkReachable = NO;
 NSNumber     *defaultLanguage;
 
+#pragma mark - Notification Identifier
+
+NSString *beforeMasteclass      = @"MinutesBeforeMasterclass";
+NSString *joinMasteclass        = @"JoinMasterclass";
+NSString *joinActionIdentifier  = @"JoinAction";
+NSString *joinActionCategory    = @"JoinActionCategory";
+
+
 #pragma mark - URLs and Actions
 
 //NSString  *baseURL                    = @"http://52.24.88.32/"; // Live Server
@@ -351,7 +359,7 @@ NSString  *textChatViewController        = @"textChatViewController";
 NSString  *hostEndSessionViewController  = @"groupSessionHostEndViewController";
 NSString  *guestEndSessionViewController = @"groupSessionGuestEndViewController";
 NSString  *imageDisplayViewController    = @"imageDisplayViewController";
-NSString  *kHomeViewController           = @"HomeViewController";
+NSString  *kHomeViewController           = @"HomeTabeController";
 NSString  *kCookViewController           = @"CookViewController";
 NSString  *kOnBoardViewController        = @"OnBoardViewController";
 

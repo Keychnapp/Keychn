@@ -31,6 +31,9 @@
     else if(screenHeight == 736) {
         return iPhone6Plus;
     }
+    else if (screenHeight == 812) {
+        return iPhoneX;
+    }
     return iPad;
 }
 

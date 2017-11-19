@@ -76,12 +76,19 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     [self registerForAppDelegateNotification];
     
 //    [self expandContractQuestionTurnBoxWithStatus:YES];
+    
+    // Change orientation to landscape
+    [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationLandscapeLeft) forKey:@"orientation"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self removeAppDelegateNotification];
+    
+    // Change orientation to Portratit
+    [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];
 }
+
 
 #pragma mark - Button Actions
 

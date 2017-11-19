@@ -22,6 +22,8 @@
 #import <Twitter/Twitter.h>
 #import <TwitterCore/TwitterCore.h>
 #import <TwitterKit/TwitterKit.h>
+#import "KCGroupSessionHostEndViewController.h"
+#import "KCGroupSessionGuestEndViewController.h"
 
 #define kTwitterAPIKey @"YEJvDUQHJl7GC6qd205dYUXPf"
 #define kTwitterConsumerSecret @"i0Cff9yVdeMPdWxtJBlMOVfxKuhM5wTqaOYyJNl04tTVEphucO"
@@ -51,6 +53,8 @@
     //copy database to the system directory
     [self copyDatabase];
     
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    center.delegate = self;
     
     // Appsflyer
     [AppsFlyerTracker sharedTracker].appsFlyerDevKey = kAppsFlyerDeveloperKey;
@@ -60,6 +64,8 @@
     [Mixpanel sharedInstanceWithToken:kMixPanelToken];
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel identify:mixpanel.distinctId];
+    
+    [self registerForPushNotifaction];
     
     // Google Firebase Configuration
     [FIRApp configure];
@@ -76,8 +82,6 @@
     [_webConnection monitorInternetConnectionWithCompletionHandler:^{
        
     }];
-    
-    [self registerForPushNotifaction];
     
 #if TARGET_IPHONE_SIMULATOR
     keychnDeviceToken = [@"AEOI-09IU-56TY-MNB0-NBHY-YKC" stringByAppendingString:[NSString stringWithFormat:@"%ld", random()]];
@@ -127,6 +131,7 @@
                               if(granted) {
                                   dispatch_async(dispatch_get_main_queue(), ^{
                                       [[UIApplication sharedApplication] registerForRemoteNotifications];
+                                      [self registerAction];
                                   });
                               }
                           }];
@@ -152,13 +157,50 @@
     completionHandler(UNNotificationPresentationOptionAlert);
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
-    // Remote/Local Notification received
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+didReceiveNotificationResponse:(UNNotificationResponse *)response
+         withCompletionHandler:(void (^)(void))completionHandler {
+    if ([response.notification.request.content.categoryIdentifier isEqualToString:joinActionCategory]) {
+        if ([response.actionIdentifier isEqualToString:joinActionIdentifier]) {
+            NSDictionary *userInfo =  response.notification.request.content.userInfo;
+            NSTimeInterval scheduleTime = [[userInfo objectForKey:kScheduleDate] doubleValue];
+            KCUserProfile *userProfile = [KCUserProfile sharedInstance];
+            if([[NSDate date] timeIntervalSince1970] - scheduleTime < 3600 && [NSString validateString:userProfile.userID]) { // Users are allowed to join Masterclass after 1 hour of start. That's the presumed duration of the Masterclass
+                NSNumber *scheduleId    = [userInfo objectForKey:kScheduleID];
+                NSNumber *userID        = [userInfo objectForKey:kUserID];
+                NSString *conferenceId  = [userInfo objectForKey:kConferenceID];
+                NSString *chefName      = [userInfo objectForKey:kMasterChefName];
+                BOOL isHosting          = [[userInfo objectForKey:kIsHosting] boolValue];
+                [self startGroupSessionForType:isHosting withConferenceID:conferenceId participantName:chefName particpantUserID:userID andScheduleID:scheduleId];
+            }
+        }
+    }
 }
+
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     if(DEBUGGING) NSLog(@"Remote notification received %@",userInfo);
 }
+
+- (void)updatePushNotificationTokenWithToken:(NSString *)token andDevieId:(NSString *)deviceId {
+    // Update Push Notification token to the server every time the token is refreshed
+    NSDictionary *parameters = @{kDeviceToken:token, kDeviceID: deviceId, kDeviceType:IOS_DEVICE};
+    [_webConnection sendDataToServerWithAction:updatePushNotification withParameters:parameters success:^(NSDictionary *response) {
+        
+    } failure:^(NSString *response) {
+        
+    }];
+}
+
+- (void)registerAction {
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    UNNotificationAction *action = [UNNotificationAction actionWithIdentifier:joinActionIdentifier title:AppLabel.btnAttend options:UNNotificationActionOptionForeground];
+    
+    UNNotificationCategory *category = [UNNotificationCategory categoryWithIdentifier:joinActionCategory actions:@[action] intentIdentifiers:@[] options:UNNotificationCategoryOptionCustomDismissAction];
+    [center setNotificationCategories:[NSSet setWithObjects:category, nil]];
+}
+
+#pragma mark - Open URL Managment
 
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
@@ -178,14 +220,34 @@
     [fileManager copyDatabase];
 }
 
-- (void)updatePushNotificationTokenWithToken:(NSString *)token andDevieId:(NSString *)deviceId {
-    // Update Push Notification token to the server every time the token is refreshed
-    NSDictionary *parameters = @{kDeviceToken:token, kDeviceID: deviceId, kDeviceType:IOS_DEVICE};
-    [_webConnection sendDataToServerWithAction:updatePushNotification withParameters:parameters success:^(NSDictionary *response) {
-        
-    } failure:^(NSString *response) {
-        
-    }];
+#pragma mark - Join Masterclass
+
+- (void)startGroupSessionForType:(BOOL)isHosting withConferenceID:(NSString *)conferenceID participantName:(NSString *)participantName particpantUserID:(NSNumber *)userID andScheduleID:(NSNumber *)scheduleID {
+    // Start Group Session 1:N
+    UINavigationController *navigationController = (UINavigationController *) self.window.rootViewController;
+    UIStoryboard *storyboard                     = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    if(isHosting) {
+        if(![navigationController.viewControllers.lastObject isKindOfClass:[KCGroupSessionHostEndViewController class]]) {
+            // Ensure that user is not on the call already
+            KCGroupSessionHostEndViewController *gsHostEndViewController = [storyboard instantiateViewControllerWithIdentifier:hostEndSessionViewController];
+            gsHostEndViewController.conferenceID   = conferenceID;
+            gsHostEndViewController.groupSessionID = scheduleID;
+            [navigationController pushViewController:gsHostEndViewController animated:YES];
+        }
+    }
+    else {
+        // Ensure that user is not on the call already
+        if(![navigationController.viewControllers.lastObject isKindOfClass:[KCGroupSessionHostEndViewController class]]) {
+            KCGroupSessionGuestEndViewController *gsGuestEndViewController = [storyboard instantiateViewControllerWithIdentifier:guestEndSessionViewController];
+            gsGuestEndViewController.conferenceID    = conferenceID;
+            gsGuestEndViewController.hostName        = participantName;
+            gsGuestEndViewController.sessionID       = scheduleID;
+            gsGuestEndViewController.chefUserID      = userID;
+            if(DEBUGGING) NSLog(@"startGroupSessionForType --> Chef ID %@",userID);
+            [navigationController pushViewController:gsGuestEndViewController animated:YES];
+        }
+    }
 }
+
 
 @end

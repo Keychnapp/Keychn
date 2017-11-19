@@ -65,7 +65,7 @@
 
     //Get items list from server
     _requestInProgress = NO;
-    [self fetchItemsListShouldShowIndicator:true];
+   // [self fetchItemsListShouldShowIndicator:true];
     
     
     UICollectionViewLeftAlignedLayout *collectionViewLayout = [UICollectionViewLeftAlignedLayout new];
