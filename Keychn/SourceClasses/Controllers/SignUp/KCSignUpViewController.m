@@ -164,7 +164,7 @@
 - (void) pushNextViewController {
     if([NSString validateString:_userProfile.languageID] && [_userProfile.languageID integerValue] > 0) {
         //Push main menu view controller
-        UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:menuSegmentsViewController];
+        UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:kHomeViewController];
         [self.navigationController pushViewController:viewController animated:YES];
     }
     else {

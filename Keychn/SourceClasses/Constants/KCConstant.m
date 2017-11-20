@@ -327,7 +327,6 @@ NSString  *emailLoginViewController      = @"emailLoginViewController";
 NSString  *forgotPasswordViewController  = @"forgotPasswordViewController";
 NSString  *setProfilePhotoViewController = @"setProfilePhotoViewController";
 NSString  *selectLangugeViewController   = @"selectLanguageViewController";
-NSString  *menuSegmentsViewController    = @"HomeViewController";
 NSString  *segmentNavigationController   = @"mainMenuNavigationController";
 NSString  *menuViewController            = @"menuViewController";
 NSString  *myScheduleViewController      = @"myScheduleViewController";

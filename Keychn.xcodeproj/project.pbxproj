@@ -124,6 +124,8 @@
 		653717F01F68653B002B4292 /* KCTutorialWebManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6537176D1F68653B002B4292 /* KCTutorialWebManager.m */; };
 		653717F11F68653B002B4292 /* KCUserScheduleWebManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 653717701F68653B002B4292 /* KCUserScheduleWebManager.m */; };
 		653717F21F68653B002B4292 /* KCWebConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 653717731F68653B002B4292 /* KCWebConnection.m */; };
+		654889121FC33016004D83FD /* MenuTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 654889111FC33016004D83FD /* MenuTabBarController.m */; };
+		654889151FC330A9004D83FD /* TabSwitchAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 654889141FC330A9004D83FD /* TabSwitchAnimationController.m */; };
 		6556069A1FC072F400CF6C15 /* KCNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 655606991FC072F400CF6C15 /* KCNavigationController.m */; };
 		65A34F2C1FA8BD5A00449513 /* AgoraRtcEngineKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A34F2B1FA8BD5900449513 /* AgoraRtcEngineKit.framework */; };
 		65A34F2E1FA8BF3500449513 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A34F2D1FA8BF3500449513 /* libresolv.tbd */; };
@@ -627,6 +629,10 @@
 		653717701F68653B002B4292 /* KCUserScheduleWebManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCUserScheduleWebManager.m; sourceTree = "<group>"; };
 		653717721F68653B002B4292 /* KCWebConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCWebConnection.h; sourceTree = "<group>"; };
 		653717731F68653B002B4292 /* KCWebConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCWebConnection.m; sourceTree = "<group>"; };
+		654889101FC33016004D83FD /* MenuTabBarController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MenuTabBarController.h; sourceTree = "<group>"; };
+		654889111FC33016004D83FD /* MenuTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MenuTabBarController.m; sourceTree = "<group>"; };
+		654889131FC330A9004D83FD /* TabSwitchAnimationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabSwitchAnimationController.h; sourceTree = "<group>"; };
+		654889141FC330A9004D83FD /* TabSwitchAnimationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabSwitchAnimationController.m; sourceTree = "<group>"; };
 		655606981FC072F400CF6C15 /* KCNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KCNavigationController.h; sourceTree = "<group>"; };
 		655606991FC072F400CF6C15 /* KCNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KCNavigationController.m; sourceTree = "<group>"; };
 		65A34F2B1FA8BD5900449513 /* AgoraRtcEngineKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AgoraRtcEngineKit.framework; sourceTree = "<group>"; };
@@ -1069,6 +1075,7 @@
 		653715FC1F68653A002B4292 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				6548890F1FC32FF6004D83FD /* MenuTabBar */,
 				655606971FC072CC00CF6C15 /* NavigatonController */,
 				653715FD1F68653A002B4292 /* AppWebView */,
 				653716001F68653A002B4292 /* ChangePassword */,
@@ -2118,6 +2125,17 @@
 			path = WebConnection;
 			sourceTree = "<group>";
 		};
+		6548890F1FC32FF6004D83FD /* MenuTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				654889101FC33016004D83FD /* MenuTabBarController.h */,
+				654889111FC33016004D83FD /* MenuTabBarController.m */,
+				654889131FC330A9004D83FD /* TabSwitchAnimationController.h */,
+				654889141FC330A9004D83FD /* TabSwitchAnimationController.m */,
+			);
+			path = MenuTabBar;
+			sourceTree = "<group>";
+		};
 		655606971FC072CC00CF6C15 /* NavigatonController */ = {
 			isa = PBXGroup;
 			children = (
@@ -2772,7 +2790,7 @@
 					AA88766C1C1069C200D2CEF4 = {
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = VNBHUF22T6;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -3249,6 +3267,7 @@
 				653717AB1F68653B002B4292 /* KCEmailSignUpTableViewCell.m in Sources */,
 				653717B51F68653B002B4292 /* KCDatabaseOperation.m in Sources */,
 				653717901F68653B002B4292 /* KCLanguageOptionView.m in Sources */,
+				654889121FC33016004D83FD /* MenuTabBarController.m in Sources */,
 				AA8876721C1069C200D2CEF4 /* main.m in Sources */,
 				6537177A1F68653B002B4292 /* NSString+KCValidation.m in Sources */,
 				653717D51F68653B002B4292 /* KCFacebookManager.m in Sources */,
@@ -3268,6 +3287,7 @@
 				653717DA1F68653B002B4292 /* KCPageControl.m in Sources */,
 				653717CB1F68653B002B4292 /* KCTutorial.m in Sources */,
 				653717E91F68653B002B4292 /* KCMenuWebManager.m in Sources */,
+				654889151FC330A9004D83FD /* TabSwitchAnimationController.m in Sources */,
 				653717F01F68653B002B4292 /* KCTutorialWebManager.m in Sources */,
 				653717CE1F68653B002B4292 /* KCUserMatch.m in Sources */,
 				653717EE1F68653B002B4292 /* KCStarCookWebManager.m in Sources */,
@@ -3393,8 +3413,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Keychn/Keychn.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Keychn Experience SL (VNBHUF22T6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = VNBHUF22T6;
 				ENABLE_BITCODE = NO;
@@ -3412,8 +3432,8 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrome.Keychn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2b8028d1-1523-4f17-9025-a95f51dfa513";
-				PROVISIONING_PROFILE_SPECIFIER = Adhoc_Nov_3;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VALIDATE_PRODUCT = NO;
 				VALID_ARCHS = "armv7 arm64 armv7s";
 			};
@@ -3426,8 +3446,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Keychn/Keychn.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Keychn Experience SL (VNBHUF22T6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = VNBHUF22T6;
 				ENABLE_BITCODE = NO;
@@ -3445,8 +3465,8 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.chrome.Keychn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2b8028d1-1523-4f17-9025-a95f51dfa513";
-				PROVISIONING_PROFILE_SPECIFIER = Adhoc_Nov_3;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7 arm64 armv7s";
 			};

@@ -305,7 +305,7 @@
     }
     else {
         // Push the main menu view controller
-        UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:menuSegmentsViewController];
+        UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:kHomeViewController];
         [self.navigationController pushViewController:viewController animated:YES];
     }
 }

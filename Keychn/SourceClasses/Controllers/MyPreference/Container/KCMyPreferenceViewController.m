@@ -335,6 +335,15 @@
     [yourFavoriteRecipe appendAttributedString:favorite];
     [yourFavoriteRecipe appendAttributedString:recipe];
     self.yourFavoriteRecipeLabel.attributedText = yourFavoriteRecipe;
+    
+    // Set TabBar Text
+    NSArray *itemsTitles = @[AppLabel.lblMasterClass, AppLabel.btnRecipesTab, AppLabel.lblCalendar, AppLabel.btnProfileTab];
+    NSArray *tabBarItems = self.tabBarController.tabBar.items;
+    NSInteger count = tabBarItems.count;
+    for (NSInteger i=0; i<count; i++) {
+        UITabBarItem *item = [tabBarItems objectAtIndex:i];
+        item.title         = [itemsTitles objectAtIndex:i];
+    }
 }
 
 - (void)pushItemDetailsScreenWithItemName:(NSString*)name andItemID:(NSNumber*)itemID {

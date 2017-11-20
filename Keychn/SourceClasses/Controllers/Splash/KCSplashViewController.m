@@ -54,7 +54,7 @@
     if([NSString validateString:userProfile.userID]) {
         if([NSString validateString:userProfile.facebookProfile.facebookID]) {
             if([NSString validateString:userProfile.languageID]) {
-                storyboardID = menuSegmentsViewController;
+                storyboardID = kHomeViewController;
             }
             else {
                 storyboardID = selectLangugeViewController;
@@ -67,7 +67,7 @@
            storyboardID = selectLangugeViewController;
         }
         else {
-            storyboardID = menuSegmentsViewController;
+            storyboardID = kHomeViewController;
         }
     }
     else {

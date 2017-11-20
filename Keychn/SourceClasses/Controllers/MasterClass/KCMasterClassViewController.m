@@ -91,8 +91,6 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    // Change orientation to Portratit
-//    [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];
 }
 
 #pragma mark - Button Actions

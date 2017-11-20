@@ -469,7 +469,6 @@ extern NSString  *emailLoginViewController;
 extern NSString  *forgotPasswordViewController;
 extern NSString  *setProfilePhotoViewController;
 extern NSString  *selectLangugeViewController;
-extern NSString  *menuSegmentsViewController;
 extern NSString  *segmentNavigationController;
 extern NSString  *menuViewController;
 extern NSString  *myScheduleViewController;

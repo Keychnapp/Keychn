@@ -378,6 +378,15 @@
     self.searchMasterclassTextField.placeholder = AppLabel.lblSearchKeychnMasterclass;
     UILabel *placeholderLabel = [self.searchMasterclassTextField valueForKey:@"_placeholderLabel"];
     placeholderLabel.adjustsFontSizeToFitWidth = YES;
+    
+    // Set TabBar Text
+    NSArray *itemsTitles = @[AppLabel.lblMasterClass, AppLabel.btnRecipesTab, AppLabel.lblCalendar, AppLabel.btnProfileTab];
+    NSArray *tabBarItems = self.tabBarController.tabBar.items;
+    NSInteger count = tabBarItems.count;
+    for (NSInteger i=0; i<count; i++) {
+        UITabBarItem *item = [tabBarItems objectAtIndex:i];
+        item.title         = [itemsTitles objectAtIndex:i];
+    }
 }
 
 - (void)refreshControlValueChanged:(UIRefreshControl *)sender {

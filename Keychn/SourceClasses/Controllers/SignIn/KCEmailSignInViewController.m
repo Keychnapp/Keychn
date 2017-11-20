@@ -272,7 +272,7 @@
     
     if([NSString validateString:userProfile.facebookProfile.facebookID]) {
         if([NSString validateString:userProfile.languageID]) {
-            storyboardID = menuSegmentsViewController;
+            storyboardID = kHomeViewController;
         }
         else {
             storyboardID = selectLangugeViewController;
@@ -297,7 +297,7 @@
 }
 
 - (void) pushHomeViewController {
-    UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:menuSegmentsViewController];
+    UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:kHomeViewController];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 

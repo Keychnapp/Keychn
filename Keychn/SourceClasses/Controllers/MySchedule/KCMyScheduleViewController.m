@@ -441,6 +441,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
     if(isNetworkReachable) {
         __weak id weakSelf = self;
         [KCProgressIndicator showNonBlockingIndicator];
+        self.noScheduleView.hidden = YES;
         NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kCurrentDate:[NSDate getCurrentDateInUTC]};
         [_userScheduleWebManager getMySchedulesWithParameter:params withCompletionHandler:^(NSDictionary *responseDictionary) {
             // My schedule fetched

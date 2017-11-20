@@ -65,7 +65,7 @@
 
     //Get items list from server
     _requestInProgress = NO;
-   // [self fetchItemsListShouldShowIndicator:true];
+    [self fetchItemsListShouldShowIndicator:true];
     
     
     UICollectionViewLeftAlignedLayout *collectionViewLayout = [UICollectionViewLeftAlignedLayout new];
@@ -218,16 +218,23 @@
     }
     else {
         // Add new items to the list
-        NSInteger oldItemsCount = [self.dataSourceArray count];
-        [self.allItemsArray addObjectsFromArray:newItemListArray];
-        NSInteger newItemsCount = [newItemListArray count];
-        NSMutableArray  *indexArray = [[NSMutableArray alloc] init];
-        for (NSInteger i=oldItemsCount; i < oldItemsCount+newItemsCount; i++) {
-            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
-            [indexArray addObject:indexPath];
+        if(self.allItemsArray.count > 0) {
+            NSInteger oldItemsCount = [self.dataSourceArray count];
+            [self.allItemsArray addObjectsFromArray:newItemListArray];
+            NSInteger newItemsCount = [newItemListArray count];
+            NSMutableArray  *indexArray = [[NSMutableArray alloc] init];
+            for (NSInteger i=oldItemsCount; i < oldItemsCount+newItemsCount; i++) {
+                NSIndexPath *indexPath = [NSIndexPath indexPathForItem:i inSection:0];
+                [indexArray addObject:indexPath];
+            }
+            self.dataSourceArray = self.allItemsArray;
+            [self.itemCollectionView insertItemsAtIndexPaths:indexArray];
         }
-        self.dataSourceArray = self.allItemsArray;
-        [self.itemCollectionView insertItemsAtIndexPaths:indexArray];
+        else {
+            self.allItemsArray = [newItemListArray mutableCopy];
+            self.dataSourceArray = self.allItemsArray;
+            [self.itemCollectionView reloadData];
+        }
     }
 }
 
