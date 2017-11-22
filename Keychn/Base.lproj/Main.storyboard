@@ -11916,7 +11916,7 @@
                                                 </variation>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barcelona, Spain" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="HIP-Ab-1Z4">
-                                                <rect key="frame" x="119.5" y="176" width="137.5" height="21"/>
+                                                <rect key="frame" x="120.5" y="176" width="135.5" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="8aK-f6-xaa">
                                                         <variation key="heightClass=regular-widthClass=compact" constant="21"/>
@@ -11952,7 +11952,7 @@
                                                 </variation>
                                             </label>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_location_icon_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="C6T-Ao-FJ0">
-                                                <rect key="frame" x="104.5" y="179" width="10" height="15"/>
+                                                <rect key="frame" x="105.5" y="179" width="10" height="15"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="10" id="fwb-Wx-QDk"/>
                                                     <constraint firstAttribute="height" constant="15" id="iVJ-St-g3e"/>
@@ -14604,10 +14604,10 @@
             </objects>
             <point key="canvasLocation" x="5410" y="890"/>
         </scene>
-        <!--Menu Tab Bar Controller-->
+        <!--Tab Bar Controller-->
         <scene sceneID="SLX-dB-61u">
             <objects>
-                <tabBarController storyboardIdentifier="HomeTabeController" automaticallyAdjustsScrollViewInsets="NO" id="86r-4Y-p4g" customClass="MenuTabBarController" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="HomeTabeController" automaticallyAdjustsScrollViewInsets="NO" id="86r-4Y-p4g" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="vsb-aQ-ZvH">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
@@ -14623,6 +14623,11 @@
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GKT-Pl-YQ1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <customObject id="6Xu-Ox-2mp" customClass="AAPLSlideTransitionDelegate">
+                    <connections>
+                        <outlet property="tabBarController" destination="86r-4Y-p4g" id="w5s-Th-NGu"/>
+                    </connections>
+                </customObject>
             </objects>
             <point key="canvasLocation" x="5911" y="-616"/>
         </scene>

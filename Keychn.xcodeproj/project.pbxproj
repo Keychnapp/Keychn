@@ -130,7 +130,9 @@
 		65A34F2C1FA8BD5A00449513 /* AgoraRtcEngineKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A34F2B1FA8BD5900449513 /* AgoraRtcEngineKit.framework */; };
 		65A34F2E1FA8BF3500449513 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A34F2D1FA8BF3500449513 /* libresolv.tbd */; };
 		65B352F81FAB2294003AB539 /* EventStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B352F71FAB2294003AB539 /* EventStore.m */; };
-		732D1F659D48A8FAC62EB7E3 /* libPods-Keychn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F11C95FCC17C90E8B0C05A46 /* libPods-Keychn.a */; };
+		65C662611FC5F19C00A1D2DF /* AAPLSlideTransitionInteractionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C6625C1FC5F19B00A1D2DF /* AAPLSlideTransitionInteractionController.m */; };
+		65C662621FC5F19C00A1D2DF /* AAPLSlideTransitionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C6625D1FC5F19B00A1D2DF /* AAPLSlideTransitionDelegate.m */; };
+		65C662631FC5F19C00A1D2DF /* AAPLSlideTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C6625E1FC5F19B00A1D2DF /* AAPLSlideTransitionAnimator.m */; };
 		AA006F5C1CB631AE0076880B /* unselect_header_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AA006F561CB631AE0076880B /* unselect_header_icon.png */; };
 		AA006F5D1CB631AE0076880B /* unselect_header_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA006F571CB631AE0076880B /* unselect_header_icon@2x.png */; };
 		AA006F5E1CB631AE0076880B /* unselect_header_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA006F581CB631AE0076880B /* unselect_header_icon@3x.png */; };
@@ -221,7 +223,8 @@
 		AA96CDCE1CABD854007098B0 /* Roboto-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA96CDCD1CABD854007098B0 /* Roboto-BoldItalic.ttf */; };
 		AA96CE111CAC112C007098B0 /* edit_icon_big@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA96CE0F1CAC112C007098B0 /* edit_icon_big@2x.png */; };
 		AAC9502A1CAA8DAB00782749 /* Roboto-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AAC950291CAA8DAB00782749 /* Roboto-MediumItalic.ttf */; };
-		E38822DCF03CAA2FA8AB7E97 /* libPods-Keychn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F27F57F645A9432283B32826 /* libPods-Keychn.a */; };
+		BC680C21702B05B68DE3C19F /* libPods-Keychn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B727DE7919C156BF1E668B6 /* libPods-Keychn.a */; };
+		D3A5D4AC28747A348F4C5F2D /* libPods-Keychn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 169A71E9486AEB2C4DDB25D0 /* libPods-Keychn.a */; };
 		F900571E1D782E0400FF00A8 /* select_home_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F90057001D782E0400FF00A8 /* select_home_icon.png */; };
 		F900571F1D782E0400FF00A8 /* select_home_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F90057011D782E0400FF00A8 /* select_home_icon@2x.png */; };
 		F90057201D782E0400FF00A8 /* select_home_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = F90057021D782E0400FF00A8 /* select_home_icon@3x.png */; };
@@ -401,6 +404,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		169A71E9486AEB2C4DDB25D0 /* libPods-Keychn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Keychn.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B727DE7919C156BF1E668B6 /* libPods-Keychn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Keychn.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		651ADB0F1F6D2A6500A60200 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		653715E11F68653A002B4292 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		653715E21F68653A002B4292 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -641,6 +646,12 @@
 		65B352F71FAB2294003AB539 /* EventStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventStore.m; sourceTree = "<group>"; };
 		65B352F91FAB2451003AB539 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		65B352FA1FAB245D003AB539 /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
+		65C6625B1FC5F19B00A1D2DF /* AAPLSlideTransitionAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLSlideTransitionAnimator.h; sourceTree = "<group>"; };
+		65C6625C1FC5F19B00A1D2DF /* AAPLSlideTransitionInteractionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLSlideTransitionInteractionController.m; sourceTree = "<group>"; };
+		65C6625D1FC5F19B00A1D2DF /* AAPLSlideTransitionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLSlideTransitionDelegate.m; sourceTree = "<group>"; };
+		65C6625E1FC5F19B00A1D2DF /* AAPLSlideTransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLSlideTransitionAnimator.m; sourceTree = "<group>"; };
+		65C6625F1FC5F19B00A1D2DF /* AAPLSlideTransitionInteractionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLSlideTransitionInteractionController.h; sourceTree = "<group>"; };
+		65C662601FC5F19B00A1D2DF /* AAPLSlideTransitionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLSlideTransitionDelegate.h; sourceTree = "<group>"; };
 		AA006F561CB631AE0076880B /* unselect_header_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unselect_header_icon.png; sourceTree = "<group>"; };
 		AA006F571CB631AE0076880B /* unselect_header_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unselect_header_icon@2x.png"; sourceTree = "<group>"; };
 		AA006F581CB631AE0076880B /* unselect_header_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unselect_header_icon@3x.png"; sourceTree = "<group>"; };
@@ -737,7 +748,6 @@
 		D53D885615C0B0B079D6A003 /* Pods-Keychn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Keychn.release.xcconfig"; path = "Pods/Target Support Files/Pods-Keychn/Pods-Keychn.release.xcconfig"; sourceTree = "<group>"; };
 		DF4B7153FDC3F4C24639E119 /* Pods-Keychn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Keychn.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Keychn/Pods-Keychn.debug.xcconfig"; sourceTree = "<group>"; };
 		F11C95FCC17C90E8B0C05A46 /* libPods-Keychn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Keychn.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F27F57F645A9432283B32826 /* libPods-Keychn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Keychn.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F90057001D782E0400FF00A8 /* select_home_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = select_home_icon.png; sourceTree = "<group>"; };
 		F90057011D782E0400FF00A8 /* select_home_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "select_home_icon@2x.png"; sourceTree = "<group>"; };
 		F90057021D782E0400FF00A8 /* select_home_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "select_home_icon@3x.png"; sourceTree = "<group>"; };
@@ -943,8 +953,8 @@
 				AA36060B1CA90E0C0068BFC6 /* Crashlytics.framework in Frameworks */,
 				AA65A43C1C340D3F00C3A317 /* Social.framework in Frameworks */,
 				65A34F2C1FA8BD5A00449513 /* AgoraRtcEngineKit.framework in Frameworks */,
-				732D1F659D48A8FAC62EB7E3 /* libPods-Keychn.a in Frameworks */,
-				E38822DCF03CAA2FA8AB7E97 /* libPods-Keychn.a in Frameworks */,
+				D3A5D4AC28747A348F4C5F2D /* libPods-Keychn.a in Frameworks */,
+				BC680C21702B05B68DE3C19F /* libPods-Keychn.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2148,6 +2158,7 @@
 		65A34F2A1FA8BD5900449513 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				65C6625A1FC5F19B00A1D2DF /* Slide */,
 				65A34F2B1FA8BD5900449513 /* AgoraRtcEngineKit.framework */,
 			);
 			path = Library;
@@ -2160,6 +2171,27 @@
 				65B352F71FAB2294003AB539 /* EventStore.m */,
 			);
 			path = EventStore;
+			sourceTree = "<group>";
+		};
+		65C662591FC5EDA800A1D2DF /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				169A71E9486AEB2C4DDB25D0 /* libPods-Keychn.a */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		65C6625A1FC5F19B00A1D2DF /* Slide */ = {
+			isa = PBXGroup;
+			children = (
+				65C6625B1FC5F19B00A1D2DF /* AAPLSlideTransitionAnimator.h */,
+				65C6625C1FC5F19B00A1D2DF /* AAPLSlideTransitionInteractionController.m */,
+				65C6625D1FC5F19B00A1D2DF /* AAPLSlideTransitionDelegate.m */,
+				65C6625E1FC5F19B00A1D2DF /* AAPLSlideTransitionAnimator.m */,
+				65C6625F1FC5F19B00A1D2DF /* AAPLSlideTransitionInteractionController.h */,
+				65C662601FC5F19B00A1D2DF /* AAPLSlideTransitionDelegate.h */,
+			);
+			path = Slide;
 			sourceTree = "<group>";
 		};
 		AA006F551CB631AE0076880B /* RecipeSearch */ = {
@@ -2418,6 +2450,7 @@
 				AA88766E1C1069C200D2CEF4 /* Products */,
 				D6EA35A7C9E153810D4C675C /* Frameworks */,
 				BC9E0EC7AA107BF3A484BB4E /* Pods */,
+				65C662591FC5EDA800A1D2DF /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2519,7 +2552,7 @@
 				F9BCD57F1E72D257002FF2DB /* CoreTelephony.framework */,
 				F9BCD57D1E72D250002FF2DB /* CoreMotion.framework */,
 				F9A363591E72C8EF0006BA54 /* Library */,
-				F27F57F645A9432283B32826 /* libPods-Keychn.a */,
+				1B727DE7919C156BF1E668B6 /* libPods-Keychn.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3096,9 +3129,38 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Keychn/Pods-Keychn-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
+				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Mixpanel/Mixpanel.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/SwipeableTabBarController/SwipeableTabBarController.framework",
+				"${BUILT_PRODUCTS_DIR}/TOCropViewController/TOCropViewController.framework",
+				"${BUILT_PRODUCTS_DIR}/UIActivityIndicator-for-SDWebImage/UIActivityIndicator_for_SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Mixpanel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwipeableTabBarController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TOCropViewController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIActivityIndicator_for_SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3186,6 +3248,7 @@
 				653717E81F68653B002B4292 /* KCGroupSessionWebManager.m in Sources */,
 				653717EA1F68653B002B4292 /* KCMyPreferecnceWebManager.m in Sources */,
 				653717AA1F68653B002B4292 /* KCEmailSignUpNewsletterTableViewCell.m in Sources */,
+				65C662611FC5F19C00A1D2DF /* AAPLSlideTransitionInteractionController.m in Sources */,
 				6537178F1F68653B002B4292 /* KeychnStore.m in Sources */,
 				6537177B1F68653B002B4292 /* KCAppLabel.m in Sources */,
 				653717801F68653B002B4292 /* KCContactUsViewController.m in Sources */,
@@ -3223,6 +3286,7 @@
 				653717CD1F68653B002B4292 /* KCUserData.m in Sources */,
 				653717C11F68653B002B4292 /* KCItemRecipeStep.m in Sources */,
 				653717811F68653B002B4292 /* KCForgotPasswordViewController.m in Sources */,
+				65C662621FC5F19C00A1D2DF /* AAPLSlideTransitionDelegate.m in Sources */,
 				653717E61F68653B002B4292 /* KCContactUsWebManager.m in Sources */,
 				653717D61F68653B002B4292 /* KCInstagramManager.m in Sources */,
 				653717C31F68653B002B4292 /* KCMenu.m in Sources */,
@@ -3244,6 +3308,7 @@
 				653717D11F68653B002B4292 /* KCUserTwitterProfile.m in Sources */,
 				653717761F68653B002B4292 /* UIColor+KCColor.m in Sources */,
 				653717D81F68653B002B4292 /* ImagePickerOverlayView.m in Sources */,
+				65C662631FC5F19C00A1D2DF /* AAPLSlideTransitionAnimator.m in Sources */,
 				653717D41F68653B002B4292 /* KCProgressIndicator.m in Sources */,
 				653717BD1F68653B002B4292 /* KCGroupSession.m in Sources */,
 				6537179C1F68653B002B4292 /* KCMyScheduleViewController.m in Sources */,
