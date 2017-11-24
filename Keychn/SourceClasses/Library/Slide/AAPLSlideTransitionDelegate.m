@@ -162,7 +162,6 @@ const char * AAPLSlideTabBarControllerDelegateAssociationKey = "AAPLSlideTabBarC
     }
 }
 
-
 //| ----------------------------------------------------------------------------
 //  If an id<UIViewControllerAnimatedTransitioning> was returned from
 //  -tabBarController:animationControllerForTransitionFromViewController:toViewController:,

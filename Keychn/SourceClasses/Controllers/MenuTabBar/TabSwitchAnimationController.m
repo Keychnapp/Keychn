@@ -8,7 +8,7 @@
 
 #import "TabSwitchAnimationController.h"
 
-@implementation TabSwitchAnimationController
+@implementation TabSwitchAnimationController 
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext {
     return 0.5;

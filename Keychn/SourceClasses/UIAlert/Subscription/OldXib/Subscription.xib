@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -20,7 +20,7 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="KCSubscription">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner">
             <connections>
                 <outlet property="cancelAnyTimeLabel" destination="VXg-DG-AKZ" id="uhF-CZ-abY"/>
                 <outlet property="get2WeeksTrialButton" destination="1w0-Kz-ZGG" id="3wB-23-UaI"/>
@@ -56,7 +56,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="375" height="935"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6se-wq-vmc">
-                                    <rect key="frame" x="27.5" y="20" width="320" height="902.5"/>
+                                    <rect key="frame" x="27.5" y="20" width="320" height="917"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You want to learn from the experts?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="AnF-Sg-e00">
                                             <rect key="frame" x="0.0" y="19" width="319" height="21"/>
@@ -68,7 +68,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1w0-Kz-ZGG">
-                                            <rect key="frame" x="101.5" y="82" width="116" height="30"/>
+                                            <rect key="frame" x="101" y="82" width="117" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" relation="lessThanOrEqual" constant="300" id="5f4-oU-Y0V"/>
                                                 <constraint firstAttribute="height" constant="30" id="iYO-IL-9na"/>
@@ -225,11 +225,11 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pfD-sJ-R57">
-                                            <rect key="frame" x="8" y="439" width="304" height="457.5"/>
+                                            <rect key="frame" x="8" y="439" width="304" height="472"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="UTP-A9-X2M"/>
                                             </constraints>
-                                            <mutableString key="text">Subscription Terms and Condition 
+                                            <string key="text">Subscription Terms and Condition 
 • Keychn Experience SL offers two subscriptions, which are, Monthly subscription for 2,99 € and Yearly for 29,99 €. 
 • By subscribing to our premium contents, you can attend Masterclasses which are live video feeds with our Masterchefs.
 • Once you have subscribed, you can attend unlimited number of Masterclasses unless the subscription is expired. 
@@ -237,7 +237,7 @@
 • Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period
 • Account will be charged for renewal within 24-hours prior to the end of the current period, and identify the cost of the renewal
 • Subscriptions may be managed by the user and auto-renewal may be turned off by going to the user's Account Settings after purchase
-• Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable.</mutableString>
+• Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable.</string>
                                             <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="15"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>

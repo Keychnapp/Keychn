@@ -104,8 +104,6 @@
 		653717DB1F68653B002B4292 /* KCUIAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 653717321F68653A002B4292 /* KCUIAlert.m */; };
 		653717DD1F68653B002B4292 /* KCScheduleAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 653717381F68653A002B4292 /* KCScheduleAlert.m */; };
 		653717DE1F68653B002B4292 /* ScheduleAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 653717391F68653A002B4292 /* ScheduleAlertView.xib */; };
-		653717DF1F68653B002B4292 /* KCSubscription.m in Sources */ = {isa = PBXBuildFile; fileRef = 6537173C1F68653A002B4292 /* KCSubscription.m */; };
-		653717E01F68653B002B4292 /* Subscription.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6537173D1F68653A002B4292 /* Subscription.xib */; };
 		653717E11F68653B002B4292 /* KCUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 653717401F68653A002B4292 /* KCUtility.m */; };
 		653717E21F68653B002B4292 /* KCAgoraCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 653717431F68653A002B4292 /* KCAgoraCallManager.m */; };
 		653717E31F68653B002B4292 /* BottomBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 653717461F68653A002B4292 /* BottomBar.xib */; };
@@ -133,6 +131,13 @@
 		65C662611FC5F19C00A1D2DF /* AAPLSlideTransitionInteractionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C6625C1FC5F19B00A1D2DF /* AAPLSlideTransitionInteractionController.m */; };
 		65C662621FC5F19C00A1D2DF /* AAPLSlideTransitionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C6625D1FC5F19B00A1D2DF /* AAPLSlideTransitionDelegate.m */; };
 		65C662631FC5F19C00A1D2DF /* AAPLSlideTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C6625E1FC5F19B00A1D2DF /* AAPLSlideTransitionAnimator.m */; };
+		65EA36131FC744BD00DC920D /* Subscription.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65EA36081FC744BD00DC920D /* Subscription.xib */; };
+		65EA36141FC744BD00DC920D /* SubscriptionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EA360C1FC744BD00DC920D /* SubscriptionCollectionViewCell.m */; };
+		65EA36151FC744BD00DC920D /* SubscriptionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65EA360D1FC744BD00DC920D /* SubscriptionCollectionViewCell.xib */; };
+		65EA36161FC744BD00DC920D /* KCSubscription.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EA36111FC744BD00DC920D /* KCSubscription.m */; };
+		65EA36171FC744BD00DC920D /* KeychnSubscription.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65EA36121FC744BD00DC920D /* KeychnSubscription.xib */; };
+		65EA361B1FC744EF00DC920D /* TermsAndConditionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EA36191FC744EF00DC920D /* TermsAndConditionCollectionViewCell.m */; };
+		65EA361C1FC744EF00DC920D /* TermsAndConditionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65EA361A1FC744EF00DC920D /* TermsAndConditionCollectionViewCell.xib */; };
 		AA006F5C1CB631AE0076880B /* unselect_header_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AA006F561CB631AE0076880B /* unselect_header_icon.png */; };
 		AA006F5D1CB631AE0076880B /* unselect_header_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA006F571CB631AE0076880B /* unselect_header_icon@2x.png */; };
 		AA006F5E1CB631AE0076880B /* unselect_header_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA006F581CB631AE0076880B /* unselect_header_icon@3x.png */; };
@@ -596,9 +601,6 @@
 		653717371F68653A002B4292 /* KCScheduleAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCScheduleAlert.h; sourceTree = "<group>"; };
 		653717381F68653A002B4292 /* KCScheduleAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCScheduleAlert.m; sourceTree = "<group>"; };
 		653717391F68653A002B4292 /* ScheduleAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleAlertView.xib; sourceTree = "<group>"; };
-		6537173B1F68653A002B4292 /* KCSubscription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCSubscription.h; sourceTree = "<group>"; };
-		6537173C1F68653A002B4292 /* KCSubscription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCSubscription.m; sourceTree = "<group>"; };
-		6537173D1F68653A002B4292 /* Subscription.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Subscription.xib; sourceTree = "<group>"; };
 		6537173F1F68653A002B4292 /* KCUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCUtility.h; sourceTree = "<group>"; };
 		653717401F68653A002B4292 /* KCUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCUtility.m; sourceTree = "<group>"; };
 		653717421F68653A002B4292 /* KCAgoraCallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCAgoraCallManager.h; sourceTree = "<group>"; };
@@ -652,6 +654,16 @@
 		65C6625E1FC5F19B00A1D2DF /* AAPLSlideTransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLSlideTransitionAnimator.m; sourceTree = "<group>"; };
 		65C6625F1FC5F19B00A1D2DF /* AAPLSlideTransitionInteractionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLSlideTransitionInteractionController.h; sourceTree = "<group>"; };
 		65C662601FC5F19B00A1D2DF /* AAPLSlideTransitionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLSlideTransitionDelegate.h; sourceTree = "<group>"; };
+		65EA36081FC744BD00DC920D /* Subscription.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Subscription.xib; sourceTree = "<group>"; };
+		65EA360C1FC744BD00DC920D /* SubscriptionCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscriptionCollectionViewCell.m; sourceTree = "<group>"; };
+		65EA360D1FC744BD00DC920D /* SubscriptionCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SubscriptionCollectionViewCell.xib; sourceTree = "<group>"; };
+		65EA360E1FC744BD00DC920D /* SubscriptionCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscriptionCollectionViewCell.h; sourceTree = "<group>"; };
+		65EA36101FC744BD00DC920D /* KCSubscription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCSubscription.h; sourceTree = "<group>"; };
+		65EA36111FC744BD00DC920D /* KCSubscription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCSubscription.m; sourceTree = "<group>"; };
+		65EA36121FC744BD00DC920D /* KeychnSubscription.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeychnSubscription.xib; sourceTree = "<group>"; };
+		65EA36181FC744EF00DC920D /* TermsAndConditionCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TermsAndConditionCollectionViewCell.h; sourceTree = "<group>"; };
+		65EA36191FC744EF00DC920D /* TermsAndConditionCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TermsAndConditionCollectionViewCell.m; sourceTree = "<group>"; };
+		65EA361A1FC744EF00DC920D /* TermsAndConditionCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TermsAndConditionCollectionViewCell.xib; sourceTree = "<group>"; };
 		AA006F561CB631AE0076880B /* unselect_header_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unselect_header_icon.png; sourceTree = "<group>"; };
 		AA006F571CB631AE0076880B /* unselect_header_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unselect_header_icon@2x.png"; sourceTree = "<group>"; };
 		AA006F581CB631AE0076880B /* unselect_header_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unselect_header_icon@3x.png"; sourceTree = "<group>"; };
@@ -1945,9 +1957,9 @@
 		6537173A1F68653A002B4292 /* Subscription */ = {
 			isa = PBXGroup;
 			children = (
-				6537173B1F68653A002B4292 /* KCSubscription.h */,
-				6537173C1F68653A002B4292 /* KCSubscription.m */,
-				6537173D1F68653A002B4292 /* Subscription.xib */,
+				65EA36091FC744BD00DC920D /* CollectionViewCell */,
+				65EA36071FC744BD00DC920D /* OldXib */,
+				65EA360F1FC744BD00DC920D /* PopUp */,
 			);
 			path = Subscription;
 			sourceTree = "<group>";
@@ -2192,6 +2204,53 @@
 				65C662601FC5F19B00A1D2DF /* AAPLSlideTransitionDelegate.h */,
 			);
 			path = Slide;
+			sourceTree = "<group>";
+		};
+		65EA36071FC744BD00DC920D /* OldXib */ = {
+			isa = PBXGroup;
+			children = (
+				65EA36081FC744BD00DC920D /* Subscription.xib */,
+			);
+			path = OldXib;
+			sourceTree = "<group>";
+		};
+		65EA36091FC744BD00DC920D /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				65EA360A1FC744BD00DC920D /* TermsAndCondition */,
+				65EA360B1FC744BD00DC920D /* Subscription */,
+			);
+			path = CollectionViewCell;
+			sourceTree = "<group>";
+		};
+		65EA360A1FC744BD00DC920D /* TermsAndCondition */ = {
+			isa = PBXGroup;
+			children = (
+				65EA36181FC744EF00DC920D /* TermsAndConditionCollectionViewCell.h */,
+				65EA36191FC744EF00DC920D /* TermsAndConditionCollectionViewCell.m */,
+				65EA361A1FC744EF00DC920D /* TermsAndConditionCollectionViewCell.xib */,
+			);
+			path = TermsAndCondition;
+			sourceTree = "<group>";
+		};
+		65EA360B1FC744BD00DC920D /* Subscription */ = {
+			isa = PBXGroup;
+			children = (
+				65EA360E1FC744BD00DC920D /* SubscriptionCollectionViewCell.h */,
+				65EA360C1FC744BD00DC920D /* SubscriptionCollectionViewCell.m */,
+				65EA360D1FC744BD00DC920D /* SubscriptionCollectionViewCell.xib */,
+			);
+			path = Subscription;
+			sourceTree = "<group>";
+		};
+		65EA360F1FC744BD00DC920D /* PopUp */ = {
+			isa = PBXGroup;
+			children = (
+				65EA36101FC744BD00DC920D /* KCSubscription.h */,
+				65EA36111FC744BD00DC920D /* KCSubscription.m */,
+				65EA36121FC744BD00DC920D /* KeychnSubscription.xib */,
+			);
+			path = PopUp;
 			sourceTree = "<group>";
 		};
 		AA006F551CB631AE0076880B /* RecipeSearch */ = {
@@ -2940,7 +2999,6 @@
 				F900571F1D782E0400FF00A8 /* select_home_icon@2x.png in Resources */,
 				F9AF09261F84C366001A177E /* dinner_menu_icon.png in Resources */,
 				F90057281D782E0400FF00A8 /* select_user_icon@2x.png in Resources */,
-				653717E01F68653B002B4292 /* Subscription.xib in Resources */,
 				F9D11B311F56A81B00CA55E5 /* masterchef@2x~ipad.png in Resources */,
 				F90057201D782E0400FF00A8 /* select_home_icon@3x.png in Resources */,
 				AA3605B61CA8FD230068BFC6 /* setting_icon@3x.png in Resources */,
@@ -2954,8 +3012,10 @@
 				F93CBE7C1F6FCA3F0043A1F3 /* email_button.png in Resources */,
 				F92C6E121D80202100918E00 /* top_search_icon.png in Resources */,
 				F99EA32A1D896B7500F67292 /* people_big@3x.png in Resources */,
+				65EA36151FC744BD00DC920D /* SubscriptionCollectionViewCell.xib in Resources */,
 				F9D11B6F1F56E41400CA55E5 /* facebook_gray@3x.png in Resources */,
 				AA03BFE11C9FE02000C87D35 /* Roboto-Thin.ttf in Resources */,
+				65EA36171FC744BD00DC920D /* KeychnSubscription.xib in Resources */,
 				F900571E1D782E0400FF00A8 /* select_home_icon.png in Resources */,
 				F90057251D782E0400FF00A8 /* select_schedule_icon@2x.png in Resources */,
 				F9D11B7C1F56E41400CA55E5 /* share@2x.png in Resources */,
@@ -2995,6 +3055,7 @@
 				F9D11B431F56B7B100CA55E5 /* attend@2x.png in Resources */,
 				F9D11B6C1F56E41400CA55E5 /* facebook_gray.png in Resources */,
 				AA3605EE1CA8FD230068BFC6 /* add_profile_picture.png in Resources */,
+				65EA361C1FC744EF00DC920D /* TermsAndConditionCollectionViewCell.xib in Resources */,
 				F95BF9331F61313800B53109 /* bookmarks@3x.png in Resources */,
 				F9DFA0BE1E8128AD00F17420 /* mic_green@2x.png in Resources */,
 				F9D11B761F56E41400CA55E5 /* location-pin.png in Resources */,
@@ -3112,6 +3173,7 @@
 				F90057221D782E0400FF00A8 /* select_recipes_icon@2x.png in Resources */,
 				AA3605891CA8FD230068BFC6 /* select_icon.png in Resources */,
 				F9D11B741F56E41400CA55E5 /* instagram_gray@3x.png in Resources */,
+				65EA36131FC744BD00DC920D /* Subscription.xib in Resources */,
 				F9D11B791F56E41400CA55E5 /* location-pin@3x.png in Resources */,
 				AA3605D11CA8FD230068BFC6 /* white_right_arrow@3x.png in Resources */,
 				AA006F601CB631AE0076880B /* user_search_icon@2x.png in Resources */,
@@ -3265,7 +3327,6 @@
 				653717A81F68653B002B4292 /* KCEmailSignUpViewController.m in Sources */,
 				653717DD1F68653B002B4292 /* KCScheduleAlert.m in Sources */,
 				6537178B1F68653B002B4292 /* KCItemCollectionViewCell.m in Sources */,
-				653717DF1F68653B002B4292 /* KCSubscription.m in Sources */,
 				653717791F68653B002B4292 /* UIImage+KCImage.m in Sources */,
 				6537178E1F68653B002B4292 /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				653717961F68653B002B4292 /* KCMyPreferenceViewController.m in Sources */,
@@ -3309,6 +3370,7 @@
 				653717761F68653B002B4292 /* UIColor+KCColor.m in Sources */,
 				653717D81F68653B002B4292 /* ImagePickerOverlayView.m in Sources */,
 				65C662631FC5F19C00A1D2DF /* AAPLSlideTransitionAnimator.m in Sources */,
+				65EA361B1FC744EF00DC920D /* TermsAndConditionCollectionViewCell.m in Sources */,
 				653717D41F68653B002B4292 /* KCProgressIndicator.m in Sources */,
 				653717BD1F68653B002B4292 /* KCGroupSession.m in Sources */,
 				6537179C1F68653B002B4292 /* KCMyScheduleViewController.m in Sources */,
@@ -3331,6 +3393,7 @@
 				653717751F68653B002B4292 /* KCAutoLoginManager.m in Sources */,
 				653717AB1F68653B002B4292 /* KCEmailSignUpTableViewCell.m in Sources */,
 				653717B51F68653B002B4292 /* KCDatabaseOperation.m in Sources */,
+				65EA36141FC744BD00DC920D /* SubscriptionCollectionViewCell.m in Sources */,
 				653717901F68653B002B4292 /* KCLanguageOptionView.m in Sources */,
 				654889121FC33016004D83FD /* MenuTabBarController.m in Sources */,
 				AA8876721C1069C200D2CEF4 /* main.m in Sources */,
@@ -3353,6 +3416,7 @@
 				653717CB1F68653B002B4292 /* KCTutorial.m in Sources */,
 				653717E91F68653B002B4292 /* KCMenuWebManager.m in Sources */,
 				654889151FC330A9004D83FD /* TabSwitchAnimationController.m in Sources */,
+				65EA36161FC744BD00DC920D /* KCSubscription.m in Sources */,
 				653717F01F68653B002B4292 /* KCTutorialWebManager.m in Sources */,
 				653717CE1F68653B002B4292 /* KCUserMatch.m in Sources */,
 				653717EE1F68653B002B4292 /* KCStarCookWebManager.m in Sources */,

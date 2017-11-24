@@ -8,13 +8,15 @@
 
 #import "KCSubscription.h"
 #import "KeychnStore.h"
+#import "SubscriptionCollectionViewCell.h"
+#import "TermsAndConditionCollectionViewCell.h"
 
 typedef NS_ENUM(NSUInteger, SubscriptionIndex) {
     MonthlySubscription,
     YearlySubscription
 };
 
-@interface KCSubscription ()
+@interface KCSubscription () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UIView *popUpContainerView;
 @property (weak, nonatomic) IBOutlet UILabel *wantToLearnLabel;
@@ -27,13 +29,20 @@ typedef NS_ENUM(NSUInteger, SubscriptionIndex) {
 @property (weak, nonatomic) IBOutlet UIScrollView *subscriptionScrollView;
 @property (weak, nonatomic) IBOutlet UILabel *subscriptionTnCLabel;
 
+#pragma mark - IB Outlets
+
+@property (weak, nonatomic) IBOutlet UICollectionView *subscriptionCollectionView;
+@property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+
+
+
 @end
 
 @implementation KCSubscription
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    UIView *containerView = [[[NSBundle mainBundle] loadNibNamed:@"Subscription" owner:self options:nil] lastObject];
+    UIView *containerView = [[[NSBundle mainBundle] loadNibNamed:@"KeychnSubscription" owner:self options:nil] lastObject];
     [self addSubview:containerView];
     containerView.frame    = frame;
     // Customize UI
@@ -47,6 +56,9 @@ typedef NS_ENUM(NSUInteger, SubscriptionIndex) {
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesturePerformedOnBlurView:)];
     [self addGestureRecognizer:tapGesture];
     
+    // Regster CollectionView Cells
+    [self.subscriptionCollectionView registerNib:[UINib nibWithNibName:@"SubscriptionCollectionViewCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"SubscriptionPopUp"];
+    [self.subscriptionCollectionView registerNib:[UINib nibWithNibName:@"TermsAndConditionCollectionViewCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"SubscriptionTnC"];
     return self;
 }
 
@@ -98,7 +110,7 @@ typedef NS_ENUM(NSUInteger, SubscriptionIndex) {
 - (IBAction)purchaseSubscriptionButtonTapped:(UIButton *)sender {
     [self dismiss];
     NSInteger viewIndex = sender.tag;
-    NSString *productType = sender.tag == 0? @"Yearly":@"Monthly";
+    NSString *productType = sender.tag == 0? @"Monthly":@"Yearly";
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel track:@"subscription_type"
          properties:@{@"type":productType}];
@@ -110,6 +122,36 @@ typedef NS_ENUM(NSUInteger, SubscriptionIndex) {
     }];
 }
 
+#pragma mark - CollectionView Datasource and Delegate
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return  2;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return  CGSizeMake(310, 520);
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if(indexPath.row == 0) {
+        SubscriptionCollectionViewCell *tableViewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SubscriptionPopUp" forIndexPath:indexPath];
+        // Add Button Targets
+        [tableViewCell.monthlySubscriptionButton addTarget:self action:@selector(purchaseSubscriptionButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        [tableViewCell.yearlySubscriptionButton addTarget:self action:@selector(purchaseSubscriptionButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+        
+        return tableViewCell;
+    }
+    
+    // Terms and Condition Cell
+    TermsAndConditionCollectionViewCell *tncCollectionViewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SubscriptionTnC" forIndexPath:indexPath];
+    return tncCollectionViewCell;
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    // Set page control current page
+    CGFloat pageWidth = self.subscriptionCollectionView.frame.size.width;
+    self.pageControl.currentPage = self.subscriptionCollectionView.contentOffset.x / pageWidth;
+}
 
 
 @end

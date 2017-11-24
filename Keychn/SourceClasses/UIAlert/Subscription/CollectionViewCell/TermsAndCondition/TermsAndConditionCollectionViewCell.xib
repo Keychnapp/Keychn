@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Roboto-Medium.ttf">
+            <string>Roboto-Medium</string>
+        </array>
+        <array key="Roboto-Regular.ttf">
+            <string>Roboto-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="TermsAndConditionCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fDz-dH-tQo">
+                        <rect key="frame" x="32" y="73" width="310" height="520"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subscription Terms and Condition" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="faw-fY-5On">
+                                <rect key="frame" x="8" y="15" width="302" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="dfR-mu-GOd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RqX-iu-f3W">
+                                <rect key="frame" x="15" y="51" width="280" height="400"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aej-SX-dbU">
+                                        <rect key="frame" x="0.0" y="8" width="280" height="366"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20.5" id="Lsd-lp-VGH"/>
+                                        </constraints>
+                                        <string key="text">• Keychn Experience SL offers two subscriptions, which are, Monthly subscription for 2,99 € and Yearly for 29,99 €. 
+• By subscribing to our premium contents, you can attend Masterclasses which are live video feeds with our Masterchefs.
+• Once you have subscribed, you can attend unlimited number of Masterclasses unless the subscription is expired. 
+• Payment will be charged to iTunes Account at confirmation of purchase
+• Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period
+• Account will be charged for renewal within 24-hours prior to the end of the current period, and identify the cost of the renewal
+• Subscriptions may be managed by the user and auto-renewal may be turned off by going to the user's Account Settings after purchase
+• Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable.</string>
+                                        <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="13"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="aej-SX-dbU" firstAttribute="width" secondItem="RqX-iu-f3W" secondAttribute="width" id="CWX-S2-KFZ"/>
+                                    <constraint firstAttribute="height" constant="400" id="IN1-SQ-rD7"/>
+                                    <constraint firstAttribute="width" constant="280" id="Jez-Qf-Guu"/>
+                                    <constraint firstAttribute="bottom" secondItem="aej-SX-dbU" secondAttribute="bottom" priority="400" id="Qgw-F6-3Fm"/>
+                                    <constraint firstAttribute="trailing" secondItem="aej-SX-dbU" secondAttribute="trailing" id="aDM-U6-xBd"/>
+                                    <constraint firstItem="aej-SX-dbU" firstAttribute="leading" secondItem="RqX-iu-f3W" secondAttribute="leading" id="i2Z-AY-jIx"/>
+                                    <constraint firstItem="aej-SX-dbU" firstAttribute="top" secondItem="RqX-iu-f3W" secondAttribute="top" constant="8" id="luN-bg-2jI"/>
+                                </constraints>
+                            </scrollView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pricing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yde-pr-TCk">
+                                <rect key="frame" x="133" y="487.5" width="44.5" height="16.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="faw-fY-5On" firstAttribute="leading" secondItem="fDz-dH-tQo" secondAttribute="leading" constant="8" id="3pG-rD-WA2"/>
+                            <constraint firstAttribute="height" constant="520" id="9Qd-pa-kUh"/>
+                            <constraint firstAttribute="width" constant="310" id="LAi-sg-b99"/>
+                            <constraint firstItem="Yde-pr-TCk" firstAttribute="centerX" secondItem="fDz-dH-tQo" secondAttribute="centerX" id="QS4-Uc-And"/>
+                            <constraint firstAttribute="trailing" secondItem="faw-fY-5On" secondAttribute="trailing" id="fM8-Gz-Ibb"/>
+                            <constraint firstItem="RqX-iu-f3W" firstAttribute="top" secondItem="faw-fY-5On" secondAttribute="bottom" constant="15" id="qnB-4u-I9t"/>
+                            <constraint firstAttribute="bottom" secondItem="Yde-pr-TCk" secondAttribute="bottom" constant="16" id="uIq-HH-bgb"/>
+                            <constraint firstItem="RqX-iu-f3W" firstAttribute="centerX" secondItem="fDz-dH-tQo" secondAttribute="centerX" id="vof-Sd-OvI"/>
+                            <constraint firstItem="faw-fY-5On" firstAttribute="top" secondItem="fDz-dH-tQo" secondAttribute="top" constant="15" id="xgp-Ch-q8E"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="fDz-dH-tQo" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="Nji-Ly-ytM"/>
+                <constraint firstItem="fDz-dH-tQo" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="yJI-iw-ToK"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="SEy-5g-ep8"/>
+            <size key="customSize" width="50" height="249"/>
+            <connections>
+                <outlet property="containerView" destination="fDz-dH-tQo" id="amc-ZU-1AA"/>
+                <outlet property="tncScrollView" destination="RqX-iu-f3W" id="gbf-dF-VUS"/>
+            </connections>
+            <point key="canvasLocation" x="33.5" y="-45.5"/>
+        </collectionViewCell>
+    </objects>
+</document>

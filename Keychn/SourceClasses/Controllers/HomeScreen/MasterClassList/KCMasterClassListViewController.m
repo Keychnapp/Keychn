@@ -259,7 +259,7 @@
         _iapSubscription        = [IAPSubscription subscriptionForUser:_userProfile.userID];
         if(!_iapSubscription) {
             _subscriptionAlertView = [[KCSubscription alloc] initWithFrame:self.view.frame];
-            [_subscriptionAlertView showInView:self.view withCompletionHandler:^(BOOL postiveButton) {
+            [_subscriptionAlertView showInView:self.tabBarController.navigationController.view withCompletionHandler:^(BOOL postiveButton) {
                 
             }];
             Mixpanel *mixpanel = [Mixpanel sharedInstance];
