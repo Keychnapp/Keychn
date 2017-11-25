@@ -134,7 +134,9 @@
 
 - (IBAction)backButtonTapped:(id)sender {
     [self.emailTextField resignFirstResponder];
-    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:true completion:^{
+        
+    }];
 }
 
 #pragma mark - Instance Methods

@@ -13,6 +13,7 @@
 #import "KCUserProfileDBManager.h"
 #import "KCAppLanguageWebManager.h"
 #import "KCLanguageSelectionViewController.h"
+#import "KCEmailSignUpViewController.h"
 
 
 #define CELL_HEIGHT_IPHONE_6 @[@"152", @"40", @"40"]
@@ -235,11 +236,21 @@
 
 #pragma mark - Button Action
 
+- (IBAction)backButtonTapped:(id)sender {
+    [self.view endEditing:true];
+    [self dismissViewControllerAnimated:true completion:^{
+        
+    }];
+}
+
+
 - (IBAction)forgotPasswordButtonTapped:(id)sender {
     [self.editingTextField resignFirstResponder];
     UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:forgotPasswordViewController];
     [self.navigationController pushViewController:viewController animated:YES];
 }
+
+
 
 - (IBAction)loginButtonTapped:(id)sender {
     if([self validateTextFields]) {
@@ -254,6 +265,22 @@
     }
     [self.editingTextField resignFirstResponder];
 }
+
+- (IBAction)gotoSignUpButtonTapped:(id)sender {
+    if(self.isPresentingAfterSignUp) {
+        [self dismissViewControllerAnimated:true completion:^{
+            
+        }];
+    }
+    else {
+        KCEmailSignUpViewController *signInViewController = [self.storyboard instantiateViewControllerWithIdentifier:emailSignUpViewController];
+        signInViewController.isPresentingAfterSignIn = true;
+        [self presentViewController:signInViewController animated:true completion:^{
+            
+        }];
+    }
+}
+
 
 #pragma mark - Instance Method
 
@@ -332,9 +359,6 @@
     [self.loginButton setTitle:[_appLabel.lblSignIn uppercaseString] forState:UIControlStateNormal];
 }
 
-- (IBAction)backButtonTapped:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 #pragma mark - Server End Code
 
@@ -377,6 +401,8 @@
         }];
     }];
 }
+
+
 
 
 @end

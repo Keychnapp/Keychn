@@ -131,6 +131,8 @@
 		65C662611FC5F19C00A1D2DF /* AAPLSlideTransitionInteractionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C6625C1FC5F19B00A1D2DF /* AAPLSlideTransitionInteractionController.m */; };
 		65C662621FC5F19C00A1D2DF /* AAPLSlideTransitionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C6625D1FC5F19B00A1D2DF /* AAPLSlideTransitionDelegate.m */; };
 		65C662631FC5F19C00A1D2DF /* AAPLSlideTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C6625E1FC5F19B00A1D2DF /* AAPLSlideTransitionAnimator.m */; };
+		65CC21721FC9BBA5001B0B2C /* LandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65CC21701FC9BBA5001B0B2C /* LandingViewController.m */; };
+		65CC21751FC9BBC1001B0B2C /* LandingCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 65CC21741FC9BBC1001B0B2C /* LandingCollectionViewCell.m */; };
 		65EA36131FC744BD00DC920D /* Subscription.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65EA36081FC744BD00DC920D /* Subscription.xib */; };
 		65EA36141FC744BD00DC920D /* SubscriptionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EA360C1FC744BD00DC920D /* SubscriptionCollectionViewCell.m */; };
 		65EA36151FC744BD00DC920D /* SubscriptionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65EA360D1FC744BD00DC920D /* SubscriptionCollectionViewCell.xib */; };
@@ -654,6 +656,10 @@
 		65C6625E1FC5F19B00A1D2DF /* AAPLSlideTransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AAPLSlideTransitionAnimator.m; sourceTree = "<group>"; };
 		65C6625F1FC5F19B00A1D2DF /* AAPLSlideTransitionInteractionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLSlideTransitionInteractionController.h; sourceTree = "<group>"; };
 		65C662601FC5F19B00A1D2DF /* AAPLSlideTransitionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AAPLSlideTransitionDelegate.h; sourceTree = "<group>"; };
+		65CC21701FC9BBA5001B0B2C /* LandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LandingViewController.m; sourceTree = "<group>"; };
+		65CC21711FC9BBA5001B0B2C /* LandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LandingViewController.h; sourceTree = "<group>"; };
+		65CC21731FC9BBC1001B0B2C /* LandingCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LandingCollectionViewCell.h; sourceTree = "<group>"; };
+		65CC21741FC9BBC1001B0B2C /* LandingCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LandingCollectionViewCell.m; sourceTree = "<group>"; };
 		65EA36081FC744BD00DC920D /* Subscription.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Subscription.xib; sourceTree = "<group>"; };
 		65EA360C1FC744BD00DC920D /* SubscriptionCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscriptionCollectionViewCell.m; sourceTree = "<group>"; };
 		65EA360D1FC744BD00DC920D /* SubscriptionCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SubscriptionCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -1097,6 +1103,7 @@
 		653715FC1F68653A002B4292 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				65CC212C1FC9914D001B0B2C /* Landing */,
 				6548890F1FC32FF6004D83FD /* MenuTabBar */,
 				655606971FC072CC00CF6C15 /* NavigatonController */,
 				653715FD1F68653A002B4292 /* AppWebView */,
@@ -2206,6 +2213,33 @@
 			path = Slide;
 			sourceTree = "<group>";
 		};
+		65CC212C1FC9914D001B0B2C /* Landing */ = {
+			isa = PBXGroup;
+			children = (
+				65CC216E1FC9BBA5001B0B2C /* CollectionViewCell */,
+				65CC216F1FC9BBA5001B0B2C /* Controller */,
+			);
+			path = Landing;
+			sourceTree = "<group>";
+		};
+		65CC216E1FC9BBA5001B0B2C /* CollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				65CC21731FC9BBC1001B0B2C /* LandingCollectionViewCell.h */,
+				65CC21741FC9BBC1001B0B2C /* LandingCollectionViewCell.m */,
+			);
+			path = CollectionViewCell;
+			sourceTree = "<group>";
+		};
+		65CC216F1FC9BBA5001B0B2C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				65CC21711FC9BBA5001B0B2C /* LandingViewController.h */,
+				65CC21701FC9BBA5001B0B2C /* LandingViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		65EA36071FC744BD00DC920D /* OldXib */ = {
 			isa = PBXGroup;
 			children = (
@@ -3313,6 +3347,7 @@
 				65C662611FC5F19C00A1D2DF /* AAPLSlideTransitionInteractionController.m in Sources */,
 				6537178F1F68653B002B4292 /* KeychnStore.m in Sources */,
 				6537177B1F68653B002B4292 /* KCAppLabel.m in Sources */,
+				65CC21751FC9BBC1001B0B2C /* LandingCollectionViewCell.m in Sources */,
 				653717801F68653B002B4292 /* KCContactUsViewController.m in Sources */,
 				6537178D1F68653B002B4292 /* KCItemListViewController.m in Sources */,
 				653717C51F68653B002B4292 /* KCMySchedule.m in Sources */,
@@ -3397,6 +3432,7 @@
 				653717901F68653B002B4292 /* KCLanguageOptionView.m in Sources */,
 				654889121FC33016004D83FD /* MenuTabBarController.m in Sources */,
 				AA8876721C1069C200D2CEF4 /* main.m in Sources */,
+				65CC21721FC9BBA5001B0B2C /* LandingViewController.m in Sources */,
 				6537177A1F68653B002B4292 /* NSString+KCValidation.m in Sources */,
 				653717D51F68653B002B4292 /* KCFacebookManager.m in Sources */,
 				653717A41F68653B002B4292 /* KCSettingsSocialAccountTableCell.m in Sources */,

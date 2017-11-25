@@ -42,7 +42,7 @@
 
 #pragma mark - Debug Logger
 
-#define DEBUGGING YES
+#define DEBUGGING NO
 
 #ifndef NO
 

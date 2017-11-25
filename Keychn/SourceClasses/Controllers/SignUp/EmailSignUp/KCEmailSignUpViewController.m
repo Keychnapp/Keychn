@@ -12,6 +12,7 @@
 #import "KCEmailSignUpNewsletterTableViewCell.h"
 #import "KCSignUpWebManager.h"
 #import "KCUserProfileDBManager.h"
+#import "KCEmailSignInViewController.h"
 
 #define CELL_HEIGHT_ARRAY_IPHONE @[@"75", @"75", @"75", @"75", @"75", @"143"]
 #define CELL_HEIGHT_ARRAY_IPAD   @[@"110", @"110", @"110", @"110", @"95", @"213"]
@@ -245,7 +246,9 @@
 
 - (IBAction)backButtonTapped:(id)sender {
     [self.editingTextField resignFirstResponder];
-    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:true completion:^{
+        
+    }];
 }
 
 - (IBAction)newsletterPreferencesSwitchTapped:(UISwitch*)sender {
@@ -320,6 +323,22 @@
         }
     }
 }
+
+- (IBAction)gotoSignInButtonTapped:(id)sender {
+    if(self.isPresentingAfterSignIn) {
+        [self dismissViewControllerAnimated:true completion:^{
+            
+        }];
+    }
+    else {
+        KCEmailSignInViewController *signInViewController = [self.storyboard instantiateViewControllerWithIdentifier:emailLoginViewController];
+        signInViewController.isPresentingAfterSignUp = true;
+        [self presentViewController:signInViewController animated:true completion:^{
+            
+        }];
+    }
+}
+
 
 #pragma mark - Keyboard Notifications
 
@@ -409,6 +428,12 @@
     [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:message withButtonTapHandler:^{
         
     }];
+}
+
+#pragma mark - Navigation
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    return NO;
 }
 
 @end

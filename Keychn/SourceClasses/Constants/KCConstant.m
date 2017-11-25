@@ -321,7 +321,7 @@ NSString   *kResult                  = @"result";
 
 #pragma mark - Storyboard Identifiers
 
-NSString  *signUpViewController          = @"signUpViewController";
+NSString  *signUpViewController          = @"LandingViewController";
 NSString  *emailSignUpViewController     = @"emailSignUpViewController";
 NSString  *emailLoginViewController      = @"emailLoginViewController";
 NSString  *forgotPasswordViewController  = @"forgotPasswordViewController";
@@ -418,5 +418,11 @@ NSInteger DataStreamIndentifier = 1001;
 NSString *kApsDictionary = @"aps";
 NSString *kAlertTitle    = @"title";
 NSString *kAlertMessage  = @"alert";
+
+#pragma mark - Segue Identifiers
+
+NSString *kSignInToSignUp = @"SignInToSignUp";
+NSString *kSignUpToSignIn = @"SignUpToSignIn";
+
 
 @end

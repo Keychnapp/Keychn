@@ -564,4 +564,9 @@ extern NSString *kApsDictionary;
 extern NSString *kAlertTitle;
 extern NSString *kAlertMessage;
 
+#pragma mark - Segue Identifiers
+
+extern NSString *kSignInToSignUp;
+extern NSString *kSignUpToSignIn;
+
 @end

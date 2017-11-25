@@ -10,4 +10,6 @@
 
 @interface KCEmailSignInViewController : UIViewController
 
+@property (assign, nonatomic) BOOL isPresentingAfterSignUp;
+
 @end

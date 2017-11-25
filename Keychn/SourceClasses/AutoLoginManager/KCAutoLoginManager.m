@@ -76,24 +76,8 @@
     // Push next view controller based on the condition
     
     NSString *storyboardID = nil;
-    if([NSString validateString:_userProfile.userID]) {
-        if([NSString validateString:_userProfile.facebookProfile.facebookID]) {
-            if([NSString validateString:_userProfile.languageID]) {
-                storyboardID = kHomeViewController;
-            }
-            else {
-                storyboardID = selectLangugeViewController;
-            }
-        }
-        else if(![NSString validateString:_userProfile.imageURL]) {
-            storyboardID = setProfilePhotoViewController;
-        }
-        else if(![NSString validateString:_userProfile.languageID]) {
-            storyboardID = selectLangugeViewController;
-        }
-        else {
-            storyboardID = kHomeViewController;
-        }
+     if([NSString validateString:_userProfile.userID]) {
+        storyboardID = kHomeViewController;
     }
     else {
         storyboardID = signUpViewController;
