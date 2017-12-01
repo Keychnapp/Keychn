@@ -14,10 +14,8 @@
 - (void) requestNewPasswordWithDetails:(NSDictionary*)params withCompletionHandler:(void(^)(NSDictionary *userProfile))success failure:(void (^)(NSString *title, NSString *message))failed {
 //    Request a new password from server
     KCWebConnection *webConnection = [[KCWebConnection alloc] init];
-    [KCProgressIndicator showProgressIndicatortWithText:AppLabel.activityRequestingNewPassword];
     [webConnection sendDataToServerWithAction:forgotPasswordAction withParameters:params success:^(NSDictionary *response) {
         if(DEBUGGING) NSLog(@"Requesting New password --> Response %@",response);
-        [KCProgressIndicator hideActivityIndicator];
         BOOL status = [self isFinishedWithError:response];
         if(status) {
             //finished with error
@@ -31,7 +29,6 @@
             success(response);
         }
     } failure:^(NSString *response) {
-        [KCProgressIndicator hideActivityIndicator];
         failed(AppLabel.errorTitle,AppLabel.unexpectedErrorMessage);
     }];
 }

@@ -63,6 +63,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.redRoundView.layer.cornerRadius = self.redRoundView.bounds.size.width/2;
+    self.redRoundView.layer.masksToBounds = YES;
+    
     // Get Instances
     _userProfile            = [KCUserProfile sharedInstance];
     _userScheduleWebManager = [KCUserScheduleWebManager new];
@@ -97,9 +100,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    // Set text on views
-    [self setText];
     
     // Fetch Masteclass
     [self requestMasterClass];
@@ -153,13 +153,13 @@
             if(masterClass.sessionID.integerValue == _masterClassToJoin.scheduleID.integerValue) {
                 masterClassTableCell.attendButton.enabled  = YES;
                 masterClassTableCell.attendButton.selected = YES;
-                [masterClassTableCell.attendButton setTitle:[AppLabel.btnStartCooking uppercaseString] forState:UIControlStateSelected];
+                [masterClassTableCell.attendButton setTitle:[@"Start Cooking" uppercaseString] forState:UIControlStateSelected];
             }
             else {
                 // Scheduled and Subscribed Masterclass. Will be activated when the prior to 2 minutes of scheduled date and time
                 masterClassTableCell.attendButton.enabled = NO;
                 masterClassTableCell.attendButton.selected = NO;
-                [masterClassTableCell.attendButton setTitle:[AppLabel.lblAttending uppercaseString] forState:UIControlStateNormal];
+                [masterClassTableCell.attendButton setTitle:[@"Attending" uppercaseString] forState:UIControlStateNormal];
             }
             [masterClassTableCell.attendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [masterClassTableCell.attendButton setBackgroundColor:[UIColor appGreenColor]];
@@ -172,13 +172,13 @@
             if(masterClass.isFullCapacity) {
                 // Disable Attend Button
                 masterClassTableCell.attendButton.enabled = NO;
-                [masterClassTableCell.attendButton setTitle:[AppLabel.lblFullCapacity uppercaseString] forState:UIControlStateNormal];
+                [masterClassTableCell.attendButton setTitle:[@"Full Capacity" uppercaseString] forState:UIControlStateNormal];
                 [masterClassTableCell.attendButton setBackgroundColor:[UIColor masterclasFullButtonColor]];
             }
             else {
                 // Let user request to join
                 masterClassTableCell.attendButton.enabled = YES;
-                [masterClassTableCell.attendButton setTitle:[AppLabel.lblAttend uppercaseString] forState:UIControlStateNormal];
+                [masterClassTableCell.attendButton setTitle:[@"Attend" uppercaseString] forState:UIControlStateNormal];
                 [masterClassTableCell.attendButton setBackgroundColor:[UIColor appBackgroundColor]];
             }
              [masterClassTableCell.attendButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -365,29 +365,6 @@
     [self.navigationController pushViewController:masterClassController animated:YES];
 }
 
-- (void)setText {
-    // Attributed text for Live Masterclasses
-    NSMutableAttributedString *liveText = [[NSMutableAttributedString alloc] initWithString:AppLabel.lblLive attributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName:[UIFont setRobotoFontBoldStyleWithSize:15]}];
-    NSAttributedString *masterclassess = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:AppLabel.lblMasterclasses]  attributes:@{NSForegroundColorAttributeName:[UIColor darkGrayColor], NSFontAttributeName:[UIFont setRobotoFontRegularStyleWithSize:15]}];
-     NSAttributedString *dotString = [[NSAttributedString alloc] initWithString:@"." attributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName:[UIFont setRobotoFontRegularStyleWithSize:15]}];
-    [liveText appendAttributedString:masterclassess];
-    [liveText appendAttributedString:dotString];
-    self.liveMasterclassLabel.attributedText = liveText;
-    self.learnWithChefLabel.text             = AppLabel.lblLearnWithMasterchef;
-    [self.doneButton setTitle:AppLabel.btnDone forState:UIControlStateNormal];
-    self.searchMasterclassTextField.placeholder = AppLabel.lblSearchKeychnMasterclass;
-    UILabel *placeholderLabel = [self.searchMasterclassTextField valueForKey:@"_placeholderLabel"];
-    placeholderLabel.adjustsFontSizeToFitWidth = YES;
-    
-    // Set TabBar Text
-    NSArray *itemsTitles = @[AppLabel.lblMasterClass, AppLabel.btnRecipesTab, AppLabel.lblCalendar, AppLabel.btnProfileTab];
-    NSArray *tabBarItems = self.tabBarController.tabBar.items;
-    NSInteger count = tabBarItems.count;
-    for (NSInteger i=0; i<count; i++) {
-        UITabBarItem *item = [tabBarItems objectAtIndex:i];
-        item.title         = [itemsTitles objectAtIndex:i];
-    }
-}
 
 - (void)refreshControlValueChanged:(UIRefreshControl *)sender {
     [self requestMasterClass];

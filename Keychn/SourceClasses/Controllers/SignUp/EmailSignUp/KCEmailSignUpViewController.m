@@ -10,26 +10,28 @@
 #import "KCEmailSignUpTableViewCell.h"
 #import "KCEmailSignUpButtonTableViewCell.h"
 #import "KCEmailSignUpNewsletterTableViewCell.h"
-#import "KCSignUpWebManager.h"
 #import "KCUserProfileDBManager.h"
 #import "KCEmailSignInViewController.h"
+#import "TOMSMorphingLabel.h"
+#import "KCFacebookManager.h"
+#import "KCSignUpWebManager.h"
 
-#define CELL_HEIGHT_ARRAY_IPHONE @[@"75", @"75", @"75", @"75", @"75", @"143"]
-#define CELL_HEIGHT_ARRAY_IPAD   @[@"110", @"110", @"110", @"110", @"95", @"213"]
 
-@interface KCEmailSignUpViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
+@interface KCEmailSignUpViewController () <UITextFieldDelegate> {
     KCUserProfile           *_userProfile;
-    NSString                *_confirmPassword;
     KCSignUpWebManager      *_signUpManager;
-    KCAppLabel              *_appLabel;
-    NSArray                 *_cellHeightArray;
+    KCFacebookManager       *_facebookManager;
+    KCSignUpWebManager      *_signUpWebManager;
 }
 
-@property (weak, nonatomic) IBOutlet UILabel *signUpLabel;
-@property (weak, nonatomic) IBOutlet UITableView *signUpTableView;
-@property (weak, nonatomic) IBOutlet UILabel *headeLabel;
-@property (nonatomic,strong) UITextField     *editingTextField;
-@property (weak, nonatomic) IBOutlet UIView *lineSeparatorView;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (assign, nonatomic) BOOL isProcessing;
+@property (weak, nonatomic) IBOutlet TOMSMorphingLabel *starcookLabel;
 
 @end
 
@@ -41,22 +43,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    //customize App UI
-    [self customizeUI];
+    // Allocate instances
+    _userProfile    = [KCUserProfile new];
+    _signUpManager  = [KCSignUpWebManager new];
     
-    //allocate instances
-    _userProfile = [KCUserProfile new];
-    _appLabel    = [KCAppLabel sharedInstance];
-    
-    //default value
+    // Default value
     _userProfile.receiveNewsletter = [NSNumber numberWithBool:YES];
-    
-    if([KCUtility getiOSDeviceType] == iPad) {
-        _cellHeightArray = CELL_HEIGHT_ARRAY_IPAD;
-    }
-    else {
-        _cellHeightArray = CELL_HEIGHT_ARRAY_IPHONE;
-    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -64,9 +56,6 @@
     
     //register for keybord notifications
     [self registerForKeyboardNotifications];
-    
-    //set text on views
-    [self setTextOnViews];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -79,140 +68,14 @@
     [self deregisterForKeyboardNotifications];
 }
 
-- (void) customizeUI {
-    //customize app UI screen
-    self.headeLabel.font  = [UIFont setRobotoFontRegularStyleWithSize:17];
-    self.lineSeparatorView.backgroundColor = [UIColor separatorLineColor];
-}
-
-- (void) setTextOnViews {
-    //sets text on all labels and buttons
-    self.headeLabel.text = _appLabel.lblSignUpText;
-}
-
-
-#pragma mark - Table View DataSource
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 6;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [[_cellHeightArray objectAtIndex:indexPath.row] integerValue];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    UITableViewCell *cell = nil;
-    KCEmailSignUpTableViewCell *emailSignUpCell = nil;
-    KCEmailSignUpButtonTableViewCell *signUpButtonCell = nil;
-    KCEmailSignUpNewsletterTableViewCell *receiveNewsletterCell = nil;
-    
-    if(indexPath.row <= cellIndexEmailSignUpConfirmPassword) {
-        //customize text fields cell
-        emailSignUpCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifierEmailSignUpTextFields forIndexPath:indexPath];
-        cell = emailSignUpCell;
-        
-        //add a background layer
-        CALayer *border = [CALayer layer];
-        CGFloat borderWidth = 1.0f;
-        border.borderColor = [UIColor textFieldSeparatorColorEmailSignUp].CGColor;
-        border.frame = CGRectMake(0, 29, 238, 30);
-        border.borderWidth = borderWidth;
-        [emailSignUpCell.userDetailTextField.layer addSublayer:border];
-        emailSignUpCell.userDetailTextField.layer.masksToBounds = YES;
-        emailSignUpCell.userDetailTextField.tag = indexPath.row;
-        [emailSignUpCell.userDetailTextField setValue:[UIColor placeholderColorEmailSignUp]
-                        forKeyPath:@"_placeholderLabel.textColor"];
-        emailSignUpCell.userDetailTextField.font = [UIFont setRobotoFontRegularStyleWithSize:14];
-        emailSignUpCell.userDetailTextField.autocorrectionType  = UITextAutocorrectionTypeNo;
-        
-        //customize keyboard and text field entry
-        switch (indexPath.row) {
-            case cellIndexEmailSignUpName:
-                emailSignUpCell.userDetailTextField.placeholder = _appLabel.placeholderName;
-                emailSignUpCell.userDetailTextField.text = _userProfile.username;
-                break;
-            case cellIndexEmailSignUpEmail:
-                emailSignUpCell.userDetailTextField.keyboardType = UIKeyboardTypeEmailAddress;
-                emailSignUpCell.userDetailTextField.placeholder = _appLabel.placeholderEmail;
-                emailSignUpCell.userDetailTextField.text = _userProfile.emailID;
-                break;
-            case cellIndexEmailSignUpPassword:
-                emailSignUpCell.userDetailTextField.secureTextEntry = YES;
-                emailSignUpCell.userDetailTextField.placeholder = _appLabel.placeholderPassword;
-                emailSignUpCell.userDetailTextField.text = _userProfile.password;
-                break;
-            case cellIndexEmailSignUpConfirmPassword:
-                emailSignUpCell.userDetailTextField.secureTextEntry = YES;
-                emailSignUpCell.userDetailTextField.returnKeyType = UIReturnKeyDone;
-                emailSignUpCell.userDetailTextField.placeholder = _appLabel.placeholderConfirmPassword;
-                emailSignUpCell.userDetailTextField.text = _confirmPassword;
-                break;
-        }
-    }
-    else if(indexPath.row == cellIndexEmailSignUpReceiveNewsletter) {
-        //customize newsletter cell
-        receiveNewsletterCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifierForEmailSignUpReveiveNewsletter forIndexPath:indexPath];
-        receiveNewsletterCell.receiveNewsletterLabel.text = _appLabel.receiveNewsletter;
-        receiveNewsletterCell.receiveNewsletterLabel.font = [UIFont setRobotoFontRegularStyleWithSize:13];
-        receiveNewsletterCell.receiveNewsletterLabel.textColor = [UIColor placeholderColorEmailSignUp];
-        receiveNewsletterCell.newsletterPreferenceSwitch.onTintColor = [UIColor blackColor];
-        cell = receiveNewsletterCell;
-    }
-    else {
-        //customzie sign up cell
-        signUpButtonCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifierForEmailSignUpSignUpButton forIndexPath:indexPath];
-        cell = signUpButtonCell;
-        signUpButtonCell.signupButton.layer.cornerRadius  = 18;
-        signUpButtonCell.signupButton.layer.masksToBounds = YES;
-        [signUpButtonCell.signupButton setTitle:[_appLabel.lblSignUpText uppercaseString] forState:UIControlStateNormal];
-        signUpButtonCell.signupButton.titleLabel.font   = [UIFont setRobotoFontBoldStyleWithSize:13];
-        signUpButtonCell.signupButton.backgroundColor   = [UIColor appBackgroundColor];
-        
-        NSString *termsOfUseText = [[[[_appLabel.lblTermsAndConditions stringByAppendingString:@" "]stringByAppendingString:_appLabel.lblSignUpTerms] stringByAppendingString:@" "] stringByAppendingString:_appLabel.lblAgreeToThe];
-        NSRange range1 = [termsOfUseText rangeOfString:_appLabel.lblTermsAndConditions];
-        NSRange range2 = [termsOfUseText rangeOfString:_appLabel.lblSignUpTerms];
-        NSRange range3 = [termsOfUseText rangeOfString:_appLabel.lblAgreeToThe];
-        
-        NSInteger fontSize = 12;
-        
-        NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:termsOfUseText];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont setRobotoFontRegularStyleWithSize:fontSize], NSForegroundColorAttributeName: [UIColor placeholderColorEmailSignUp]}
-                                range:range1];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont setRobotoFontBoldStyleWithSize:fontSize], NSForegroundColorAttributeName: [UIColor placeholderColorEmailSignUp]}
-                                range:range2];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont setRobotoFontRegularStyleWithSize:fontSize], NSForegroundColorAttributeName: [UIColor placeholderColorEmailSignUp]}
-                                range:range3];
-        signUpButtonCell.termsOfUseButton.titleLabel.font = [UIFont setRobotoFontRegularStyleWithSize:fontSize];
-        signUpButtonCell.privacyPolicyButton.titleLabel.font = [UIFont setRobotoFontRegularStyleWithSize:fontSize];
-        [signUpButtonCell.privacyPolicyButton setTitleColor:[UIColor termsOfUseForegroundColor] forState:UIControlStateNormal];
-        signUpButtonCell.termsOfUseLabel.attributedText = attributedText;
-        
-        NSString *termsOfUseFullText = [NSString stringWithFormat:@"%@ %@ %@",_appLabel.lblTermsOfUse,_appLabel.lblAnd,_appLabel.lblPrivacyPolicy];
-        attributedText  = [[NSMutableAttributedString alloc] initWithString:termsOfUseFullText];
-        range1 = [termsOfUseFullText rangeOfString:_appLabel.lblTermsOfUse];
-        range2 = [termsOfUseFullText rangeOfString:_appLabel.lblAnd];
-        range3 = [termsOfUseFullText rangeOfString:_appLabel.lblPrivacyPolicy];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont setRobotoFontRegularStyleWithSize:fontSize], NSForegroundColorAttributeName: [UIColor termsOfUseForegroundColor]}
-                                range:range1];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont setRobotoFontRegularStyleWithSize:fontSize], NSForegroundColorAttributeName: [UIColor placeholderColorEmailSignUp]}
-                                range:range2];
-        [attributedText setAttributes:@{NSFontAttributeName:[UIFont setRobotoFontRegularStyleWithSize:fontSize], NSForegroundColorAttributeName: [UIColor termsOfUseForegroundColor]}
-                                range:range3];
-        
-        signUpButtonCell.privacyPolicyLabel.attributedText = attributedText;
-    }
-    
-    return cell;
-}
-
 #pragma mark - Text Field Delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if(textField.tag < cellIndexEmailSignUpConfirmPassword) {
-        KCEmailSignUpTableViewCell *emailSignUpCell = [self.signUpTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:textField.tag+1 inSection:0]];
-        [emailSignUpCell.userDetailTextField becomeFirstResponder];
+    if(textField == self.nameTextField) {
+        [self.emailTextField becomeFirstResponder];
+    }
+    else if(textField == self.emailTextField) {
+        [self.passwordTextField becomeFirstResponder];
     }
     else {
         [textField resignFirstResponder];
@@ -220,53 +83,29 @@
     return YES;
 }
 
-- (IBAction)textFieldEditingChanged:(UITextField*)sender {
-    //customize keyboard and text field entry
-    switch (sender.tag) {
-        case cellIndexEmailSignUpName:
-            _userProfile.username = sender.text;
-            break;
-        case cellIndexEmailSignUpEmail:
-            _userProfile.emailID = sender.text;
-            break;
-        case cellIndexEmailSignUpPassword:
-            _userProfile.password = sender.text;
-            break;
-        case cellIndexEmailSignUpConfirmPassword:
-            _confirmPassword = sender.text;
-            break;
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (textField == self.nameTextField) {
+        [self.starcookLabel setText:[@"Hello " stringByAppendingString:self.nameTextField.text] withCompletionBlock:^{
+            
+        }];
     }
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    self.editingTextField = textField;
 }
 
 #pragma mark - Button Actions
 
 - (IBAction)backButtonTapped:(id)sender {
-    [self.editingTextField resignFirstResponder];
+    [self.view endEditing:true];
     [self dismissViewControllerAnimated:true completion:^{
         
     }];
-}
-
-- (IBAction)newsletterPreferencesSwitchTapped:(UISwitch*)sender {
-    Mixpanel *mixpanel = [Mixpanel sharedInstance];
-    [mixpanel track:@"signup_newsletter_toggle"
-         properties:@{@"is_subscribed":@(sender.isOn)}];
-    [self.editingTextField resignFirstResponder];
-    if(DEBUGGING) NSLog(@"Newsletter preference is on : %@",@(sender.isOn));
-    _userProfile.receiveNewsletter = [NSNumber numberWithBool:sender.isOn];
 }
 
 - (IBAction)termsOfUseButtonTapped:(id)sender {
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel track:@"signup_terms_link"
          properties:@{@"":@""}];
-    [self.editingTextField resignFirstResponder];
     KCAppWebViewViewController *webViewController = [self.storyboard instantiateViewControllerWithIdentifier:appWebViewController];
-//    assign Web URL
+    // Assign Web URL
     webViewController.urlToOpen = termsOfUsePolicy;
     [self.navigationController pushViewController:webViewController animated:YES];
 }
@@ -275,7 +114,6 @@
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel track:@"signup_privacy_link"
          properties:@{@"":@""}];
-    [self.editingTextField resignFirstResponder];
     KCAppWebViewViewController *webViewController = [self.storyboard instantiateViewControllerWithIdentifier:appWebViewController];
     //assign Web URL
     webViewController.urlToOpen = privacyPolicyURL;
@@ -284,40 +122,47 @@
 
 
 - (IBAction)signUpButtonTapped:(id)sender {
-    [self.editingTextField resignFirstResponder];
+    if(self.isProcessing) {
+        return;
+    }
+    [self.view endEditing:true];
     if([self validateTextFields]) {
+        self.isProcessing = true;
         if(isNetworkReachable) {
+            [self.activityIndicator startAnimating];
             Mixpanel *mixpanel = [Mixpanel sharedInstance];
             [mixpanel track:@"signup_button"
                  properties:@{@"":@""}];
-            //text field validated, try to register user
-            if(!_signUpManager) {
-                _signUpManager = [KCSignUpWebManager new];
-            }
+            // Text field validated, try to register user
+            __weak KCEmailSignUpViewController *weakSelf = self;
             NSDictionary *userProfileDictionary = [_userProfile getUserProfileDictionary];
             [_signUpManager signUpUserWithDetails:userProfileDictionary withCompletionHandler:^(NSDictionary *userProfile) {
-                //get user model from response
+                // Get user model from response
+                [weakSelf.activityIndicator stopAnimating];
+                weakSelf.isProcessing = false;
                 KCUserProfile *userProfileModel = [KCUserProfile sharedInstance];
                 [userProfileModel getModelFromDictionary:userProfile withType:server];
                 
-                //save current user in local database
+                // Save current user in local database
                 KCUserProfileDBManager *userProfileDBManager = [[KCUserProfileDBManager alloc] init];
                 [userProfileDBManager saveCurrentUserWithCompletionHandler:^{
                     
                 }];
                 
-                //push next view controller
-                [self pushSetProfilePhotoViewController];
+                // Go to Home Screen
+                [weakSelf pushHomeViewController];
                 
             } failure:^(NSString *title, NSString *message) {
-                [KCUIAlert showInformationAlertWithHeader:title message:message withButtonTapHandler:^{
+                weakSelf.isProcessing = false;
+                [weakSelf.activityIndicator stopAnimating];
+                [KCUIAlert showInformationAlertWithHeader:title message:message onViewController:weakSelf withButtonTapHandler:^{
                     
                 }];
             }];
         }
         else {
-            //show alert for no internet connection
-            [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^{
+            // Show alert for no internet connection
+            [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable onViewController:self withButtonTapHandler:^{
                 
             }];
         }
@@ -325,6 +170,7 @@
 }
 
 - (IBAction)gotoSignInButtonTapped:(id)sender {
+    // Go to Sign In Screen
     if(self.isPresentingAfterSignIn) {
         [self dismissViewControllerAnimated:true completion:^{
             
@@ -339,10 +185,33 @@
     }
 }
 
+- (IBAction)loginWithFacebookButtonTapped:(id)sender {
+    //Facebook Login, get user facebook profile
+    [self.view endEditing:true];
+    if(isNetworkReachable) {
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        [mixpanel track:@"login_facebook_button"
+             properties:@{@"":@""}];
+        _facebookManager = [[KCFacebookManager alloc] init];
+        if(DEBUGGING) NSLog(@"fbLoginButtonTapped --> User language ID %@",_userProfile.languageID);
+        [_facebookManager connectToFacebookWithViewController:self completionHandler:^(BOOL flag) {
+            //Facebook data fetched, login with facebook
+            if(flag) {
+                [self loginWithFacebook];
+            }
+        }];
+    }
+    else {
+        //Show alert for no internet connection
+        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable onViewController:self withButtonTapHandler:^{
+            
+        }];
+    }
+}
 
 #pragma mark - Keyboard Notifications
 
-- (void) registerForKeyboardNotifications {
+- (void)registerForKeyboardNotifications {
     //register for Keyboard Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didKeyboardAppear:)
@@ -354,67 +223,61 @@
 }
 
 
-- (void) deregisterForKeyboardNotifications {
+- (void)deregisterForKeyboardNotifications {
     //Remove keyboard observers
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
 }
 
-- (void) didKeyboardAppear:(NSNotification*)notification {
+- (void)didKeyboardAppear:(NSNotification*)notification {
+    // Keyboard appearance
     NSDictionary* info = [notification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height+5, 0.0);
-    self.signUpTableView.contentInset = contentInsets;
-    self.signUpTableView.scrollIndicatorInsets = contentInsets;
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    NSInteger bottomSpace   = CGRectGetHeight(self.view.frame) - (CGRectGetMinY(self.containerView.frame) + CGRectGetHeight(self.containerView.frame));
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height-bottomSpace, 0.0);
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
 }
 
-- (void) didKeyboardDisappear:(NSNotification*)notification {
+- (void)didKeyboardDisappear:(NSNotification*)notification {
     UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-    self.signUpTableView.contentInset = contentInsets;
-    self.signUpTableView.scrollIndicatorInsets = contentInsets;
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
 }
 
 #pragma mark - Instance Method
 
-- (void) pushSetProfilePhotoViewController {
-    UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:setProfilePhotoViewController];
-    [self.navigationController pushViewController:viewController animated:YES];
+- (void)pushHomeViewController {
+    [self dismissViewControllerAnimated:true completion:^{
+        UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:kHomeViewController];
+        AppDelegate *appDelegate = (AppDelegate *) [UIApplication sharedApplication].delegate;
+        UINavigationController *rootViewController = (UINavigationController *) appDelegate.window.rootViewController;
+        [rootViewController pushViewController:viewController animated:YES];
+    }];
 }
 
-- (BOOL) validateTextFields {
-    //all text fields should be validated
+- (BOOL)validateTextFields {
+    // All text fields should be validated
+    _userProfile.emailID  = [self.emailTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    _userProfile.username = [self.nameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    _userProfile.password = self.passwordTextField.text;
     
-    //validate user's name
+    // Validate user's name
     NSString *message = [NSString validateName:_userProfile.username];
     if(message) {
         [self showValidationAlertWithMessage:message];
         return NO;
     }
     
-    //validate user's email address
+    // Validate user's email address
     message         = [NSString validateEmailAddress:_userProfile.emailID];
     if(message) {
         [self showValidationAlertWithMessage:message];
         return NO;
     }
     
-    //validate password
+    // Validate password
     message         = [NSString validatePassword:_userProfile.password];
-    if(message) {
-        [self showValidationAlertWithMessage:message];
-        return NO;
-    }
-    
-    //validate confirm password
-    message         = [NSString validateConfirmPassword:_confirmPassword];
-    if(message) {
-        [self showValidationAlertWithMessage:message];
-        return NO;
-    }
-    
-    //match both passwords
-    message         = [NSString matchPasswords:_userProfile.password andConfirmPassword:_confirmPassword];
     if(message) {
         [self showValidationAlertWithMessage:message];
         return NO;
@@ -423,9 +286,9 @@
     return YES;
 }
 
-- (void) showValidationAlertWithMessage:(NSString*)message {
-    //show pop up on any validation error
-    [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:message withButtonTapHandler:^{
+- (void)showValidationAlertWithMessage:(NSString*)message {
+    // Show pop up on any validation error
+    [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:message onViewController:self withButtonTapHandler:^{
         
     }];
 }
@@ -435,5 +298,68 @@
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
     return NO;
 }
+
+#pragma mark - Server End Code
+
+- (void)loginWithFacebook {
+    //Login with facebook with completion handler
+    if(!_signUpWebManager) {
+        _signUpWebManager = [KCSignUpWebManager new];
+    }
+    __weak id weakSelf = self;
+    NSDictionary *userSocialProfileDictionary = [[KCUserProfile sharedInstance].facebookProfile getSocialUserProfileDictionary];
+    if(DEBUGGING) NSLog(@"loginWithFacebook --> User language ID %@",_userProfile.languageID);
+    [_signUpWebManager signUpWithSocialAccount:userSocialProfileDictionary withCompletionHandler:^(NSDictionary *response) {
+        //Save user profile with social profile in local database
+        if(DEBUGGING) NSLog(@"loginWithFacebook --> Completion Handler --> User language ID %@",_userProfile.languageID);
+        KCUserProfileDBManager *userProfileDBManager = [KCUserProfileDBManager new];
+        [userProfileDBManager saveUserWithSocialProfile:response];
+        [weakSelf pushHomeViewController];
+        
+    } failure:^(NSString *title, NSString *message, BOOL shouldMerge) {
+        if(shouldMerge) {
+            //Social merge options
+            [KCUIAlert showAlertWithButtonTitle:AppLabel.btnMerge alertHeader:title message:message onViewController:self withButtonTapHandler:^(BOOL positiveButton) {
+                if(positiveButton) {
+                    [self mergeFacebookProfile];
+                }
+            }];
+        }
+        else {
+            //Request failed, show error alert
+            [KCUIAlert showInformationAlertWithHeader:title message:message onViewController:self withButtonTapHandler:^{
+                
+            }];
+        }
+        
+    }];
+}
+
+- (void)mergeFacebookProfile {
+    //Merge social profile with existing Keychn account
+    if(isNetworkReachable) {
+        NSDictionary *userSocialProfileDictionary = [[KCUserProfile sharedInstance].facebookProfile getSocialUserProfileDictionary];
+        __weak id weakSelf = self;
+        [_signUpWebManager mergeSocialAccount:userSocialProfileDictionary withCompletionHandler:^(NSDictionary *response) {
+            //save user profile with social profile in local database
+            KCUserProfileDBManager *userProfileDBManager = [KCUserProfileDBManager new];
+            [userProfileDBManager saveUserWithSocialProfile:response];
+            [weakSelf pushHomeViewController];
+            
+        } failure:^(NSString *title, NSString *message) {
+            //request failed, show error alert
+            [KCUIAlert showInformationAlertWithHeader:title message:message onViewController:self withButtonTapHandler:^{
+                
+            }];
+        }];
+    }
+    else {
+        //Show alert for no internet connection
+        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable onViewController:self withButtonTapHandler:^{
+            
+        }];
+    }
+}
+
 
 @end

@@ -80,7 +80,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self setText];
 }
 
 #pragma mark - New Collection View Datasource and Delegate
@@ -263,15 +262,6 @@
     }
 }
 
-- (void)setText {
-    // Set text on label
-    NSMutableAttributedString *freeRecipe = [[NSMutableAttributedString alloc] initWithString:AppLabel.lblFree attributes:@{NSForegroundColorAttributeName:[UIColor appBackgroundColor], NSFontAttributeName:[UIFont setRobotoFontBoldStyleWithSize:15]}];
-    NSAttributedString *recipeForAll = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:AppLabel.lblRecipesForAll] attributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName:[UIFont setRobotoFontBoldStyleWithSize:15]}];
-    [freeRecipe appendAttributedString:recipeForAll];
-    self.freeRecipeLabel.attributedText = freeRecipe;
-    [self.doneButton setTitle:AppLabel.btnDone forState:UIControlStateNormal];
-    self.searchTextField.placeholder = AppLabel.lblSearchByRecipe;
-}
 
 - (void)refreshControlValueChanged:(UIRefreshControl *)sender {
     if(_searchKeyword == nil || _searchKeyword.length == 0) {

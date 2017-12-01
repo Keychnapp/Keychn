@@ -50,6 +50,27 @@
     
 }
 
++ (void)showAlertWithButtonTitle:(NSString *)title alertHeader:(NSString *)header message:(NSString *)message onViewController:(UIViewController *)viewController withButtonTapHandler:(void (^)(BOOL positiveButton))buttonTapped {
+    //show an alert with postive button title and cancel using the block
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:header message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:AppLabel.btnCancel style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        buttonTapped(NO);
+    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        buttonTapped(YES);
+        [alertController dismissViewControllerAnimated:YES completion:^{
+            
+        }];
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    [viewController presentViewController:alertController animated:YES completion:^{
+        
+    }];
+    
+}
+
 + (void)showInformationAlertWithHeader:(NSString *)header message:(NSString *)message withButtonTapHandler:(void (^)(void))buttonTapped {
     //show an alert with OK Button using the block
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:header message:message preferredStyle:UIAlertControllerStyleAlert];
@@ -62,6 +83,22 @@
     [alertController addAction:okAction];
     AppDelegate *appDelegate = (AppDelegate *) [UIApplication sharedApplication].delegate;
     [appDelegate.window.rootViewController presentViewController:alertController animated:YES completion:^{
+        
+    }];
+}
+
+
++ (void)showInformationAlertWithHeader:(NSString *)header message:(NSString *)message onViewController:(UIViewController *)viewController withButtonTapHandler:(void (^)(void))buttonTapped {
+    //show an alert with OK Button using the block
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:header message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:AppLabel.btnOk style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        buttonTapped();
+        [alertController dismissViewControllerAnimated:YES completion:^{
+            
+        }];
+    }];
+    [alertController addAction:okAction];
+    [viewController presentViewController:alertController animated:YES completion:^{
         
     }];
 }

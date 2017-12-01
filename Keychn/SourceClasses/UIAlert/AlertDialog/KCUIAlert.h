@@ -17,12 +17,17 @@
 */
 + (void) showAlertWithButtonTitle:(NSString*)title alertHeader:(NSString*)header message:(NSString*)message withButtonTapHandler:(void(^)(BOOL positiveButton))buttonTapped;
 
+
++ (void)showAlertWithButtonTitle:(NSString *)title alertHeader:(NSString *)header message:(NSString *)message onViewController:(UIViewController *)viewController withButtonTapHandler:(void (^)(BOOL positiveButton))buttonTapped;
+
 /**
  @abstract This method will show a UIAlert with one OK button.
  @param Alert Header, Alert Message, ButtonTap Handler
  @return void
  */
 + (void) showInformationAlertWithHeader:(NSString*)header message:(NSString*)message withButtonTapHandler:(void(^)(void))buttonTapped;
+
++ (void)showInformationAlertWithHeader:(NSString *)header message:(NSString *)message onViewController:(UIViewController *)viewController withButtonTapHandler:(void (^)(void))buttonTapped;
 
 /**
  @abstract This method will show an alert for the User Schedule success

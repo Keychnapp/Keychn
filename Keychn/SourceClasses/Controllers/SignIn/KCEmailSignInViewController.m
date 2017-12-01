@@ -14,61 +14,44 @@
 #import "KCAppLanguageWebManager.h"
 #import "KCLanguageSelectionViewController.h"
 #import "KCEmailSignUpViewController.h"
+#import "KCFacebookManager.h"
+#import "KCSignUpWebManager.h"
 
 
-#define CELL_HEIGHT_IPHONE_6 @[@"152", @"40", @"40"]
-#define CELL_HEIGHT_IPHONE_5 @[@"110", @"40", @"40"]
-#define CELL_HEIGHT_IPHONE_4 @[@"60", @"40", @"40"]
-#define CELL_HEIGHT_IPAD     @[@"220", @"50", @"60"]
-
-@interface KCEmailSignInViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
+@interface KCEmailSignInViewController () <UITextFieldDelegate> {
     BOOL                _shouldAdjustUI;
     KCAppLabel          *_appLabel;
     KCUserProfile       *_userProfile;
     KCLoginWebManager   *_loginWebManager;
     KCAppLanguageWebManager *_appLanguageWebManager;
-    NSArray                 *_cellHeightArray;
+    KCFacebookManager       *_facebookManager;
+    KCSignUpWebManager      *_signUpWebManager;
 }
 
-@property (weak, nonatomic) IBOutlet UITableView *signInTableView;
-@property (weak, nonatomic) IBOutlet UIView *seperatorView;
-@property (weak, nonatomic) IBOutlet UILabel *headerLabel;
-@property (nonatomic,strong) UITextField *editingTextField;
-@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (assign, nonatomic) BOOL isProcessing;
+
 
 @end
 
 @implementation KCEmailSignInViewController
 
 #pragma mark - Life Cycle Methods
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    IOSDevices currentDevice = [KCUtility getiOSDeviceType];
-    if(currentDevice == iPhone4) {
-        _cellHeightArray = CELL_HEIGHT_IPHONE_4;
-    }
-    else if(currentDevice == iPhone5) {
-        _cellHeightArray = CELL_HEIGHT_IPHONE_5;
-    }
-    else if(currentDevice == iPhone6 || currentDevice == iPhone6Plus) {
-        _cellHeightArray = CELL_HEIGHT_IPHONE_6;
-    }
-    else {
-        _cellHeightArray = CELL_HEIGHT_IPAD;
-    }
-
-    
     //register for keyboard notifications
     [self registerForKeyboardNotifications];
     
-    _appLabel = [KCAppLabel sharedInstance];
-    
-    _userProfile = [KCUserProfile new];
-    
-    //customize UI
-    [self customizeUI];
+    // Get instances
+    _userProfile     = [KCUserProfile new];
+    _loginWebManager = [[KCLoginWebManager alloc] init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -78,9 +61,6 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    //set text on buttons and labels
-    [self setText];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -94,83 +74,17 @@
     [self deregisterForKeyboardNotifications];
 }
 
-#pragma mark - Table View DataSource and Delegate
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-        return [[_cellHeightArray objectAtIndex:indexPath.row] integerValue];
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = nil;
-    if(indexPath.row <= cellIndexEmailSignInPassword) {
-        KCEmailSignUpTableViewCell *emailSignInTextFieldCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifierForEmailSignInTextField forIndexPath:indexPath];
-        cell = emailSignInTextFieldCell;
-        [emailSignInTextFieldCell.userDetailTextField setValue:[UIColor placeholderColorEmailSignUp]
-                                           forKeyPath:@"_placeholderLabel.textColor"];
-        emailSignInTextFieldCell.userDetailTextField.tag = indexPath.row;
-        emailSignInTextFieldCell.userDetailTextField.font = [UIFont setRobotoFontRegularStyleWithSize:14];
-        
-        //add a background layer
-        CALayer *border = [CALayer layer];
-        CGFloat borderWidth = 1.0f;
-        border.borderColor = [UIColor textFieldSeparatorColorEmailSignUp].CGColor;
-        border.frame = CGRectMake(0, 29, 238, 30);
-        border.borderWidth = borderWidth;
-        [emailSignInTextFieldCell.userDetailTextField.layer addSublayer:border];
-        emailSignInTextFieldCell.userDetailTextField.layer.masksToBounds = YES;
-        emailSignInTextFieldCell.userDetailTextField.autocorrectionType  = UITextAutocorrectionTypeNo;
-        
-        switch (indexPath.row) {
-            case cellIndexEmailSignInEmail:
-                emailSignInTextFieldCell.userDetailTextField.keyboardType = UIKeyboardTypeEmailAddress;
-                emailSignInTextFieldCell.userDetailTextField.returnKeyType   = UIReturnKeyNext;
-                emailSignInTextFieldCell.userDetailTextField.placeholder  = _appLabel.placeholderEmail;
-                emailSignInTextFieldCell.userDetailTextField.text = _userProfile.emailID;
-                break;
-            case cellIndexEmailSignInPassword:
-                emailSignInTextFieldCell.userDetailTextField.secureTextEntry = YES;
-                emailSignInTextFieldCell.userDetailTextField.returnKeyType   = UIReturnKeyDone;
-                emailSignInTextFieldCell.userDetailTextField.placeholder  = _appLabel.placeholderPassword;
-                emailSignInTextFieldCell.userDetailTextField.text = _userProfile.password;
-                break;
-        }
-    }
-    else {
-        KCEmailSignInButtonTableCell *emailSignInButtonCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifierForEmailSignInButton forIndexPath:indexPath];
-        cell = emailSignInButtonCell;
-        [emailSignInButtonCell.forgotPasswordButton setTitle:_appLabel.btnForgotPassword forState:UIControlStateNormal];
-        emailSignInButtonCell.forgotPasswordButton.titleLabel.font = [UIFont setRobotoFontRegularStyleWithSize:14];
-        [emailSignInButtonCell.forgotPasswordButton setTitleColor:[UIColor placeholderColorEmailSignUp] forState:UIControlStateNormal];
-    }
-    return cell;
-}
 
 #pragma mark - Text Field Delegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    self.editingTextField = textField;
-}
-- (IBAction)textFieldEditingChanged:(UITextField *)sender {
-    switch (sender.tag) {
-        case cellIndexEmailSignInEmail:
-            _userProfile.emailID = sender.text;
-            break;
-        case cellIndexEmailSignInPassword:
-            _userProfile.password = sender.text;
-        default:
-            break;
-    }
+    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if(textField.tag == cellIndexEmailSignInEmail) {
-        KCEmailSignUpTableViewCell *emailSignInCell = [self.signInTableView cellForRowAtIndexPath:[NSIndexPath indexPathForItem:textField.tag+1 inSection:0]];
-        [emailSignInCell.userDetailTextField becomeFirstResponder];
+    if(textField == self.emailTextField) {
+        [self.passwordTextField becomeFirstResponder];
     }
     else {
         [textField resignFirstResponder];
@@ -201,36 +115,18 @@
 
 - (void) didKeyboardAppear:(NSNotification*)notification {
     NSDictionary* info = [notification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height-40, 0.0);
-    self.signInTableView.contentInset = contentInsets;
-    self.signInTableView.scrollIndicatorInsets = contentInsets;
-    
-    if(([KCUtility getiOSDeviceType] == iPhone4|| iPhone5) && _shouldAdjustUI) {
-        _shouldAdjustUI = NO;
-        [self.view layoutIfNeeded];
-        [UIView animateWithDuration:0.5
-                         animations:^{
-                             [self.view layoutIfNeeded]; // Called on parent view
-                         }];
-    }
+    NSInteger bottomSpace      = CGRectGetHeight(self.view.frame) - (CGRectGetMinY(self.containerView.frame) + CGRectGetHeight(self.containerView.frame));
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height-bottomSpace, 0.0);
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
 }
 
 - (void) didKeyboardDisappear:(NSNotification*)notification {
-    
     UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-    self.signInTableView.contentInset = contentInsets;
-    self.signInTableView.scrollIndicatorInsets = contentInsets;
-    
-    if(([KCUtility getiOSDeviceType] == iPhone4|| iPhone5) && !_shouldAdjustUI) {
-        _shouldAdjustUI = YES;
-        [self.view layoutIfNeeded];
-        [UIView animateWithDuration:0.5
-                         animations:^{
-                             [self.view layoutIfNeeded]; // Called on parent view
-                         }];
-    }
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
 }
 
 
@@ -245,12 +141,8 @@
 
 
 - (IBAction)forgotPasswordButtonTapped:(id)sender {
-    [self.editingTextField resignFirstResponder];
-    UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:forgotPasswordViewController];
-    [self.navigationController pushViewController:viewController animated:YES];
+    [self.view endEditing:true];
 }
-
-
 
 - (IBAction)loginButtonTapped:(id)sender {
     if([self validateTextFields]) {
@@ -258,12 +150,36 @@
             [self loginWithUserDetails];
         }
         else {
-            [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^{
+            [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable onViewController:self withButtonTapHandler:^{
                 
             }];
         }
     }
-    [self.editingTextField resignFirstResponder];
+    [self.view endEditing:true];
+}
+
+- (IBAction)loginWithFacebookButtonTapped:(id)sender {
+    //Facebook Login, get user facebook profile
+    [self.view endEditing:true];
+    if(isNetworkReachable) {
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        [mixpanel track:@"login_facebook_button"
+             properties:@{@"":@""}];
+        _facebookManager = [[KCFacebookManager alloc] init];
+        if(DEBUGGING) NSLog(@"fbLoginButtonTapped --> User language ID %@",_userProfile.languageID);
+        [_facebookManager connectToFacebookWithViewController:self completionHandler:^(BOOL flag) {
+            //Facebook data fetched, login with facebook
+            if(flag) {
+                [self loginWithFacebook];
+            }
+        }];
+    }
+    else {
+        //Show alert for no internet connection
+        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable onViewController:self withButtonTapHandler:^{
+            
+        }];
+    }
 }
 
 - (IBAction)gotoSignUpButtonTapped:(id)sender {
@@ -284,52 +200,19 @@
 
 #pragma mark - Instance Method
 
-- (void) customizeUI {
-    //customize app UI screen
-    self.headerLabel.font               = [UIFont setRobotoFontRegularStyleWithSize:17];
-    self.loginButton.titleLabel.font    = [UIFont setRobotoFontBoldStyleWithSize:14];
-    self.seperatorView.backgroundColor  = [UIColor separatorLineColor];
+- (void)pushHomeViewController {
+    [self dismissViewControllerAnimated:true completion:^{
+        UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:kHomeViewController];
+        AppDelegate *appDelegate = (AppDelegate *) [UIApplication sharedApplication].delegate;
+        UINavigationController *rootViewController = (UINavigationController *) appDelegate.window.rootViewController;
+        [rootViewController pushViewController:viewController animated:YES];
+    }];
 }
 
-- (void) pushNextViewController {
-    //validate user fields and push next view controller
-    KCUserProfile *userProfile      = [KCUserProfile sharedInstance];
-    
-    NSString *storyboardID = nil;
-    
-    if([NSString validateString:userProfile.facebookProfile.facebookID]) {
-        if([NSString validateString:userProfile.languageID]) {
-            storyboardID = kHomeViewController;
-        }
-        else {
-            storyboardID = selectLangugeViewController;
-        }
-    }
-    else if(![NSString validateString:userProfile.imageURL]) {
-        storyboardID = setProfilePhotoViewController;
-    }
-    else if(![NSString validateString:userProfile.languageID]) {
-        storyboardID = selectLangugeViewController;
-    }
-    
-    if(storyboardID) {
-        UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:storyboardID];
-        if([viewController isKindOfClass:[KCLanguageSelectionViewController class]]) {
-            KCLanguageSelectionViewController *languageSelectionViewController = (KCLanguageSelectionViewController*)viewController;
-            languageSelectionViewController.shouldHideBackButton = YES;
-        }
-        
-        [self.navigationController pushViewController:viewController animated:YES];
-    }
-}
-
-- (void) pushHomeViewController {
-    UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:kHomeViewController];
-    [self.navigationController pushViewController:viewController animated:YES];
-}
-
-- (BOOL) validateTextFields {
-    //all text fields should be validated
+- (BOOL)validateTextFields {
+    // all text fields should be validated
+    _userProfile.emailID  = [self.emailTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    _userProfile.password = self.passwordTextField.text;
     NSString *message;
     //validate user's email address
     message         = [NSString validateEmailAddress:_userProfile.emailID];
@@ -347,62 +230,117 @@
     return YES;
 }
 
-- (void) showValidationAlertWithMessage:(NSString*)message {
+- (void)showValidationAlertWithMessage:(NSString*)message {
     //show pop up on any validation error
-    [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:message withButtonTapHandler:^{
+    [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:message onViewController:self withButtonTapHandler:^{
         
     }];
 }
 
-- (void) setText {
-    self.headerLabel.text  = _appLabel.lblSignIn;
-    [self.loginButton setTitle:[_appLabel.lblSignIn uppercaseString] forState:UIControlStateNormal];
+#pragma mark - Request Completion
+
+- (void)didSignInWithUserInfo:(NSDictionary *)userInfo {
+    // User Signed In successfully. Save user response and go to Home Screen
+    NSDictionary *userProfileResponse = [[userInfo objectForKey:kUserDetails] objectForKey:kAppUsers];
+    KCUserProfile *userProfile = [KCUserProfile sharedInstance];
+    [userProfile getModelFromDictionary:userProfileResponse withType:server];
+    
+    // Save current user in local database
+    __weak KCEmailSignInViewController *weakSelf   = self;
+    KCUserProfileDBManager *userProfileDBManager = [[KCUserProfileDBManager alloc] init];
+    [userProfileDBManager saveCurrentUserWithCompletionHandler:^{
+        [weakSelf pushHomeViewController];
+    }];
+}
+
+#pragma mark - Server End Code
+
+- (void)loginWithUserDetails {
+    if(self.isProcessing) {
+        return;
+    }
+    self.isProcessing = true;
+    //login user with filled details
+    NSDictionary *params = [_userProfile getUserProfileDictionary];
+    __weak KCEmailSignInViewController *weakSelf   = self;
+    [self.activityIndicator startAnimating];
+    [_loginWebManager signInUserWithDetails:params withCompletionHandler:^(NSDictionary *response) {
+        //Sign in successfully
+        weakSelf.isProcessing = false;
+        [weakSelf didSignInWithUserInfo:response];
+        [weakSelf.activityIndicator stopAnimating];
+    } failure:^(NSString *title, NSString *message) {
+        //requet failed with error
+        weakSelf.isProcessing = false;
+        [weakSelf.activityIndicator stopAnimating];
+        [KCUIAlert showInformationAlertWithHeader:title message:message onViewController:self withButtonTapHandler:^{
+            
+        }];
+    }];
 }
 
 
 #pragma mark - Server End Code
 
-- (void) loginWithUserDetails {
-    //login user with filled details
-    if(!_loginWebManager) {
-        _loginWebManager = [[KCLoginWebManager alloc] init];
+- (void)loginWithFacebook {
+    //Login with facebook with completion handler
+    if(!_signUpWebManager) {
+        _signUpWebManager = [KCSignUpWebManager new];
     }
-   
-    NSDictionary *params = [_userProfile getUserProfileDictionary];
-    __weak id weakSelf   = self;
-    [_loginWebManager signInUserWithDetails:params withCompletionHandler:^(NSDictionary *response) {
-        //Sign in successfully
+    __weak id weakSelf = self;
+    NSDictionary *userSocialProfileDictionary = [[KCUserProfile sharedInstance].facebookProfile getSocialUserProfileDictionary];
+    if(DEBUGGING) NSLog(@"loginWithFacebook --> User language ID %@",_userProfile.languageID);
+    [_signUpWebManager signUpWithSocialAccount:userSocialProfileDictionary withCompletionHandler:^(NSDictionary *response) {
+        //Save user profile with social profile in local database
+        if(DEBUGGING) NSLog(@"loginWithFacebook --> Completion Handler --> User language ID %@",_userProfile.languageID);
         KCUserProfileDBManager *userProfileDBManager = [KCUserProfileDBManager new];
-        //Save user  profile
         [userProfileDBManager saveUserWithSocialProfile:response];
-        KCUserProfile *loggedInUserProfile = [KCUserProfile sharedInstance];
-        
-        [weakSelf fetchAppLanguageLabelWithLanguageID:loggedInUserProfile.languageID];
-    } failure:^(NSString *title, NSString *message) {
-        //requet failed with error
-        [KCUIAlert showInformationAlertWithHeader:title message:message withButtonTapHandler:^{
-            
-        }];
-    }];
-}
-
-- (void) fetchAppLanguageLabelWithLanguageID:(NSNumber*)languageID {
-    //fetch app labels from server
-    if(!_appLanguageWebManager) {
-        _appLanguageWebManager = [KCAppLanguageWebManager new];
-    }
-    __weak id weakSelf   = self;
-    [_appLanguageWebManager getAppLabelsForLanguage:languageID withCompletionHandler:^(KCSupportedLanguage *supportedLanguage) {
-        //language labels saved, go to the next screen
         [weakSelf pushHomeViewController];
-    } andFailureBlock:^(NSString *title, NSString *message) {
-        [KCUIAlert showInformationAlertWithHeader:title message:message withButtonTapHandler:^{
-            
-        }];
+        
+    } failure:^(NSString *title, NSString *message, BOOL shouldMerge) {
+        if(shouldMerge) {
+            //Social merge options
+            [KCUIAlert showAlertWithButtonTitle:AppLabel.btnMerge alertHeader:title message:message onViewController:self withButtonTapHandler:^(BOOL positiveButton) {
+                if(positiveButton) {
+                    [self mergeFacebookProfile];
+                }
+            }];
+        }
+        else {
+            //Request failed, show error alert
+            [KCUIAlert showInformationAlertWithHeader:title message:message onViewController:self withButtonTapHandler:^{
+                
+            }];
+        }
+        
     }];
 }
 
-
+- (void)mergeFacebookProfile {
+    //Merge social profile with existing Keychn account
+    if(isNetworkReachable) {
+        NSDictionary *userSocialProfileDictionary = [[KCUserProfile sharedInstance].facebookProfile getSocialUserProfileDictionary];
+        __weak id weakSelf = self;
+        [_signUpWebManager mergeSocialAccount:userSocialProfileDictionary withCompletionHandler:^(NSDictionary *response) {
+            //save user profile with social profile in local database
+            KCUserProfileDBManager *userProfileDBManager = [KCUserProfileDBManager new];
+            [userProfileDBManager saveUserWithSocialProfile:response];
+            [weakSelf pushHomeViewController];
+            
+        } failure:^(NSString *title, NSString *message) {
+            //request failed, show error alert
+            [KCUIAlert showInformationAlertWithHeader:title message:message onViewController:self withButtonTapHandler:^{
+                
+            }];
+        }];
+    }
+    else {
+        //Show alert for no internet connection
+        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable onViewController:self withButtonTapHandler:^{
+            
+        }];
+    }
+}
 
 
 @end

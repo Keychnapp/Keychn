@@ -14,24 +14,22 @@
 - (void)signUpUserWithDetails:(NSDictionary *)userDetailDictionary withCompletionHandler:(void (^)(NSDictionary *response))success failure:(void (^)(NSString *, NSString *))failed {
     //Register a user and notify with success and failure
     KCWebConnection *webConnection = [[KCWebConnection alloc] init];
-    [KCProgressIndicator showProgressIndicatortWithText:AppLabel.activitySigningUp];
     [webConnection sendDataToServerWithAction:emailSignUpAction withParameters:userDetailDictionary success:^(NSDictionary *response) {
         if(DEBUGGING) NSLog(@"signUpUserWithDetails --> Response %@",response);
         BOOL status = [self isFinishedWithError:response];
         if(status) {
-            //Finished with error
+            // Finished with error
             NSDictionary *errorDictionary = [response objectForKey:kErrorDetails];
             NSString *title   = [errorDictionary objectForKey:kTitle];
             NSString *message = [errorDictionary objectForKey:kMessage];
             failed(title,message);
         }
         else {
-            //Finished with no error
+            // Finished with no error
             NSDictionary *userProfileResponse = [response objectForKey:kUserDetails];
             if(DEBUGGING) NSLog(@"User Profile Response after filter %@",userProfileResponse);
             success(userProfileResponse);
         }
-        [KCProgressIndicator hideActivityIndicator];
     } failure:^(NSString *response) {
         [KCProgressIndicator hideActivityIndicator];
         failed(AppLabel.errorTitle,AppLabel.unexpectedErrorMessage);

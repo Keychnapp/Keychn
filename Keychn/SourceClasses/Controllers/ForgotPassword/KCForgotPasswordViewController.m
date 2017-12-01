@@ -13,16 +13,14 @@
     NSInteger _keyboardDisplacementConstant;
     KCForgotPasswordWebManager *_forgotPasswordWebManager;
 }
-@property (weak, nonatomic) IBOutlet UILabel *headerLabel;
+
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UIButton *resetButton;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *containerViewBottomConstraint;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *containerViewTopConstraint;
-@property (weak, nonatomic) IBOutlet UIView *passwordResetConfirmationView;
-@property (weak, nonatomic) IBOutlet UILabel *passwordResetLabel;
-@property (weak, nonatomic) IBOutlet UILabel *passwordSentToEmailLabel;
-@property (weak, nonatomic) IBOutlet UIButton *backButton;
-@property (weak, nonatomic) IBOutlet UIView *lineSeparatorView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (assign, nonatomic) BOOL isProcessing;
 
 @end
 
@@ -32,7 +30,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self customizeUI]; //customize app UI
+    
+    // Get instances
+    _forgotPasswordWebManager = [KCForgotPasswordWebManager new];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,19 +42,12 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if([KCUtility getiOSDeviceType] == iPhone4) {
-        [self registerForKeyboardNotifications]; //register Keyboard Notification
-    }
-    
-    //set texts on views
-    [self setText];
+    [self registerForKeyboardNotifications]; //register Keyboard Notification
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    if([KCUtility getiOSDeviceType] == iPhone4) {
-        [self deregisterForKeyboardNotifications]; //deregister for keyborad notifications
-    }
+    [self deregisterForKeyboardNotifications]; //deregister for keyborad notifications
 }
 
 #pragma mark - Text Field Delegate
@@ -78,55 +71,40 @@
 }
 
 
-- (void) deregisterForKeyboardNotifications {
+- (void)deregisterForKeyboardNotifications {
     //Remove keyboard observers
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
 }
 
-- (void) didKeyboardAppear:(NSNotification*)notification {
-    if([KCUtility getiOSDeviceType] == iPhone4) {
-        _keyboardDisplacementConstant = 40;
-        [self.view layoutIfNeeded];
-        self.containerViewTopConstraint.constant -= _keyboardDisplacementConstant;
-        [UIView animateWithDuration:0.5
-                         animations:^{
-                             [self.view layoutIfNeeded]; // Called on parent view
-                         }];
-    }
+- (void)didKeyboardAppear:(NSNotification*)notification {
+    NSDictionary* info = [notification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     
+    NSInteger bottomSpace      = CGRectGetHeight(self.view.frame) - (CGRectGetMinY(self.containerView.frame) + CGRectGetHeight(self.containerView.frame));
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height-bottomSpace, 0.0);
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
 }
 
-- (void) didKeyboardDisappear:(NSNotification*)notification {
-    if([KCUtility getiOSDeviceType] == iPhone4) {
-        [self.view layoutIfNeeded];
-        self.containerViewTopConstraint.constant += _keyboardDisplacementConstant;
-        [UIView animateWithDuration:0.5
-                         animations:^{
-                             [self.view layoutIfNeeded]; // Called on parent view
-                         }];
-    }
+- (void)didKeyboardDisappear:(NSNotification*)notification {
+    self.scrollView.contentInset          = UIEdgeInsetsZero;
+    self.scrollView.scrollIndicatorInsets = UIEdgeInsetsZero;
 }
 
 #pragma mark - Button Action
 
 - (IBAction)resetButtonTapped:(UIButton*)sender {
-    if(sender.isSelected) {
-        //pop view controller
-        [self.navigationController popViewControllerAnimated:YES];
-    }
-    else {
-        //request reset password
-        if([self validateTextFields]) {
-            if(isNetworkReachable) {
-                [self requestResetPassword];
-            }
-            else {
-                //internet connection nov availanle
-                [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^{
-                    
-                }];
-            }
+    //request reset password
+    if([self validateTextFields]) {
+        if(isNetworkReachable) {
+            [self requestResetPassword];
+        }
+        else {
+            //internet connection not availanle
+            [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable onViewController:self withButtonTapHandler:^{
+                
+            }];
         }
     }
     [self.emailTextField resignFirstResponder];
@@ -141,47 +119,13 @@
 
 #pragma mark - Instance Methods
 
-- (void) customizeUI {
-    //customize app UI
-    self.headerLabel.font  = [UIFont setRobotoFontRegularStyleWithSize:17];
-    [self.emailTextField setValue:[UIColor placeholderColorEmailSignUp]
-                       forKeyPath:@"_placeholderLabel.textColor"];
-    self.emailTextField.font = [UIFont setRobotoFontRegularStyleWithSize:14];
-    self.resetButton.titleLabel.font = [UIFont setRobotoFontBoldStyleWithSize:14];
-    
-    self.passwordResetLabel.font            = [UIFont setRobotoFontRegularStyleWithSize:12];
-    self.passwordSentToEmailLabel.font      = [UIFont setRobotoFontRegularStyleWithSize:12];
-    self.passwordResetLabel.textColor       = [UIColor blackColorwithLightOpacity];
-    self.passwordSentToEmailLabel.textColor = [UIColor blackColorwithLightOpacity];
-    self.lineSeparatorView.backgroundColor  = [UIColor separatorLineColor];
-    
-    //add a background layer
-    CALayer *border = [CALayer layer];
-    CGFloat borderWidth = 1;
-    border.borderColor = [UIColor textFieldSeparatorColorEmailSignUp].CGColor;
-    border.frame = CGRectMake(0, 29, 238, 30);
-    border.borderWidth = borderWidth;
-    [self.emailTextField.layer addSublayer:border];
-    self.emailTextField.layer.masksToBounds = YES;
-}
-
-- (void) setText {
-    //set text on buttons and labels and placeholders on text field
-    self.headerLabel.text                   = AppLabel.lblForgotPassword;
-    self.emailTextField.placeholder         = AppLabel.placeholderEmail;
-    self.passwordResetLabel.text            = AppLabel.lblPasswordReset;
-    self.passwordSentToEmailLabel.text      = AppLabel.lblPasswordSentToEmail;
-    [self.resetButton setTitle:AppLabel.btnReset forState:UIControlStateNormal];
-    [self.resetButton setTitle:[AppLabel.btnOk uppercaseString] forState:UIControlStateSelected];
-}
-
-- (BOOL) validateTextFields {
+- (BOOL)validateTextFields {
     //all text fields should be validated
     NSString *message;
     //validate user's email address
     message         = [NSString validateEmailAddress:self.emailTextField.text];
     if(message) {
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:message withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:message onViewController:self withButtonTapHandler:^{
             
         }];
         return NO;
@@ -189,33 +133,40 @@
     return YES;
 }
 
-- (void) showPasswordResetViewWithAnimation {
-    //show password reset confirmation with animation
-    self.emailTextField.hidden                = YES;
-    self.passwordResetConfirmationView.alpha  = 0;
-    self.passwordResetConfirmationView.hidden = NO;
-    [self.resetButton setTitle:[AppLabel.btnOk uppercaseString] forState:UIControlStateNormal];
-    self.backButton.hidden                    = YES;
-    self.resetButton.selected   = YES; //change button state to change behavior
-    [UIView transitionWithView:self.passwordResetConfirmationView duration:1.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.passwordResetConfirmationView.alpha = 1;
-    } completion:^(BOOL finished) {
-        
+#pragma mark - Request Completion
+
+- (void)didResetPasswordSuccessfully {
+    // Show alert to the user
+    __weak KCForgotPasswordViewController *weakSelf = self;
+    [KCUIAlert showInformationAlertWithHeader:@"Password Reset" message:@"Please check your inbox for a temporary password. We recommend to change it at your earliest." onViewController:self withButtonTapHandler:^{
+        [weakSelf dismissViewControllerAnimated:YES completion:^{
+            
+        }];
     }];
 }
+
 
 #pragma mark - Server End Code
 
 - (void) requestResetPassword {
     //request a new password for the entered email id
-    if(!_forgotPasswordWebManager) {
-        _forgotPasswordWebManager = [KCForgotPasswordWebManager new];
+    if(self.isProcessing) {
+        return;
+        
     }
+    self.isProcessing = true;
+    __weak KCForgotPasswordViewController *weakSelf = self;
     NSDictionary *params = @{kEmailID: self.emailTextField.text};
+    [self.activityIndicator startAnimating];
     [_forgotPasswordWebManager requestNewPasswordWithDetails:params withCompletionHandler:^(NSDictionary *userProfile) {
-        [self performSelector:@selector(showPasswordResetViewWithAnimation) withObject:nil afterDelay:0.5f];
+        // Password reset successfully
+        [weakSelf didResetPasswordSuccessfully];
+        [weakSelf.activityIndicator stopAnimating];
+        weakSelf.isProcessing = false;
     } failure:^(NSString *title, NSString *message) {
-       [KCUIAlert showInformationAlertWithHeader:title message:message withButtonTapHandler:^{
+        [weakSelf.activityIndicator stopAnimating];
+        weakSelf.isProcessing = false;
+       [KCUIAlert showInformationAlertWithHeader:title message:message onViewController:weakSelf withButtonTapHandler:^{
            
        }];
     }];

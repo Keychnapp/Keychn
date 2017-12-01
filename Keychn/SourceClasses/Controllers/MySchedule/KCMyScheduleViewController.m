@@ -84,8 +84,6 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    //Set text
-    [self setText];
     
     //add a calendar view
     [self addCalendar];
@@ -280,13 +278,6 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
     
     // Adjust font for width and line indent
     self.noInteractionLabel.adjustsFontSizeToFitWidth                = YES;
-}
-
-- (void)setText {
-    //Set text on button and labels
-    self.currentMonthLabel.text        = [NSDate getCurrentMonthAndYear];
-    self.addMasterclassLabel.text      = AppLabel.lblAddMasterclasses;
-    self.noInteractionLabel.text       = AppLabel.lblNoMasterclassesAdded;
 }
 
 #pragma mark - Button Action 

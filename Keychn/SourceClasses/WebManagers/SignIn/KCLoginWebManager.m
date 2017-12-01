@@ -14,10 +14,8 @@
 - (void)signInUserWithDetails:(NSDictionary *)userDetailDictionary withCompletionHandler:(void (^)(NSDictionary *response))success failure:(void (^)(NSString *, NSString *))failed {
     //Login a user and notify with success and failure
     KCWebConnection *webConnection = [[KCWebConnection alloc] init];
-    [KCProgressIndicator showProgressIndicatortWithText:AppLabel.activitySigningIn];
     [webConnection sendDataToServerWithAction:userLoginAction withParameters:userDetailDictionary success:^(NSDictionary *response) {
         if(DEBUGGING) NSLog(@"signInUserWithDetails --> Response %@",response);
-        [KCProgressIndicator hideActivityIndicator];
         BOOL status = [self isFinishedWithError:response];
         if(status) {
             //finished with error
@@ -43,7 +41,7 @@
     }];
 }
 
-- (BOOL) isFinishedWithError:(NSDictionary*)responseDictionary {
+- (BOOL)isFinishedWithError:(NSDictionary*)responseDictionary {
     //verify that the server returns some error
     if(responseDictionary) {
         NSString *status = [responseDictionary objectForKey:kStatus];

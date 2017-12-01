@@ -106,9 +106,6 @@
     // Valdiate User Subscription
     [self validateUserSubscription];
     
-    // Set text on lables and buttons
-    [self setText];
-    
     // Set image if it is selected curretnly
     if(_userProfile.selectedImage) {
         self.userProfileImageView.image = _userProfile.selectedImage;
@@ -306,43 +303,6 @@
         self.noFavoriteRecipeTopSpaceConstraint.priority        = 900;
         self.favoriteRecipeTopSpaceConstraint.priority          = 900;
         self.itemCollectionViewTopSpaceConstraint.priority      = 900;
-    }
-}
-
-- (void)setText {
-    // Set text on buttons and labels
-    self.usernameLabel.text       = _userProfile.username;
-    if([NSString validateString:_userProfile.location]) {
-        self.userLocationLabel.text   = _userProfile.location;
-        self.userLocationLabel.hidden = NO;
-    }
-    else {
-        self.userLocationLabel.hidden = YES;
-    }
-    
-    [self.subscribeButton setTitle:[AppLabel.lblSubscribe uppercaseString] forState:UIControlStateNormal];
-    self.subscribeButton.titleLabel.font = [UIFont setRobotoFontBoldStyleWithSize:15];
-    self.subscribeButton.layer.cornerRadius = 5.0f;
-    self.subscribeButton.layer.masksToBounds = YES;
-    
-    self.getTrialLabel.text         = [AppLabel.lblGetTrial uppercaseString];
-    self.cancelAnyTimeLabel.text    = AppLabel.lblCancelAnytime;
-    self.goToRecipTabLabel.text     = AppLabel.lblAddFavoriteRecipe;
-
-    NSMutableAttributedString *yourFavoriteRecipe = [[NSMutableAttributedString alloc] initWithString:[AppLabel.lblYour capitalizedString] attributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName:[UIFont setRobotoFontBoldStyleWithSize:15]}];
-    NSAttributedString *favorite = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:[AppLabel.lblFavoriteRecipe capitalizedString]] attributes:@{NSForegroundColorAttributeName:[UIColor appBackgroundColor], NSFontAttributeName:[UIFont setRobotoFontBoldStyleWithSize:15]}];
-    NSAttributedString *recipe = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:AppLabel.btnRecipesTab] attributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName:[UIFont setRobotoFontBoldStyleWithSize:15]}];
-    [yourFavoriteRecipe appendAttributedString:favorite];
-    [yourFavoriteRecipe appendAttributedString:recipe];
-    self.yourFavoriteRecipeLabel.attributedText = yourFavoriteRecipe;
-    
-    // Set TabBar Text
-    NSArray *itemsTitles = @[AppLabel.lblMasterClass, AppLabel.btnRecipesTab, AppLabel.lblCalendar, AppLabel.btnProfileTab];
-    NSArray *tabBarItems = self.tabBarController.tabBar.items;
-    NSInteger count = tabBarItems.count;
-    for (NSInteger i=0; i<count; i++) {
-        UITabBarItem *item = [tabBarItems objectAtIndex:i];
-        item.title         = [itemsTitles objectAtIndex:i];
     }
 }
 

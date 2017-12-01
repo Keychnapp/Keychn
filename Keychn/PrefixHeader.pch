@@ -32,6 +32,7 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "KCPlaceholderImage.h"
 #import "Mixpanel/Mixpanel.h"
+#import "AppDelegate.h"
 
 
 #define AppLabel       [KCAppLabel sharedInstance]
