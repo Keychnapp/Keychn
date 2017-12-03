@@ -8,19 +8,13 @@
 
 #import "KCAutoLoginManager.h"
 #import "KCUserProfileDBManager.h"
-#import "KCLanguageSelectionViewController.h"
-#import "KCAppLabelDBManager.h"
-#import "KCAppLanguageWebManager.h"
 #import "AppDelegate.h"
 #import "KCFileManager.h"
 #import "KCDatabaseOperation.h"
-#import "KCAppLanguageWebManager.h"
+
 
 @interface KCAutoLoginManager () {
-    KCAppLanguageWebManager *_appLabelWebManger;
-    KCAppLabelDBManager     *_appLabelDBManager;
     KCUserProfile           *_userProfile;
-    KCAppLanguageWebManager *_appLanguageManager;
 }
 
 @end
@@ -52,20 +46,8 @@
         
         // Restore database
         [self restoreWithTableData:backupDictionary];
-        
-        // Go for language update only if user has logged in. Else it will be updated when user logs in.
-        if(_userProfile.userID.integerValue > 0) {
-            _appLanguageManager = [KCAppLanguageWebManager new];
-            [_appLanguageManager getAppLabelsForLanguage:_userProfile.languageID withCompletionHandler:^(KCSupportedLanguage *supportedLanguage) {
-                
-            } andFailureBlock:^(NSString *title, NSString *message) {
-                
-            }];
-        }
     }
     
-    // Get app language
-    [self getAppLanguage];
     [self pushNextViewController];
     
 }
@@ -86,10 +68,6 @@
     UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     UIViewController *viewController = [mainStoryBoard instantiateViewControllerWithIdentifier:storyboardID];
-    if([viewController isKindOfClass:[KCLanguageSelectionViewController class]]) {
-        KCLanguageSelectionViewController *languageSelectionViewController = (KCLanguageSelectionViewController*)viewController;
-        languageSelectionViewController.shouldHideBackButton = YES;
-    }
     UINavigationController *appNavigationController = [mainStoryBoard instantiateViewControllerWithIdentifier:rootViewController];
     
     AppDelegate *appDelegate = (AppDelegate*) [UIApplication sharedApplication].delegate;
@@ -125,7 +103,7 @@
     }
 }
 
-- (NSString*) getAppVersion {
+- (NSString*)getAppVersion {
     //Detect software version
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *majorVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
@@ -136,26 +114,15 @@
     return versionNumber;
 }
 
-- (NSString*) getSavedAppVersion {
+- (NSString*)getSavedAppVersion {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSString  *appVersion = [standardUserDefaults objectForKey:kAppVersionNumber];
     return appVersion;
 }
 
-- (void) saveNewVersion:(NSString*)version {
+- (void)saveNewVersion:(NSString*)version {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     [standardUserDefaults setObject:version forKey:kAppVersionNumber];
-}
-
-#pragma mark - App Language Methods
-
-- (void) getAppLanguage {
-    //get default app language
-    _appLabelDBManager = [KCAppLabelDBManager new];
-    defaultLanguage    = [_appLabelDBManager getDefaultLanguage];
-    
-    //get all app lables from local database
-    [_appLabelDBManager getAppLabelWithLanguaeID:defaultLanguage];
 }
 
 #pragma mark - Backup and Restore

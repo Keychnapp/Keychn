@@ -36,14 +36,14 @@
     self.actionPerformed                = buttonTapped;
     switch (type) {
         case CookingNow:
-            self.titleLabel.text                = AppLabel.lblAreYouGonnaCookNow;
+            self.titleLabel.text                = @"";//AppLabel.lblAreYouGonnaCookNow;
             break;
         case CookingLater:
-            self.titleLabel.text                = AppLabel.lblAreYouSureWantToJoin;
+            self.titleLabel.text                = @""; // AppLabel.lblAreYouSureWantToJoin;
             break;
     }
     
-    self.subtitleLabel.text             = AppLabel.lblCookingSession;
+    self.subtitleLabel.text             = @""; // AppLabel.lblCookingSession;
     self.transform                      = CGAffineTransformMakeScale(0.001, 0.001);
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.transform = CGAffineTransformIdentity;
@@ -59,8 +59,8 @@
     self.itemNameLabel.text             = itemName;
     self.actionPerformed                = buttonTapped;
     self.dateTimeLabel.text             = nil;
-    self.titleLabel.text                = AppLabel.lblAreYouGonnaCookNow;
-    self.subtitleLabel.text             = AppLabel.lblCookingSession;
+    self.titleLabel.text                = @""; // AppLabel.lblAreYouGonnaCookNow;
+    self.subtitleLabel.text             = @""; // AppLabel.lblCookingSession;
     self.transform                      = CGAffineTransformMakeScale(0.001, 0.001);
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.transform = CGAffineTransformIdentity;

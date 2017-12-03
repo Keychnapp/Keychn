@@ -23,7 +23,6 @@
     self.userID         = [response objectForKey:kUserID];
     self.eventID        = [response objectForKey:kEventId];
     if([self.scheduleType isEqualToString:kFreeRideSchedule] || [self.scheduleType isEqualToString:kFreeRideNowSchedule]) {
-        self.itemName = AppLabel.lblFreeRide;
         if([KCUtility getiOSDeviceType] == iPad) {
             self.imageURL       = [response objectForKey:kFreeRideImageiPad];
         }

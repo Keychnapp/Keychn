@@ -127,12 +127,12 @@
     if(self.groupSession.chefName) {
         __weak id weakSelf = self;
         UIAlertController *alert =   [UIAlertController
-                                      alertControllerWithTitle:AppLabel.lblShareWith
+                                      alertControllerWithTitle:NSLocalizedString(@"shareWith", nil)
                                       message:nil
                                       preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction *facebookAction = [UIAlertAction
-                                         actionWithTitle:AppLabel.btnFacebook
+                                         actionWithTitle:NSLocalizedString(@"Facebook", nil)
                                          style:UIAlertActionStyleDefault
                                          handler:^(UIAlertAction * action)
                                          {
@@ -141,7 +141,7 @@
                                              
                                          }];
         UIAlertAction *twitterAction = [UIAlertAction
-                                        actionWithTitle:AppLabel.btnTwitter
+                                        actionWithTitle:NSLocalizedString(@"Twitter", nil)
                                         style:UIAlertActionStyleDefault
                                         handler:^(UIAlertAction * action)
                                         {
@@ -151,7 +151,7 @@
                                         }];
         
         UIAlertAction *cancelAction = [UIAlertAction
-                                       actionWithTitle:AppLabel.btnCancel
+                                       actionWithTitle:NSLocalizedString(@"cancel", nil)
                                        style:UIAlertActionStyleDestructive
                                        handler:^(UIAlertAction * action)
                                        {
@@ -229,7 +229,7 @@
     if(DEBUGGING) NSLog(@"Scheduled Time Interval and Current %f Time Inteval %f",timeInterval,currentTimeInterval);
     __weak KCMasterClassViewController *weakSelf = self;
     if(timeInterval <= currentTimeInterval) {
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.masterClassBookingSlotExpired withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"sorryStarcook", nil) message:NSLocalizedString(@"masterclassSessionExpired", nil) withButtonTapHandler:^{
             [weakSelf.navigationController popViewControllerAnimated:YES];
         }];
         return NO;
@@ -242,20 +242,6 @@
     UISwipeGestureRecognizer *swipeGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(rightSwipeGesurePerformed:)];
     swipeGesture.direction                 = UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:swipeGesture];
-}
-
-- (BOOL)validateKeychnPoints {
-    // Validate that use has sufficient credits for buying a spot in MasterClass
-    if([_userProfile.credits integerValue] < [_groupSession.amount integerValue]) {
-        [KCUIAlert showAlertWithButtonTitle:AppLabel.btnBuyNow alertHeader:AppLabel.errorTitle message:AppLabel.donotHaveSufficientCredit withButtonTapHandler:^(BOOL positiveButton) {
-            if(positiveButton) {
-                // Goto MyPreferences for In-App purchase
-                [self gotoMyPreferencesScreen];
-            }
-        }];
-        return NO;
-    }
-    return YES;
 }
 
 - (void)shareMasterClassOnFacebook {
@@ -316,7 +302,7 @@
 - (void)setMasterclassPurchaseStatus:(BOOL)hasPurhcased {
     if(hasPurhcased) {
         self.attendButton.userInteractionEnabled = NO;
-        [self.attendButton setTitle:[AppLabel.lblAttending uppercaseString] forState:UIControlStateNormal];
+        [self.attendButton setTitle:[NSLocalizedString(@"attending", nil) uppercaseString] forState:UIControlStateNormal];
         [self.attendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.attendButton setBackgroundColor:[UIColor appGreenColor]];
         self.attendCheckmarkImageView.hidden = NO;
@@ -325,12 +311,12 @@
         // Check if the Masterclass is Full
         if(self.isFullCapacity) {
             self.attendButton.userInteractionEnabled = NO;
-            [self.attendButton setTitle:[AppLabel.lblFullCapacity uppercaseString] forState:UIControlStateNormal];
+            [self.attendButton setTitle:[NSLocalizedString(@"fullCapacity", nil) uppercaseString] forState:UIControlStateNormal];
             [self.attendButton setBackgroundColor:[UIColor masterclasFullButtonColor]];
         }
         else {
             self.attendButton.userInteractionEnabled = YES;
-            [self.attendButton setTitle:[AppLabel.lblAttend uppercaseString] forState:UIControlStateNormal];
+            [self.attendButton setTitle:[NSLocalizedString(@"attend", nil) uppercaseString] forState:UIControlStateNormal];
             [self.attendButton setBackgroundColor:[UIColor appBackgroundColor]];
         }
         self.attendCheckmarkImageView.hidden     = YES;
@@ -396,7 +382,7 @@
         }];
     }
     else {
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) withButtonTapHandler:^{
             
         }];
     }
@@ -405,13 +391,13 @@
 - (void)buyMasterClassSpot {
     // Buy a spot for MasterClass
     if(isNetworkReachable) {
-        [KCProgressIndicator showProgressIndicatortWithText:AppLabel.activityRequestingAMasterClassSpot];
+        [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"bookASlot", nil)];
         NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kMasterClassID:self.masterClassID};
         __weak KCMasterClassViewController *weakSelf = self;
         [_groupSessionManager buyMasterClassSpotWithParameter:params withCompletionHandler:^(NSString *title, NSString *message) {
             // Request completed with success
             [KCProgressIndicator hideActivityIndicator];
-            [KCUIAlert showInformationAlertWithHeader:AppLabel.alertTitleCongratulations message:AppLabel.alertMessageGetReadyWithTheFork withButtonTapHandler:^{
+            [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"congrats", nil) message:NSLocalizedString(@"beReadyForMasterclass", nil) withButtonTapHandler:^{
                 
             }];
             
@@ -434,7 +420,7 @@
         
     }
     else {
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) withButtonTapHandler:^{
             
         }];
     }

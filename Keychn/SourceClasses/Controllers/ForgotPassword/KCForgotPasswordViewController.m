@@ -102,7 +102,7 @@
         }
         else {
             //internet connection not availanle
-            [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable onViewController:self withButtonTapHandler:^{
+            [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) onViewController:self withButtonTapHandler:^{
                 
             }];
         }
@@ -125,7 +125,7 @@
     //validate user's email address
     message         = [NSString validateEmailAddress:self.emailTextField.text];
     if(message) {
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:message onViewController:self withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:nil message:message onViewController:self withButtonTapHandler:^{
             
         }];
         return NO;

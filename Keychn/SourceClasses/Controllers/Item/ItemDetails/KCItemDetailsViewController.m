@@ -92,10 +92,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    //Set text on buttons and labels
-    [self setText];
-    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -248,7 +244,7 @@
                 [recipeStepTableCell.recipeStepImageDownloadActivityIndicator stopAnimating];
             }];
             recipeStepTableCell.stepPositionLabel.font = [UIFont setRobotoFontItalicStyleWithSize:14];
-            recipeStepTableCell.stepPositionLabel.text = [NSString stringWithFormat:@"%@ %@",AppLabel.lblStep,recipeStep.stepPosition];
+            recipeStepTableCell.stepPositionLabel.text = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"step", nil), recipeStep.stepPosition];
             
             //Adjust label height
             NSInteger labelHeight = [[_recipeRowHeightArray objectAtIndex:effectivePosition] integerValue];
@@ -377,12 +373,6 @@
 - (void) customizeItemDetailCell:(KCItemDetailTableViewCell*)itemDetailTableCell {
     //Customize Item Detail Table Cell
     
-    //Set pre text on labels
-    itemDetailTableCell.yummliciousLabel.text       = AppLabel.lblYummylicious;
-    itemDetailTableCell.minutesTextLabel.text       = AppLabel.lblMinutes;
-    itemDetailTableCell.difficultyLabel.text        = AppLabel.lblDifficulty;
-    itemDetailTableCell.servingsLabel.text          = AppLabel.lblServings;
-    
     itemDetailTableCell.minutesTextLabel.adjustsFontSizeToFitWidth  = YES;
     itemDetailTableCell.difficultyLabel.adjustsFontSizeToFitWidth   = YES;
     itemDetailTableCell.servingsLabel.adjustsFontSizeToFitWidth     = YES;
@@ -432,7 +422,6 @@
 
 - (void) customizeItemIngredientCountCell:(KCitemIngredientCountTableViewCell*)ingrdientCountTableCell {
     //Customize Item Ingredient Count Table Cell
-    ingrdientCountTableCell.ingredientAvailabelLabel.text = AppLabel.lblTotalIngredientsAvailable;
     ingrdientCountTableCell.ingredientAvailabelLabel.font = [UIFont setRobotoFontRegularStyleWithSize:14];
     ingrdientCountTableCell.ingredientAvailableCount.font = [UIFont setRobotoFontRegularStyleWithSize:14];
     ingrdientCountTableCell.ingredientAvailabelLabel.textColor = [UIColor darkGrayColor];
@@ -509,10 +498,6 @@
     }
 }
 
-- (void) setText {
-    [self.scheduleForLaterButton setTitle:AppLabel.btnScheduleForLater forState:UIControlStateNormal];
-    [self.startCookingButton setTitle:AppLabel.btnScheduleNow forState:UIControlStateNormal];
-}
 
 - (void)reloadDataWithResponse:(NSDictionary*)response {
     //Reload table data with server response
@@ -634,7 +619,7 @@
     else {
         //Show internet not available alert
         isAlertOpen = YES;
-        [KCUIAlert showAlertWithButtonTitle:AppLabel.btnRetry alertHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^(BOOL positiveButton){
+        [KCUIAlert showAlertWithButtonTitle:NSLocalizedString(@"retry", nil) alertHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) withButtonTapHandler:^(BOOL positiveButton){
             isAlertOpen = NO;
             if(positiveButton) {
                 [weakSelf fetchItemDetails];
@@ -667,7 +652,7 @@
     }
     else {
         //Show internet not available alert
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) withButtonTapHandler:^{
             
         }];
     }

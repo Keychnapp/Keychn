@@ -149,7 +149,7 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     if(shouldContract) {
         self.questionTurnContainerViewWidthConstraint.constant = 100;
         self.questionTurnWidthConstraintiPad.constant          = 148;
-        self.waitingCounterLabel.text   = AppLabel.lblWaitForYourTurn;
+        self.waitingCounterLabel.text   = NSLocalizedString(@"waitForYourTurn", nil);
         self.waitingCounterLabel.hidden = YES;
         self.haveAQuestionLabel.hidden  = YES;
     }
@@ -222,7 +222,7 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
 - (void)autheticateTwilioSDKWithToken:(NSString *)token {
     // Autheticate Twilio Token
     __weak id weakSelf = self;
-    [KCProgressIndicator showProgressIndicatortWithText:AppLabel.activityOpenCamera];
+    [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"openingCamera", nil)];
     [_videoCallManager autheticateClientWithToken:token hasAutheticated:^(BOOL status) {
         if(status) {
             // Open user preview using front camera
@@ -297,12 +297,12 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     if([liveQueueArray isKindOfClass:[NSArray class]] && [liveQueueArray count] > 0 && [liveQueueArray containsObject:_loginUsername]) {
        NSInteger myPosition    = [liveQueueArray indexOfObject:_loginUsername];
         if(myPosition == 0) {
-            self.waitingCounterLabel.text = AppLabel.lblSpeakNow;
+            self.waitingCounterLabel.text = NSLocalizedString(@"speakNow", nil);
             [self unmuteUserVoice];
             [self performSelector:@selector(muteUserVoice) withObject:nil afterDelay:kAllotedTimeForUser];
         }
         else {
-            self.waitingCounterLabel.text = [NSString stringWithFormat:@"%@ %@", [NSNumber numberWithInteger:myPosition],AppLabel.moreUserForYourTurn];
+            self.waitingCounterLabel.text = [NSString stringWithFormat:@"%@ %@", [NSNumber numberWithInteger:myPosition], NSLocalizedString(@"moreUsersBeforeYourTurn", nil)];
         }
         [self expandContractQuestionTurnBoxWithStatus:NO];
     }

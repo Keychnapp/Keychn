@@ -78,9 +78,6 @@ typedef NS_ENUM(NSUInteger, ChangePassword) {
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    // Set text on views
-    [self setText];
-    
     // Register for keyboard notifications
     [self registerForKeyboardNotifications];
 }
@@ -118,15 +115,15 @@ typedef NS_ENUM(NSUInteger, ChangePassword) {
                                                 forKeyPath:@"_placeholderLabel.textColor"];
     switch (indexPath.row) {
         case oldPassword:
-            changePasswordCell.passwordTextField.placeholder = [AppLabel.placeHolderOldPassword uppercaseString];
+            changePasswordCell.passwordTextField.placeholder = [NSLocalizedString(@"oldPassword", nil) uppercaseString];
             changePasswordCell.passwordTextField.text        = _updatePassword.oldPassword;
             break;
         case newPassword:
-            changePasswordCell.passwordTextField.placeholder = [AppLabel.placeHolderNewPassword uppercaseString];
+            changePasswordCell.passwordTextField.placeholder = [NSLocalizedString(@"newPassword", nil) uppercaseString];
             changePasswordCell.passwordTextField.text        = _updatePassword.newlyPassword;
             break;
         case confirmPassword:
-            changePasswordCell.passwordTextField.placeholder = [AppLabel.placeHolderConfirmNewPassword uppercaseString];
+            changePasswordCell.passwordTextField.placeholder = [NSLocalizedString(@"confirmNewPassword", nil) uppercaseString];
             // Set keyboard return key to "Done" for last text field
             changePasswordCell.passwordTextField.returnKeyType = UIReturnKeyDone;
             changePasswordCell.passwordTextField.text        = _updatePassword.confirmNewPassword;
@@ -232,12 +229,6 @@ typedef NS_ENUM(NSUInteger, ChangePassword) {
     self.seperatorView.backgroundColor          = [UIColor separatorLineColor];
 }
 
-- (void)setText {
-    // Set text on buttons and labels
-    self.changePasswordLabel.text       = AppLabel.lblChagePassword;
-    [self.changePasswordButton setTitle:[AppLabel.lblChagePassword uppercaseString] forState:UIControlStateNormal];
-}
-
 - (BOOL) validateTextFields {
     //all text fields should be validated
     NSString *message;
@@ -255,26 +246,12 @@ typedef NS_ENUM(NSUInteger, ChangePassword) {
         return NO;
     }
     
-    //validate password
-    message         = [NSString validateConfirmPassword:_updatePassword.confirmNewPassword];
-    if(message) {
-        [self showValidationAlertWithMessage:message];
-        return NO;
-    }
-    
-    // Match both password
-    message         = [NSString matchPasswords:_updatePassword.newlyPassword andConfirmPassword:_updatePassword.confirmNewPassword];
-    if(message) {
-        [self showValidationAlertWithMessage:message];
-        return NO;
-    }
-    
     return YES;
 }
 
 - (void) showValidationAlertWithMessage:(NSString*)message {
     //show pop up on any validation error
-    [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:message withButtonTapHandler:^{
+    [KCUIAlert showInformationAlertWithHeader:nil message:message withButtonTapHandler:^{
         
     }];
 }
@@ -287,7 +264,7 @@ typedef NS_ENUM(NSUInteger, ChangePassword) {
         // Request to update password on server
         NSDictionary *parameters = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kPassword:_updatePassword.newlyPassword, kCurrentPassword:_updatePassword.oldPassword};
         __weak KCChangePasswordViewController *weakSelf = self;
-        [KCProgressIndicator showProgressIndicatortWithText:AppLabel.activityUpdatingPassword];
+        [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"updatingPassword", nil)];
         [_updateProfileManager updateUserPasswordWithParameters:parameters withCompletionHandler:^(NSString *title, NSString *message) {
             [KCProgressIndicator hideActivityIndicator];
             [KCUIAlert showInformationAlertWithHeader:title message:message withButtonTapHandler:^{
@@ -304,7 +281,7 @@ typedef NS_ENUM(NSUInteger, ChangePassword) {
     }
     else {
         // Show alert for no internet connectivity
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) withButtonTapHandler:^{
             
         }];
     }

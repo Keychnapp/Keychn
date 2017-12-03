@@ -12,7 +12,6 @@
 #import "KCUserScheduleDBManager.h"
 #import "KCGroupSession.h"
 #import "KCMasterClassViewController.h"
-#import "KCBottomBar.h"
 #import "KCGroupSessionWebManager.h"
 #import "IAPSubscription.h"
 #import "KCSubscription.h"
@@ -27,7 +26,6 @@
     IOSDevices _currentDevice;
     KCUserScheduleWebManager *_userScheduleWebManager;
     KCUserProfile            *_userProfile;
-    KCBottomBar              *_bottomBar;
     NSString                 *_searchKeyword;
     KCGroupSessionWebManager    *_groupSessionManager;
     IAPSubscription         *_iapSubscription;
@@ -91,8 +89,6 @@
     }
     _fontSize                        = [self fontSizeForMasterChefName];
     
-//    [self addBottomBar];
-    
     // Request for iCalendar permission
     EventStore *store = [EventStore new];
     [store askPermissionForEvent];
@@ -153,13 +149,13 @@
             if(masterClass.sessionID.integerValue == _masterClassToJoin.scheduleID.integerValue) {
                 masterClassTableCell.attendButton.enabled  = YES;
                 masterClassTableCell.attendButton.selected = YES;
-                [masterClassTableCell.attendButton setTitle:[@"Start Cooking" uppercaseString] forState:UIControlStateSelected];
+                [masterClassTableCell.attendButton setTitle:[NSLocalizedString(@"startCooking", nil) uppercaseString] forState:UIControlStateSelected];
             }
             else {
                 // Scheduled and Subscribed Masterclass. Will be activated when the prior to 2 minutes of scheduled date and time
                 masterClassTableCell.attendButton.enabled = NO;
                 masterClassTableCell.attendButton.selected = NO;
-                [masterClassTableCell.attendButton setTitle:[@"Attending" uppercaseString] forState:UIControlStateNormal];
+                [masterClassTableCell.attendButton setTitle:[NSLocalizedString(@"attending", nil) uppercaseString] forState:UIControlStateNormal];
             }
             [masterClassTableCell.attendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [masterClassTableCell.attendButton setBackgroundColor:[UIColor appGreenColor]];
@@ -172,13 +168,13 @@
             if(masterClass.isFullCapacity) {
                 // Disable Attend Button
                 masterClassTableCell.attendButton.enabled = NO;
-                [masterClassTableCell.attendButton setTitle:[@"Full Capacity" uppercaseString] forState:UIControlStateNormal];
+                [masterClassTableCell.attendButton setTitle:[NSLocalizedString(@"fullCapacity", nil) uppercaseString] forState:UIControlStateNormal];
                 [masterClassTableCell.attendButton setBackgroundColor:[UIColor masterclasFullButtonColor]];
             }
             else {
                 // Let user request to join
                 masterClassTableCell.attendButton.enabled = YES;
-                [masterClassTableCell.attendButton setTitle:[@"Attend" uppercaseString] forState:UIControlStateNormal];
+                [masterClassTableCell.attendButton setTitle:[NSLocalizedString(@"attend", nil) uppercaseString] forState:UIControlStateNormal];
                 [masterClassTableCell.attendButton setBackgroundColor:[UIColor appBackgroundColor]];
             }
              [masterClassTableCell.attendButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -292,15 +288,6 @@
     [self.masterclassListTableView reloadData];
     _searchKeyword = nil;
     self.searchMasterclassTextField.text = nil;
-}
-
-#pragma mark - Customize UI
-
-- (void)addBottomBar {
-    // Get instance and show on window
-    _bottomBar      = [KCBottomBar bottomBar];
-    [_bottomBar customizeUIWithFrame:CGRectMake(0, CGRectGetHeight(self.view.frame)-52, CGRectGetWidth(self.view.frame), 52)];
-    [self.navigationController.view addSubview:_bottomBar];
 }
 
 #pragma mark - Utility 
@@ -503,7 +490,7 @@
         }
         else {
             [KCProgressIndicator hideActivityIndicator];
-            [KCUIAlert showAlertWithButtonTitle:AppLabel.btnRetry alertHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^(BOOL positiveButton) {
+            [KCUIAlert showAlertWithButtonTitle:NSLocalizedString(@"retry", nil) alertHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) withButtonTapHandler:^(BOOL positiveButton) {
                 if(positiveButton) {
                     // Retry if user says
                     [weakSelf requestMasterClass];
@@ -522,13 +509,13 @@
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         [mixpanel track:@"masterclass_list_attend_button"
              properties:@{@"masterclass_id":groupSession.sessionID, @"chef_name":groupSession.chefName}];
-        [KCProgressIndicator showProgressIndicatortWithText:AppLabel.activityRequestingAMasterClassSpot];
+        [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"bookASlot", nil)];
         NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kMasterClassID:groupSession.sessionID};
         __weak KCMasterClassListViewController *weakSelf = self;
         [_groupSessionManager buyMasterClassSpotWithParameter:params withCompletionHandler:^(NSString *title, NSString *message) {
             // Request completed with success
             [KCProgressIndicator hideActivityIndicator];
-            [KCUIAlert showInformationAlertWithHeader:AppLabel.alertTitleCongratulations message:AppLabel.alertMessageGetReadyWithTheFork withButtonTapHandler:^{
+            [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"congrats", nil) message:NSLocalizedString(@"beReadyForMasterclass", nil) withButtonTapHandler:^{
                 
             }];
             
@@ -546,7 +533,7 @@
         
     }
     else {
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) withButtonTapHandler:^{
             
         }];
     }

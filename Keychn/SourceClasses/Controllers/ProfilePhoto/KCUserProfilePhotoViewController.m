@@ -17,7 +17,6 @@
     TOCropViewController *_photoCropper;
     KCUserProfileUpdateManager  *_profileImageUpdateManager;
     KCUserProfile               *_userProfile;
-    KCAppLabel                  *_appLabel;
     UIImage                     *_selectedImage;
 }
 
@@ -47,7 +46,6 @@
     
     //get instances
     _userProfile = [KCUserProfile sharedInstance];
-    _appLabel = [KCAppLabel sharedInstance];
     
     //get user current location from GPS and show in text field
     self.geoLocation = [[KCGeoLocation alloc] init];
@@ -133,7 +131,7 @@
 
 - (void)didFinishImageCroppingWithImage:(UIImage*)image {
     self.userProfileImageView.image  = image;
-    self.addProfilePictureLabel.text = AppLabel.chnageProfilePicture;
+    self.addProfilePictureLabel.text = NSLocalizedString(@"changeProfilePicture", nil);
     _selectedImage                   = image;
 }
 
@@ -171,6 +169,8 @@
             break;
         case iPhone6Plus:
             _keyboardDisplacementConstant = 50;
+        case iPhoneX:
+            _keyboardDisplacementConstant = 30;
             break;
         case iPad:
             break;
@@ -231,14 +231,14 @@
          properties:@{@"":@""}];
 
     [self.locationTextField resignFirstResponder];
-    UIAlertController *photosAndCameraOption = [UIAlertController alertControllerWithTitle:AppLabel.actionSheetTitleSetPicture message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *photosOption = [UIAlertAction actionWithTitle:AppLabel.actionSheetButtonGallery style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertController *photosAndCameraOption = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"selectAnOption", nil) message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *photosOption = [UIAlertAction actionWithTitle:NSLocalizedString(@"photos", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self openPhotoSelectionWithIndex:actionSheetCameraRollGallery];
     }];
-    UIAlertAction *cameraOption = [UIAlertAction actionWithTitle:AppLabel.actionSheetButtonCamera style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cameraOption = [UIAlertAction actionWithTitle:NSLocalizedString(@"camera", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self openPhotoSelectionWithIndex:actionSheetCameraRollCamera];
     }];
-    UIAlertAction *cancelOption = [UIAlertAction actionWithTitle:AppLabel.btnCancel style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancelOption = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
         
     }];
     if([KCUtility getiOSDeviceType] == iPad) {
@@ -318,24 +318,15 @@
 
 - (void) setTextAndImage {
     // Set text on views
-    self.headerLabel.text               = _appLabel.lblProfilePhoto;
-    self.locationTextField.placeholder  = _appLabel.placeholderSetLocation;
     if([NSString validateString:_userProfile.location]) {
        self.locationTextField.text         = _userProfile.location;
     }
-    if(self.isEditingImage) {
-        [self.nextStepButton setTitle:_appLabel.btnDone forState:UIControlStateNormal];
-    }
-    else {
-      [self.nextStepButton setTitle:_appLabel.btnNextStep forState:UIControlStateNormal];
-    }
-        
     
     if(self.userProfileImageView.image || [NSString validateString:_userProfile.imageURL]) {
-       self.addProfilePictureLabel.text    = _appLabel.chnageProfilePicture;
+       self.addProfilePictureLabel.text    = NSLocalizedString(@"changeProfilePicture", nil);
     }
     else {
-       self.addProfilePictureLabel.text    = _appLabel.addAProfilePicture;
+       self.addProfilePictureLabel.text    = NSLocalizedString(@"addProfilePicture", nil);
     }
     
     // Set user profile image
@@ -368,25 +359,25 @@
 
 #pragma mark - Server End Code 
 
-- (void) uploadProfilePhotoAndLocation {
+- (void)uploadProfilePhotoAndLocation {
     if(!_profileImageUpdateManager) {
         _profileImageUpdateManager = [KCUserProfileUpdateManager new];
     }
     if(!self.userProfileImageView.image) {
         //image not selected
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.profileImageNotSelected withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:nil message:NSLocalizedString(@"profilePictureNotSelected", nil)  withButtonTapHandler:^{
             
         }];
     }
     else if(!_userProfile.location) {
         //location missing
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.locationEmpty withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:nil message:NSLocalizedString(@"locationRequired", nil) withButtonTapHandler:^{
             
         }];
     }
     else if(!isNetworkReachable) {
         //internet connection not available
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) withButtonTapHandler:^{
             
         }];
     }

@@ -79,7 +79,6 @@ NSString const *TWUserImageURL  = @"profile_image_url";
             else {
                 //show alert for permission disallowed for access
                 dispatch_async(dispatch_get_main_queue(), ^{
-                   [self showAlertForNoPermission];
                     finished(NO);
                 });
             }
@@ -137,35 +136,5 @@ NSString const *TWUserImageURL  = @"profile_image_url";
     }];
 }
 
-- (void) showAlertForNoPermission {
-    //show alert for no permission for accessign Twitter Account
-    if([KCUtility getiOSVersion] == iOS7) {
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.twitterAccountAccessDenied withButtonTapHandler:^{
-            
-        }];
-    }
-    else {
-        [KCUIAlert showAlertWithButtonTitle:AppLabel.btnSettings alertHeader:AppLabel.errorTitle message:AppLabel.twitterAccountAccessDenied withButtonTapHandler:^(BOOL positiveButton) {
-            if(positiveButton) {
-                [KCUtility openiOSSettings];
-            }
-        }];
-    }
-}
-
-- (void) showAlertForNoAccountSetupForTwitter {
-    if([KCUtility getiOSVersion] == iOS7) {
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.noTwitterAccountSetup withButtonTapHandler:^{
-            
-        }];
-    }
-    else {
-        [KCUIAlert showAlertWithButtonTitle:AppLabel.btnSettings alertHeader:AppLabel.errorTitle message:AppLabel.noTwitterAccountSetup withButtonTapHandler:^(BOOL positiveButton) {
-            if(positiveButton) {
-                [KCUtility openiOSSettings];
-            }
-        }];
-    }
-}
 
 @end

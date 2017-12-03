@@ -35,7 +35,7 @@
             success(menuArray,totalPages,pageIndex);
         }
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -63,7 +63,7 @@
             success(itemsListArray,totalPages,pageIndex, menuImageURL,courseListArray);
         }
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -86,7 +86,7 @@
             success(itemDetailsDictionary);
         }
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -108,7 +108,7 @@
             success(response);
         }
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -130,7 +130,7 @@
             success(response);
         }
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 

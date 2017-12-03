@@ -8,15 +8,8 @@
 
 #import "KCSplashViewController.h"
 #import "KCUserProfileDBManager.h"
-#import "KCLanguageSelectionViewController.h"
-#import "KCAppLabelDBManager.h"
-#import "KCAppLanguageWebManager.h"
 
-
-@interface KCSplashViewController () {
-    KCAppLanguageWebManager *_appLabelWebManger;
-    KCAppLabelDBManager     *_appLabelDBManager;
-}
+@interface KCSplashViewController ()
 
 @end
 
@@ -27,9 +20,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
-    //get app language
-    [self getAppLanguage];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,7 +34,7 @@
 
 #pragma mark - App Navigation
 
-- (void) pushNextViewController {
+- (void)pushNextViewController {
     //push next view controller based on the condition
     KCUserProfileDBManager *userProfileDBManager = [KCUserProfileDBManager new];
     [userProfileDBManager getLoggedInUserProfile];
@@ -74,46 +64,7 @@
         storyboardID = signUpViewController;
     }
     UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:storyboardID];
-    if([viewController isKindOfClass:[KCLanguageSelectionViewController class]]) {
-        KCLanguageSelectionViewController *languageSelectionViewController = (KCLanguageSelectionViewController*)viewController;
-        languageSelectionViewController.shouldHideBackButton = YES;
-    }
     [self.navigationController pushViewController:viewController animated:YES];
-}
-
-#pragma mark - App Language Methods
-
-- (void) getAppLanguage {
-    //get default app language
-    _appLabelDBManager = [KCAppLabelDBManager new];
-    defaultLanguage    = [_appLabelDBManager getDefaultLanguage];
-    
-    //get all app lables from local database
-    [self initializeAppLabel];
-}
-
-- (void) initializeAppLabel {
-    //intialize all app labels from local database
-    [_appLabelDBManager getAppLabelWithLanguaeID:defaultLanguage];
-    if(![NSString validateString:AppLabel.lblSignUpText]) {
-        //get default lanuage labels from server
-        [self getAppLanguageWithLanguageID:defaultLanguage];
-    }
-    else {
-        [self performSelector:@selector(pushNextViewController) withObject:nil afterDelay:splashDelayInSeconds];
-    }
-}
-
-- (void) getAppLanguageWithLanguageID:(NSNumber*)languageID {
-    _appLabelWebManger = [KCAppLanguageWebManager new];
-    [_appLabelWebManger getAppLabelsForLanguage:languageID withCompletionHandler:^(KCSupportedLanguage *supportedLanguage) {
-        [self initializeAppLabel];
-        
-    } andFailureBlock:^(NSString *title, NSString *message) {
-       [KCUIAlert showInformationAlertWithHeader:title message:message withButtonTapHandler:^{
-           
-       }];
-    }];
 }
 
 @end

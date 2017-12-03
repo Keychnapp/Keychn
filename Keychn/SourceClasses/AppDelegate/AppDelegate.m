@@ -195,7 +195,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 
 - (void)registerAction {
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-    UNNotificationAction *action = [UNNotificationAction actionWithIdentifier:joinActionIdentifier title:AppLabel.btnAttend options:UNNotificationActionOptionForeground];
+    UNNotificationAction *action = [UNNotificationAction actionWithIdentifier:joinActionIdentifier title:NSLocalizedString(@"attend", nil) options:UNNotificationActionOptionForeground];
     
     UNNotificationCategory *category = [UNNotificationCategory categoryWithIdentifier:joinActionCategory actions:@[action] intentIdentifiers:@[] options:UNNotificationCategoryOptionCustomDismissAction];
     [center setNotificationCategories:[NSSet setWithObjects:category, nil]];

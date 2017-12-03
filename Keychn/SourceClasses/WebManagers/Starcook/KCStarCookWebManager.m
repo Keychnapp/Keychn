@@ -34,7 +34,7 @@
         
     } failure:^(NSString *response) {
         // Network request failed
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -61,7 +61,7 @@
         
     } failure:^(NSString *response) {
         // Network request failed
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -88,7 +88,7 @@
         
     } failure:^(NSString *response) {
         // Network request failed
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -115,7 +115,7 @@
         
     } failure:^(NSString *response) {
         // Network request failed
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -142,7 +142,7 @@
         
     } failure:^(NSString *response) {
         // Network request failed
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -169,7 +169,7 @@
         
     } failure:^(NSString *response) {
         // Network request failed
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 

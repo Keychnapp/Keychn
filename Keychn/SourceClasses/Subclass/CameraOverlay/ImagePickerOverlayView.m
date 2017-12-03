@@ -14,6 +14,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     //Custom overlay for camera
    self = [super initWithFrame:frame];
+    /*
     NSInteger screenWidth  = [UIScreen mainScreen].bounds.size.width;
     NSInteger screenHeight  = [UIScreen mainScreen].bounds.size.height;
     self.opaque = NO;
@@ -51,7 +52,7 @@
     [self addSubview:self.containerView];
     [self.imagePickerButton setImage:[UIImage imageNamed:@"camera_icon.png"] forState:UIControlStateNormal];
     // Hide title label after 3 seconds
-    [self performSelector:@selector(hideSubtitleLabelWithAnimation) withObject:nil afterDelay:3];
+    [self performSelector:@selector(hideSubtitleLabelWithAnimation) withObject:nil afterDelay:3]; */
     return  self;
 }
 

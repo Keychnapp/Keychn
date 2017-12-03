@@ -31,19 +31,6 @@
  */
 + (NSString*)validatePassword:(NSString*)text;
 
-/**
- @abstract This method will verify user's confirm password for nil value
- @param User's Password
- @return Error Message on Failure else nil
- */
-+ (NSString*)validateConfirmPassword:(NSString*)text;
-
-/**
- @abstract This method will compare user password and confirm password
- @param User's Password and Confrom Password
- @return Error Message on Failure else nil
- */
-+(NSString*)matchPasswords:(NSString*)password andConfirmPassword:(NSString*)confirmPassword;
 
 - (NSString*)escapeSequence;
 

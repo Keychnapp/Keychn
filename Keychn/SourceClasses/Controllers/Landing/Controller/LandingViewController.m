@@ -16,14 +16,13 @@
 @interface LandingViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout> {
     KCFacebookManager       *_facebookManager;
     KCSignUpWebManager      *_signUpWebManager;
+    NSArray                 *_kOnboardingTextArray;
 }
 
-#define kOnboardingTextArray @[@"Cook live and share a new\nexperience with chefs", @"All our classes are interactive\nand in live video", @"Learn from experts about\n  gastronomy"]
 #define kOnBoardImageArray @[@"onboarding_1", @"onboarding_2", @"onboarding_3"]
 
 @property (weak, nonatomic) IBOutlet UICollectionView *onBoardingCollectionView;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
-
 
 
 @end
@@ -33,6 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _kOnboardingTextArray = @[NSLocalizedString(@"onboarding1", nil), NSLocalizedString(@"onboarding2", nil), NSLocalizedString(@"onboarding3", nil)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,7 +49,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     LandingCollectionViewCell *onBoardingCollectionViewCell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifierForOnboardCollection forIndexPath:indexPath];
     onBoardingCollectionViewCell.onboardImageView.image = [UIImage imageNamed:[kOnBoardImageArray objectAtIndex:indexPath.row]];
-    onBoardingCollectionViewCell.onBoardTextLabel.text  = [kOnboardingTextArray objectAtIndex:indexPath.row];
+    onBoardingCollectionViewCell.onBoardTextLabel.text  = [_kOnboardingTextArray objectAtIndex:indexPath.row];
     return  onBoardingCollectionViewCell;
 }
 
@@ -90,7 +90,7 @@
     }
     else {
         //Show alert for no internet connection
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable onViewController:self withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) onViewController:self withButtonTapHandler:^{
             
         }];
     }
@@ -125,7 +125,7 @@
     } failure:^(NSString *title, NSString *message, BOOL shouldMerge) {
         if(shouldMerge) {
             //Social merge options
-            [KCUIAlert showAlertWithButtonTitle:AppLabel.btnMerge alertHeader:title message:message onViewController:self withButtonTapHandler:^(BOOL positiveButton) {
+            [KCUIAlert showAlertWithButtonTitle:NSLocalizedString(@"merge", nil) alertHeader:title message:message onViewController:self withButtonTapHandler:^(BOOL positiveButton) {
                 if(positiveButton) {
                     [self mergeFacebookProfile];
                 }
@@ -137,7 +137,6 @@
                 
             }];
         }
-        
     }];
 }
 
@@ -161,7 +160,7 @@
     }
     else {
         //Show alert for no internet connection
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable onViewController:self withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) onViewController:self withButtonTapHandler:^{
             
         }];
     }

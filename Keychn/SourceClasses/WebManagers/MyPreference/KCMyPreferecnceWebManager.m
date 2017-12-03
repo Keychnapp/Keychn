@@ -35,7 +35,7 @@
         }
     } failure:^(NSString *response) {
         if(DEBUGGING) NSLog(@"Failed with response %@",response);
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -64,7 +64,7 @@
         }
     } failure:^(NSString *response) {
         if(DEBUGGING) NSLog(@"Failed with response %@",response);
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 

@@ -77,7 +77,7 @@ typedef NS_ENUM(NSUInteger, SubscriptionIndex) {
 
 - (void)setText {
     // Set text on Labels and buttons
-    self.wantToLearnLabel.text = AppLabel.lblYouWantToLearnFromExperts;
+   /* self.wantToLearnLabel.text = AppLabel.lblYouWantToLearnFromExperts;
     [self.get2WeeksTrialButton setTitle:AppLabel.lblGetTrial forState:UIControlStateNormal];
     self.cancelAnyTimeLabel.text = AppLabel.lblCancelAnytime;
     self.monthlyLabel.text = AppLabel.lblMonthly;
@@ -90,7 +90,7 @@ typedef NS_ENUM(NSUInteger, SubscriptionIndex) {
      [subscribeToKeychn appendAttributedString:keychn];
     [subscribeToKeychn appendAttributedString:masterclass];
     self.subscribeToKeychLabel.attributedText = subscribeToKeychn;
-//    self.subscriptionTnCLabel.text = AppLabel.lblSubscriptionTermsAndConditon;
+//    self.subscriptionTnCLabel.text = AppLabel.lblSubscriptionTermsAndConditon; */
 }
 
 - (void)dismiss {

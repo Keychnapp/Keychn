@@ -33,7 +33,7 @@
         
     } failure:^(NSString *response) {
         // Network request failed
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -56,12 +56,12 @@
         else {
             // MasterClass spot bought
             if(DEBUGGING) NSLog(@"MasterClass Spot bought successfully %@",response);
-            success(AppLabel.informationTitle, AppLabel.masterClassSlotBooked);
+            success(NSLocalizedString(@"congrats", nil), NSLocalizedString(@"beReadyForMasterclass", nil));
         }
         
     } failure:^(NSString *response) {
         // Network request failed
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -88,7 +88,7 @@
         
     } failure:^(NSString *response) {
         // Network request failed
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -110,12 +110,12 @@
         else {
             // Group session marked as complete
             if(DEBUGGING) NSLog(@"Group Session Marked as completed %@",response);
-            success(AppLabel.informationTitle, AppLabel.masterClassSlotBooked);
+            success(NSLocalizedString(@"masterclassCompleted", nil), NSLocalizedString(@"thanksForMasterclass", nil));
         }
         
     } failure:^(NSString *response) {
         // Network request failed
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -137,12 +137,12 @@
         else {
             // Group session status updated for this user
             if(DEBUGGING) NSLog(@"Group Session Marked as completed %@",response);
-            success(AppLabel.informationTitle, AppLabel.masterClassSlotBooked);
+            success(NSLocalizedString(@"masterclassCompleted", nil), NSLocalizedString(@"thanksForMasterclass", nil));
         }
         
     } failure:^(NSString *response) {
         // Network request failed
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 

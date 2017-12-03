@@ -45,7 +45,7 @@
     [_newWindow addSubview:self];
     
     // Set text
-    self.nowLabel.text = [AppLabel.lblNow lowercaseString];
+    self.nowLabel.text = [NSLocalizedString(@"now", nil) lowercaseString];
     
     // Set corner radius for imageView
     self.appIconImageView.layer.cornerRadius  = 5;

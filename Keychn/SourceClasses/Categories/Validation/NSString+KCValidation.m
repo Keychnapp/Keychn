@@ -17,7 +17,7 @@
 + (NSString *)validateName:(NSString *)text {
     //Validate user's name
     if(text.length == 0) {
-        return AppLabel.nameEmpty;
+        return NSLocalizedString(@"nameEmpty", nil);
     }
     return nil;
 }
@@ -25,14 +25,14 @@
 + (NSString *)validateEmailAddress:(NSString *)text {
     //Validate user's email address
     if(text.length == 0) {
-        return AppLabel.emailIDEmpty;
+        return NSLocalizedString(@"emailEmpty", nil);
     }
     NSString *regExPattern = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
     
     NSRegularExpression *regEx = [[NSRegularExpression alloc] initWithPattern:regExPattern options:NSRegularExpressionCaseInsensitive error:nil];
     NSUInteger regExMatches = [regEx numberOfMatchesInString:text options:0 range:NSMakeRange(0, [text length])];
     if (regExMatches == 0) {
-        return AppLabel.emailIDInvalidFormat;
+        return NSLocalizedString(@"emailInvalid", nil);
     }
     return nil;
 }
@@ -40,26 +40,11 @@
 + (NSString *)validatePassword:(NSString *)text {
     //Validate password
     if(text.length < 6) {
-        return AppLabel.passwordInvalid;
+        return NSLocalizedString(@"passwordInvalid", nil);
     }
     return nil;
 }
 
-+ (NSString *)validateConfirmPassword:(NSString *)text {
-    //Validate confirm password
-    if(text.length == 0) {
-        return AppLabel.confirmPasswordEmpty;
-    }
-    return nil;
-}
-
-+ (NSString *)matchPasswords:(NSString *)password andConfirmPassword:(NSString *)confirmPassword {
-    //Validate password and confirm password
-    if([password isEqualToString:confirmPassword]) {
-       return nil;
-    }
-    return AppLabel.passwordDoesNotMatch;
-}
 
 - (NSString*)escapeSequence {
     // Escape ' character for database insertion

@@ -49,9 +49,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    // Set text on buttons and lables
-    [self setText];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -94,7 +91,7 @@
     }
     else {
         // Show alert for minimum chars required
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.informationTitle message:AppLabel.minumumCharsRequiredForQuery withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"queryIncomplete", nil) message:NSLocalizedString(@"write100CharQuery", nil) withButtonTapHandler:^{
             
         }];
     }
@@ -129,15 +126,6 @@
     self.emailIDLabel.font          = [UIFont setRobotoFontRegularStyleWithSize:15];
 }
 
-- (void)setText {
-    // Set text on buttons and labels
-    self.usernameLabel.text     =  _userProfile.username;
-    self.emailIDLabel.text      = _userProfile.emailID;
-    self.titleLabel.text        = AppLabel.lblContactUs;
-    self.placeholderLabel.text  = AppLabel.lblHowCanWeHelp;
-    [self.sendButton setTitle:AppLabel.btnSend forState:UIControlStateNormal];
-}
-
 - (void)setInputAccesoryView {
     // Instantiate input view and input accessory view for date of birth text field
     UIButton      *downButton  = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame)-60, 0, 40, 40)];
@@ -156,11 +144,11 @@
     if(isNetworkReachable) {
         NSDictionary *parametes = @{kUserID:_userProfile.userID, kEmailID:_userProfile.emailID, kName:_userProfile.username, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kQueryDescription:self.messageTextView.text};
         __weak KCContactUsViewController *weakSelf = self;
-        [KCProgressIndicator showProgressIndicatortWithText:AppLabel.activitySubmittingQuery];
+        [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"reachingSupport", nil)];
         [_contactUsWebManager submitQueryWithParameter:parametes withCompletionHandler:^(NSDictionary *responseDictionary) {
             // Request completed
             [KCProgressIndicator hideActivityIndicator];
-            [KCUIAlert showInformationAlertWithHeader:AppLabel.informationTitle message:AppLabel.querySubmittedSuccessfully withButtonTapHandler:^{
+            [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"WorkingOnIt", nil) message:NSLocalizedString(@"querySubmitted", nil) withButtonTapHandler:^{
                 // Back to Setting ViewController
                 [weakSelf.navigationController popViewControllerAnimated:YES];
             }];
@@ -174,7 +162,7 @@
     }
     else {
         // Show alert for no internet connection
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) withButtonTapHandler:^{
             
         }];
     }

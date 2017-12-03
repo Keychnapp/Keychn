@@ -36,7 +36,7 @@
         }
     } failure:^(NSString *response) {
         if(DEBUGGING) NSLog(@"Failed with response %@",response);
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -70,7 +70,7 @@
         }
     } failure:^(NSString *response) {
         if(DEBUGGING) NSLog(@"Failed with response %@",response);
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -96,7 +96,7 @@
         }
     } failure:^(NSString *response) {
         if(DEBUGGING) NSLog(@"Failed with response %@",response);
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -122,7 +122,7 @@
         }
     } failure:^(NSString *response) {
         if(DEBUGGING) NSLog(@"Failed with response %@",response);
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -134,7 +134,7 @@
         success(response);
     } failure:^(NSString *response) {
         if(DEBUGGING) NSLog(@"Failed with response %@",response);
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -171,7 +171,7 @@
     } failure:^(NSString *response) {
         isProcessing = false;
         if(DEBUGGING) NSLog(@"Failed with response %@",response);
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -205,7 +205,7 @@
             success(response);
         }
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 
 }
@@ -230,7 +230,7 @@
             success(response);
         }
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -247,7 +247,7 @@
                failed(title,message);
             }
             else {
-                failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+                failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
             }
             
         }
@@ -257,7 +257,7 @@
             success(response);
         }
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -282,7 +282,7 @@
     [self sendDataToServerWithAction:closeConferenceAction withParameters:parametrs success:^(NSDictionary *response) {
         if(DEBUGGING) NSLog(@"Close user confernce with response %@",response);
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -291,7 +291,7 @@
     [self sendDataToServerWithAction:reconnectUserAction withParameters:parametrs success:^(NSDictionary *response) {
         if(DEBUGGING) NSLog(@"Reconnect user with response %@",response);
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -301,7 +301,7 @@
         if(DEBUGGING) NSLog(@"Cancel user now schedule %@",response);
         success(response);
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -311,7 +311,7 @@
         if(DEBUGGING) NSLog(@"User flagged %@",response);
         success(response);
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -321,7 +321,7 @@
         if(DEBUGGING) NSLog(@"Item rating saved with response %@",response);
         success(response);
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -335,7 +335,7 @@
         if(DEBUGGING) NSLog(@"Free Ride Details saved on server %@",response);
         success(response);
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -345,7 +345,7 @@
         if(DEBUGGING) NSLog(@"Chew/It rating saved with response %@",response);
         success(response);
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
@@ -356,7 +356,7 @@
         //Upload image on server successfull
         success(response);
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle, AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 

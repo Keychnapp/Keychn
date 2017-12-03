@@ -54,12 +54,6 @@
  */
 - (NSArray*)fetchColumnDataFromTable:(NSString*)tableName andColumnName:(NSString*)columnName withClause: (NSString*)clause;
 
-/**
- @abstract Fetch all app label and text from the local database
- @param Language ID
- @return void
- */
-- (void) fetchAppLabelWithLanguageID:(NSNumber*)langugeID;
 
 /**
  @abstract Fetch all column from database for the given table in UTF8 String format

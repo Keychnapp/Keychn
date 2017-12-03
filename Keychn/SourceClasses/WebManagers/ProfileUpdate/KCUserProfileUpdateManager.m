@@ -15,7 +15,7 @@
 
 - (void) updateUserProfileWithImageData:(NSData*)fileData andParams:(NSDictionary*)params withCompletionHandler:(void(^)(NSDictionary *userProfile))success failure:(void (^)(NSString *title, NSString *message))failed {
     KCWebConnection *webConnection = [KCWebConnection new];
-    [KCProgressIndicator showProgressIndicatortWithText:AppLabel.activityUpdatingProfile];
+    [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"updatingProfile", nil)];
     [webConnection sendMultipartData:params onAction:setProfileImageAction withFileData:fileData success:^(NSDictionary *response) {
         BOOL status = [self isFinishedWithError:response];
         if(status) {
@@ -33,7 +33,7 @@
         }
         [KCProgressIndicator hideActivityIndicator];
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle,AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
         [KCProgressIndicator hideActivityIndicator];
     }];
 }
@@ -52,12 +52,12 @@
         }
         else {
             //Request completed
-            success(AppLabel.informationTitle, AppLabel.passwordUpdatedSuccessfully);
+            success(NSLocalizedString(@"resetPassword", nil), NSLocalizedString(@"passwordResetSuccessfully", nil));
             if(DEBUGGING) NSLog(@"User password updated successfully %@",response);
         }
         
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle,AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 

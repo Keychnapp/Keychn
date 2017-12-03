@@ -7,9 +7,6 @@
 //
 
 #import "KCEmailSignUpViewController.h"
-#import "KCEmailSignUpTableViewCell.h"
-#import "KCEmailSignUpButtonTableViewCell.h"
-#import "KCEmailSignUpNewsletterTableViewCell.h"
 #import "KCUserProfileDBManager.h"
 #import "KCEmailSignInViewController.h"
 #import "TOMSMorphingLabel.h"
@@ -85,7 +82,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     if (textField == self.nameTextField) {
-        [self.starcookLabel setText:[@"Hello " stringByAppendingString:self.nameTextField.text] withCompletionBlock:^{
+        [self.starcookLabel setText:[NSLocalizedString(@"hello", nil) stringByAppendingFormat:@" %@",self.nameTextField.text] withCompletionBlock:^{
             
         }];
     }
@@ -162,7 +159,7 @@
         }
         else {
             // Show alert for no internet connection
-            [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable onViewController:self withButtonTapHandler:^{
+            [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) onViewController:self withButtonTapHandler:^{
                 
             }];
         }
@@ -203,7 +200,7 @@
     }
     else {
         //Show alert for no internet connection
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable onViewController:self withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) onViewController:self withButtonTapHandler:^{
             
         }];
     }
@@ -288,7 +285,7 @@
 
 - (void)showValidationAlertWithMessage:(NSString*)message {
     // Show pop up on any validation error
-    [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:message onViewController:self withButtonTapHandler:^{
+    [KCUIAlert showInformationAlertWithHeader:nil message:message onViewController:self withButtonTapHandler:^{
         
     }];
 }
@@ -319,7 +316,7 @@
     } failure:^(NSString *title, NSString *message, BOOL shouldMerge) {
         if(shouldMerge) {
             //Social merge options
-            [KCUIAlert showAlertWithButtonTitle:AppLabel.btnMerge alertHeader:title message:message onViewController:self withButtonTapHandler:^(BOOL positiveButton) {
+            [KCUIAlert showAlertWithButtonTitle:NSLocalizedString(@"merge", nil) alertHeader:title message:message onViewController:self withButtonTapHandler:^(BOOL positiveButton) {
                 if(positiveButton) {
                     [self mergeFacebookProfile];
                 }
@@ -355,7 +352,7 @@
     }
     else {
         //Show alert for no internet connection
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable onViewController:self withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) onViewController:self withButtonTapHandler:^{
             
         }];
     }

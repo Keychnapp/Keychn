@@ -32,7 +32,7 @@
     //show an alert with postive button title and cancel using the block
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:header message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:AppLabel.btnCancel style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
          buttonTapped(NO);
     }];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -54,7 +54,7 @@
     //show an alert with postive button title and cancel using the block
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:header message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:AppLabel.btnCancel style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"cancel", nil) style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
         buttonTapped(NO);
     }];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -74,7 +74,7 @@
 + (void)showInformationAlertWithHeader:(NSString *)header message:(NSString *)message withButtonTapHandler:(void (^)(void))buttonTapped {
     //show an alert with OK Button using the block
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:header message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:AppLabel.btnOk style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         buttonTapped();
         [alertController dismissViewControllerAnimated:YES completion:^{
             
@@ -91,7 +91,7 @@
 + (void)showInformationAlertWithHeader:(NSString *)header message:(NSString *)message onViewController:(UIViewController *)viewController withButtonTapHandler:(void (^)(void))buttonTapped {
     //show an alert with OK Button using the block
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:header message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:AppLabel.btnOk style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"ok", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         buttonTapped();
         [alertController dismissViewControllerAnimated:YES completion:^{
             
@@ -111,19 +111,19 @@
     self.scheduleSuccessView.backgroundColor = [UIColor lightGrayBackgroundColor];
     
     UILabel *headerLabel  = [[UILabel alloc] initWithFrame:CGRectMake(25, 19, 295, 21)];
-    headerLabel.text      = AppLabel.lblKeyInteractionScheduled;
+//    headerLabel.text      = AppLabel.lblKeyInteractionScheduled;
     headerLabel.font      = [UIFont setRobotoFontBoldStyleWithSize:18];
     headerLabel.textColor = [UIColor whiteColor];
     
     UILabel *subtitleLabel    = [[UILabel alloc] initWithFrame:CGRectMake(25, 42, 295, 21)];
-    subtitleLabel.text        = AppLabel.lblWeWillNotifyForMatch;
+//    subtitleLabel.text        = AppLabel.lblWeWillNotifyForMatch;
     subtitleLabel.font        = [UIFont setRobotoFontBoldStyleWithSize:14];
     subtitleLabel.adjustsFontSizeToFitWidth = YES;
     subtitleLabel.textColor   = [UIColor whiteColor];
     
     UIButton *knifeUpButton   = [UIButton buttonWithType:UIButtonTypeSystem];
     knifeUpButton.frame       = CGRectMake(0, 91, 320, 58);
-    [knifeUpButton setTitle:AppLabel.btnKnifesUp forState:UIControlStateNormal];
+//    [knifeUpButton setTitle:AppLabel.btnKnifesUp forState:UIControlStateNormal];
     [knifeUpButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     knifeUpButton.titleLabel.font = [UIFont setRobotoFontBoldStyleWithSize:14];
     [knifeUpButton setBackgroundColor:[UIColor  appBackgroundColor]];
@@ -169,12 +169,12 @@
     self.keychnInteractionThanksView.backgroundColor = [UIColor lightGrayBackgroundColor];
     
     UILabel *headerLabel  = [[UILabel alloc] initWithFrame:CGRectMake(25, 19, 295, 21)];
-    headerLabel.text      = AppLabel.lblYouAreAStar;
+//    headerLabel.text      = AppLabel.lblYouAreAStar;
     headerLabel.font      = [UIFont setRobotoFontBoldStyleWithSize:18];
     headerLabel.textColor = [UIColor whiteColor];
     
     UILabel *subtitleLabel    = [[UILabel alloc] initWithFrame:CGRectMake(25, 42, 295, 21)];
-    subtitleLabel.text        = AppLabel.lblPleaseRateTheRecipe;
+//    subtitleLabel.text        = AppLabel.lblPleaseRateTheRecipe;
     subtitleLabel.font        = [UIFont setRobotoFontBoldStyleWithSize:14];
     subtitleLabel.textColor   = [UIColor whiteColor];
     
@@ -199,7 +199,7 @@
     
     UIButton *thankYouButton  = [UIButton buttonWithType:UIButtonTypeSystem];
     thankYouButton.frame       = CGRectMake(0, 118, 300, 58);
-    [thankYouButton setTitle:AppLabel.btnThankYou forState:UIControlStateNormal];
+//    [thankYouButton setTitle:AppLabel.btnThankYou forState:UIControlStateNormal];
     [thankYouButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     thankYouButton.titleLabel.font = [UIFont setRobotoFontBoldStyleWithSize:14];
     [thankYouButton setBackgroundColor:[UIColor  appBackgroundColor]];
@@ -233,12 +233,12 @@
     self.keychnInteractionThanksView.backgroundColor = [UIColor lightGrayBackgroundColor];
     
     UILabel *headerLabel  = [[UILabel alloc] initWithFrame:CGRectMake(25, 19, 295, 21)];
-    headerLabel.text      = AppLabel.lblYouAreAStar;
+//    headerLabel.text      = AppLabel.lblYouAreAStar;
     headerLabel.font      = [UIFont setRobotoFontBoldStyleWithSize:18];
     headerLabel.textColor = [UIColor whiteColor];
     
     UILabel *subtitleLabel    = [[UILabel alloc] initWithFrame:CGRectMake(25, 42, 295, 21)];
-    subtitleLabel.text        = AppLabel.lblPleaseRateTheRecipe;
+//    subtitleLabel.text        = AppLabel.lblPleaseRateTheRecipe;
     subtitleLabel.font        = [UIFont setRobotoFontBoldStyleWithSize:14];
     subtitleLabel.textColor   = [UIColor whiteColor];
     
@@ -269,7 +269,7 @@
     UILabel *pleaseTellUsLabel  = [[UILabel alloc] initWithFrame:CGRectMake(0, 121, 300, 21)];
     pleaseTellUsLabel.font      = [UIFont setRobotoFontBoldStyleWithSize:17];
     pleaseTellUsLabel.textColor = [UIColor whiteColor];
-    pleaseTellUsLabel.text      = AppLabel.lblPleaseTellUsWhatDidYouCook;
+//    pleaseTellUsLabel.text      = AppLabel.lblPleaseTellUsWhatDidYouCook;
     pleaseTellUsLabel.textAlignment = NSTextAlignmentCenter;
     
     // Item title textfield
@@ -286,7 +286,7 @@
     
     UIButton *thankYouButton  = [UIButton buttonWithType:UIButtonTypeSystem];
     thankYouButton.frame       = CGRectMake(0, CGRectGetHeight(self.keychnInteractionThanksView.frame)-58, 300, 58);
-    [thankYouButton setTitle:AppLabel.btnThankYou forState:UIControlStateNormal];
+//    [thankYouButton setTitle:AppLabel.btnThankYou forState:UIControlStateNormal];
     [thankYouButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     thankYouButton.titleLabel.font = [UIFont setRobotoFontBoldStyleWithSize:14];
     [thankYouButton setBackgroundColor:[UIColor  appBackgroundColor]];
@@ -325,12 +325,12 @@
     self.keychnInteractionThanksView.backgroundColor = [UIColor lightGrayBackgroundColor];
     
     UILabel *headerLabel  = [[UILabel alloc] initWithFrame:CGRectMake(25, 19, 295, 21)];
-    headerLabel.text      = AppLabel.lblYouAreAStar;
+//    headerLabel.text      = AppLabel.lblYouAreAStar;
     headerLabel.font      = [UIFont setRobotoFontBoldStyleWithSize:18];
     headerLabel.textColor = [UIColor whiteColor];
     
     UILabel *subtitleLabel    = [[UILabel alloc] initWithFrame:CGRectMake(25, 42, 295, 21)];
-    subtitleLabel.text        = AppLabel.lblPleaseRateTheInteraction;
+//    subtitleLabel.text        = AppLabel.lblPleaseRateTheInteraction;
     subtitleLabel.font        = [UIFont setRobotoFontBoldStyleWithSize:14];
     subtitleLabel.textColor   = [UIColor whiteColor];
     
@@ -361,7 +361,7 @@
     UILabel *pleaseTellUsLabel  = [[UILabel alloc] initWithFrame:CGRectMake(0, 121, 300, 21)];
     pleaseTellUsLabel.font      = [UIFont setRobotoFontBoldStyleWithSize:17];
     pleaseTellUsLabel.textColor = [UIColor whiteColor];
-    pleaseTellUsLabel.text      = AppLabel.lblPleaseTellUsWhatDidYouEat;
+//    pleaseTellUsLabel.text      = AppLabel.lblPleaseTellUsWhatDidYouEat;
     pleaseTellUsLabel.textAlignment = NSTextAlignmentCenter;
     
     // Item title textfield
@@ -378,7 +378,7 @@
     
     UIButton *thankYouButton  = [UIButton buttonWithType:UIButtonTypeSystem];
     thankYouButton.frame       = CGRectMake(0, CGRectGetHeight(self.keychnInteractionThanksView.frame)-58, 300, 58);
-    [thankYouButton setTitle:AppLabel.btnThankYou forState:UIControlStateNormal];
+//    [thankYouButton setTitle:AppLabel.btnThankYou forState:UIControlStateNormal];
     [thankYouButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     thankYouButton.titleLabel.font = [UIFont setRobotoFontBoldStyleWithSize:14];
     [thankYouButton setBackgroundColor:[UIColor  appBackgroundColor]];
@@ -424,7 +424,7 @@
     //Dismiss alert view with animation and call the dismiss handler for Free Ride alert
     
     if(_itemTitle.length == 0 || _currentRating == 0) {
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.informationTitle message:AppLabel.pleaseProvideItemTitle withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:@"" message:@"" withButtonTapHandler:^{
             
         }];
     }

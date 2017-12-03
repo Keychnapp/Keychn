@@ -26,7 +26,7 @@
               failed(title,message);
             }
             else {
-               failed(AppLabel.errorTitle,AppLabel.unexpectedErrorMessage);
+               failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
             }
             
         }
@@ -37,7 +37,7 @@
         }
     } failure:^(NSString *response) {
         [KCProgressIndicator hideActivityIndicator];
-        failed(AppLabel.errorTitle,AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 

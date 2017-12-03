@@ -156,14 +156,14 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
     
     if([self.myScheduleArray count] > indexPath.row) {
         KCMySchedule *mySchedule = [self.myScheduleArray objectAtIndex:indexPath.row];
-        [myscheduleTableCell.itemTitleButton setTitle:[AppLabel.lblMasterClass uppercaseString] forState:UIControlStateNormal];
+        [myscheduleTableCell.itemTitleButton setTitle:[NSLocalizedString(@"masterclass", nil) uppercaseString] forState:UIControlStateNormal];
             [myscheduleTableCell.itemPictureImageView setImageWithURL:[NSURL URLWithString:mySchedule.itemImageURL] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
        
         // Set "Start Cooking" header X min prior to schedule
         if(mySchedule.scheduleID.integerValue == _masterClassToJoin.scheduleID.integerValue) {
             myscheduleTableCell.containerView.hidden = NO;
             myscheduleTableCell.containerView.backgroundColor = [UIColor appGreenColor];
-            [myscheduleTableCell.startCookingButton setTitle:[AppLabel.btnStartCooking uppercaseString] forState:UIControlStateNormal];
+            [myscheduleTableCell.startCookingButton setTitle:[NSLocalizedString(@"startCooking", nil) uppercaseString] forState:UIControlStateNormal];
         }
         else {
             myscheduleTableCell.containerView.hidden = YES;
@@ -254,7 +254,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
             Mixpanel *mixpanel = [Mixpanel sharedInstance];
             [mixpanel track:@"calendar_delete_masterclass"
                  properties:@{ @"masterclass_id":mySchedule.scheduleID}];
-            [KCUIAlert showAlertWithButtonTitle:AppLabel.btnConfirm alertHeader:AppLabel.alertTitleConfirmCancellation message:AppLabel.alertMessageConfirmCancellation withButtonTapHandler:^(BOOL positiveButton) {
+            [KCUIAlert showAlertWithButtonTitle:NSLocalizedString(@"confirm", nil) alertHeader:NSLocalizedString(@"cancelMasterclass", nil) message:NSLocalizedString(@"confirmCancellation", nil) withButtonTapHandler:^(BOOL positiveButton) {
                 // Confirmed by user, delete the schedule now
                 if(positiveButton) {
                     [self cancelInteractionWithSessionID:mySchedule.scheduleID andType:mySchedule.recipeType withScheduleTime:mySchedule.scheduleDate andScheduleOpenStatus:mySchedule.isOpen];
@@ -296,7 +296,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
         }
         else {
             // Show user to wait for the time
-            [KCUIAlert showInformationAlertWithHeader:AppLabel.informationTitle message:AppLabel.joinConferenceAfterSomeTime withButtonTapHandler:^{
+            [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"earlyJoinMasterclass", nil) message:NSLocalizedString(@"waitForMasterclass", nil) withButtonTapHandler:^{
                 
             }];
         }
@@ -467,7 +467,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
             scheduleType = kCancelTypeGroupSession;
             timeInterval -= [NSDate getGMTOffSet];
         }
-        [KCProgressIndicator showProgressIndicatortWithText:AppLabel.activityCancellingInteraction];
+        [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"cancelAMasterclass", nil)];
         NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kScheduleID:sessionID, kScheduleType:scheduleType, kIsScheduleOpen:[NSNumber numberWithBool:status], kScheduleTime:[NSNumber numberWithDouble:timeInterval]};
         __weak id weakSelf = self;
         [_userScheduleWebManager cancelUserSchduleWithParametes:params withCompletionHandler:^(NSDictionary *response) {
@@ -483,7 +483,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
         }];
     }
     else {
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) withButtonTapHandler:^{
             
         }];
     }

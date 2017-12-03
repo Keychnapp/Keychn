@@ -12,7 +12,6 @@
 #import "KCFacebookManager.h"
 #import "KCGroupSessionGuestEndViewController.h"
 #import "KCGroupSessionHostEndViewController.h"
-#import "KCBottomBar.h"
 
 @implementation KCUtility
 
@@ -60,9 +59,6 @@
     //log out user and delete logged in user profile
     KCUserProfileDBManager *userProfileDBManager = [KCUserProfileDBManager new];
     [userProfileDBManager deleteUserProfile];
-    
-    KCBottomBar *bottomBar = [KCBottomBar bottomBar];
-    [bottomBar selectScreenWithIndex:Home];
     
     [[KCUserProfile sharedInstance] releseSharedInstance];
     

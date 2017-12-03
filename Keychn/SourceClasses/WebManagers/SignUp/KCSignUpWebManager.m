@@ -32,14 +32,14 @@
         }
     } failure:^(NSString *response) {
         [KCProgressIndicator hideActivityIndicator];
-        failed(AppLabel.errorTitle,AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
 - (void)signUpWithSocialAccount:(NSDictionary*)userDetailDictionary withCompletionHandler:(void (^)(NSDictionary *response))success failure:(void (^)(NSString *title, NSString *message, BOOL shouldMerge))failed {
     //Register or login a user using social account ie: Twitter and Facebook
     KCWebConnection *webConnection = [[KCWebConnection alloc] init];
-    [KCProgressIndicator showProgressIndicatortWithText:AppLabel.activityLoggigngInWithFacebook];
+    [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"loggingWithFacebook", nil)];
     [webConnection sendDataToServerWithAction:socialSignUpAction withParameters:userDetailDictionary success:^(NSDictionary *response) {
         BOOL status = [self isFinishedWithError:response];
         if(DEBUGGING) NSLog(@"signUpWithSocialAccount --> Response %@",response);
@@ -62,15 +62,15 @@
             success(response);
         }
     } failure:^(NSString *response) {
-        failed(AppLabel.errorTitle,AppLabel.unexpectedErrorMessage,NO);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil), NO);
         [KCProgressIndicator hideActivityIndicator];
     }];
 }
 
-- (void) mergeSocialAccount:(NSDictionary*)userDetailDictionary withCompletionHandler:(void (^)(NSDictionary *))success failure:(void (^)(NSString *title, NSString *message))failed {
+- (void)mergeSocialAccount:(NSDictionary*)userDetailDictionary withCompletionHandler:(void (^)(NSDictionary *))success failure:(void (^)(NSString *title, NSString *message))failed {
     //Merge social account with user's Keychn account
     KCWebConnection *webConnection = [[KCWebConnection alloc] init];
-    [KCProgressIndicator showProgressIndicatortWithText:AppLabel.activityMergingFacebookAccount];
+    [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"merginAccounts", nil)];
     [webConnection sendDataToServerWithAction:mergeSocialAccountAction withParameters:userDetailDictionary success:^(NSDictionary *response) {
         BOOL status = [self isFinishedWithError:response];
         [KCProgressIndicator hideActivityIndicator];
@@ -87,14 +87,14 @@
         }
     } failure:^(NSString *response) {
         [KCProgressIndicator hideActivityIndicator];
-        failed(AppLabel.errorTitle,AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
 - (void) linkFacebookAccount:(NSDictionary*)userDetailDictionary withCompletionHandler:(void (^)(NSDictionary *))success failure:(void (^)(NSString *title, NSString *message))failed {
     // Link Facebook account with user's Keychn account
     KCWebConnection *webConnection = [[KCWebConnection alloc] init];
-    [KCProgressIndicator showProgressIndicatortWithText:AppLabel.activityMergingFacebookAccount];
+    [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"merginAccounts", nil)];
     [webConnection sendDataToServerWithAction:linkFacebookAccountAction withParameters:userDetailDictionary success:^(NSDictionary *response) {
         BOOL status = [self isFinishedWithError:response];
         [KCProgressIndicator hideActivityIndicator];
@@ -112,11 +112,11 @@
         }
     } failure:^(NSString *response) {
         [KCProgressIndicator hideActivityIndicator];
-        failed(AppLabel.errorTitle,AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 
-- (void) changeStatusForFacebookAccountWithParameters:(NSDictionary*)parameters withCompletionHandler:(void(^)(NSDictionary *))success failure:(void (^)(NSString *title, NSString *message))failed {
+- (void)changeStatusForFacebookAccountWithParameters:(NSDictionary*)parameters withCompletionHandler:(void(^)(NSDictionary *))success failure:(void (^)(NSString *title, NSString *message))failed {
     // Mark facebook account active/inactive
     KCWebConnection *webConnection = [[KCWebConnection alloc] init];
     [webConnection sendDataToServerWithAction:updateSocialAccountAction withParameters:parameters success:^(NSDictionary *response) {
@@ -135,7 +135,7 @@
         }
     } failure:^(NSString *response) {
         [KCProgressIndicator hideActivityIndicator];
-        failed(AppLabel.errorTitle,AppLabel.unexpectedErrorMessage);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
     }];
 }
 

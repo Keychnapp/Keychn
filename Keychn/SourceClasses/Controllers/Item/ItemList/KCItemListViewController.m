@@ -339,7 +339,7 @@
                 [KCProgressIndicator hideActivityIndicator];
                 if(!isAlertOpen && [_pageIndex integerValue] == 0) {
                     isAlertOpen = YES;
-                    [KCUIAlert showAlertWithButtonTitle:AppLabel.btnRetry alertHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^(BOOL positiveButton){
+                    [KCUIAlert showAlertWithButtonTitle:NSLocalizedString(@"retry", nil) alertHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) withButtonTapHandler:^(BOOL positiveButton){
                         isAlertOpen = NO;
                         if(positiveButton) {
                             [weakSelf fetchItemsListShouldShowIndicator:true];
@@ -375,7 +375,7 @@
         }];
     }
     else {
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) withButtonTapHandler:^{
             
         }];
     }

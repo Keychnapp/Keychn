@@ -120,7 +120,7 @@
     }];
 }
 
-- (BOOL) isUserSessionValid:(NSDictionary*)response {
+- (BOOL)isUserSessionValid:(NSDictionary*)response {
     //if session expired log out user and bring app to Sign Up screen again
     KCUserProfile *userProfile = [KCUserProfile sharedInstance];
     if(response && [response isKindOfClass:[NSDictionary class]]) {

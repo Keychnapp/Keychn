@@ -1,0 +1,27 @@
+
+/* Class = "UILabel"; text = "29,99 €"; ObjectID = "APa-dL-vh5"; */
+"APa-dL-vh5.text" = "29,99 €";
+
+/* Class = "UILabel"; text = "*This subscription gives you access to all the premium content on www.keychn.com."; ObjectID = "DpT-4F-l7K"; */
+"DpT-4F-l7K.text" = "*This subscription gives you access to all the premium content on www.keychn.com.";
+
+/* Class = "UILabel"; text = "Terms and Condition"; ObjectID = "KqB-BR-icQ"; */
+"KqB-BR-icQ.text" = "Terms and Condition";
+
+/* Class = "UILabel"; text = "Monthly"; ObjectID = "Qtl-UV-q3S"; */
+"Qtl-UV-q3S.text" = "Monthly";
+
+/* Class = "UILabel"; text = "2,99 €"; ObjectID = "cZT-L9-Kqu"; */
+"cZT-L9-Kqu.text" = "2,99 €";
+
+/* Class = "UILabel"; text = "You want to learn from the experts?"; ObjectID = "dm5-uO-vdU"; */
+"dm5-uO-vdU.text" = "You want to learn from the experts?";
+
+/* Class = "UILabel"; text = "Yearly"; ObjectID = "gTN-hb-6vQ"; */
+"gTN-hb-6vQ.text" = "Yearly";
+
+/* Class = "UIButton"; normalTitle = "Get a 2 weeks trial"; ObjectID = "tA8-Ei-sjD"; */
+"tA8-Ei-sjD.normalTitle" = "Get a 2 weeks trial";
+
+/* Class = "UILabel"; text = "*cancel anytime"; ObjectID = "xCh-th-yPN"; */
+"xCh-th-yPN.text" = "*cancel anytime";

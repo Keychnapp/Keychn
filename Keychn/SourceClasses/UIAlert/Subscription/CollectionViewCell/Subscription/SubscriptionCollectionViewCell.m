@@ -19,17 +19,9 @@
     self.popupContainerView.layer.borderWidth  = 3.0f;
     self.popupContainerView.layer.borderColor  = [UIColor appBackgroundColor].CGColor;
     
-    // Set text
-    self.wantToLearnLabel.text = AppLabel.lblYouWantToLearnFromExperts;
-    [self.get2WeeksTrialButton setTitle:AppLabel.lblGetTrial forState:UIControlStateNormal];
-    self.cancelAnyTimeLabel.text = AppLabel.lblCancelAnytime;
-    self.monthlyLabel.text = AppLabel.lblMonthly;
-    self.keychnTermsLabel.text = AppLabel.lblPremiumContentTerms;
-    self.yearlyLabel.text = AppLabel.lblYearly;
-    
-    NSMutableAttributedString *subscribeToKeychn = [[NSMutableAttributedString alloc] initWithString:AppLabel.lblSubscribeTo attributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName:[UIFont setRobotoFontRegularStyleWithSize:15]}];
+    NSMutableAttributedString *subscribeToKeychn = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"subscribeTo", nil) attributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName:[UIFont setRobotoFontRegularStyleWithSize:15]}];
     NSAttributedString *keychn = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:kAppName] attributes:@{NSForegroundColorAttributeName:[UIColor appBackgroundColor], NSFontAttributeName:[UIFont setRobotoFontRegularStyleWithSize:15]}];
-    NSAttributedString *masterclass = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:AppLabel.lblMasterClass] attributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName:[UIFont setRobotoFontRegularStyleWithSize:15]}];
+    NSAttributedString *masterclass = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:NSLocalizedString(@"masterclass", nil)] attributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName:[UIFont setRobotoFontRegularStyleWithSize:15]}];
     [subscribeToKeychn appendAttributedString:keychn];
     [subscribeToKeychn appendAttributedString:masterclass];
     self.subscribeToKeychLabel.attributedText = subscribeToKeychn;

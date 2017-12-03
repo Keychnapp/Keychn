@@ -203,39 +203,6 @@
     return allRows;
 }
 
-- (void) fetchAppLabelWithLanguageID:(NSNumber*)langugeID {
-    //fetch app labels from local database
-    NSString *selectQuery = [NSString stringWithFormat:@"SELECT label, label_text FROM app_language_text WHERE %@='%@'",kLanguageID,langugeID];
-    sqlite3_stmt  *statement         = nil;
-    KCAppLabel    *appLabel         = [KCAppLabel sharedInstance];
-    @try {
-        if([self openConnection]) {
-            sqlite3_prepare_v2(_dbConnection, [selectQuery UTF8String], -1, &statement, nil);
-            if(statement) {
-                while(sqlite3_step(statement) == SQLITE_ROW) {
-                    
-                    NSString *variableName     = [NSString stringWithFormat:@"%s",sqlite3_column_text(statement, 0)];
-                    NSString *variableValue    = [NSString stringWithUTF8String:(char*)sqlite3_column_text(statement, 1)];
-                    
-                    @try {
-                        //assign property by Key-Value pair using KVC
-                        [appLabel setValue:variableValue forKey:variableName];
-                    }
-                    @catch (NSException *exception) {
-                        if(DEBUGGING) NSLog(@"Label not found for name: %@",variableName);
-                    }
-                }
-            }
-        }
-    }
-    @catch (NSException *exception) {
-    }
-    @finally {
-        if(statement){
-            sqlite3_finalize(statement);
-        }
-        [self closeConnection];
-    }
-}
+
 
 @end

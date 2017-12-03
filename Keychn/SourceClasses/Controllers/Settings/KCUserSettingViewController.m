@@ -13,13 +13,11 @@
 #import "AppDelegate.h"
 #import "KCFacebookManager.h"
 #import "KCSignUpWebManager.h"
-#import "KCLanguageSelectionViewController.h"
 #import "IAPSubscription.h"
 #import "KeychnStore.h"
-#import "KCBottomBar.h"
 
 
-#define NUMBER_OF_ROWS_IN_SECTION @[@4, @2, @1]
+#define NUMBER_OF_ROWS_IN_SECTION @[@3, @2, @1]
 #define NUMBER_OF_SECTIONS          3
 
 @interface KCUserSettingViewController () <UITableViewDataSource, UITableViewDelegate> {
@@ -63,9 +61,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    // Set text on lables and buttons
-    [self setText];
-    
     // Reload table to update text when view reapperas
     [self.settingsTableView reloadData];
 }
@@ -96,16 +91,13 @@
         tableCell = webLinkTableCell;
         switch (indexPath.row) {
             case restoreInAppPurchase:
-                webLinkTableCell.settingsURLLabel.text = [AppLabel.lblRestorePurchase uppercaseString];
+                webLinkTableCell.settingsURLLabel.text = [NSLocalizedString(@"restorePurchase", nil) uppercaseString];
                 break;
             case changePassword:
-                webLinkTableCell.settingsURLLabel.text = [AppLabel.lblChagePassword uppercaseString];
+                webLinkTableCell.settingsURLLabel.text = [NSLocalizedString(@"changePassword", nil) uppercaseString];
                 break;
             case aboutUs:
-                webLinkTableCell.settingsURLLabel.text = [AppLabel.lblAboutUs uppercaseString];
-                break;
-            case languages:
-                webLinkTableCell.settingsURLLabel.text = [AppLabel.lblLanguages uppercaseString];
+                webLinkTableCell.settingsURLLabel.text = [NSLocalizedString(@"aboutUs", nil) uppercaseString];
                 break;
         }
         webLinkTableCell.settingsURLLabel.font         = [UIFont setRobotoFontBoldStyleWithSize:15];
@@ -115,17 +107,17 @@
         tableCell = webLinkTableCell;
         switch (indexPath.row) {
             case contactUs:
-                webLinkTableCell.settingsURLLabel.text = [AppLabel.lblContactUs uppercaseString];
+                webLinkTableCell.settingsURLLabel.text = [NSLocalizedString(@"contactUs", nil) uppercaseString];
                 break;
             case privacy:
-                webLinkTableCell.settingsURLLabel.text = [AppLabel.lblPrivacy uppercaseString];
+                webLinkTableCell.settingsURLLabel.text = [NSLocalizedString(@"privacy", nil) uppercaseString];
                 break;
         }
         webLinkTableCell.settingsURLLabel.font         = [UIFont setRobotoFontBoldStyleWithSize:15];
     }
     else {
         KCSettingsSocialAccountTableCell *socialAccountTableCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifierForSettingSocialAccount forIndexPath:indexPath];
-        socialAccountTableCell.socialAccountTitleLabel.text  = [AppLabel.btnFacebook uppercaseString];
+        socialAccountTableCell.socialAccountTitleLabel.text  = [NSLocalizedString(@"facebook", nil) uppercaseString];
         socialAccountTableCell.socialAccountTitleLabel.font  = [UIFont setRobotoFontBoldStyleWithSize:15];
         socialAccountTableCell.socialAccountConnectSwitch.on = _userProfile.facebookProfile.isActive;
         self.facebookSwitch     = socialAccountTableCell.socialAccountConnectSwitch;
@@ -169,9 +161,7 @@
                 eventName = @"settings_about";
                 [self openWebViewWithURL:aboutUsURL];
                 break;
-            case languages:
-                eventName = @"settings_languages";
-                [self pushChangeLangugeViewController];
+             default:
                 break;
         }
     }
@@ -229,12 +219,6 @@
     self.settingsTableView.contentInset       = UIEdgeInsetsMake(-5, 0, 0, 0);
 }
 
-- (void)setText {
-   // Set text on buttons and labels
-    self.headerLabel.text = AppLabel.lblSettings;
-    [self.logoutButton setTitle:AppLabel.btnLogOut forState:UIControlStateNormal];
-}
-
 - (void)openWebViewWithURL:(NSString*)url {
     // Open a URL on app web view
     KCAppWebViewViewController *appWebView = [self.storyboard instantiateViewControllerWithIdentifier:appWebViewController];
@@ -257,15 +241,7 @@
     }
 }
 
-- (void)pushChangeLangugeViewController {
-    // Go to change languge viewController
-    KCLanguageSelectionViewController *changeLanguageViewController = [self.storyboard instantiateViewControllerWithIdentifier:selectLangugeViewController];
-    changeLanguageViewController.shouldHideBackButton = NO;
-    changeLanguageViewController.shouldNavigateBack   = YES;
-    [self.navigationController pushViewController:changeLanguageViewController animated:YES];
-}
-
-- (void) pushContactUsViewController {
+- (void)pushContactUsViewController {
     // Go to Contact Us ViewController
     UIViewController *contactUsController = [self.storyboard instantiateViewControllerWithIdentifier:contacUsViewController];
     [self.navigationController pushViewController:contactUsController animated:YES];
@@ -279,8 +255,6 @@
 - (void)removeUserSessions {
     // Delete user profile
     [_userProfileDBManager deleteUserProfile];
-    
-    [[KCBottomBar bottomBar] selectScreenWithIndex:Home];
     
     //remove all view controllers and set a new stack
     UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:signUpViewController];
@@ -323,7 +297,7 @@
     }
     else {
         //Show alert for no internet connection
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) withButtonTapHandler:^{
             
         }];
         [self toggleFaceookSwitchWithFlag:NO];
@@ -350,7 +324,7 @@
             [KCProgressIndicator hideActivityIndicator];
             //Show alert for no internet connection
             [self toggleFaceookSwitchWithFlag:!facebookFlag];
-            [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^{
+            [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) withButtonTapHandler:^{
                 
             }];
         }];
@@ -368,7 +342,7 @@
              properties:@{@"":@""}];
 
         NSDictionary *parameters = @{kUserID:_userProfile.userID};
-        [KCProgressIndicator showProgressIndicatortWithText:AppLabel.activityLoggingOut];
+        [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"loggingOut", nil)];
         __weak id weakSelf = self;
         [_signUpWebMangager logOutUserWithParameters:parameters CompletinHandler:^(BOOL status) {
             [KCProgressIndicator hideActivityIndicator];
@@ -379,7 +353,7 @@
         }];
     }
     else {
-        [KCUIAlert showInformationAlertWithHeader:AppLabel.errorTitle message:AppLabel.internetNotAvailable withButtonTapHandler:^{
+        [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) withButtonTapHandler:^{
             
         }];
     }
