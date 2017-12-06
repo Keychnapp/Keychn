@@ -400,6 +400,14 @@
 /* Begin PBXFileReference section */
 		169A71E9486AEB2C4DDB25D0 /* libPods-Keychn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Keychn.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B727DE7919C156BF1E668B6 /* libPods-Keychn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Keychn.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		650732451FD8720D0036FEBE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TermsAndConditionCollectionViewCell.strings; sourceTree = "<group>"; };
+		650732461FD8720E0036FEBE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SubscriptionCollectionViewCell.strings; sourceTree = "<group>"; };
+		650732471FD8720E0036FEBE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		650732481FD8720E0036FEBE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		650732491FD8721A0036FEBE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/TermsAndConditionCollectionViewCell.strings; sourceTree = "<group>"; };
+		6507324A1FD8721A0036FEBE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SubscriptionCollectionViewCell.strings; sourceTree = "<group>"; };
+		6507324B1FD8721B0036FEBE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
+		6507324C1FD8721B0036FEBE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		651ADB0F1F6D2A6500A60200 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		651C7DE21FD4251D0096829C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TermsAndConditionCollectionViewCell.xib; sourceTree = "<group>"; };
 		651C7DE41FD4253A0096829C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SubscriptionCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -2801,6 +2809,8 @@
 				en,
 				Base,
 				es,
+				fr,
+				de,
 			);
 			mainGroup = AA8876641C1069C200D2CEF4;
 			productRefGroup = AA88766E1C1069C200D2CEF4 /* Products */;
@@ -3320,6 +3330,8 @@
 			children = (
 				651C7DE21FD4251D0096829C /* Base */,
 				651C7DE81FD425580096829C /* es */,
+				650732451FD8720D0036FEBE /* fr */,
+				650732491FD8721A0036FEBE /* de */,
 			);
 			name = TermsAndConditionCollectionViewCell.xib;
 			sourceTree = "<group>";
@@ -3329,6 +3341,8 @@
 			children = (
 				651C7DE41FD4253A0096829C /* Base */,
 				651C7DE71FD4253D0096829C /* es */,
+				650732461FD8720E0036FEBE /* fr */,
+				6507324A1FD8721A0036FEBE /* de */,
 			);
 			name = SubscriptionCollectionViewCell.xib;
 			sourceTree = "<group>";
@@ -3338,6 +3352,8 @@
 			children = (
 				65FD712E1FD3059A00C7E2BE /* Base */,
 				65FD71301FD3068E00C7E2BE /* es */,
+				650732481FD8720E0036FEBE /* fr */,
+				6507324C1FD8721B0036FEBE /* de */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3347,6 +3363,8 @@
 			children = (
 				AA88767A1C1069C300D2CEF4 /* Base */,
 				65FD71321FD30BC200C7E2BE /* es */,
+				650732471FD8720E0036FEBE /* fr */,
+				6507324B1FD8721B0036FEBE /* de */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";

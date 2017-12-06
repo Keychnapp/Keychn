@@ -30,17 +30,17 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fDz-dH-tQo">
                         <rect key="frame" x="32" y="73" width="310" height="520"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subscription Terms and Condition" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="faw-fY-5On">
-                                <rect key="frame" x="8" y="15" width="302" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subscription Terms and Condition" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="faw-fY-5On">
+                                <rect key="frame" x="8" y="15" width="302" height="42"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="dfR-mu-GOd"/>
+                                    <constraint firstAttribute="height" constant="42" id="dfR-mu-GOd"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RqX-iu-f3W">
-                                <rect key="frame" x="15" y="51" width="280" height="400"/>
+                                <rect key="frame" x="15" y="72" width="280" height="400"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aej-SX-dbU">
                                         <rect key="frame" x="0.0" y="8" width="280" height="366"/>

@@ -3,28 +3,29 @@
 "APa-dL-vh5.text" = "29,99 €";
 
 /* Class = "UILabel"; text = "*This subscription gives you access to all the premium content on www.keychn.com."; ObjectID = "DpT-4F-l7K"; */
-"DpT-4F-l7K.text" = "*Esta suscripción te da acceso a todo el contenido premium en www.keychn.com";
+"DpT-4F-l7K.text" = "*Die Anmeldung gibt Dir Zugriff auf alle Premium Inhalte on www.keychn.com";
 
 /* Class = "UILabel"; text = "Terms and Condition"; ObjectID = "KqB-BR-icQ"; */
-"KqB-BR-icQ.text" = "Términos y condiciones";
+"KqB-BR-icQ.text" = "Geschäftsbedingungen";
 
 /* Class = "UILabel"; text = "Monthly"; ObjectID = "Qtl-UV-q3S"; */
-"Qtl-UV-q3S.text" = "Mensual";
+"Qtl-UV-q3S.text" = "Monatlich";
 
 /* Class = "UILabel"; text = "2,99 €"; ObjectID = "cZT-L9-Kqu"; */
 "cZT-L9-Kqu.text" = "2,99 €";
 
 /* Class = "UILabel"; text = "You want to learn from the experts?"; ObjectID = "dm5-uO-vdU"; */
-"dm5-uO-vdU.text" = "Quieres aprender de expertos?";
+"dm5-uO-vdU.text" = "Möchtest du von den Experten lernen?";
 
 /* Class = "UILabel"; text = "Yearly"; ObjectID = "gTN-hb-6vQ"; */
-"gTN-hb-6vQ.text" = "Anual";
+"gTN-hb-6vQ.text" = "Jährlich";
 
 /* Class = "UIButton"; normalTitle = "Get a 2 weeks trial"; ObjectID = "tA8-Ei-sjD"; */
-"tA8-Ei-sjD.normalTitle" = "Obten 2 semanas de prueba gratis";
+"tA8-Ei-sjD.normalTitle" = "Sichere Dir 2 kostenlose Testwochen";
 
 /* Class = "UILabel"; text = "*cancel anytime"; ObjectID = "xCh-th-yPN"; */
-"xCh-th-yPN.text" = "*Cncela cuando quieras";
+"xCh-th-yPN.text" = "*Kündige wann immer du willst";
+
 
 
 

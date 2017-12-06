@@ -6,4 +6,112 @@
   Copyright © 2017 Keychn Experience. All rights reserved.
 */
 
+// Onboarding
+
+"onboarding1" = "Cocina en vivo y comparte una\nnueva experiencia con chefs";
+"onboarding2" = "Todas nuestras clases son interactivas\ny en video en vivo";
+"onboarding3" = "Aprende de expertos acerca de\nGastronomía.";
+
+// Sign Up
+
+"hello" = "Halo";
+
+// Masterclass List
+
+"attend"        = "Atender";
+"attending"     = "Atendiendo";
+"fullCapacity"  = "Clase llena";
+"startCooking"  = "Empezar a cocinar";
+"subscribeTo"   = "Suscribirme a";
+
+
+// My Schedule
+
+"masterclass" = "Masterclass";
+
+// Settings
+
+"restorePurchase" = "Restaurar compra";
+"changePassword"  = "Cambiar contraseña";
+"aboutUs"         = "Acerca de nosotros";
+"contactUs"       = "Contactanos";
+"privacy"         = "Privacidad";
+"facebook"        = "Facebook";
+
+
+// Video Call
+"speakNow"                  = "Habla ahora";
+"moreUsersBeforeYourTurn"   = "# usuario(s) más para tu turno";
+
+// User Profile Photo Edit
+
+"changeProfilePicture" = "Cambiar foto de perfil";
+"addProfilePicture"    = "Añadir una foto de perfil";
+
+// Reset Password
+
+"oldPassword"           = "Contraseña anterior";
+"newPassword"           = "Nueva contraseña";
+"confirmNewPassword"    = "Confirma nueva contraseña";
+
+// Item Details
+
+"step"      = "Paso";
+
+// Alert Title
+
+"networkError"          = "Servidor sin conexión";
+"congrats"              = "Felicidades Starcook";
+"cancelMasterclass"     = "Cancelar Masterclass";
+"earlyJoinMasterclass"  = "Quieres atender a la Masterclass?";
+"masterclassCompleted"  = "Masterclass completa";
+"WorkingOnIt"           = "Trabajando";
+"queryIncomplete"       = "Más detalles requeridos";
+"shareWith"             = "Compartir con";
+"sorryStarcook"         = "Lo sentimos Starcook";
+"resetPassword"         = "Reestablecer Contraseña";
+"selectAnOption"        = "Selecciona una opción";
+
+// Alert Messages
+
+"tryReconnecting"           = "Por favor checa tu conexión a internet";
+"beReadyForMasterclass"     = "Tu lugar fue reservado, prepárate para cocinar!";
+"confirmCancellation"       = "Estas seguro que quieres cancelar esta Masterclass";
+"waitForMasterclass"        = "Perdón por la espera, te diremos cuando puedas acceder a la Masterclass";
+"emailEmpty"                = "Por favor escribe tu email";
+"nameEmpty"                 = "Por favor escribe tu nombre";
+"emailInvalid"              = "Por favor escribe un mail válido";
+"passwordInvalid"           = "La contraseña debe tener al menos 6 caractéres";
+"thanksForMasterclass"      = "Gracias por ayudarnos. Que mejorarías en keychn?";
+"querySubmitted"            = "Hemos recibido tu feedback. Nos comunicaremos contigo en breve.";
+"write100CharQuery"         = "Por favor explicanos en que te podemos ayudar con más de 100 caractéres.";
+"masterclassSessionExpired" = "Llegaste tarde a la Masterclass. Clase finalizada";
+"passwordResetSuccessfully" = "Nueva contraseña establecida.";
+"profilePictureNotSelected" = "Selecciona una foto de perfil para continuar";
+"locationRequired"          = "No es posible encontrar tu ubicación.";
+
+// Activity Indicator
+
+"bookASlot"             = "Reservando un lugar para ti, por favor espera.";
+"cancelAMasterclass"    = "Cancelando interacción, por favor espera.";
+"loggingOut"            = "Desconectado, por favor espere...";
+"openingCamera"         = "Abriendo camara, porfavor espere...";
+"waitForYourTurn"       = "Espera a tu turno";
+"reachingSupport"       = "Contactando a nuestro equipo por favor espera.";
+"updatingProfile"       = "Actualizando perfil, por favor espera...";
+"updatingPassword"      = "Actulizando contraseña, por favor espera...";
+"loggingWithFacebook"   = "Conectando con Facebook, por favor espera";
+"merginAccounts"        = "Conectando ambas cuentas, por favor espera";
+
+// Button Titles
+
+"retry"     = "Intentar de nuevo";
+"confirm"   = "Confirmar";
+"merge"     = "Integrar cuentas";
+"cancel"    = "Cancelar";
+"ok"        = "Ok";
+"twitter"   = "Twitter";
+"now"       = "Ahora";
+"camera"    = "Cámara";
+"photos"    = "Cámara";
 
