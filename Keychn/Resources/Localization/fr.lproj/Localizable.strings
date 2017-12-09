@@ -9,21 +9,26 @@
 
 // Onboarding
 
-"onboarding1" = "Cook live and share a new\nexperience with chefs";
-"onboarding2" = "All our classes are interactive\nand in live video";
-"onboarding3" = "Learn from experts about\ngastronomy";
+"onboarding1" = "Cuisine en temps réel et partage une nouvelle expérience avec des chefs";
+"onboarding2" = "Toutes nos classes sont interactives et en vidéo en temps réel";
+"onboarding3" = "Apprends d'experts en\ngastronomie";
 
 // Sign Up
 
-"hello" = "Hello";
+"hello" = "Salut";
+"alreadyHaveAccount" = "Vous avez déjà un compte?";
+"dontHaveAccount"    = "Hast du kein Konto?";
+"signIn"             = "Se connecter";
+"signUp"             = "S'inscrire";
+
 
 // Masterclass List
 
-"attend"        = "Attend";
-"attending"     = "Attending";
-"fullCapacity"  = "Full Capacity";
-"startCooking"  = "Start Cooking";
-"subscribeTo"   = "Subscribe to";
+"attend"        = "Participer";
+"attending"     = "Participation";
+"fullCapacity"  = "Je participe";
+"startCooking"  = "Commencer à cuisiner";
+"subscribeTo"   = "M'inscrire à";
 
 
 // My Schedule
@@ -32,87 +37,93 @@
 
 // Settings
 
-"restorePurchase" = "Restore Purchase";
-"changePassword"  = "Change Password";
-"aboutUs"         = "About Us";
-"contactUs"       = "Contact Us";
-"privacy"         = "Privacy";
+"restorePurchase" = "Restaurer les achats";
+"changePassword"  = "Modifier le mot de passe";
+"aboutUs"         = "A propos de nous";
+"contactUs"       = "Contactez-nous";
+"privacy"         = "Confidentialité";
 "facebook"        = "Facebook";
 
 
 // Video Call
-"speakNow"                  = "Speak Now";
-"moreUsersBeforeYourTurn"   = "more user(s) for your turn.";
+"speakNow"                  = "Parle maintenant";
+"moreUsersBeforeYourTurn"   = "mehr Nutzer für Ihren Zug.";
 
 // User Profile Photo Edit
 
-"changeProfilePicture" = "Change Profile Picture";
-"addProfilePicture"    = "Add a Profile Picture";
+"changeProfilePicture" = "Modifier la photo de profil";
+"addProfilePicture"    = "Ajouter une photo de profil";
 
 // Reset Password
 
-"oldPassword"           = "Old Password";
-"newPassword"           = "New Password";
-"confirmNewPassword"    = "Confirm New Password";
+"oldPassword"           = "Ancien mot de passe";
+"newPassword"           = "Nouveau mot de passe";
+"confirmNewPassword"    = "Confimer le nouveau mot de passe";
+
+// Recipes
+
+"free" = "Gratuit";
+"recipesForAll" = "Recettes pour tous !!";
+
 
 // Item Details
 
-"step"      = "STEP";
+"step"      = "Etape";
 
 // Alert Title
 
-"networkError"          = "Server Unreachable";
-"congrats"              = "Congratulations Starrcook!";
-"cancelMasterclass"     = "Cancel Masterclass";
-"earlyJoinMasterclass"  = "Want To Join Masterclass?";
-"masterclassCompleted"  = "Masterclass Completed";
-"WorkingOnIt"           = "Working On It";
-"queryIncomplete"       = "More Details Required";
-"shareWith"             = "Share With";
-"sorryStarcook"         = "Sorry Starcook";
-"resetPassword"         = "Reset Password";
-"selectAnOption"        = "Select An Option";
+"networkError"          = "Serveur injoignable";
+"congrats"              = "Félicitation Starcook!";
+"cancelMasterclass"     = "Annuler la Masterclass";
+"earlyJoinMasterclass"  = "Tu veux te joindre à la Masterclass?";
+"masterclassCompleted"  = "Masterclass terminée";
+"WorkingOnIt"           = "En train de travailler dessus";
+"queryIncomplete"       = "Plus de détails requis";
+"shareWith"             = "Partager avec ";
+"sorryStarcook"         = "Désolé Starcook";
+"resetPassword"         = "Réinitialiser le mot de passe";
+"selectAnOption"        = "Sélectionner une option";
 
 // Alert Messages
 
-"tryReconnecting"           = "Please check your Internet connection and try again.";
-"beReadyForMasterclass"     = "Your slot has been booked. Get ready with the fork and knife!";
-"confirmCancellation"       = "Are you sure, want to cancel this Masterclass?";
-"waitForMasterclass"        = "Sorry to keep you waiting, we'll let you know when you can join the Masterclass";
-"emailEmpty"                = "Please input an email";
-"nameEmpty"                 = "Please input your name.";
-"emailInvalid"              = "Please input a valid email address";
-"passwordInvalid"           = "Please input a password of at least 6 characters.";
-"thanksForMasterclass"      = "Thanks for joining us. Please share your valuable feedback with us.";
-"querySubmitted"            = "We have received your query and one of our executives will reach out to you shortly.";
-"write100CharQuery"         = "Please provide a detailed comment with at least 100 chars.";
-"masterclassSessionExpired" = "You are late for this masterclass. This masterclass is over.";
-"passwordResetSuccessfully" = "New password updated successfully. Please keep it safe for security purposes.";
-"profilePictureNotSelected" = "Select a profile picture to continue.";
-"locationRequired"          = "Unable to fetch current location, please input it manually.";
+"tryReconnecting"           = "Veille à vérifiter ta connection internet et réssaye";
+"beReadyForMasterclass"     = "Ta place a été réservée. Prépare toi à cuisiner!";
+"confirmCancellation"       = "Es-tu sûr de vouloir annuler cette Masterclass?";
+"waitForMasterclass"        = "Désolé pour l'attente, nous te dirons quand tu pourras accéder à la Masterclass";
+"emailEmpty"                = "Saisis une adresse email";
+"nameEmpty"                 = "Saisis ton nom";
+"emailInvalid"              = "Saisis une adresse email correcte";
+"passwordInvalid"           = "Saisis un mot de passe d'au moins 6 caractères";
+"thanksForMasterclass"      = "Merci de nous aider. Comment pouvons nous améliorer Keychn?";
+"querySubmitted"            = "Nous avons reçu votre feedback. Nous revenons vers vous dans les plus brefs délais.";
+"write100CharQuery"         = "Explique nous en quoi pouvons nous t'aider en moins de 100 caractères";
+"masterclassSessionExpired" = "Tu es en retard pour cette Masterclass. La classe est terminée.";
+"passwordResetSuccessfully" = "Nouveau mot de passe actualisé. Veille à le garder secret pour des raisons de sécurité.";
+"profilePictureNotSelected" = "Sélectionner une photo de profil afin de continuer.";
+"locationRequired"          = "Impossible de trouver ta localisation. Stp, saisis-la manuellement.";
 
 // Activity Indicator
 
-"bookASlot"             = "Booking a slot for you, please wait...";
-"cancelAMasterclass"    = "Cancelling Interaction, please wait...";
-"loggingOut"            = "Logging Out, please wait...";
-"openingCamera"         = "Opening Camera, please wait...";
-"waitForYourTurn"       = "Wait for your turn..";
-"reachingSupport"       = "Contacting our team, please wait...";
-"updatingProfile"       = "Updating profile, please wait...";
-"updatingPassword"      = "Updating Password, please wait...";
-"loggingWithFacebook"   = "Logging in with Facebook...";
+"bookASlot"             = "Nous réservons ta place, un moment svp...";
+"cancelAMasterclass"    = "Nous annulons l'interaction, un moment svp...";
+"loggingOut"            = "Déconnexion, un moment svp...";
+"openingCamera"         = "Ouverture de la caméra, un moment svp";
+"waitForYourTurn"       = "Attends ton tour..";
+"reachingSupport"       = "Nous te mettons en contact avec notre team, un moment svp...";
+"updatingProfile"       = "Actualisation du profil, un moment svp...";
+"updatingPassword"      = "Actualisation du mot de passe, un moment svp...";
+"loggingWithFacebook"   = "Se connecter avec Facebook";
 "merginAccounts"        = "Merging Facebook account...";
 
 // Button Titles
 
-"retry"     = "Retry";
-"confirm"   = "Confirm";
-"merge"     = "Merge";
-"cancel"    = "Cancel";
+"retry"     = "Essayer de nouveau";
+"confirm"   = "Confirmer";
+"merge"     = "Fusionner";
+"cancel"    = "Annuler";
 "ok"        = "Ok";
 "twitter"   = "Twitter";
-"now"       = "Now";
+"now"       = "Maintenant";
 "camera"    = "Camera";
 "photos"    = "Photos";
 

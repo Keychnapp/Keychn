@@ -139,6 +139,14 @@ typedef NS_ENUM(NSUInteger, SubscriptionIndex) {
         [tableViewCell.monthlySubscriptionButton addTarget:self action:@selector(purchaseSubscriptionButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [tableViewCell.yearlySubscriptionButton addTarget:self action:@selector(purchaseSubscriptionButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         
+        // Set the Attributed text
+        NSMutableAttributedString *subscribeTo = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"subscribeTo", nil) attributes:@{NSFontAttributeName: [UIFont setRobotoFontRegularStyleWithSize:14] , NSForegroundColorAttributeName: [UIColor blackColor]}];
+        NSAttributedString *keychn = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:NSLocalizedString(@"Keychn", nil)]  attributes:@{NSFontAttributeName: [UIFont setRobotoFontRegularStyleWithSize:14], NSForegroundColorAttributeName: [UIColor appBackgroundColor]}];
+        NSAttributedString *masterclass = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:NSLocalizedString(@"Masterclass", nil)]  attributes:@{NSFontAttributeName: [UIFont setRobotoFontRegularStyleWithSize:14], NSForegroundColorAttributeName: [UIColor blackColor]}];
+        [subscribeTo appendAttributedString:keychn];
+        [subscribeTo appendAttributedString:masterclass];
+        tableViewCell.subscribeToKeychLabel.attributedText = subscribeTo;
+        
         return tableViewCell;
     }
     

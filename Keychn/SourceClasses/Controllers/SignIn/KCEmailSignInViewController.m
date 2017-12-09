@@ -28,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (assign, nonatomic) BOOL isProcessing;
+@property (weak, nonatomic) IBOutlet UIButton *dontHaveAnAccountButton;
 
 
 @end
@@ -46,6 +47,12 @@
     // Get instances
     _userProfile     = [KCUserProfile new];
     _loginWebManager = [[KCLoginWebManager alloc] init];
+    
+    // Set attributed text
+    NSMutableAttributedString *dontHaveAccountString = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"dontHaveAccount", nil) attributes:@{NSFontAttributeName: [UIFont setRobotoFontRegularStyleWithSize:15] , NSForegroundColorAttributeName: [UIColor lightGrayColor]}];
+    NSAttributedString *signUpText = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:NSLocalizedString(@"signUp", nil)]  attributes:@{NSFontAttributeName: [UIFont setRobotoFontRegularStyleWithSize:15], NSForegroundColorAttributeName: [UIColor darkGrayColor]}];
+    [dontHaveAccountString appendAttributedString:signUpText];
+    [self.dontHaveAnAccountButton setAttributedTitle:dontHaveAccountString forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {

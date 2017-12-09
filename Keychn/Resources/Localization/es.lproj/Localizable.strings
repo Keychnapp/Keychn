@@ -8,13 +8,18 @@
 
 // Onboarding
 
-"onboarding1" = "Cocina en vivo y comparte una\nnueva experiencia con chefs";
-"onboarding2" = "Todas nuestras clases son interactivas\ny en video en vivo";
+"onboarding1" = "Cocina en vivo y comparte una nueva experiencia con chefs";
+"onboarding2" = "Todas nuestras clases son interactivas y en video en vivo";
 "onboarding3" = "Aprende de expertos acerca de\nGastronomía.";
 
 // Sign Up
 
 "hello" = "Halo";
+"alreadyHaveAccount" = "¿Ya tienes una cuenta?";
+"dontHaveAccount"    = "No tienes una cuenta?";
+"signIn"             = "Registrarse";
+"signUp"             = "Apuntarme";
+
 
 // Masterclass List
 
@@ -53,6 +58,12 @@
 "oldPassword"           = "Contraseña anterior";
 "newPassword"           = "Nueva contraseña";
 "confirmNewPassword"    = "Confirma nueva contraseña";
+
+// Recipes
+
+"free" = "Gratis";
+"recipesForAll" = "Recetas para todos !!";
+
 
 // Item Details
 

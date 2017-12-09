@@ -16,6 +16,10 @@
 // Sign Up
 
 "hello" = "Hello";
+"alreadyHaveAccount" = "Already have an account?";
+"dontHaveAccount"    = "Don't have an account?";
+"signIn"             = "Sign In";
+"signUp"             = "Sign Up";
 
 // Masterclass List
 
@@ -54,6 +58,11 @@
 "oldPassword"           = "Old Password";
 "newPassword"           = "New Password";
 "confirmNewPassword"    = "Confirm New Password";
+
+// Recipes
+
+"free" = "Free";
+"recipesForAll" = "Recipes for All!!";
 
 // Item Details
 

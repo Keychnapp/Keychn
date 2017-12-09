@@ -23,6 +23,7 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *onBoardingCollectionView;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+@property (weak, nonatomic) IBOutlet UIButton *alreadyHaveAnAccountButton;
 
 
 @end
@@ -33,6 +34,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _kOnboardingTextArray = @[NSLocalizedString(@"onboarding1", nil), NSLocalizedString(@"onboarding2", nil), NSLocalizedString(@"onboarding3", nil)];
+    
+    // Set attributed text
+    NSMutableAttributedString *alreadyHaveAccountString = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"alreadyHaveAccount", nil) attributes:@{NSFontAttributeName: [UIFont setRobotoFontRegularStyleWithSize:15] , NSForegroundColorAttributeName: [UIColor lightGrayColor]}];
+    NSAttributedString *signInText = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:NSLocalizedString(@"signIn", nil)]  attributes:@{NSFontAttributeName: [UIFont setRobotoFontRegularStyleWithSize:15], NSForegroundColorAttributeName: [UIColor appBackgroundColor]}];
+    [alreadyHaveAccountString appendAttributedString:signInText];
+    [self.alreadyHaveAnAccountButton setAttributedTitle:alreadyHaveAccountString forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {

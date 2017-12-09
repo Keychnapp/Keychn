@@ -71,6 +71,12 @@
     UICollectionViewLeftAlignedLayout *collectionViewLayout = [UICollectionViewLeftAlignedLayout new];
     [self.itemCollectionView setCollectionViewLayout:collectionViewLayout];
     self.itemCollectionView.alwaysBounceVertical = YES;
+    
+    // Set attributed text
+    NSMutableAttributedString *free = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"free", nil) attributes:@{NSFontAttributeName: [UIFont setRobotoFontRegularStyleWithSize:15] , NSForegroundColorAttributeName: [UIColor appBackgroundColor]}];
+    NSAttributedString *recipesForAll = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:NSLocalizedString(@"recipesForAll", nil)]  attributes:@{NSFontAttributeName: [UIFont setRobotoFontRegularStyleWithSize:15], NSForegroundColorAttributeName: [UIColor darkGrayColor]}];
+    [free appendAttributedString:recipesForAll];
+    self.freeRecipeLabel.attributedText = free;
 }
 
 - (void)didReceiveMemoryWarning {

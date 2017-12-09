@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (assign, nonatomic) BOOL isProcessing;
 @property (weak, nonatomic) IBOutlet TOMSMorphingLabel *starcookLabel;
+@property (weak, nonatomic) IBOutlet UIButton *alreadyHaveAnAccountButton;
 
 @end
 
@@ -46,6 +47,12 @@
     
     // Default value
     _userProfile.receiveNewsletter = [NSNumber numberWithBool:YES];
+    
+    // Set attributed text
+    NSMutableAttributedString *alreadyHaveAccountString = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"alreadyHaveAccount", nil) attributes:@{NSFontAttributeName: [UIFont setRobotoFontRegularStyleWithSize:15] , NSForegroundColorAttributeName: [UIColor lightGrayColor]}];
+    NSAttributedString *signInText = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:NSLocalizedString(@"signIn", nil)]  attributes:@{NSFontAttributeName: [UIFont setRobotoFontRegularStyleWithSize:15], NSForegroundColorAttributeName: [UIColor darkGrayColor]}];
+    [alreadyHaveAccountString appendAttributedString:signInText];
+    [self.alreadyHaveAnAccountButton setAttributedTitle:alreadyHaveAccountString forState:UIControlStateNormal];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -82,9 +89,13 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     if (textField == self.nameTextField) {
-        [self.starcookLabel setText:[NSLocalizedString(@"hello", nil) stringByAppendingFormat:@" %@",self.nameTextField.text] withCompletionBlock:^{
-            
-        }];
+        NSArray *componentsArray = [self.nameTextField.text componentsSeparatedByString:@" "];
+        if(componentsArray.count > 0) {
+            NSString *firstName = componentsArray.firstObject;
+            [self.starcookLabel setText:[NSLocalizedString(@"hello", nil) stringByAppendingFormat:@" %@",firstName] withCompletionBlock:^{
+                
+            }];
+        }
     }
 }
 

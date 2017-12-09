@@ -287,6 +287,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="alreadyHaveAnAccountButton" destination="fTI-0B-u7f" id="SWz-lx-oxc"/>
                         <outlet property="onBoardingCollectionView" destination="nlh-AV-XKX" id="ig2-ad-WKI"/>
                         <outlet property="pageControl" destination="5IB-bX-OjP" id="Myl-Wb-wkc"/>
                     </connections>
@@ -617,6 +618,7 @@
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="uMF-QA-WTc" id="GAy-17-gW9"/>
+                        <outlet property="alreadyHaveAnAccountButton" destination="U5l-kH-Rl0" id="Pka-Kl-UWs"/>
                         <outlet property="containerView" destination="HgS-0g-AqN" id="ke0-TV-mJ9"/>
                         <outlet property="emailTextField" destination="hsA-GR-s3K" id="xl3-hr-Qt4"/>
                         <outlet property="nameTextField" destination="OGQ-UP-Xkt" id="QrH-o1-Rvv"/>
@@ -919,6 +921,7 @@
                     <connections>
                         <outlet property="activityIndicator" destination="rLS-Q7-rW2" id="I3S-VX-IkT"/>
                         <outlet property="containerView" destination="P3c-Hq-I1M" id="85E-Yy-hNx"/>
+                        <outlet property="dontHaveAnAccountButton" destination="EzR-ao-zN5" id="few-qz-CED"/>
                         <outlet property="emailTextField" destination="lVU-w9-dJU" id="kPe-ep-1Rg"/>
                         <outlet property="passwordTextField" destination="fva-Kf-g9i" id="DtN-ad-QWl"/>
                         <outlet property="scrollView" destination="cPt-cp-ujw" id="XkX-Qh-BXS"/>
@@ -10888,10 +10891,10 @@
                                                 </variation>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EiN-Eu-XI7">
-                                                <rect key="frame" x="255.5" y="112" width="80" height="26"/>
+                                                <rect key="frame" x="255.5" y="112" width="90" height="26"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="82" id="KnJ-Mg-gGf">
-                                                        <variation key="heightClass=regular-widthClass=compact" constant="80"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="82" id="KnJ-Mg-gGf">
+                                                        <variation key="heightClass=regular-widthClass=compact" constant="90"/>
                                                     </constraint>
                                                     <constraint firstAttribute="width" constant="60" id="aR4-4K-oFT"/>
                                                     <constraint firstAttribute="height" constant="26" id="lkd-Eb-HVy"/>
