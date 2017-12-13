@@ -50,6 +50,20 @@
     [self deregisterForKeyboardNotifications]; //deregister for keyborad notifications
 }
 
+#pragma mark - Auto rotation
+
+- (BOOL)shouldAutorotate {
+    return  false;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return  UIInterfaceOrientationMaskPortrait;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return  UIInterfaceOrientationPortrait;
+}
+
 #pragma mark - Text Field Delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

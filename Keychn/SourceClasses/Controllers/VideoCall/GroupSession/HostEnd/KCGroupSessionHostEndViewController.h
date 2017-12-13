@@ -12,5 +12,6 @@
 
 @property (copy,nonatomic) NSString *conferenceID;
 @property (copy,nonatomic) NSNumber *groupSessionID;
+@property (assign, nonatomic) NSTimeInterval startTimeInterval;
 
 @end

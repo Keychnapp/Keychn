@@ -75,7 +75,19 @@
     [self deregisterForKeyboardNotifications];
 }
 
+#pragma mark - Auto rotation
 
+- (BOOL)shouldAutorotate {
+    return  false;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return  UIInterfaceOrientationMaskPortrait;
+}
+
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return  UIInterfaceOrientationPortrait;
+}
 
 #pragma mark - Text Field Delegate
 
@@ -247,11 +259,9 @@
     [userProfile getModelFromDictionary:userProfileResponse withType:server];
     
     // Save current user in local database
-    __weak KCEmailSignInViewController *weakSelf   = self;
     KCUserProfileDBManager *userProfileDBManager = [[KCUserProfileDBManager alloc] init];
-    [userProfileDBManager saveCurrentUserWithCompletionHandler:^{
-        [weakSelf pushHomeViewController];
-    }];
+    [userProfileDBManager saveUserWithSocialProfile:userInfo];
+    [self pushHomeViewController];
 }
 
 #pragma mark - Server End Code

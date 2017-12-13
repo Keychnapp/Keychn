@@ -21,6 +21,7 @@
 #import "EventStore.h"
 
 @interface KCMyScheduleViewController () <UITableViewDataSource, UITableViewDelegate> {
+    
     NSMutableArray *_calendarViewArray;
     KCUserScheduleDBManager  *_userScheduleDBManager;
     KCUserProfile            *_userProfile;
@@ -70,7 +71,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
     _shouldReloadData           = YES;
     _eventStore                 = [EventStore new];
     
-    //customize UI according to the app theme
+    // Customize UI according to the app theme
     [self customizeUI];
     
     // Request for iCalendar permission
@@ -85,12 +86,11 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    //add a calendar view
+    // Add a calendar view
     [self addCalendar];
     
-    //Fetch Myschedules from server
+    // Fetch Myschedules from server
     [self fetchMySchedule];
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -101,7 +101,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
 #pragma mark - Add Calendar
 
 - (void)addCalendar {
-    //a calendar will be added to show the current week's date and to show the scheduled events
+    // A calendar will be added to show the current week's date and to show the scheduled events
     if(!_calendarViewArray) {
         _calendarViewArray = [[NSMutableArray alloc] init];
         NSInteger viewWidth = 0;
@@ -129,11 +129,12 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
             
             calendarCellView.roundView.hidden           = YES;
             calendarCellView.dateButton.tag             = i;
-            //set texts
+            
+            // Set texts
             [calendarCellView.dateButton setTitle: [NSString stringWithFormat:@"%@", [_weekDates objectAtIndex:i]] forState:UIControlStateNormal];
             calendarCellView.dayLabel.text  = [weekDays objectAtIndex:i];
             
-            //set text fonts
+            // Set text fonts
             calendarCellView.dateButton.titleLabel.font  = [UIFont setRobotoFontRegularStyleWithSize:16];
             [calendarCellView.dateButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             calendarCellView.dayLabel.font   = [UIFont setRobotoFontRegularStyleWithSize:14];
@@ -232,9 +233,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
     // Show item details for ths selected item
     if([self.myScheduleArray count] > indexPath.row) {
         KCMySchedule *mySchedule = [self.myScheduleArray objectAtIndex:indexPath.row];
-        if(mySchedule.recipeType == menus) {
-           [self pushItemDetailsScreenWithItemName:mySchedule.itemName andItemID:mySchedule.itemID isRescheduling:mySchedule.isOpen scheduleID:mySchedule.scheduleID scheduleDate:mySchedule.scheduleDate];
-        }
+        [self startGroupSessionForType:mySchedule.isHosting withConferenceID:mySchedule.conferenceID participantName:mySchedule.secondUsername particpantUserID:mySchedule.secondUserID andScheduleID:mySchedule.scheduleID timeinterval:mySchedule.scheduleDate];
     }
 }
 
@@ -278,6 +277,9 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
     
     // Adjust font for width and line indent
     self.noInteractionLabel.adjustsFontSizeToFitWidth                = YES;
+    
+    //Set text on button and labels
+    self.currentMonthLabel.text        = [NSDate getCurrentMonthAndYear];
 }
 
 #pragma mark - Button Action 
@@ -292,7 +294,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
              properties:@{ @"masterclass_id":mySchedule.scheduleID }];
         if(mySchedule.scheduleDate - currentTimeInterval <= kBufferTimeForCallStart) {
             // Masterclass
-            [self startGroupSessionForType:mySchedule.isHosting withConferenceID:mySchedule.conferenceID participantName:mySchedule.secondUsername particpantUserID:mySchedule.secondUserID andScheduleID:mySchedule.scheduleID];
+            [self startGroupSessionForType:mySchedule.isHosting withConferenceID:mySchedule.conferenceID participantName:mySchedule.secondUsername particpantUserID:mySchedule.secondUserID andScheduleID:mySchedule.scheduleID timeinterval:mySchedule.scheduleDate];
         }
         else {
             // Show user to wait for the time
@@ -306,20 +308,22 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
 
 #pragma mark - Instance Methods
 
-- (void)startGroupSessionForType:(BOOL)isHosting withConferenceID:(NSString *)conferenceID participantName:(NSString *)participantName particpantUserID:(NSNumber *)userID andScheduleID:(NSNumber *)scheduleID {
+- (void)startGroupSessionForType:(BOOL)isHosting withConferenceID:(NSString *)conferenceID participantName:(NSString *)participantName particpantUserID:(NSNumber *)userID andScheduleID:(NSNumber *)scheduleID timeinterval:(NSTimeInterval )timeinterval {
     // Start Group Session 1:N
     if(isHosting) {
         KCGroupSessionHostEndViewController *gsHostEndViewController = [self.storyboard instantiateViewControllerWithIdentifier:hostEndSessionViewController];
-        gsHostEndViewController.conferenceID   = conferenceID;
-        gsHostEndViewController.groupSessionID = scheduleID;
+        gsHostEndViewController.conferenceID        = conferenceID;
+        gsHostEndViewController.groupSessionID      = scheduleID;
+        gsHostEndViewController.startTimeInterval   = timeinterval;
         [self.navigationController pushViewController:gsHostEndViewController animated:YES];
     }
     else {
         KCGroupSessionGuestEndViewController *gsGuestEndViewController = [self.storyboard instantiateViewControllerWithIdentifier:guestEndSessionViewController];
-        gsGuestEndViewController.conferenceID    = conferenceID;
-        gsGuestEndViewController.hostName        = participantName;
-        gsGuestEndViewController.sessionID       = scheduleID;
-        gsGuestEndViewController.chefUserID      = userID;
+        gsGuestEndViewController.conferenceID       = conferenceID;
+        gsGuestEndViewController.hostName           = participantName;
+        gsGuestEndViewController.sessionID          = scheduleID;
+        gsGuestEndViewController.chefUserID         = userID;
+        gsGuestEndViewController.startTimeInterval  = timeinterval;
         if(DEBUGGING) NSLog(@"startGroupSessionForType --> Chef ID %@",userID);
         [self.navigationController pushViewController:gsGuestEndViewController animated:YES];
     }

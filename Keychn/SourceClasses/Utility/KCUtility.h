@@ -66,4 +66,7 @@
  */
 +(NSString*)getUserNameFromMessage:(NSString*)alertMessage;
 
+// Format Seconds
++ (NSString *)formatSeconds:(NSInteger)seconds;
+    
 @end

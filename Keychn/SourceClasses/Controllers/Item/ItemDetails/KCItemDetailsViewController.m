@@ -235,23 +235,19 @@
             NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString: recipeStep.recipeStep attributes: attributes];
             recipeStepTableCell.recipeProcedureLabel.attributedText = attributedString;
             
+            
             //Set Image with Aynsc blocks
             [recipeStepTableCell.recipeStepImageDownloadActivityIndicator startAnimating];
+            recipeStepTableCell.recipeStepImageView.image = nil;
             [recipeStepTableCell.recipeStepImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:recipeStep.imageURL]] placeholderImage:nil success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
                     [recipeStepTableCell.recipeStepImageDownloadActivityIndicator stopAnimating];
                 recipeStepTableCell.recipeStepImageView.image = image;
             } failure:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
                 [recipeStepTableCell.recipeStepImageDownloadActivityIndicator stopAnimating];
             }];
+            
             recipeStepTableCell.stepPositionLabel.font = [UIFont setRobotoFontItalicStyleWithSize:14];
             recipeStepTableCell.stepPositionLabel.text = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"step", nil), recipeStep.stepPosition];
-            
-            //Adjust label height
-            NSInteger labelHeight = [[_recipeRowHeightArray objectAtIndex:effectivePosition] integerValue];
-            if(labelHeight > 60) {
-                recipeStepTableCell.receipeProcedureLabelHeightConstraint.constant = labelHeight;
-                [recipeStepTableCell.recipeProcedureLabel updateConstraints];
-            }
         }
         
         tableViewCell = recipeStepTableCell;

@@ -35,6 +35,13 @@
 
 "masterclass" = "Masterclass";
 
+// Preferences
+
+"your"      = "Ihre";
+"favorite"  = "Favorit";
+"recipes"   = "Rezepte";
+
+
 // Settings
 
 "restorePurchase" = "Einkauf zurückerstatten";

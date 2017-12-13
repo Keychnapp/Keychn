@@ -93,6 +93,8 @@
     
     UICollectionViewLeftAlignedLayout *collectionViewLayout = [UICollectionViewLeftAlignedLayout new];
     [self.itemCollectionView setCollectionViewLayout:collectionViewLayout];
+    
+    [self setText];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -353,6 +355,29 @@
         itemCell.itemTitleLabel.text = [item.title uppercaseString];
         [itemCell.itemImageView setImageWithURL:[NSURL URLWithString:item.imageURL] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     }
+}
+
+- (void)setText {
+    // Set text on buttons and labels
+    self.usernameLabel.text       = _userProfile.username;
+    if([NSString validateString:_userProfile.location]) {
+        self.userLocationLabel.text   = _userProfile.location;
+        self.userLocationLabel.hidden = NO;
+    }
+    else {
+        self.userLocationLabel.hidden = YES;
+    }
+    
+    self.subscribeButton.layer.cornerRadius = 5.0f;
+    self.subscribeButton.layer.masksToBounds = YES;
+    
+    // Set attributed text
+    NSMutableAttributedString *your = [[NSMutableAttributedString alloc] initWithString:NSLocalizedString(@"your", nil) attributes:@{NSFontAttributeName: [UIFont setRobotoFontRegularStyleWithSize:15] , NSForegroundColorAttributeName: [UIColor blackColor]}];
+    NSAttributedString *favorite = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:NSLocalizedString(@"favorite", nil)]  attributes:@{NSFontAttributeName: [UIFont setRobotoFontRegularStyleWithSize:15], NSForegroundColorAttributeName: [UIColor appBackgroundColor]}];
+    NSAttributedString *recipes = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:NSLocalizedString(@"recipes", nil)]  attributes:@{NSFontAttributeName: [UIFont setRobotoFontRegularStyleWithSize:15], NSForegroundColorAttributeName: [UIColor blackColor]}];
+    [your appendAttributedString:favorite];
+    [your appendAttributedString:recipes];
+    self.yourFavoriteRecipeLabel.attributedText = your;
 }
 
 #pragma mark - Server End

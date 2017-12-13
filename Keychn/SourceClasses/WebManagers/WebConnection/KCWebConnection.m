@@ -20,9 +20,7 @@
     
     //add default language to the API request parameters
     NSMutableDictionary *params      = [[NSMutableDictionary alloc] initWithDictionary:parameters];
-    if(defaultLanguage) {
-        [params setObject:defaultLanguage forKey:kLanguageID];
-    }
+    [params setObject:[self userLanguageIdentifier] forKey:kLanguageID];
     
     if(DEBUGGING) NSLog(@"Server Request with URL %@ and parameters %@",apiURL,params);
     
@@ -64,9 +62,7 @@
     
     //add default language to the API request parameters
     NSMutableDictionary *params      = [[NSMutableDictionary alloc] initWithDictionary:parameter];
-    if(defaultLanguage) {
-        [params setObject:defaultLanguage forKey:kLanguageID];
-    }
+    [params setObject:[self userLanguageIdentifier] forKey:kLanguageID];
     
     if(DEBUGGING) NSLog(@"Server Request with URL %@ and parameters %@",updateURL,params);
     
@@ -155,6 +151,23 @@
         return [status isEqualToString:kErrorCode];
     }
     return YES;
+}
+
+- (NSString*)userLanguageIdentifier {
+    NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
+    NSDictionary *languageDic = [NSLocale componentsFromLocaleIdentifier:language];
+    NSString *languageCode = [languageDic objectForKey:@"kCFLocaleLanguageCodeKey"];
+    LanguageCode apiLanguage = English;
+    if ([languageCode containsString:@"es"]) {
+        apiLanguage = Spanish;
+    }
+    else if ([languageCode containsString:@"fr"]) {
+        apiLanguage = French;
+    }
+    else if ([languageCode containsString:@"de"]) {
+        apiLanguage = German;
+    }
+    return  [NSString stringWithFormat:@"%lu", (unsigned long)apiLanguage];
 }
 
 #pragma mark - Sync Purchase History

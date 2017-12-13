@@ -137,5 +137,30 @@
     }
     return alertMessage;
 }
+    
++ (NSString *)formatSeconds:(NSInteger)seconds {
+    // Calculate hours from minute
+    NSInteger minutes = seconds/60;
+    NSInteger hour    = minutes / 60;
+    NSInteger minute  = minutes % 60;
+    
+    NSString *hourString   = nil;
+    NSString *minuteString = nil;
+    if(hour < 10) { // Insert an extra 0 to format the  string
+        hourString = [NSString stringWithFormat:@"0%@", [NSNumber numberWithInteger:hour]];
+    }
+    else {
+        hourString = [NSString stringWithFormat:@"%@", [NSNumber numberWithInteger:hour]];
+    }
+    if(minute < 10) { // Insert an extra 0 to format the  string
+        minuteString = [NSString stringWithFormat:@"0%@", [NSNumber numberWithInteger:minute]];
+    }
+    else {
+        minuteString = [NSString stringWithFormat:@"%@", [NSNumber numberWithInteger:minute]];
+    }
+    
+    NSString *sessionTimer =  [NSString stringWithFormat:@"%@:%@",hourString, minuteString];
+    return  sessionTimer;
+}
 
 @end

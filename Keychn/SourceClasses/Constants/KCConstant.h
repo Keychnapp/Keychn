@@ -126,6 +126,12 @@ typedef NS_ENUM(NSUInteger,TabIndex) {
     Profile
 };
 
+typedef NS_ENUM(NSUInteger, LanguageCode) {
+    English = 1,
+    Spanish,
+    French,
+    German
+};
 
 #pragma mark - Database Constants
 

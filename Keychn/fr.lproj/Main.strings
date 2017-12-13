@@ -257,8 +257,8 @@
 /* Class = "UILabel"; text = "Recipe step"; ObjectID = "k89-O7-spd"; */
 "k89-O7-spd.text" = "Etape de la recette";
 
-/* Class = "UITextField"; placeholder = "Search Keychn Masterclass"; ObjectID = "kYf-VC-u0C"; */
-"kYf-VC-u0C.placeholder" = "Rechercher par Masterclass";
+/* Class = "UITextField"; placeholder = "Search Recipes"; ObjectID = "kYf-VC-u0C"; */
+"kYf-VC-u0C.placeholder" = "Rechercher des recettes";
 
 /* Class = "UIButton"; normalTitle = "Next Step"; ObjectID = "luA-XW-eLQ"; */
 "luA-XW-eLQ.normalTitle" = "Etape suivante";

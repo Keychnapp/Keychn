@@ -21,6 +21,8 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     KCAgoraCallManager *_videoCallManager;
     KCUserProfile      *_userProfile;
     NSString           *_loginUsername;
+    NSTimer            *_countdownTimer;
+    NSInteger          _countdownSeconds;
 }
 
 @property (weak, nonatomic) IBOutlet UIButton *questionTurnButton;
@@ -37,6 +39,9 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
 @property (weak, nonatomic) IBOutlet UIButton *endCallButton;
 @property (weak, nonatomic) IBOutlet UIButton *enableMikeButton;
 @property (weak, nonatomic) IBOutlet UIButton *flipCameraButton;
+@property (weak, nonatomic) IBOutlet UIView *timerView;
+@property (weak, nonatomic) IBOutlet UILabel *countdownTimerLabel;
+@property (weak, nonatomic) IBOutlet UILabel *secondsLabel;
 
 @end
 
@@ -56,10 +61,17 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     // Customize app UI
     [self customizeUI];
     
-    // Start conference process
-    [self autheticateTwilioSDKWithToken:nil];
-    
-    if(DEBUGGING) NSLog(@"Guest END --> viewDidLoad --> Chef ID %@",self.chefUserID);
+    _countdownSeconds = self.startTimeInterval - [[NSDate date] timeIntervalSince1970];
+    if (_countdownSeconds > 0) {
+        // Play a countdown timer
+        [self playTimer];
+    }
+    else {
+        // Start conference process
+        self.timerView.hidden = YES;
+        [self.timerView removeFromSuperview];
+        [self autheticateTwilioSDKWithToken:nil];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -89,6 +101,61 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];
 }
 
+#pragma mark - Timer
+
+- (void)playTimer {
+    // Schedule a timer for Masterclass
+    NSString *timerText = [KCUtility formatSeconds:_countdownSeconds];
+    [self textChangeAnimationOnLabel:self.countdownTimerLabel withText:timerText];
+    _countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countdownTimer) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:_countdownTimer forMode:NSRunLoopCommonModes];
+}
+
+- (void)countdownTimer {
+    // Reduce the seconds and set the text with animation
+    if(_countdownSeconds > 0) {
+        --_countdownSeconds;
+        long seconds = [self.secondsLabel.text longLongValue];
+        if(seconds > 0) {
+            [self textChangeAnimationOnLabel:self.secondsLabel withText:[NSString stringWithFormat:@"%ld", (long)seconds-1]];
+        }
+        else {
+            seconds = _countdownSeconds < 60 ? _countdownSeconds :  60;
+            [self textChangeAnimationOnLabel:self.secondsLabel withText:[NSString stringWithFormat:@"%ld", seconds]];
+            NSString *timerText = [KCUtility formatSeconds:--_countdownSeconds];
+            [self textChangeAnimationOnLabel:self.countdownTimerLabel withText:timerText];
+        }
+    }
+    else {
+        [_countdownTimer invalidate];
+        _countdownTimer = nil;
+        
+        // Start conference process when timer elapses
+        __block CGRect frame = self.timerView.frame;
+        frame.origin.y = -frame.size.height;
+        [UIView animateWithDuration:0.5f delay:0.0f options:UIViewAnimationOptionCurveLinear animations:^{
+            self.timerView.frame = frame;
+            self.timerView.alpha = 0.1;
+        } completion:^(BOOL finished) {
+            self.timerView.alpha = 0.0;
+            [self.timerView removeFromSuperview];
+            [self autheticateTwilioSDKWithToken:nil];
+        }];
+    }
+}
+    
+#pragma mark - Animation
+    
+- (void)textChangeAnimationOnLabel:(UILabel *)label withText:(NSString *)text {
+    // Perform text change animation on selected label
+    [UIView transitionWithView:label
+                      duration:0.7f
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:^{
+                        label.text = text;
+                        
+                    } completion:nil];
+}
 
 #pragma mark - Button Actions
 
@@ -119,6 +186,10 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
 
 - (IBAction)flipCameraButtonTapped:(id)sender {
     [_videoCallManager flipCamera];
+}
+
+- (IBAction)joinLaterButtonTapped:(id)sender {
+    [self.navigationController popViewControllerAnimated:true];
 }
 
 

@@ -14,5 +14,6 @@
 @property (copy,nonatomic) NSString *hostName;
 @property (copy, nonatomic) NSNumber *sessionID;
 @property (copy, nonatomic) NSNumber *chefUserID;
+@property (assign, nonatomic) NSTimeInterval startTimeInterval;
 
 @end
