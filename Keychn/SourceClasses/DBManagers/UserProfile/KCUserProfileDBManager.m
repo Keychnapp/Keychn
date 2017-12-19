@@ -17,7 +17,7 @@
     KCUserProfile *userProfile = [KCUserProfile sharedInstance];
     dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //prepare raw query
-        NSString *query = [NSString stringWithFormat:@"INSERT INTO user_profile (user_id, username, email_id, location, image_url, credit, is_active, user_type, access_token, newsletter_preference, password, language_id) VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",userProfile.userID,userProfile.username,userProfile.emailID,userProfile.location,userProfile.imageURL,userProfile.credits,userProfile.isActive,userProfile.userType,userProfile.accessToken,userProfile.receiveNewsletter,userProfile.password,userProfile.languageID];
+        NSString *query = [NSString stringWithFormat:@"INSERT INTO user_profile (user_id, username, email_id, location, image_url, credit, is_active, user_type, access_token, newsletter_preference, password, banner_url) VALUES ('%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",userProfile.userID,userProfile.username,userProfile.emailID,userProfile.location,userProfile.imageURL,userProfile.credits,userProfile.isActive,userProfile.userType,userProfile.accessToken,userProfile.receiveNewsletter,userProfile.password, userProfile.bannerImageURL];
         
         if(DEBUGGING) NSLog(@"User Profile Insert Query %@",query);
         
@@ -104,10 +104,16 @@
 
 - (void)updateUserProfile:(KCUserProfile*)userProfile {
     // Update user profile in local database
-    NSString *updateQuery = [NSString stringWithFormat:@"UPDATE user_profile SET location = '%@', image_url = '%@', credit = '%@', is_active = '%@', user_type = '%@', access_token = '%@', language_id = '%@' WHERE user_id='%@'",userProfile.location,userProfile.imageURL,userProfile.credits,userProfile.isActive,userProfile.userType,userProfile.accessToken,userProfile.languageID,userProfile.userID];
+    NSString *updateQuery = [NSString stringWithFormat:@"UPDATE user_profile SET location = '%@', image_url = '%@', credit = '%@', is_active = '%@', user_type = '%@', access_token = '%@', banner_url = '%@' WHERE user_id='%@'",userProfile.location,userProfile.imageURL,userProfile.credits,userProfile.isActive,userProfile.userType,userProfile.accessToken, userProfile.bannerImageURL, userProfile.userID];
     KCDatabaseOperation *dbOperation = [KCDatabaseOperation sharedInstance];
     [dbOperation executeSQLQuery:updateQuery];
-    
 }
+
+- (BOOL)isMasterchef {
+    KCDatabaseOperation *dbOperation = [KCDatabaseOperation sharedInstance];
+    NSArray *values                  = [dbOperation fetchColumnDataFromTable:@"user_schedule" andColumnName:@"schedule_id" withClause:@"WHERE is_hosting = 1"];
+    return values.count > 0;
+}
+
 
 @end

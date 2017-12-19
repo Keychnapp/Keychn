@@ -10,6 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "KCGroupSessionWebManager.h"
 #import "KCAgoraCallManager.h"
+#import "KCNavigationController.h"
 
 
 typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
@@ -42,6 +43,9 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
 @property (weak, nonatomic) IBOutlet UIView *timerView;
 @property (weak, nonatomic) IBOutlet UILabel *countdownTimerLabel;
 @property (weak, nonatomic) IBOutlet UILabel *secondsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *masterclassStartsInLabel;
+@property (weak, nonatomic) IBOutlet UIButton *joinLaterButton;
+
 
 @end
 
@@ -209,6 +213,13 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     
     // Set corner radius
     self.questionTurnButton.layer.cornerRadius = 20;
+    
+    self.usernameContainerView.layer.cornerRadius = 5.0;
+    self.usernameContainerView.layer.masksToBounds = YES;
+    
+    // Set Language Text For Timers
+    self.masterclassStartsInLabel.text = NSLocalizedString(@"masterclassStartsIn", nil);
+    [self.joinLaterButton setTitle:NSLocalizedString(@"joinLater", nil) forState:UIControlStateNormal];
 }
 
 - (void)setText {
@@ -244,7 +255,7 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     
     if(status) {
         // Mark call end for this user on server
-        [self updateGroupSessionStatusForUser:_userProfile.userID accessToken:_userProfile.accessToken languageID:_userProfile.languageID groupSessionID:self.sessionID andUpdateType:kEnd];
+        [self updateGroupSessionStatusForUser:_userProfile.userID accessToken:_userProfile.accessToken groupSessionID:self.sessionID andUpdateType:kEnd];
         
         //Allow screen to dim
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
@@ -290,7 +301,7 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
 
 #pragma mark - Twilio Call
 
-- (void)autheticateTwilioSDKWithToken:(NSString *)token {
+- (void)autheticateTwilioSDKWithToken:(NSString *)token {    
     // Autheticate Twilio Token
     __weak id weakSelf = self;
     [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"openingCamera", nil)];
@@ -385,10 +396,10 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
 
 #pragma mark - Server End
 
-- (void)updateGroupSessionStatusForUser:(NSNumber *)userID accessToken:(NSString *)accessToken languageID:(NSNumber *)languageID groupSessionID:(NSNumber *)sessionID andUpdateType:(NSString *)updateType {
+- (void)updateGroupSessionStatusForUser:(NSNumber *)userID accessToken:(NSString *)accessToken groupSessionID:(NSNumber *)sessionID andUpdateType:(NSString *)updateType {
     // Update Group session status on server for guest user in Group Session
     KCGroupSessionWebManager  *groupSessionWebManager = [KCGroupSessionWebManager new];
-    NSDictionary *parameters = @{kUserID: userID, kAcessToken:accessToken, kLanguageID:languageID, kSessionID:sessionID, kUpdateType:updateType};
+    NSDictionary *parameters = @{kUserID: userID, kAcessToken:accessToken, kSessionID:sessionID, kUpdateType:updateType};
     // Network request to update the group session status
     [groupSessionWebManager updateGroupSessionStatusWithParameter:parameters withCompletionHandler:^(NSString *title, NSString *message) {
         

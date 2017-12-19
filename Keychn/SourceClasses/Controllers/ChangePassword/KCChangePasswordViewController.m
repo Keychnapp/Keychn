@@ -262,7 +262,7 @@ typedef NS_ENUM(NSUInteger, ChangePassword) {
     // Update the password on server
     if(isNetworkReachable) {
         // Request to update password on server
-        NSDictionary *parameters = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kPassword:_updatePassword.newlyPassword, kCurrentPassword:_updatePassword.oldPassword};
+        NSDictionary *parameters = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kPassword:_updatePassword.newlyPassword, kCurrentPassword:_updatePassword.oldPassword};
         __weak KCChangePasswordViewController *weakSelf = self;
         [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"updatingPassword", nil)];
         [_updateProfileManager updateUserPasswordWithParameters:parameters withCompletionHandler:^(NSString *title, NSString *message) {

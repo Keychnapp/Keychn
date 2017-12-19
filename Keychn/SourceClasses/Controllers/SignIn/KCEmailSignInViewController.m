@@ -179,7 +179,6 @@
         [mixpanel track:@"login_facebook_button"
              properties:@{@"":@""}];
         _facebookManager = [[KCFacebookManager alloc] init];
-        if(DEBUGGING) NSLog(@"fbLoginButtonTapped --> User language ID %@",_userProfile.languageID);
         [_facebookManager connectToFacebookWithViewController:self completionHandler:^(BOOL flag) {
             //Facebook data fetched, login with facebook
             if(flag) {
@@ -300,10 +299,8 @@
     }
     __weak id weakSelf = self;
     NSDictionary *userSocialProfileDictionary = [[KCUserProfile sharedInstance].facebookProfile getSocialUserProfileDictionary];
-    if(DEBUGGING) NSLog(@"loginWithFacebook --> User language ID %@",_userProfile.languageID);
     [_signUpWebManager signUpWithSocialAccount:userSocialProfileDictionary withCompletionHandler:^(NSDictionary *response) {
         //Save user profile with social profile in local database
-        if(DEBUGGING) NSLog(@"loginWithFacebook --> Completion Handler --> User language ID %@",_userProfile.languageID);
         KCUserProfileDBManager *userProfileDBManager = [KCUserProfileDBManager new];
         [userProfileDBManager saveUserWithSocialProfile:response];
         [weakSelf pushHomeViewController];

@@ -55,6 +55,9 @@
 // Video Call
 "speakNow"                  = "Parle maintenant";
 "moreUsersBeforeYourTurn"   = "mehr Nutzer für Ihren Zug.";
+"joinLater"                 = "Rejoignez plus tard";
+"masterclassStartsIn"       = "MASTERCLASS COMMENCE DANS";
+
 
 // User Profile Photo Edit
 

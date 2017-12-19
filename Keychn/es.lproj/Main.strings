@@ -218,8 +218,14 @@
 /* Class = "UIButton"; normalTitle = "Done"; ObjectID = "ejy-DQ-gdv"; */
 "ejy-DQ-gdv.normalTitle" = "Listo";
 
+/* Class = "UIButton"; normalTitle = "Join Later"; ObjectID = "RSJ-JO-koQ"; */
+"ejy-DQ-gdv.normalTitle" = "Únete más tarde";
+
+/* Class = "UIButton"; normalTitle = "Join Later"; ObjectID = "RSJ-JO-koQ"; */
+"ejy-DQ-gdv.normalTitle" = "Únete más tarde";
+
 /* Class = "UIButton"; normalTitle = "  Barcelona, Spain"; ObjectID = "ffg-HD-JaR"; */
-"ffg-HD-JaR.normalTitle" = "  Barcelona, Spain";
+"ffg-HD-JaR.normalTitle" = "Barcelona, Spain";
 
 /* Class = "UILabel"; text = "Hello, Starcook"; ObjectID = "ggi-cv-8MT"; */
 "ggi-cv-8MT.text" = "Hola, Starcook";
@@ -260,8 +266,8 @@
 /* Class = "UITextField"; placeholder = "Search Recipes"; ObjectID = "kYf-VC-u0C"; */
 "kYf-VC-u0C.placeholder" = "Recetas de búsqueda";
 
-/* Class = "UIButton"; normalTitle = "Next Step"; ObjectID = "luA-XW-eLQ"; */
-"luA-XW-eLQ.normalTitle" = "Siguiente paso";
+/* Class = "UIButton"; normalTitle = "Done"; ObjectID = "luA-XW-eLQ"; */
+"luA-XW-eLQ.normalTitle" = "Listo";
 
 /* Class = "UILabel"; text = "DIFFICULTY"; ObjectID = "ni8-zB-TRa"; */
 "ni8-zB-TRa.text" = "Dificultad";

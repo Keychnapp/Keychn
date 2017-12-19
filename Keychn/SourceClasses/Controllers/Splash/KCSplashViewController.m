@@ -42,23 +42,7 @@
     
     NSString *storyboardID = nil;
     if([NSString validateString:userProfile.userID]) {
-        if([NSString validateString:userProfile.facebookProfile.facebookID]) {
-            if([NSString validateString:userProfile.languageID]) {
-                storyboardID = kHomeViewController;
-            }
-            else {
-                storyboardID = selectLangugeViewController;
-            }
-        }
-        else if(![NSString validateString:userProfile.imageURL]) {
-           storyboardID = setProfilePhotoViewController;
-        }
-        else if(![NSString validateString:userProfile.languageID]) {
-           storyboardID = selectLangugeViewController;
-        }
-        else {
-            storyboardID = kHomeViewController;
-        }
+        storyboardID = kHomeViewController;
     }
     else {
         storyboardID = signUpViewController;

@@ -19,6 +19,7 @@ pod 'FirebaseMessaging'
 pod 'AppsFlyerFramework'
 pod 'Mixpanel'
 pod 'TOMSMorphingLabel'
+pod 'TTTAttributedLabel'
 
 end
 

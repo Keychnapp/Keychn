@@ -30,11 +30,11 @@
 @property (nonatomic,copy) NSString  *emailID;
 @property (nonatomic,copy) NSString  *password;
 @property (nonatomic,copy) NSString  *accessToken;
+@property (nonatomic,copy) NSString  *bannerImageURL;
 @property (nonatomic,copy) NSString  *userType;
 @property (nonatomic,copy) NSString  *imageURL;
 @property (nonatomic,copy) NSString  *location;
 @property (nonatomic,copy) NSNumber  *userID;
-@property (nonatomic,copy) NSNumber  *languageID;
 @property (nonatomic,copy) NSNumber  *credits;
 @property (nonatomic,copy) NSNumber  *isActive;
 @property (nonatomic,copy) NSNumber  *receiveNewsletter;
@@ -83,5 +83,9 @@
  @return void
  */
 - (void)deductMasterClassAmount;
+
+- (BOOL)isMastercef;
+
+- (void)update;
 
 @end

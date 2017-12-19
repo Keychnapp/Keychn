@@ -40,6 +40,9 @@
 @property (weak, nonatomic) IBOutlet UIView *timerView;
 @property (weak, nonatomic) IBOutlet UILabel *countdownTimerLabel;
 @property (weak, nonatomic) IBOutlet UILabel *secondsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *masterclassStartsInLabel;
+@property (weak, nonatomic) IBOutlet UIButton *joinLaterButton;
+
 
 
 
@@ -116,6 +119,10 @@
         feedPanel.layer.borderWidth = 1.0f;
         feedPanel.layer.borderColor = [UIColor appBackgroundColorWithOpacity:0.5].CGColor;
     }
+    
+    // Set Language Text For Timers
+    self.masterclassStartsInLabel.text = NSLocalizedString(@"masterclassStartsIn", nil);
+    [self.joinLaterButton setTitle:NSLocalizedString(@"joinLater", nil) forState:UIControlStateNormal];
 }
 
 #pragma mark - Animation
@@ -696,7 +703,7 @@
     if(isNetworkReachable) {
         [KCProgressIndicator showNonBlockingIndicator];
         __weak id weakSelf = self;
-        NSDictionary *params = @{kLanguageID:_userProfile.languageID, kGroupSessionID:self.groupSessionID};
+        NSDictionary *params = @{kGroupSessionID:self.groupSessionID};
         [_groupSessionWebManager getParticipantNamesWithParameter:params withCompletionHandler:^(NSDictionary *response) {
             [KCProgressIndicator hideActivityIndicator];
             [weakSelf didFetchUserNamesWithResponse:response];
@@ -716,7 +723,7 @@
     if(isNetworkReachable) {
         [KCProgressIndicator showNonBlockingIndicator];
         // Network requsest
-        NSDictionary *params = @{kLanguageID:_userProfile.languageID, kSessionID:self.groupSessionID};
+        NSDictionary *params = @{kSessionID:self.groupSessionID};
         __weak id weakSelf = self;
         [_groupSessionWebManager completeGroupSessionWithParameter:params withCompletionHandler:^(NSString *title, NSString *message) {
             // Group Session Marked as complete successfully

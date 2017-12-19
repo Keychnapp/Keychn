@@ -393,6 +393,7 @@ extern NSString  *kCurrentDate;
 extern NSString  *kCurrentDateAndTime;
 extern BOOL      isComingCall;
 extern NSString  *kCredit;
+extern NSString  *kBannerImageURL;
 extern NSString  *kDishofTheWeek;
 extern NSString  *kFavorite;
 extern NSString  *kInteraction;

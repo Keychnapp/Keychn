@@ -52,4 +52,6 @@
  */
 - (void)updateUserProfile:(KCUserProfile*)userProfile;
 
+- (BOOL)isMasterchef;
+
 @end

@@ -334,6 +334,7 @@
         [self.userProfileImageView setImageWithURL:[NSURL URLWithString:_userProfile.imageURL] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     }
     
+    
 }
 
 - (void)didLocationUpdate {

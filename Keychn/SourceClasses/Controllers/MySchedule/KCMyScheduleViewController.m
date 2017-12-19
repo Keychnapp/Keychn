@@ -52,6 +52,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
 @property (weak, nonatomic) IBOutlet UIView *bottomSeparatorView;
 @property (weak, nonatomic) IBOutlet UILabel *addMasterclassLabel;
 @property (weak, nonatomic) IBOutlet UILabel *noInteractionLabel;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @end
 
@@ -342,9 +343,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
             [self.myScheduleTableView reloadData];
             self.noScheduleView.hidden = YES;
         }
-        else {
-            self.noScheduleView.hidden = NO;
-        }
+        self.noScheduleView.hidden = self.myScheduleArray.count > 0;
         _shouldReloadData = YES;
         
         // Check for any Masterclass scheduled to update the UI 2 minutes prior to the schedule
@@ -391,7 +390,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
     self.noScheduleView.hidden = [_myScheduleArray count] > 0;
     
     // Refresh user schedule silently
-    NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kCurrentDate:[NSDate getCurrentDateInUTC]};
+    NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kCurrentDate:[NSDate getCurrentDateInUTC]};
     [_userScheduleWebManager refreshUseScheduleWithParameters:params];
 }
 
@@ -425,6 +424,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
         [self.myScheduleTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
     _masterClassToJoin = [_userScheduleDBManager getNextInteraction];
+    self.noScheduleView.hidden = self.myScheduleArray.count > 0;
     [self.myScheduleTableView reloadData];
 }
 
@@ -434,15 +434,17 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
 - (void)fetchMySchedule {
     //Fetch my schedule from server
     if(isNetworkReachable) {
-        __weak id weakSelf = self;
-        [KCProgressIndicator showNonBlockingIndicator];
+        __weak KCMyScheduleViewController *weakSelf = self;
+        [self.activityIndicator startAnimating];
         self.noScheduleView.hidden = YES;
-        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kCurrentDate:[NSDate getCurrentDateInUTC]};
+        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kCurrentDate:[NSDate getCurrentDateInUTC]};
         [_userScheduleWebManager getMySchedulesWithParameter:params withCompletionHandler:^(NSDictionary *responseDictionary) {
             // My schedule fetched
             [KCProgressIndicator hideActivityIndicator];
             [weakSelf loadMySchedules];
+            [weakSelf.activityIndicator stopAnimating];
         } andFailure:^(NSString *title, NSString *message) {
+            [weakSelf.activityIndicator stopAnimating];
             if(isNetworkReachable) {
                 [weakSelf fetchMySchedule];
             }
@@ -472,7 +474,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
             timeInterval -= [NSDate getGMTOffSet];
         }
         [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"cancelAMasterclass", nil)];
-        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kScheduleID:sessionID, kScheduleType:scheduleType, kIsScheduleOpen:[NSNumber numberWithBool:status], kScheduleTime:[NSNumber numberWithDouble:timeInterval]};
+        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kScheduleID:sessionID, kScheduleType:scheduleType, kIsScheduleOpen:[NSNumber numberWithBool:status], kScheduleTime:[NSNumber numberWithDouble:timeInterval]};
         __weak id weakSelf = self;
         [_userScheduleWebManager cancelUserSchduleWithParametes:params withCompletionHandler:^(NSDictionary *response) {
             // Scheduled cancelled successfully, update table view

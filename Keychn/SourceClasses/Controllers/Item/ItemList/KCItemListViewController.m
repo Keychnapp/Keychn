@@ -325,7 +325,7 @@
               [KCProgressIndicator showNonBlockingIndicator];
         }
         _requestInProgress = YES;
-        NSDictionary *params = @{kUserID: _userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kPageIndex:_pageIndex};
+        NSDictionary *params = @{kUserID: _userProfile.userID, kAcessToken:_userProfile.accessToken, kPageIndex:_pageIndex};
         
         // Network request for item list
         [_menuWebManager getMenuItemsListWithParameters:params withCompletionHandler:^(NSArray *itemsListArray, NSNumber *totalPages, NSNumber *pageIndex, NSString *menuImageURL, NSArray *courseList) {
@@ -366,7 +366,7 @@
         Mixpanel *mixpanel = [Mixpanel sharedInstance];
         [mixpanel track:@"Recipe search"
              properties:@{ @"Keyword":text}];
-        NSDictionary *params = @{kUserID:_userProfile.userID, kLanguageID:_userProfile.languageID, kAcessToken:_userProfile.accessToken, kSearchString:text};
+        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kSearchString:text};
         [KCProgressIndicator showNonBlockingIndicator];
         __weak id wealSelf = self;
         [_menuWebManager searchItemsWithParameters:params withCompletionHandler:^(NSDictionary *responseDictionary) {

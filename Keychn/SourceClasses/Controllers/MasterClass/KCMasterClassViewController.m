@@ -345,7 +345,7 @@
     self.attendButton.enabled = NO;
     
     // Refresh user schedule silently
-    NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kCurrentDate:[NSDate getCurrentDateInUTC]};
+    NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kCurrentDate:[NSDate getCurrentDateInUTC]};
     [_userScheduleWebManager refreshUseScheduleWithParameters:params];
 }
 
@@ -361,7 +361,7 @@
     // Fetch MaterClass From Server
     if(isNetworkReachable) {
         __weak id weakSelf = self;
-        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kMasterClassID:self.masterClassID};
+        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kMasterClassID:self.masterClassID};
         [KCProgressIndicator showNonBlockingIndicator];
         [_groupSessionManager getMasterClassDetailsWithParameter:params withCompletionHandler:^(NSDictionary *responseDictionary) {
             // Request completed with success
@@ -392,7 +392,7 @@
     // Buy a spot for MasterClass
     if(isNetworkReachable) {
         [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"bookASlot", nil)];
-        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kMasterClassID:self.masterClassID};
+        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kMasterClassID:self.masterClassID};
         __weak KCMasterClassViewController *weakSelf = self;
         [_groupSessionManager buyMasterClassSpotWithParameter:params withCompletionHandler:^(NSString *title, NSString *message) {
             // Request completed with success

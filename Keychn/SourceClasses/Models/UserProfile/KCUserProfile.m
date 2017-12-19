@@ -32,7 +32,7 @@
     self.accessToken            = nil;
     self.credits                = nil;
     self.receiveNewsletter      = nil;
-    self.languageID             = nil;
+    self.bannerImageURL         = nil;
     
     //Reallocate instances
     self.facebookProfile        = [[KCUserFacebookProfile alloc] init];
@@ -50,12 +50,6 @@
     }
     if(self.location) {
       [userProfileDictionary setObject:self.location forKey:kLocation];
-    }
-    if(self.languageID) {
-      [userProfileDictionary setObject:self.languageID forKey:kLanguageID];
-    }
-    else {
-      [userProfileDictionary setObject:@1 forKey:kLanguageID];
     }
     if(self.receiveNewsletter) {
         [userProfileDictionary setObject:self.receiveNewsletter forKey:kReceiveNewsletter];
@@ -86,26 +80,18 @@
     self.isActive   = [response objectForKey:kIsActive];
     self.userType   = [response objectForKey:kUserType];
     self.credits    = [response objectForKey:kCredit];
+    self.bannerImageURL = [response objectForKey:kBannerImageURL];
     
     if(type == local) {
         self.userID     = [response objectForKey:kUserID];
         self.receiveNewsletter = [response objectForKey:kNewsletterPrefs];
         self.username   = [response objectForKey:kUsername];
-        self.languageID = [response objectForKey:kLanguageID];
     }
     else {
       self.userID     = [response objectForKey:kIdentifier];
       self.receiveNewsletter = [response objectForKey:kReceiveNewsletter];
       self.username   = [response objectForKey:kName];
-      self.languageID = [response objectForKey:kSupportedLanguageID];
-        if(![NSString validateString:self.languageID]) {
-           self.languageID = [response objectForKey:kLanguageID];
-        }
     }
-    if([self.languageID integerValue] == 0) {
-        self.languageID = @1;
-    }
-    defaultLanguage = self.languageID;
 }
 
 - (void)updateKeychnPoints:(NSNumber*)keychnPoints {
@@ -119,6 +105,16 @@
     // Deduct Masterclass amount when user book a spot
     KCUserProfileDBManager *userProfileDBManager = [KCUserProfileDBManager new];
     self.credits      = [NSNumber numberWithInteger:[self.credits integerValue] - 25];
+    [userProfileDBManager updateUserProfile:self];
+}
+
+- (BOOL)isMastercef {
+    KCUserProfileDBManager *userProfileDBManager = [KCUserProfileDBManager new];
+    return  [userProfileDBManager isMasterchef];
+}
+
+- (void)update {
+    KCUserProfileDBManager *userProfileDBManager = [KCUserProfileDBManager new];
     [userProfileDBManager updateUserProfile:self];
 }
 

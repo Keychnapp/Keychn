@@ -79,6 +79,7 @@ PODS:
   - SVProgressHUD (2.2.2)
   - TOCropViewController (2.1.0)
   - TOMSMorphingLabel (0.5.1)
+  - TTTAttributedLabel (2.0.0)
   - TwitterCore (3.0.2)
   - TwitterKit (3.2.1):
     - TwitterCore (>= 3.0.2)
@@ -99,6 +100,7 @@ DEPENDENCIES:
   - SVProgressHUD
   - TOCropViewController
   - TOMSMorphingLabel
+  - TTTAttributedLabel
   - TwitterCore
   - TwitterKit
   - UIActivityIndicator-for-SDWebImage
@@ -124,10 +126,11 @@ SPEC CHECKSUMS:
   SVProgressHUD: 59b2d3dabacbd051576d21d32293ca7228dc18b0
   TOCropViewController: f88194a084f6afe1fd6f21a3f0edda7dd097e38b
   TOMSMorphingLabel: 3e88a2bf5257f8993ebc51fb3109187a0bfb2c4d
+  TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
   TwitterCore: e0420b01e02e7d20e94690e37f43e75de219ab8d
   TwitterKit: 205ac89824bbfe9e85a16c420d30bb7bcbedac45
   UIActivityIndicator-for-SDWebImage: 7bf7ebbf0ed1747dedc0d6e949c4603a6d0f9e0c
 
-PODFILE CHECKSUM: 7eb6d716539b2fb47dfe7760b1a6ad3f289c5b95
+PODFILE CHECKSUM: 9609a412a2b07b5decc38a3c2e0733be8585a4f7
 
 COCOAPODS: 1.3.1

@@ -10,13 +10,17 @@
 #import "KeychnStore.h"
 #import "SubscriptionCollectionViewCell.h"
 #import "TermsAndConditionCollectionViewCell.h"
+#import "AppDelegate.h"
+#import "TTTAttributedLabel.h"
+
+@import SafariServices;
 
 typedef NS_ENUM(NSUInteger, SubscriptionIndex) {
     MonthlySubscription,
     YearlySubscription
 };
 
-@interface KCSubscription () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface KCSubscription () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, TTTAttributedLabelDelegate, UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *popUpContainerView;
 @property (weak, nonatomic) IBOutlet UILabel *wantToLearnLabel;
@@ -33,6 +37,7 @@ typedef NS_ENUM(NSUInteger, SubscriptionIndex) {
 
 @property (weak, nonatomic) IBOutlet UICollectionView *subscriptionCollectionView;
 @property (weak, nonatomic) IBOutlet UIPageControl *pageControl;
+@property (weak, nonatomic) IBOutlet TTTAttributedLabel *subscriptionLabel;
 
 
 
@@ -54,11 +59,19 @@ typedef NS_ENUM(NSUInteger, SubscriptionIndex) {
     
     // Add Tap gesture to close the view
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesturePerformedOnBlurView:)];
+    tapGesture.delegate = self;
     [self addGestureRecognizer:tapGesture];
+    
+    // Set T&C Label
+    self.subscriptionLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink;
+    NSRange range = [self.subscriptionLabel.text rangeOfString:@"Privacy Policy"];
+    [self.subscriptionLabel addLinkToURL:[NSURL URLWithString:privacyPolicyURL] withRange:range];
+    range = [self.subscriptionLabel.text rangeOfString:@"Terms of Service"];
+    [self.subscriptionLabel addLinkToURL:[NSURL URLWithString:termsOfUsePolicy] withRange:range];
+    
     
     // Regster CollectionView Cells
     [self.subscriptionCollectionView registerNib:[UINib nibWithNibName:@"SubscriptionCollectionViewCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"SubscriptionPopUp"];
-    [self.subscriptionCollectionView registerNib:[UINib nibWithNibName:@"TermsAndConditionCollectionViewCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"SubscriptionTnC"];
     return self;
 }
 
@@ -66,31 +79,12 @@ typedef NS_ENUM(NSUInteger, SubscriptionIndex) {
 - (void)showInView:(UIView *)view withCompletionHandler:(void(^)(BOOL postiveButton))buttonTapped {
     //Present alert view with animation
     [view addSubview:self];
-    [self setText];
     self.transform                      = CGAffineTransformMakeScale(0.001, 0.001);
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         self.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished){
         // do something once the animation finishes, put it here
     }];
-}
-
-- (void)setText {
-    // Set text on Labels and buttons
-   /* self.wantToLearnLabel.text = AppLabel.lblYouWantToLearnFromExperts;
-    [self.get2WeeksTrialButton setTitle:AppLabel.lblGetTrial forState:UIControlStateNormal];
-    self.cancelAnyTimeLabel.text = AppLabel.lblCancelAnytime;
-    self.monthlyLabel.text = AppLabel.lblMonthly;
-    self.keychnTermsLabel.text = AppLabel.lblPremiumContentTerms;
-    self.yearlyLabel.text = AppLabel.lblYearly;
-    
-    NSMutableAttributedString *subscribeToKeychn = [[NSMutableAttributedString alloc] initWithString:AppLabel.lblSubscribeTo attributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName:[UIFont setRobotoFontRegularStyleWithSize:15]}];
-    NSAttributedString *keychn = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:kAppName] attributes:@{NSForegroundColorAttributeName:[UIColor appBackgroundColor], NSFontAttributeName:[UIFont setRobotoFontRegularStyleWithSize:15]}];
-     NSAttributedString *masterclass = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:AppLabel.lblMasterClass] attributes:@{NSForegroundColorAttributeName:[UIColor blackColor], NSFontAttributeName:[UIFont setRobotoFontRegularStyleWithSize:15]}];
-     [subscribeToKeychn appendAttributedString:keychn];
-    [subscribeToKeychn appendAttributedString:masterclass];
-    self.subscribeToKeychLabel.attributedText = subscribeToKeychn;
-//    self.subscriptionTnCLabel.text = AppLabel.lblSubscriptionTermsAndConditon; */
 }
 
 - (void)dismiss {
@@ -122,18 +116,35 @@ typedef NS_ENUM(NSUInteger, SubscriptionIndex) {
     }];
 }
 
+- (IBAction)privacyPolicyButtonTapped:(id)sender {
+    SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:privacyPolicyURL]];
+    AppDelegate *appDelegate = (AppDelegate *) [UIApplication sharedApplication].delegate;
+    UINavigationController *rootViewController = (UINavigationController *) appDelegate.window.rootViewController;
+    [rootViewController presentViewController:safariViewController animated:true completion:^{
+        
+    }];
+}
+
+- (void)termsAndConditionButtonTapped:(id)sender {
+    SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:termsOfUsePolicy]];
+    AppDelegate *appDelegate = (AppDelegate *) [UIApplication sharedApplication].delegate;
+    UINavigationController *rootViewController = (UINavigationController *) appDelegate.window.rootViewController;
+    [rootViewController presentViewController:safariViewController animated:true completion:^{
+        
+    }];
+}
+
 #pragma mark - CollectionView Datasource and Delegate
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return  2;
+    return  1;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return  CGSizeMake(310, 520);
+    return  CGSizeMake(310, 446);
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.row == 0) {
         SubscriptionCollectionViewCell *tableViewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SubscriptionPopUp" forIndexPath:indexPath];
         // Add Button Targets
         [tableViewCell.monthlySubscriptionButton addTarget:self action:@selector(purchaseSubscriptionButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -148,11 +159,6 @@ typedef NS_ENUM(NSUInteger, SubscriptionIndex) {
         tableViewCell.subscribeToKeychLabel.attributedText = subscribeTo;
         
         return tableViewCell;
-    }
-    
-    // Terms and Condition Cell
-    TermsAndConditionCollectionViewCell *tncCollectionViewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SubscriptionTnC" forIndexPath:indexPath];
-    return tncCollectionViewCell;
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -161,5 +167,25 @@ typedef NS_ENUM(NSUInteger, SubscriptionIndex) {
     self.pageControl.currentPage = self.subscriptionCollectionView.contentOffset.x / pageWidth;
 }
 
+#pragma mark - TTTAttributedLabelDelegate
+
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+    // Open URL
+    SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:url];
+    AppDelegate *appDelegate = (AppDelegate *) [UIApplication sharedApplication].delegate;
+    UINavigationController *rootViewController = (UINavigationController *) appDelegate.window.rootViewController;
+    [rootViewController presentViewController:safariViewController animated:true completion:^{
+        
+    }];
+}
+
+#pragma mark - Gesture Delegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if([touch.view isKindOfClass:[TTTAttributedLabel class]]) {
+        return  false;
+    }
+    return  true;
+}
 
 @end

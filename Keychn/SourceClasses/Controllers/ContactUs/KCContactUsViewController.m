@@ -142,7 +142,7 @@
 - (void)submitQuery {
     // Submit user query on server
     if(isNetworkReachable) {
-        NSDictionary *parametes = @{kUserID:_userProfile.userID, kEmailID:_userProfile.emailID, kName:_userProfile.username, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kQueryDescription:self.messageTextView.text};
+        NSDictionary *parametes = @{kUserID:_userProfile.userID, kEmailID:_userProfile.emailID, kName:_userProfile.username, kAcessToken:_userProfile.accessToken, kQueryDescription:self.messageTextView.text};
         __weak KCContactUsViewController *weakSelf = self;
         [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"reachingSupport", nil)];
         [_contactUsWebManager submitQueryWithParameter:parametes withCompletionHandler:^(NSDictionary *responseDictionary) {

@@ -16,4 +16,5 @@
 @property (copy, nonatomic) NSNumber *chefUserID;
 @property (assign, nonatomic) NSTimeInterval startTimeInterval;
 
+
 @end

@@ -155,6 +155,7 @@
                 // Scheduled and Subscribed Masterclass. Will be activated when the prior to 2 minutes of scheduled date and time
                 masterClassTableCell.attendButton.enabled = NO;
                 masterClassTableCell.attendButton.selected = NO;
+                
                 [masterClassTableCell.attendButton setTitle:[NSLocalizedString(@"attending", nil) uppercaseString] forState:UIControlStateNormal];
             }
             [masterClassTableCell.attendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -450,7 +451,7 @@
     [self.masterclassListTableView reloadRowsAtIndexPaths:self.masterclassListTableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationAutomatic];
     
     // Refresh user schedule silently
-    NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kCurrentDate:[NSDate getCurrentDateInUTC]};
+    NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kCurrentDate:[NSDate getCurrentDateInUTC]};
     [_userScheduleWebManager refreshUseScheduleWithParameters:params];
 }
 
@@ -472,7 +473,7 @@
         [KCProgressIndicator showNonBlockingIndicator];
     }
     __weak id weakSelf = self;
-    NSMutableDictionary *params = [@{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kCurrentDateAndTime:[NSDate getCurrentDateInUTCWithFormat:kMasterclassDateFormat]} mutableCopy];
+    NSMutableDictionary *params = [@{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kCurrentDateAndTime:[NSDate getCurrentDateInUTCWithFormat:kMasterclassDateFormat]} mutableCopy];
     if(_searchKeyword.length > 0) {
         [params setObject:_searchKeyword forKey:kSearchKeyword];
     }
@@ -510,7 +511,7 @@
         [mixpanel track:@"masterclass_list_attend_button"
              properties:@{@"masterclass_id":groupSession.sessionID, @"chef_name":groupSession.chefName}];
         [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"bookASlot", nil)];
-        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kMasterClassID:groupSession.sessionID};
+        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kMasterClassID:groupSession.sessionID};
         __weak KCMasterClassListViewController *weakSelf = self;
         [_groupSessionManager buyMasterClassSpotWithParameter:params withCompletionHandler:^(NSString *title, NSString *message) {
             // Request completed with success

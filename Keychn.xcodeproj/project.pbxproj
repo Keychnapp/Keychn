@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		651ADB101F6D2A6500A60200 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 651ADB0F1F6D2A6500A60200 /* UserNotifications.framework */; };
+		651BABA92003FBF3009F0FC9 /* KeychnSubscription.xib in Resources */ = {isa = PBXBuildFile; fileRef = 651BABAB2003FBF3009F0FC9 /* KeychnSubscription.xib */; };
 		651C7DDF1FD425130096829C /* TermsAndConditionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 651C7DE11FD425130096829C /* TermsAndConditionCollectionViewCell.xib */; };
 		651C7DE31FD4253A0096829C /* SubscriptionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 651C7DE51FD4253A0096829C /* SubscriptionCollectionViewCell.xib */; };
 		6535C32A1FD404E3000C800C /* KCEmailSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6535C3281FD404E2000C800C /* KCEmailSignUpViewController.m */; };
@@ -124,7 +125,6 @@
 		65EA36131FC744BD00DC920D /* Subscription.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65EA36081FC744BD00DC920D /* Subscription.xib */; };
 		65EA36141FC744BD00DC920D /* SubscriptionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EA360C1FC744BD00DC920D /* SubscriptionCollectionViewCell.m */; };
 		65EA36161FC744BD00DC920D /* KCSubscription.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EA36111FC744BD00DC920D /* KCSubscription.m */; };
-		65EA36171FC744BD00DC920D /* KeychnSubscription.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65EA36121FC744BD00DC920D /* KeychnSubscription.xib */; };
 		65EA361B1FC744EF00DC920D /* TermsAndConditionCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 65EA36191FC744EF00DC920D /* TermsAndConditionCollectionViewCell.m */; };
 		65FD712B1FD3057800C7E2BE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65FD712D1FD3057800C7E2BE /* Localizable.strings */; };
 		AA006F5C1CB631AE0076880B /* unselect_header_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = AA006F561CB631AE0076880B /* unselect_header_icon.png */; };
@@ -409,6 +409,11 @@
 		6507324B1FD8721B0036FEBE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
 		6507324C1FD8721B0036FEBE /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		651ADB0F1F6D2A6500A60200 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		651BABAA2003FBF3009F0FC9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/KeychnSubscription.xib; sourceTree = "<group>"; };
+		651BABAD2003FBF7009F0FC9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/KeychnSubscription.strings; sourceTree = "<group>"; };
+		651BABAF2003FBFD009F0FC9 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/KeychnSubscription.strings; sourceTree = "<group>"; };
+		651BABB12003FBFF009F0FC9 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/KeychnSubscription.strings; sourceTree = "<group>"; };
+		651BABB32003FC01009F0FC9 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/KeychnSubscription.strings; sourceTree = "<group>"; };
 		651C7DE21FD4251D0096829C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/TermsAndConditionCollectionViewCell.xib; sourceTree = "<group>"; };
 		651C7DE41FD4253A0096829C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SubscriptionCollectionViewCell.xib; sourceTree = "<group>"; };
 		651C7DE71FD4253D0096829C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/SubscriptionCollectionViewCell.strings; sourceTree = "<group>"; };
@@ -637,9 +642,9 @@
 		65EA360E1FC744BD00DC920D /* SubscriptionCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscriptionCollectionViewCell.h; sourceTree = "<group>"; };
 		65EA36101FC744BD00DC920D /* KCSubscription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCSubscription.h; sourceTree = "<group>"; };
 		65EA36111FC744BD00DC920D /* KCSubscription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCSubscription.m; sourceTree = "<group>"; };
-		65EA36121FC744BD00DC920D /* KeychnSubscription.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KeychnSubscription.xib; sourceTree = "<group>"; };
 		65EA36181FC744EF00DC920D /* TermsAndConditionCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TermsAndConditionCollectionViewCell.h; sourceTree = "<group>"; };
 		65EA36191FC744EF00DC920D /* TermsAndConditionCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TermsAndConditionCollectionViewCell.m; sourceTree = "<group>"; };
+		65F6758F1FE2CEA2009E9C77 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		65FD712E1FD3059A00C7E2BE /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		65FD71301FD3068E00C7E2BE /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		65FD71321FD30BC200C7E2BE /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
@@ -2140,7 +2145,7 @@
 			children = (
 				65EA36101FC744BD00DC920D /* KCSubscription.h */,
 				65EA36111FC744BD00DC920D /* KCSubscription.m */,
-				65EA36121FC744BD00DC920D /* KeychnSubscription.xib */,
+				651BABAB2003FBF3009F0FC9 /* KeychnSubscription.xib */,
 			);
 			path = PopUp;
 			sourceTree = "<group>";
@@ -2500,6 +2505,7 @@
 		D6EA35A7C9E153810D4C675C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				65F6758F1FE2CEA2009E9C77 /* SafariServices.framework */,
 				65B352FA1FAB245D003AB539 /* EventKitUI.framework */,
 				65B352F91FAB2451003AB539 /* EventKit.framework */,
 				65A34F2D1FA8BF3500449513 /* libresolv.tbd */,
@@ -2919,7 +2925,7 @@
 				651C7DE31FD4253A0096829C /* SubscriptionCollectionViewCell.xib in Resources */,
 				F9D11B6F1F56E41400CA55E5 /* facebook_gray@3x.png in Resources */,
 				AA03BFE11C9FE02000C87D35 /* Roboto-Thin.ttf in Resources */,
-				65EA36171FC744BD00DC920D /* KeychnSubscription.xib in Resources */,
+				651BABA92003FBF3009F0FC9 /* KeychnSubscription.xib in Resources */,
 				F900571E1D782E0400FF00A8 /* select_home_icon.png in Resources */,
 				F90057251D782E0400FF00A8 /* select_schedule_icon@2x.png in Resources */,
 				F9D11B7C1F56E41400CA55E5 /* share@2x.png in Resources */,
@@ -3325,6 +3331,18 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		651BABAB2003FBF3009F0FC9 /* KeychnSubscription.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				651BABAA2003FBF3009F0FC9 /* Base */,
+				651BABAD2003FBF7009F0FC9 /* en */,
+				651BABAF2003FBFD009F0FC9 /* es */,
+				651BABB12003FBFF009F0FC9 /* fr */,
+				651BABB32003FC01009F0FC9 /* de */,
+			);
+			name = KeychnSubscription.xib;
+			sourceTree = "<group>";
+		};
 		651C7DE11FD425130096829C /* TermsAndConditionCollectionViewCell.xib */ = {
 			isa = PBXVariantGroup;
 			children = (

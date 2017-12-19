@@ -53,6 +53,8 @@
 // Video Call
 "speakNow"                  = "Speak Now";
 "moreUsersBeforeYourTurn"   = "more user(s) for your turn.";
+"joinLater"                 = "Join Later";
+"masterclassStartsIn"       = "MASTERCLASS STARTS IN";
 
 // User Profile Photo Edit
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -45,7 +45,7 @@
                                 <blurEffect style="light"/>
                             </visualEffectView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Ch-wr-EBT">
-                                <rect key="frame" x="32.5" y="73.5" width="310" height="520"/>
+                                <rect key="frame" x="32.5" y="110.5" width="310" height="446"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You want to learn from the experts?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="dm5-uO-vdU">
                                         <rect key="frame" x="0.0" y="19" width="309" height="21"/>
@@ -186,19 +186,12 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Terms and Condition" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KqB-BR-icQ">
-                                        <rect key="frame" x="90" y="487.5" width="130.5" height="16.5"/>
-                                        <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="14"/>
-                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="dm5-uO-vdU" secondAttribute="trailing" constant="1" id="6Xw-F5-jld"/>
                                     <constraint firstItem="xCh-th-yPN" firstAttribute="top" secondItem="tA8-Ei-sjD" secondAttribute="bottom" constant="-13" id="8L2-4G-BRi"/>
                                     <constraint firstItem="tA8-Ei-sjD" firstAttribute="top" secondItem="Fz8-bc-4mD" secondAttribute="bottom" constant="15" id="A3p-Ln-PNC"/>
-                                    <constraint firstItem="KqB-BR-icQ" firstAttribute="centerX" secondItem="0Ch-wr-EBT" secondAttribute="centerX" id="CvK-ug-AuH"/>
                                     <constraint firstItem="DpT-4F-l7K" firstAttribute="top" secondItem="sON-xu-sMI" secondAttribute="bottom" constant="30" id="EEJ-mh-qhQ"/>
                                     <constraint firstItem="DpT-4F-l7K" firstAttribute="leading" secondItem="0Ch-wr-EBT" secondAttribute="leading" constant="16" id="FrE-gP-FOc"/>
                                     <constraint firstItem="dm5-uO-vdU" firstAttribute="top" secondItem="0Ch-wr-EBT" secondAttribute="top" constant="19" id="Lt8-8T-xfK"/>
@@ -214,10 +207,9 @@
                                     <constraint firstItem="tA8-Ei-sjD" firstAttribute="centerX" secondItem="0Ch-wr-EBT" secondAttribute="centerX" id="iZe-hb-mtc"/>
                                     <constraint firstAttribute="trailing" secondItem="DpT-4F-l7K" secondAttribute="trailing" constant="16" id="lzc-lG-Kae"/>
                                     <constraint firstItem="dm5-uO-vdU" firstAttribute="leading" secondItem="0Ch-wr-EBT" secondAttribute="leading" id="m96-dd-xJ2"/>
-                                    <constraint firstAttribute="bottom" secondItem="KqB-BR-icQ" secondAttribute="bottom" constant="16" id="onf-gG-mwG"/>
                                     <constraint firstItem="Fz8-bc-4mD" firstAttribute="leading" secondItem="0Ch-wr-EBT" secondAttribute="leading" id="qso-gD-IMy"/>
                                     <constraint firstItem="sON-xu-sMI" firstAttribute="width" secondItem="5kf-P2-bbM" secondAttribute="width" id="sW6-Ah-2Pn"/>
-                                    <constraint firstAttribute="height" constant="520" id="wwT-Vi-0Rd"/>
+                                    <constraint firstAttribute="height" constant="446" id="wwT-Vi-0Rd"/>
                                     <constraint firstItem="Fz8-bc-4mD" firstAttribute="top" secondItem="dm5-uO-vdU" secondAttribute="bottom" constant="6" id="z2H-Zm-y1n"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>

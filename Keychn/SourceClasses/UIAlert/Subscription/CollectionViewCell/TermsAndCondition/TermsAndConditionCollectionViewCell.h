@@ -12,5 +12,6 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *tncScrollView;
 @property (weak, nonatomic) IBOutlet UIView *containerView;
+@property (weak, nonatomic) IBOutlet UIButton *termAndConditionButton;
 
 @end

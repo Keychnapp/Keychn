@@ -314,7 +314,7 @@
              properties:@{@"status":isActive?@"YES":@"NO"}];
 
         [KCProgressIndicator showNonBlockingIndicator];
-        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kSocialID:_userProfile.facebookProfile.facebookID, kIsActive:[NSNumber numberWithBool:isActive]};
+        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kSocialID:_userProfile.facebookProfile.facebookID, kIsActive:[NSNumber numberWithBool:isActive]};
         [_signUpWebMangager changeStatusForFacebookAccountWithParameters:params withCompletionHandler:^(NSDictionary *response) {
             _userProfile.facebookProfile.isActive = facebookFlag;
             // Save data to local database

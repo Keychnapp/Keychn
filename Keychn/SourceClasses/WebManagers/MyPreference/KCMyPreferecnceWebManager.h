@@ -25,4 +25,6 @@
  */
 - (void) getRecentRecipeListWithParameters:(NSDictionary*)params withCompletionHandler:(void(^)(NSArray *itemsArray, NSNumber *totalPages, NSNumber *pageIndex))success andFailure:(void(^)(NSString *title, NSString *message))failed;
 
+- (void)getBannerImagesWithParameter:(NSDictionary*)parameters withCompletionHandler:(void(^)(NSDictionary *responseDictionary))success andFailure:(void(^)(NSString *title, NSString *message))failed;
+
 @end

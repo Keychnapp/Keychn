@@ -68,4 +68,30 @@
     }];
 }
 
+- (void)getBannerImagesWithParameter:(NSDictionary*)parameters withCompletionHandler:(void(^)(NSDictionary *responseDictionary))success andFailure:(void(^)(NSString *title, NSString *message))failed {
+    // Fetch Banner Images
+    [self sendDataToServerWithAction:getAppLabelAction withParameters:parameters success:^(NSDictionary *response) {
+        //Completed with success
+        BOOL status = [self isFinishedWithError:response];
+        if(status) {
+            //Requested completed with error
+            if([response isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *errorDictionary = [response objectForKey:kErrorDetails];
+                NSString *title   = [errorDictionary objectForKey:kTitle];
+                NSString *message = [errorDictionary objectForKey:kMessage];
+                if(DEBUGGING) NSLog(@"Failed with response %@",errorDictionary);
+                failed(title,message);
+            }
+        }
+        else {
+            // Banner Images Fetched
+            if(DEBUGGING) NSLog(@"Banner Images Fetched %@",response);
+            success(response);
+        }
+    } failure:^(NSString *response) {
+        if(DEBUGGING) NSLog(@"Failed with response %@",response);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
+    }];
+}
+
 @end

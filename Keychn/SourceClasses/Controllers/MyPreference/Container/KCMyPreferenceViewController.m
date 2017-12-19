@@ -290,11 +290,7 @@
     self.itemCollectionView.alwaysBounceVertical = YES;
     
     // Set images
-    NSString *coverImageURL = AppPlaceholder.user;
-    if ([_userProfile.userType isEqualToString:kMasterChef]) {
-        coverImageURL = AppPlaceholder.masterchef;
-    }
-    [self.bannerImageView setImageWithURL:[NSURL URLWithString:coverImageURL] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.bannerImageView setImageWithURL:[NSURL URLWithString:_userProfile.bannerImageURL] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [self.userProfileImageView setImageWithURL:[NSURL URLWithString:_userProfile.imageURL] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.userProfileImageView.layer.cornerRadius  = 60;
     self.userProfileImageView.layer.masksToBounds = YES;
@@ -346,6 +342,9 @@
     BOOL shouldShowRecipeList        = [_recentRecipesArray count] > 0;
     self.itemCollectionView.hidden   = !shouldShowRecipeList;
     self.noFavoriteRecipeView.hidden = shouldShowRecipeList;
+    
+    // Fetch User Banner Images
+    [self fetchUserBannerImage];
 }
 
 - (void)setItemDataOnCollectionViewCell:(KCRecipeListCollectionViewCell*)itemCell withIndexPath:(NSIndexPath*)indexPath {
@@ -380,6 +379,31 @@
     self.yourFavoriteRecipeLabel.attributedText = your;
 }
 
+- (void)didFetchBannerImageWithResponse:(NSDictionary *)response {
+    // Fetched User Banner Images
+    NSArray *placeholderImages = [response objectForKey:kPlaceholderImages];
+    // Verify if the user is Masterchef or a standard user only
+    NSString *name = @"user";
+    if([_userProfile isMastercef]) {
+        name = @"masterchef";
+    }
+    for (NSDictionary *placeholder in placeholderImages) {
+        NSString *keyName = [placeholder objectForKey:kName];
+        if([keyName isEqualToString:name]) {
+            if([KCUtility getiOSDeviceType] == iPad) {
+                _userProfile.bannerImageURL = [placeholder objectForKey:kImageURLiPad];
+            }
+            else {
+                _userProfile.bannerImageURL = [placeholder objectForKey:kImageURLiPhone];
+            }
+            // Set blogger image and update User Profile
+            [_userProfile update];
+            [self.bannerImageView setImageWithURL:[NSURL URLWithString:_userProfile.bannerImageURL] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+            break;
+        }
+    }
+}
+
 #pragma mark - Server End
 
 - (void)fetchLatestCookedRecipe {
@@ -392,24 +416,41 @@
             [KCProgressIndicator showNonBlockingIndicator];
             NSDictionary *params = nil;
             if(self.isDisplayingFriendPreference) {
-                params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kPageIndex:[NSNumber numberWithInteger:_currentPageIndex], kFriendID:self.friendID};
+                params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kPageIndex:[NSNumber numberWithInteger:_currentPageIndex], kFriendID:self.friendID};
             }
             else {
-                params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kPageIndex:[NSNumber numberWithInteger:_currentPageIndex]};
+                params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kPageIndex:[NSNumber numberWithInteger:_currentPageIndex]};
             }
             
             __weak id weakSelf   = self;
             [_myPreferenceWebManager getRecentRecipeListWithParameters:params withCompletionHandler:^(NSArray *itemsArray, NSNumber *totalPages, NSNumber *pageIndex) {
+                _requestInProgress = NO;
                 _currentPageIndex = [pageIndex integerValue];
                 _totalPages       = [totalPages integerValue];
                 [weakSelf didFetchCookedRecipesWithResponse:itemsArray];
                 [KCProgressIndicator hideActivityIndicator];
-                _requestInProgress = NO;
             } andFailure:^(NSString *title, NSString *message) {
-                [KCProgressIndicator hideActivityIndicator];
                 _requestInProgress = NO;
+                [weakSelf fetchUserBannerImage];
+                [KCProgressIndicator hideActivityIndicator];
+                
             }];
         }
+    }
+}
+
+- (void)fetchUserBannerImage {
+    // Fetch User Banner Images
+    if(isNetworkReachable && !_requestInProgress) {
+        _requestInProgress = YES;
+        __weak id weakSelf   = self;
+        NSDictionary *params = @{kAppLanguage: @1, kLanguageID:@1};
+        [_myPreferenceWebManager getBannerImagesWithParameter:params withCompletionHandler:^(NSDictionary *responseDictionary) {
+            _requestInProgress = NO;
+            [weakSelf didFetchBannerImageWithResponse:responseDictionary];
+        } andFailure:^(NSString *title, NSString *message) {
+            _requestInProgress = NO;
+        }];
     }
 }
 

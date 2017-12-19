@@ -600,7 +600,7 @@
             _menuWebManager = [KCMenuWebManager new];
         }
         [KCProgressIndicator showNonBlockingIndicator];
-        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kItemID:self.selectedItem.itemIdentifier};
+        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kItemID:self.selectedItem.itemIdentifier};
         //Hit network request
         [_menuWebManager getItemsDetailsWithParametres:params withCompletionHandler:^(NSDictionary *itemsDetailDictionary) {
                 [KCProgressIndicator hideActivityIndicator];
@@ -628,7 +628,7 @@
     if(isNetworkReachable) {
         __weak id weakSelf = self;
         __block BOOL status = liked;
-        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kLanguageID:_userProfile.languageID, kItemID:self.selectedItem.itemIdentifier, kStatus:[NSNumber numberWithBool:liked]};
+        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kItemID:self.selectedItem.itemIdentifier, kStatus:[NSNumber numberWithBool:liked]};
         [_menuWebManager addItemsToFavoriteWithParameters:params withCompletionHandler:^(NSDictionary *responseDictionary) {
             if(status) {
                 //Item added to the favorite
@@ -659,7 +659,7 @@
 - (void)requestUserSchedule {
     // Request a user schedule
     NSString *currentDate = [NSDate getCurrentDateInUTC];
-    NSDictionary  *parameters = @{kUserID:_userProfile.userID, kLanguageID:_userProfile.languageID,kAcessToken:_userProfile.accessToken, kMenuID:_itemDetails.menuIdentifier, kCourseID:_itemDetails.courseIdentifier,kItemID:self.selectedItem.itemIdentifier, kMenuPreferences:[NSNumber numberWithBool:_itemDetails.isMenuPreferencesOn], kLanguagePreference:[NSNumber numberWithBool:_itemDetails.isLanguagePreferencesOn], kCoursePreferences:[NSNumber numberWithBool:_itemDetails.isCoursePreferencesOn], kScheduleType:kRecipeNowSchedule, kScheduleDate:currentDate, kRequestType:kNewRequest, kAPIAction:scheduleACallNowAction};
+    NSDictionary  *parameters = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kMenuID:_itemDetails.menuIdentifier, kCourseID:_itemDetails.courseIdentifier,kItemID:self.selectedItem.itemIdentifier, kMenuPreferences:[NSNumber numberWithBool:_itemDetails.isMenuPreferencesOn], kLanguagePreference:[NSNumber numberWithBool:_itemDetails.isLanguagePreferencesOn], kCoursePreferences:[NSNumber numberWithBool:_itemDetails.isCoursePreferencesOn], kScheduleType:kRecipeNowSchedule, kScheduleDate:currentDate, kRequestType:kNewRequest, kAPIAction:scheduleACallNowAction};
     
     //Find other users to connect with
     if(isNetworkReachable) {
