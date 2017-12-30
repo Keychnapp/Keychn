@@ -15,7 +15,7 @@
 @property (nonatomic, assign) BOOL isGroupSession;
 @property (nonatomic, assign) NSInteger hostID;
 
-- (void)autheticateClientWithToken:(NSString *)token hasAutheticated:(void(^)(BOOL status))autheticated;
+- (void)autheticateClientWithToken:(NSString *)token withRole:(UserRole)role hasAutheticated:(void(^)(BOOL status))autheticated;
 
 - (void)joinConferenceWithID:(NSString *)conferenceID withCompletionHandler:(void (^)(BOOL status))joined;
 

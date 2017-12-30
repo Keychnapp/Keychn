@@ -12,7 +12,6 @@
 #import "KCAgoraCallManager.h"
 #import "KCNavigationController.h"
 
-
 typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     START_CALL,
     END_CALL
@@ -56,12 +55,13 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     // Get instances
     _userProfile        = [KCUserProfile sharedInstance];
     _videoCallManager   = [KCAgoraCallManager sharedInstance];
+    
     // Login name is comprised of Email ID, User Display Name and isHosting flag.
     _loginUsername      = [NSString stringWithFormat:@"%@",_userProfile.userID];
+    
     // Customize app UI
     [self customizeUI];
     
@@ -204,7 +204,7 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     self.recallButton.hidden = YES;
     
     // Set background color
-    self.usernameContainerView.backgroundColor      = [UIColor chefNameLabelBackgroundColor];
+    self.usernameContainerView.backgroundColor      = [UIColor appBackgroundColor];
     self.questionTurnButton.backgroundColor         = [UIColor questionTurnButtonBackgroundColor];
     self.flipCameraButton.backgroundColor           = [UIColor clearColor];
     
@@ -305,7 +305,7 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     // Autheticate Twilio Token
     __weak id weakSelf = self;
     [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"openingCamera", nil)];
-    [_videoCallManager autheticateClientWithToken:token hasAutheticated:^(BOOL status) {
+    [_videoCallManager autheticateClientWithToken:token withRole:self.role hasAutheticated:^(BOOL status) {
         if(status) {
             // Open user preview using front camera
             [weakSelf setupUserPreview];
@@ -315,6 +315,17 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
 
 - (void)setupUserPreview {
     // Set up user preview
+    if(self.role == Speaker) {
+        self.previewView.hidden = false;
+        self.enableMikeButton.hidden = false;
+        self.flipCameraButton.hidden = false;
+    }
+    else {
+        // User joined as a Listner so no preview will be shown
+        self.previewView.hidden = true;
+        self.enableMikeButton.hidden = true;
+        self.flipCameraButton.hidden = true;
+    }
     [_videoCallManager showUserPreviewOnView:self.previewView withUserIdentifier:_userProfile.userID];
     [KCProgressIndicator hideActivityIndicator];
     // Join conference

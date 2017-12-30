@@ -11,7 +11,7 @@
 
 @import UIKit;
 
-@interface AAPLSlideTransitionDelegate : NSObject <UITabBarControllerDelegate>
+@interface AAPLSlideTransitionDelegate : NSObject <UITabBarControllerDelegate, UIGestureRecognizerDelegate>
 
 //! The UITabBarController instance for which this object is the delegate of.
 @property (nonatomic, weak) IBOutlet UITabBarController *tabBarController;

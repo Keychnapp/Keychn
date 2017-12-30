@@ -25,6 +25,7 @@
     self.recipeType           = masterClass;
     self.isHosting            = [[response objectForKey:kIsHosting] boolValue];
     self.eventId              = [response objectForKey:kEventId];
+    self.isListner            = [[response objectForKey:kIsListner] boolValue];
     
     return self;
 }

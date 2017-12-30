@@ -42,6 +42,7 @@
                     NSNumber *isHosting     = [groupSessionDictoinary objectForKey:kIsHosting];
                     NSString *hostName      = [groupSessionDictoinary objectForKey:kOtherUsername];
                     NSNumber *isSelected    = [groupSessionDictoinary objectForKey:kIsSelected];
+                    NSNumber *isListner     = [groupSessionDictoinary objectForKey:kIsListner];
                     NSString *status        = kOpenStatus;
                     NSString *imageURL       = nil;
                     // Image URL for iPhone and iPad are diffrent
@@ -74,7 +75,7 @@
                         }
                         
                         // Update user data
-                        NSString *updateQuery  = [NSString stringWithFormat:@"UPDATE user_schedule SET schedule_date = '%f', item_name = '%@', image_url = '%@', conference_id = '%@', second_user_name = '%@', is_hosting = '%@', status = '%@', second_user_id = '%@', event_id = '%@' WHERE schedule_id = %@",timeInterval, sessionType, imageURL, conferenceID, hostName, isHosting, status, userID, mySchedule.eventId ,sessionID];
+                        NSString *updateQuery  = [NSString stringWithFormat:@"UPDATE user_schedule SET schedule_date = '%f', item_name = '%@', image_url = '%@', conference_id = '%@', second_user_name = '%@', is_hosting = '%@', status = '%@', second_user_id = '%@', event_id = '%@', is_listener = '%@' WHERE schedule_id = %@",timeInterval, sessionType, imageURL, conferenceID, hostName, isHosting, status, userID, mySchedule.eventId, isListner, sessionID];
                         [dbOperation executeSQLQuery:updateQuery];
                     }
                     else {
@@ -85,7 +86,7 @@
                         NSString *eventIdentifier = [_eventStore addEventWithTimerInterval:timeInterval chefName:hostName];
                         
                         // SQL Insertion
-                        NSString *insertQuery  = [NSString stringWithFormat:@"INSERT INTO user_schedule (schedule_date, item_name, image_url, schedule_id, conference_id, second_user_name, is_hosting, status, second_user_id, event_id) VALUES ('%f', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",timeInterval, sessionType, imageURL, sessionID, conferenceID, hostName, isHosting, status, userID, eventIdentifier];
+                        NSString *insertQuery  = [NSString stringWithFormat:@"INSERT INTO user_schedule (schedule_date, item_name, image_url, schedule_id, conference_id, second_user_name, is_hosting, status, second_user_id, event_id, is_listener) VALUES ('%f', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@', '%@')",timeInterval, sessionType, imageURL, sessionID, conferenceID, hostName, isHosting, status, userID, eventIdentifier, isListner];
                         [dbOperation executeSQLQuery:insertQuery];
                     }
                 }

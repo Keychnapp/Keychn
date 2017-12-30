@@ -50,7 +50,8 @@
 "contactUs"       = "Contactez-nous";
 "privacy"         = "Confidentialité";
 "facebook"        = "Facebook";
-
+"privacyPolicy"   = "Politique de confidentialité";
+"termsOfService"  = "Conditions d'utilisation";
 
 // Video Call
 "speakNow"                  = "Parle maintenant";

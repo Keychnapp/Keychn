@@ -43,12 +43,19 @@
     return twillioManager;
 }
 
-- (void)autheticateClientWithToken:(NSString *)token hasAutheticated:(void(^)(BOOL status))autheticated {
+- (void)autheticateClientWithToken:(NSString *)token withRole:(UserRole)role hasAutheticated:(void(^)(BOOL status))autheticated {
     // Autheticate Twillio client using the access token generated
     if(DEBUGGING) NSLog(@"Autheticating client SDK Version %@", [AgoraRtcEngineKit getSdkVersion]);
-    self.agoraKit           = [AgoraRtcEngineKit sharedEngineWithAppId:kAgoraKeychnAppIdentifier delegate:self];
+    self.agoraKit   = [AgoraRtcEngineKit sharedEngineWithAppId:kAgoraKeychnAppIdentifier delegate:self];
     [self.agoraKit createDataStream:&(DataStreamIndentifier) reliable:YES ordered:YES];
-    [self.agoraKit setChannelProfile:AgoraRtc_ChannelProfile_Communication];
+    if(role == Listner) {
+        [self.agoraKit setClientRole:AgoraRtc_ClientRole_Audience withKey:[NSString stringWithFormat:@"%lu",(unsigned long)Listner]];
+    }
+    else {
+        [self.agoraKit setClientRole:AgoraRtc_ClientRole_Broadcaster withKey:[NSString stringWithFormat:@"%lu",(unsigned long)Speaker]];
+    }
+    [self.agoraKit setChannelProfile:AgoraRtc_ChannelProfile_LiveBroadcasting];
+    
     if(self.agoraKit) {
         autheticated(YES);
         if(DEBUGGING) NSLog(@"Autheticated client");

@@ -15,6 +15,7 @@
 @property (copy, nonatomic) NSNumber *sessionID;
 @property (copy, nonatomic) NSNumber *chefUserID;
 @property (assign, nonatomic) NSTimeInterval startTimeInterval;
+@property (assign, nonatomic) UserRole role;
 
 
 @end

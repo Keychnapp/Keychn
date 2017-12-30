@@ -22,6 +22,7 @@
 @property (nonatomic,copy) NSNumber *scheduleID;
 @property (nonatomic,copy) NSNumber *unreadCount;
 @property (nonatomic, copy) NSString *eventId;
+@property                  BOOL     isListner;
 
 @property RecipeType                recipeType;
 

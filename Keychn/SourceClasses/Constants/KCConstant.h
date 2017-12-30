@@ -133,6 +133,12 @@ typedef NS_ENUM(NSUInteger, LanguageCode) {
     German
 };
 
+typedef NS_ENUM(NSUInteger, UserRole) {
+    Listner,
+    Speaker,
+    Masterchef
+};
+
 #pragma mark - Database Constants
 
 #define DATABASE_FILE_NAME           @"keychn"
@@ -326,6 +332,7 @@ extern NSString  *kCourseID;
 extern NSString  *kCourseList;
 extern NSString  *kItemID;
 extern NSString  *kEventId;
+extern NSString  *kIsListner;
 extern NSString  *kMenuImageIPhone;
 extern NSString  *kMenuImageIPad;
 extern NSString  *kIsScheduled;
@@ -575,5 +582,7 @@ extern NSString *kAlertMessage;
 
 extern NSString *kSignInToSignUp;
 extern NSString *kSignUpToSignIn;
+
+
 
 @end

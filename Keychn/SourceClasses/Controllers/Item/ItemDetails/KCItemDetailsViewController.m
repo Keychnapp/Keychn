@@ -115,12 +115,11 @@
     if(indexPath.row == 0) {
         //Item details row
         if([KCUtility getiOSDeviceType] == iPad) {
-            rowHeight = 681;
+            rowHeight = 620;
         }
         else {
-          rowHeight = 664;
+          rowHeight = 605;
         }
-        
     }
     else if (indexPath.row <= _ingredientsCount) {
         //Ingredient row
@@ -624,7 +623,7 @@
     }
 }
 
-- (void) shouldLikeItemWithStatus:(BOOL)liked {
+- (void)shouldLikeItemWithStatus:(BOOL)liked {
     if(isNetworkReachable) {
         __weak id weakSelf = self;
         __block BOOL status = liked;

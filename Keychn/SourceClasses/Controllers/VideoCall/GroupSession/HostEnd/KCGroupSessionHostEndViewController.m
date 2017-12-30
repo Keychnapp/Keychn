@@ -258,8 +258,9 @@
 #pragma mark - Agora Call
 
 - (void)authenticateClientWithAppIdentifier:(NSString *)appIdentifier {
-    self.agoraKit           = [AgoraRtcEngineKit sharedEngineWithAppId:appIdentifier delegate:self];
-    [self.agoraKit setChannelProfile:AgoraRtc_ChannelProfile_Communication];
+    self.agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId:appIdentifier delegate:self];
+    [self.agoraKit setChannelProfile:AgoraRtc_ChannelProfile_LiveBroadcasting];
+    [self.agoraKit setClientRole:(AgoraRtc_ClientRole_Broadcaster) withKey:[NSString stringWithFormat:@"%ld",Masterchef]];
     [self.agoraKit createDataStream:&(DataStreamIndentifier) reliable:YES ordered:YES];
     [self setupUserPreview];
 }

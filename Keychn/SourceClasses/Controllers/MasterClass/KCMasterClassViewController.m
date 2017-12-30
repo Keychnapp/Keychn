@@ -15,6 +15,11 @@
 #import "KCSubscription.h"
 #import "IAPSubscription.h"
 #import "KCUserScheduleWebManager.h"
+#import "KCUserScheduleDBManager.h"
+#import "KCMySchedule.h"
+#import "KCGroupSessionHostEndViewController.h"
+#import "KCGroupSessionGuestEndViewController.h"
+
 
 #define kMasterClassTimeOffSet 900 // Allow users to join MasterClass upto 15 minutes of shceduled session
 
@@ -32,6 +37,7 @@
     KCSubscription              *_subscriptionAlertView;
     IAPSubscription             *_iapSubscription;
     KCUserScheduleWebManager    *_userScheduleWebManager;
+    KCMySchedule                *_masterclassToJoin;
 }
 
 // New Outlets
@@ -73,6 +79,8 @@
     // Add right swipe gesture to navigate back
     [self addLeftSwipeGesture];
     
+    // Check for the next interaction in queue
+    [self getUserSchedule];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -99,25 +107,30 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (IBAction)attendMasterclassButtonTapped:(id)sender {
+- (IBAction)attendMasterclassButtonTapped:(UIButton *)sender {
     // Buy a spot for MasterClass
-    
-    // Show subscription alert if user hasn't purchased the subscription yet
-    _iapSubscription        = [IAPSubscription subscriptionForUser:_userProfile.userID];
-    if(!_iapSubscription) {
-        _subscriptionAlertView = [[KCSubscription alloc] initWithFrame:self.view.frame];
-        [_subscriptionAlertView showInView:self.view withCompletionHandler:^(BOOL postiveButton) {
-            
-        }];
+    if(sender.isSelected) {
+        // Start Masterclass now
+        [self startGroupSession];
     }
     else {
-        // Purchase the Masterclass
-        BOOL isValid =  [self validateMasterClassTime];
-        if(isValid) {
-            [self buyMasterClassSpot];
-            Mixpanel *mixpanel = [Mixpanel sharedInstance];
-            [mixpanel track:@"masterclass_list_attend_button"
-                 properties:@{@"masterclass_id":self.groupSession.sessionID, @"chef_name":self.groupSession.chefName}];
+        // Show subscription alert if user hasn't purchased the subscription yet
+        _iapSubscription        = [IAPSubscription subscriptionForUser:_userProfile.userID];
+        if(!_iapSubscription) {
+            _subscriptionAlertView = [[KCSubscription alloc] initWithFrame:self.view.frame];
+            [_subscriptionAlertView showInView:self.view withCompletionHandler:^(BOOL postiveButton) {
+                
+            }];
+        }
+        else {
+            // Purchase the Masterclass
+            BOOL isValid =  [self validateMasterClassTime];
+            if(isValid) {
+                [self buyMasterClassSpot];
+                Mixpanel *mixpanel = [Mixpanel sharedInstance];
+                [mixpanel track:@"masterclass_list_attend_button"
+                     properties:@{@"masterclass_id":self.groupSession.sessionID, @"chef_name":self.groupSession.chefName}];
+            }
         }
     }
 }
@@ -212,6 +225,67 @@
 - (void)rightSwipeGesurePerformed:(UIGestureRecognizer *)gestureRecognizer {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+#pragma mark - Timer Check
+
+- (void)getUserSchedule {
+    // Check if the Masterclass is ready to be joined
+    KCUserScheduleDBManager *userScheduleDBManager = [KCUserScheduleDBManager new];
+    KCMySchedule *mySchedule = [userScheduleDBManager getNextInteraction];
+    
+    if([mySchedule.scheduleID integerValue] == [_groupSession.sessionID integerValue]) {
+        _masterclassToJoin = mySchedule;
+        NSTimeInterval currentTimeInterval  = [[NSDate date] timeIntervalSince1970];
+        // Find the difference from current time
+        NSTimeInterval difference           =  mySchedule.scheduleDate - currentTimeInterval;
+        if(difference > kBufferTimeForCallStart) {
+            difference -= kBufferTimeForCallStart;
+            [self performSelector:@selector(refreshUserSchedule) withObject:nil afterDelay:difference];
+        }
+        else {
+            [self refreshUserSchedule];
+        }
+    }
+}
+
+- (void)refreshUserSchedule {
+    // Set Start Cooking Button
+    self.attendButton.enabled  = YES;
+    self.attendButton.selected = YES;
+    self.attendButton.userInteractionEnabled = YES;
+    [self.attendButton setTitle:[NSLocalizedString(@"startCooking", nil) uppercaseString] forState:UIControlStateSelected];
+    [self.attendButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.attendButton setBackgroundColor:[UIColor appGreenColor]];
+}
+
+#pragma mark - Start Call
+
+- (void)startGroupSession {
+    // Start Group Session 1:N
+    if(_masterclassToJoin.isHosting) {
+        KCGroupSessionHostEndViewController *gsHostEndViewController = [self.storyboard instantiateViewControllerWithIdentifier:hostEndSessionViewController];
+        gsHostEndViewController.conferenceID   = _masterclassToJoin.conferenceID;
+        gsHostEndViewController.groupSessionID = _masterclassToJoin.scheduleID;
+        NSMutableArray *viewControllers = [self.navigationController.viewControllers mutableCopy];
+        [viewControllers removeLastObject];
+        [viewControllers addObject:gsHostEndViewController];
+        [self.navigationController setViewControllers:viewControllers animated:YES];
+    }
+    else {
+        KCGroupSessionGuestEndViewController *gsGuestEndViewController = [self.storyboard instantiateViewControllerWithIdentifier:guestEndSessionViewController];
+        gsGuestEndViewController.conferenceID    = _masterclassToJoin.conferenceID;
+        gsGuestEndViewController.hostName        = _masterclassToJoin.secondUsername;
+        gsGuestEndViewController.sessionID       = _masterclassToJoin.scheduleID;
+        gsGuestEndViewController.chefUserID      = _masterclassToJoin.secondUserID;
+        UserRole role                            = _masterclassToJoin.isListner ? Listner : Speaker;
+        gsGuestEndViewController.role            = role;
+        NSMutableArray *viewControllers = [self.navigationController.viewControllers mutableCopy];
+        [viewControllers removeLastObject];
+        [viewControllers addObject:gsGuestEndViewController];
+        [self.navigationController setViewControllers:viewControllers animated:YES];
+    }
+}
+
 
 #pragma mark - Instance Methods
 

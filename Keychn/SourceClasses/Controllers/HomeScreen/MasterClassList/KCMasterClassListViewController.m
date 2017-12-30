@@ -307,6 +307,8 @@
         gsGuestEndViewController.hostName        = _masterClassToJoin.secondUsername;
         gsGuestEndViewController.sessionID       = _masterClassToJoin.scheduleID;
         gsGuestEndViewController.chefUserID      = _masterClassToJoin.secondUserID;
+        UserRole role                            = _masterClassToJoin.isListner ? Listner : Speaker;
+        gsGuestEndViewController.role            = role;
         [self.navigationController pushViewController:gsGuestEndViewController animated:YES];
     }
 }

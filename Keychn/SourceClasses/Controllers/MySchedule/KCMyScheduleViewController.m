@@ -230,11 +230,13 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
     return myscheduleTableCell;
 }
 
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Show item details for ths selected item
     if([self.myScheduleArray count] > indexPath.row) {
         KCMySchedule *mySchedule = [self.myScheduleArray objectAtIndex:indexPath.row];
-        [self startGroupSessionForType:mySchedule.isHosting withConferenceID:mySchedule.conferenceID participantName:mySchedule.secondUsername particpantUserID:mySchedule.secondUserID andScheduleID:mySchedule.scheduleID timeinterval:mySchedule.scheduleDate];
+        UserRole role = mySchedule.isListner ? Listner : Speaker;
+        [self startGroupSessionForType:mySchedule.isHosting withConferenceID:mySchedule.conferenceID participantName:mySchedule.secondUsername particpantUserID:mySchedule.secondUserID andScheduleID:mySchedule.scheduleID timeinterval:mySchedule.scheduleDate userRole:role];
     }
 }
 
@@ -275,6 +277,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
     self.seperatoViewTop.backgroundColor     = [UIColor separatorLineColor];
     self.bottomSeparatorView.backgroundColor = [UIColor separatorLineColor];
     self.myScheduleTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
+    self.myScheduleTableView.allowsMultipleSelectionDuringEditing = NO;
     
     // Adjust font for width and line indent
     self.noInteractionLabel.adjustsFontSizeToFitWidth                = YES;
@@ -295,7 +298,8 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
              properties:@{ @"masterclass_id":mySchedule.scheduleID }];
         if(mySchedule.scheduleDate - currentTimeInterval <= kBufferTimeForCallStart) {
             // Masterclass
-            [self startGroupSessionForType:mySchedule.isHosting withConferenceID:mySchedule.conferenceID participantName:mySchedule.secondUsername particpantUserID:mySchedule.secondUserID andScheduleID:mySchedule.scheduleID timeinterval:mySchedule.scheduleDate];
+            UserRole role = mySchedule.isListner ? Listner : Speaker;
+            [self startGroupSessionForType:mySchedule.isHosting withConferenceID:mySchedule.conferenceID participantName:mySchedule.secondUsername particpantUserID:mySchedule.secondUserID andScheduleID:mySchedule.scheduleID timeinterval:mySchedule.scheduleDate userRole:role];
         }
         else {
             // Show user to wait for the time
@@ -309,7 +313,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
 
 #pragma mark - Instance Methods
 
-- (void)startGroupSessionForType:(BOOL)isHosting withConferenceID:(NSString *)conferenceID participantName:(NSString *)participantName particpantUserID:(NSNumber *)userID andScheduleID:(NSNumber *)scheduleID timeinterval:(NSTimeInterval )timeinterval {
+- (void)startGroupSessionForType:(BOOL)isHosting withConferenceID:(NSString *)conferenceID participantName:(NSString *)participantName particpantUserID:(NSNumber *)userID andScheduleID:(NSNumber *)scheduleID timeinterval:(NSTimeInterval )timeinterval userRole:(UserRole)role {
     // Start Group Session 1:N
     if(isHosting) {
         KCGroupSessionHostEndViewController *gsHostEndViewController = [self.storyboard instantiateViewControllerWithIdentifier:hostEndSessionViewController];
@@ -325,6 +329,7 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
         gsGuestEndViewController.sessionID          = scheduleID;
         gsGuestEndViewController.chefUserID         = userID;
         gsGuestEndViewController.startTimeInterval  = timeinterval;
+        gsGuestEndViewController.role               = role;
         if(DEBUGGING) NSLog(@"startGroupSessionForType --> Chef ID %@",userID);
         [self.navigationController pushViewController:gsGuestEndViewController animated:YES];
     }

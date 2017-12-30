@@ -9,6 +9,7 @@
 #import "AAPLSlideTransitionInteractionController.h"
 
 @interface AAPLSlideTransitionInteractionController ()
+
 @property (nonatomic, weak) id<UIViewControllerContextTransitioning> transitionContext;
 @property (nonatomic, strong, readonly) UIPanGestureRecognizer *gestureRecognizer;
 @property (nonatomic, readwrite) CGPoint initialLocationInContainerView;
@@ -25,6 +26,7 @@
     if (self)
     {
         _gestureRecognizer = gestureRecognizer;
+        
         
         // Add self as an observer of the gesture recognizer so that this
         // object receives updates as the user moves their finger.
@@ -60,6 +62,11 @@
     [super startInteractiveTransition:transitionContext];
 }
 
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    NSLog(@"Touched view class Name %@", NSStringFromClass(touch.view.class));
+    return true;
+}
 
 //| ----------------------------------------------------------------------------
 //! Returns the offset of the pan gesture recognizer from its initial location

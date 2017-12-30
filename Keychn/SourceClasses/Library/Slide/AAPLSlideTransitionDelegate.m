@@ -23,7 +23,7 @@ const char * AAPLSlideTabBarControllerDelegateAssociationKey = "AAPLSlideTabBarC
 @end
 
 
-@implementation AAPLSlideTransitionDelegate
+@implementation AAPLSlideTransitionDelegate 
 
 //| ----------------------------------------------------------------------------
 //  Custom implementation of the setter for the tabBarController property.
@@ -46,6 +46,7 @@ const char * AAPLSlideTabBarControllerDelegateAssociationKey = "AAPLSlideTabBarC
         
         _tabBarController.delegate = self;
         [_tabBarController.view addGestureRecognizer:self.panGestureRecognizer];
+        self.panGestureRecognizer.delegate = self;
         // Associate this object with the new tab bar controller.  This ensures
         // that this object wil not be deallocated prior to the tab bar
         // controller being deallocated.
@@ -68,6 +69,12 @@ const char * AAPLSlideTabBarControllerDelegateAssociationKey = "AAPLSlideTabBarC
     return _panGestureRecognizer;
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if([NSStringFromClass(touch.view.class) isEqualToString:@"UITableViewCellContentView"]) {
+        return  false;
+    }
+    return true;
+}
 
 //| ----------------------------------------------------------------------------
 //! Action method for the panGestureRecognizer.
