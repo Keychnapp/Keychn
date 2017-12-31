@@ -5143,7 +5143,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MASTERCLASS STARTS IN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EoZ-NC-7Q4">
-                                        <rect key="frame" x="39.5" y="202.5" width="241" height="23.5"/>
+                                        <rect key="frame" x="40" y="202.5" width="241" height="23.5"/>
                                         <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -5415,14 +5415,6 @@
                                             </mask>
                                         </variation>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="szT-Rs-FIS">
-                                        <rect key="frame" x="203" y="388" width="97" height="140"/>
-                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="97" id="0OT-zb-peH"/>
-                                            <constraint firstAttribute="height" constant="140" id="dvY-gu-KNy"/>
-                                        </constraints>
-                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="grh-J8-acj">
                                         <rect key="frame" x="16" y="361" width="46" height="40"/>
                                         <color key="backgroundColor" red="0.53785288333892822" green="0.28346151113510132" blue="0.99862086772918701" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -5458,6 +5450,14 @@
                                             <action selector="enableMikeButtonTapped:" destination="neO-5H-aoX" eventType="touchUpInside" id="VTN-IT-czS"/>
                                         </connections>
                                     </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="szT-Rs-FIS">
+                                        <rect key="frame" x="203" y="388" width="97" height="140"/>
+                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="97" id="0OT-zb-peH"/>
+                                            <constraint firstAttribute="height" constant="140" id="dvY-gu-KNy"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -5481,9 +5481,9 @@
                                 <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="subviews">
                                         <include reference="Fqq-EZ-vyL"/>
-                                        <include reference="szT-Rs-FIS"/>
                                         <include reference="ZTU-NY-mst"/>
                                         <include reference="RdE-gO-9lE"/>
+                                        <include reference="szT-Rs-FIS"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=regular">

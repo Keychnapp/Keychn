@@ -54,7 +54,6 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     // Get instances
     _userProfile        = [KCUserProfile sharedInstance];
     _videoCallManager   = [KCAgoraCallManager sharedInstance];
@@ -220,6 +219,12 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     // Set Language Text For Timers
     self.masterclassStartsInLabel.text = NSLocalizedString(@"masterclassStartsIn", nil);
     [self.joinLaterButton setTitle:NSLocalizedString(@"joinLater", nil) forState:UIControlStateNormal];
+    
+    // Add a PanGesture to make User Preview moveable
+    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(moveUserPreviewViewWithGesture:)];
+    [self.previewView addGestureRecognizer:panGestureRecognizer];
+    
+    
 }
 
 - (void)setText {
@@ -261,6 +266,22 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
         
         [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
+-(void)moveUserPreviewViewWithGesture:(UIPanGestureRecognizer*)panGestureRecognizer {
+    if (panGestureRecognizer.state == UIGestureRecognizerStateChanged) {
+        CGRect frame = panGestureRecognizer.view.frame;
+        CGPoint translation = [panGestureRecognizer translationInView:panGestureRecognizer.view];
+        frame.origin = CGPointMake(frame.origin.x + translation.x,
+                                   frame.origin.y + translation.y);
+        
+        if(frame.origin.x > 0 && (frame.origin.x+frame.size.width) < self.view.frame.size.width && frame.origin.y > 0 && (frame.origin.y+frame.size.height) < self.view.frame.size.height) {
+            [UIView animateWithDuration:0.2 animations:^{
+                panGestureRecognizer.view.frame = frame;
+            }];
+        }
+        [panGestureRecognizer setTranslation:CGPointZero inView:panGestureRecognizer.view];
     }
 }
 
