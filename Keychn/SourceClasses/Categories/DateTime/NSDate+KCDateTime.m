@@ -245,7 +245,7 @@
     NSDate *date                   = [NSDate dateWithTimeIntervalSince1970:timeInterval];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setLocale:[NSLocale currentLocale]];
-    [dateFormatter setDateFormat:@"MMM, dd EEE"];
+    [dateFormatter setDateFormat:@"MMM dd, EEE"];
     NSString *convertedDate         = [dateFormatter stringFromDate:date];
     return convertedDate;
 }

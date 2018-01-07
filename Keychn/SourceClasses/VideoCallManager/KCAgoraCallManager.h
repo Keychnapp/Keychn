@@ -14,12 +14,13 @@
 
 @property (nonatomic, assign) BOOL isGroupSession;
 @property (nonatomic, assign) NSInteger hostID;
+@property (nonatomic, assign) NSInteger secondCameraId;
 
 - (void)autheticateClientWithToken:(NSString *)token withRole:(UserRole)role hasAutheticated:(void(^)(BOOL status))autheticated;
 
 - (void)joinConferenceWithID:(NSString *)conferenceID withCompletionHandler:(void (^)(BOOL status))joined;
 
-- (void)joinConferenceWithID:(NSString *)conferenceID userID:(NSNumber *)userID withRemoteVideoView:(UIView *)view withCompletionHandler:(void (^)(BOOL status))joined;
+- (void)joinConferenceWithID:(NSString *)conferenceID userID:(NSNumber *)userID withRemoteVideoView:(UIView *)view andSecondCameraView:(UIView *)secondCameraView withCompletionHandler:(void (^)(BOOL status))joined;
 
 - (void)showUserPreviewOnView:(UIView *)view withUserIdentifier:(NSNumber *)userID;
 

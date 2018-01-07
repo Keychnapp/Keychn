@@ -44,6 +44,23 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
 @property (weak, nonatomic) IBOutlet UILabel *secondsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *masterclassStartsInLabel;
 @property (weak, nonatomic) IBOutlet UIButton *joinLaterButton;
+@property (weak, nonatomic) IBOutlet UIView *secondCameraView;
+@property (weak, nonatomic) IBOutlet UIView *videoFeedView;
+@property (weak, nonatomic) IBOutlet UIView *localPreviewView;
+
+
+// Second View Constraints
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *secondViewLeadingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *secondViewTrailingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *secondViewTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *secondViewBottomConstraint;
+
+// First View Constraints
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *firstViewBottomConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *firstViewTrailingConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *firstViewTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *firstViewLeadingConstraint;
+
 
 
 @end
@@ -221,10 +238,23 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     [self.joinLaterButton setTitle:NSLocalizedString(@"joinLater", nil) forState:UIControlStateNormal];
     
     // Add a PanGesture to make User Preview moveable
-    UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(moveUserPreviewViewWithGesture:)];
-    [self.previewView addGestureRecognizer:panGestureRecognizer];
+    UIPanGestureRecognizer *panGestureRecognizerForUserPreview = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(moveUserPreviewViewWithGesture:)];
+    [self.previewView addGestureRecognizer:panGestureRecognizerForUserPreview];
     
+    // Add a PanGesture to make Second CameraView moveable
+    UIPanGestureRecognizer *panGestureRecognizerForSecondCameraView = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(moveUserPreviewViewWithGesture:)];
+    [self.secondCameraView addGestureRecognizer:panGestureRecognizerForSecondCameraView];
     
+    // Add a PanGesture to make Remote Video Movable
+    UIPanGestureRecognizer *panGestureRecognizerForRemoteCameraView = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(moveUserPreviewViewWithGesture:)];
+    [self.remoteVideoView addGestureRecognizer:panGestureRecognizerForRemoteCameraView];
+    
+    // Add Tap Gesutures to remote videos views to enable swap
+    UITapGestureRecognizer *tapGestureRemoteView = [[UITapGestureRecognizer alloc] initWithTarget: self action:@selector(didTapCameraSwitch:)];
+    [self.remoteVideoView addGestureRecognizer:tapGestureRemoteView];
+    
+    UITapGestureRecognizer *tapGestureSecondCameraView = [[UITapGestureRecognizer alloc] initWithTarget: self action:@selector(didTapCameraSwitch:)];
+    [self.secondCameraView addGestureRecognizer:tapGestureSecondCameraView];
 }
 
 - (void)setText {
@@ -285,6 +315,46 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     }
 }
 
+- (void)didTapCameraSwitch:(UIGestureRecognizer *)gestureRecognizer {
+    // Switch Primary and Secondry camera
+    if(CGRectGetHeight(gestureRecognizer.view.frame) != CGRectGetHeight(self.view.frame)) {
+        // View tapped which is not currently full screen, hence should be swapped
+        [self performSelector:@selector(shuffleViewIndex:) withObject:gestureRecognizer.view afterDelay:0.5];
+        if(gestureRecognizer.view == self.remoteVideoView) {
+            // First view tapped
+            self.firstViewTopConstraint.priority        = 900;
+            self.firstViewBottomConstraint.priority     = 900;
+            self.firstViewLeadingConstraint.priority    = 900;
+            self.firstViewTrailingConstraint.priority   = 900;
+            
+            self.secondViewTopConstraint.priority       = 750;
+            self.secondViewBottomConstraint.priority    = 750;
+            self.secondViewLeadingConstraint.priority   = 750;
+            self.secondViewTrailingConstraint.priority  = 750;
+        }
+        else {
+            // Second view tapped
+            self.firstViewTopConstraint.priority        = 600;
+            self.firstViewBottomConstraint.priority     = 600;
+            self.firstViewLeadingConstraint.priority    = 600;
+            self.firstViewTrailingConstraint.priority   = 600;
+            
+            self.secondViewTopConstraint.priority       = 900;
+            self.secondViewBottomConstraint.priority    = 900;
+            self.secondViewLeadingConstraint.priority   = 900;
+            self.secondViewTrailingConstraint.priority  = 900;
+        }
+        
+        [UIView animateWithDuration:1 animations:^{
+            [self.videoFeedView layoutIfNeeded];
+        }];
+    }
+}
+
+- (void)shuffleViewIndex:(UIView *)view {
+    [self.videoFeedView sendSubviewToBack: view];
+}
+
 #pragma mark - App Delegate Notification
 
 - (void)registerForAppDelegateNotification {
@@ -320,7 +390,7 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
 }
 
-#pragma mark - Twilio Call
+#pragma mark - Agora Call
 
 - (void)autheticateTwilioSDKWithToken:(NSString *)token {    
     // Autheticate Twilio Token
@@ -347,13 +417,14 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
         self.enableMikeButton.hidden = true;
         self.flipCameraButton.hidden = true;
     }
-    [_videoCallManager showUserPreviewOnView:self.previewView withUserIdentifier:_userProfile.userID];
+    [_videoCallManager showUserPreviewOnView:self.localPreviewView withUserIdentifier:_userProfile.userID];
     [KCProgressIndicator hideActivityIndicator];
     // Join conference
     __weak KCGroupSessionGuestEndViewController *weakSelf = self;
-    _videoCallManager.isGroupSession = YES;
-    _videoCallManager.hostID         = [self.chefUserID integerValue];
-    [_videoCallManager joinConferenceWithID:self.conferenceID userID:_userProfile.userID withRemoteVideoView:self.remoteVideoView withCompletionHandler:^(BOOL status) {
+    _videoCallManager.isGroupSession                      = YES;
+    _videoCallManager.hostID                              = [self.chefUserID integerValue];
+    _videoCallManager.secondCameraId                      = kSecondCameraId;
+    [_videoCallManager joinConferenceWithID:self.conferenceID userID:_userProfile.userID withRemoteVideoView:self.remoteVideoView andSecondCameraView:self.secondCameraView withCompletionHandler:^(BOOL status) {
         if(status) {
             // Joined the conference
             [weakSelf connectedToConference];
@@ -362,9 +433,15 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     
     // If Host is disconnected then close the Question Turn Button
     [_videoCallManager monitorParticipantStaus:^(BOOL isConnected, NSString *participantID) {
-        if(!isConnected) {
+        if(isConnected) {
+           // Partcipant connected
+            if(participantID.integerValue == kSecondCameraId) {
+                weakSelf.secondCameraView.hidden = NO;
+            }
+        }
+        else {
             // Participnat disconnected from conference
-            if([participantID integerValue] == [self.chefUserID integerValue]) {
+            if([participantID integerValue] == [weakSelf.chefUserID integerValue]) {
                 // Chef disconnected from conference, leave chat and back to Home Screen
                 [weakSelf leaveChatGroup];
             }
@@ -383,6 +460,7 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     [_videoCallManager startListeningForUserData:^(NSInteger userID, NSArray *userData) {
         [weakSelf didReceiveData:userID data:userData];
     }];
+    
 }
 
 

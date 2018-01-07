@@ -22,6 +22,7 @@
 @property (strong, nonatomic) AgoraRtcEngineKit *agoraKit;
 @property (strong, nonatomic) AgoraRtcVideoCanvas *localVideoCanvas;
 
+@property (nonatomic, strong) UIView *secondCameraView;
 @property (nonatomic, strong) UIView *remoteView;
 @property (nonatomic, strong) UIView *previewView;
 @property (nonatomic, strong) void (^joinEvent) (BOOL isConnected, NSString *participantID);
@@ -118,10 +119,11 @@
     // Join a conference with conference ID
 }
 
-- (void)joinConferenceWithID:(NSString *)conferenceID  userID:(NSNumber *)userID withRemoteVideoView:(UIView *)view withCompletionHandler:(void (^)(BOOL status))joined {
+- (void)joinConferenceWithID:(NSString *)conferenceID  userID:(NSNumber *)userID withRemoteVideoView:(UIView *)view andSecondCameraView:(UIView *)secondCameraView withCompletionHandler:(void (^)(BOOL status))joined {
     if(DEBUGGING) NSLog(@"join conference with conference ID");
     // Join a conference with conference ID
-    self.remoteView = view;
+    self.remoteView       = view;
+    self.secondCameraView = secondCameraView;
     if(DEBUGGING) NSLog(@"Join channel by uid %@",userID);
     [self.agoraKit joinChannelByKey:nil channelName:conferenceID info:nil uid:[userID integerValue] joinSuccess:^(NSString *channel, NSUInteger uid, NSInteger elapsed) {
         [self.agoraKit setEnableSpeakerphone:YES];
@@ -168,11 +170,11 @@
     NSString *participantID = [NSString stringWithFormat:@"%@", [NSNumber numberWithInteger:uid]];
     if(self.isGroupSession) {
         if(DEBUGGING) NSLog(@"rtcEngine --> Joined UID: %@ and Host ID %@", [NSNumber numberWithInteger:uid], [NSNumber numberWithInteger:self.hostID]);
-        if(uid == self.hostID) {
+        if(uid == self.hostID || uid == self.secondCameraId) {
+            // Setup remote videos for Host Video and Second Camera Video
             AgoraRtcVideoCanvas *videoCanvas = [[AgoraRtcVideoCanvas alloc] init];
             videoCanvas.uid = uid;
-
-            videoCanvas.view = self.remoteView;
+            videoCanvas.view = uid == self.hostID ? self.remoteView : self.secondCameraView;
             videoCanvas.renderMode = AgoraRtc_Render_Hidden;
             [self.agoraKit setupRemoteVideo:videoCanvas];
             // Bind remote video stream to view
@@ -195,7 +197,7 @@
     // User left the conference
     NSString *participantID = [NSString stringWithFormat:@"%@", [NSNumber numberWithInteger:uid]];
     if(self.isGroupSession) {
-        if(uid ==  self.hostID) {
+        if(uid ==  self.hostID || uid == self.secondCameraId ) {
             self.joinEvent(NO, participantID);
         }
     }
