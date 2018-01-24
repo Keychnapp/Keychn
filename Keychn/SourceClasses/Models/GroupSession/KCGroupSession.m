@@ -36,6 +36,7 @@
         self.isBooked       = [[response objectForKey:kIsSelected] boolValue];
         self.isFullCapacity = [[response objectForKey:kIsFull] boolValue];
         self.amount         = [response objectForKey:kAmount];
+        self.isFree         = [[response objectForKey:kIsFree] boolValue];
     }
     return self;
 }
@@ -46,12 +47,12 @@
     if(self) {
         // Intialize properties
         if([KCUtility getiOSDeviceType] == iPad) {
-            self.masterChefImageURL = [response objectForKey:kImageURLiPad];
+            self.masterChefImageURL       = [response objectForKey:kImageURLiPad];
             self.videoPlaceholderImageURL = [response objectForKey:kVideoPlaceholderiPad];
         }
         else {
-            self.masterChefImageURL = [response objectForKey:kImageURLiPhone];
-            self.videoPlaceholderImageURL = [response objectForKey:kVideoPlaceholderiPhone];
+            self.masterChefImageURL         = [response objectForKey:kImageURLiPhone];
+            self.videoPlaceholderImageURL   = [response objectForKey:kVideoPlaceholderiPhone];
         }
         self.chefName       = [response objectForKey:kName];
         self.scheduleDate   = [response objectForKey:kScheduleDate];
@@ -67,6 +68,7 @@
         self.isBooked       = [[response objectForKey:kIsBooked] boolValue];
         self.isFullCapacity = [[response objectForKey:kIsFull] boolValue];
         self.amount         = [response objectForKey:kAmount];
+        self.isFree         = [[response objectForKey:kIsFree] boolValue];
     }
     return self;
 }

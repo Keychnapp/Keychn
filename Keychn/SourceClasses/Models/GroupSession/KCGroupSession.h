@@ -33,6 +33,6 @@
 @property (copy,nonatomic) NSString *amount;
 @property BOOL                      isBooked;
 @property BOOL                      isFullCapacity;
-
+@property BOOL                      isFree;
 
 @end

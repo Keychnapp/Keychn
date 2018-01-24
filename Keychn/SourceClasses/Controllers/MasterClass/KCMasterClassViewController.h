@@ -13,7 +13,6 @@
 @interface KCMasterClassViewController : UIViewController
 
 @property (copy,nonatomic) NSNumber *masterClassID;
-@property BOOL isFullCapacity;
 @property (assign, nonatomic) BOOL hasPurhcased;
 @property (strong, nonatomic) KCGroupSession  *groupSession;
 

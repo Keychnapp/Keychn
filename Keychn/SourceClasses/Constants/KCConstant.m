@@ -283,6 +283,7 @@ NSString  *kChewIt                   = @"chewit";
 NSString  *kChewItSession            = @"chewit_session";
 NSString  *kShareURL                 = @"http://www.keychn.com";
 NSString  *kAmount                   = @"amount";
+NSString  *kIsFree                   = @"is_free";
 NSString  *kMasterClassAmount        = @"25";
 NSString  *kChewItSessionAmount      = @"0";
 NSString  *kGroupSession             = @"group_session";

@@ -144,6 +144,14 @@
         NSString  *monthName        = [NSDate getMonthFromTimeInterval:timeInterval];
         NSInteger date              = [NSDate getDateFromTimeInterval:timeInterval];
         NSString  *hour             = [NSDate getHourAndMinuteFromTimeInterval:timeInterval];
+        if(masterClass.isFree) {
+            masterClassTableCell.freeClassLabel.hidden = false;
+            masterClassTableCell.freeClassLabel.labelText = [NSLocalizedString(@"free", nil) uppercaseString];
+            masterClassTableCell.freeClassLabel.labelFont = [UIFont setRobotoFontBoldStyleWithSize:14];
+        }
+        else {
+            masterClassTableCell.freeClassLabel.hidden = true;
+        }
         if(masterClass.isBooked) {
             // Active Masterclass (User can join this Masterclass immediately)
             if(masterClass.sessionID.integerValue == _masterClassToJoin.scheduleID.integerValue) {
@@ -153,7 +161,7 @@
             }
             else {
                 // Scheduled and Subscribed Masterclass. Will be activated when the prior to 2 minutes of scheduled date and time
-                masterClassTableCell.attendButton.enabled = NO;
+                masterClassTableCell.attendButton.enabled  = NO;
                 masterClassTableCell.attendButton.selected = NO;
                 
                 [masterClassTableCell.attendButton setTitle:[NSLocalizedString(@"attending", nil) uppercaseString] forState:UIControlStateNormal];
@@ -163,22 +171,11 @@
             masterClassTableCell.attendCheckmarkImageView.hidden = NO;
         }
         else {
-            // Un-subscribed Masterclass
-            
-            // Check if Masterclass is Full Capacity
-            if(masterClass.isFullCapacity) {
-                // Disable Attend Button
-                masterClassTableCell.attendButton.enabled = NO;
-                [masterClassTableCell.attendButton setTitle:[NSLocalizedString(@"fullCapacity", nil) uppercaseString] forState:UIControlStateNormal];
-                [masterClassTableCell.attendButton setBackgroundColor:[UIColor masterclasFullButtonColor]];
-            }
-            else {
-                // Let user request to join
-                masterClassTableCell.attendButton.enabled = YES;
-                [masterClassTableCell.attendButton setTitle:[NSLocalizedString(@"attend", nil) uppercaseString] forState:UIControlStateNormal];
-                [masterClassTableCell.attendButton setBackgroundColor:[UIColor appBackgroundColor]];
-            }
-             [masterClassTableCell.attendButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            // Un-subscribed Masterclass (Let user request to join)
+            masterClassTableCell.attendButton.enabled = YES;
+            [masterClassTableCell.attendButton setTitle:[NSLocalizedString(@"attend", nil) uppercaseString] forState:UIControlStateNormal];
+            [masterClassTableCell.attendButton setBackgroundColor:[UIColor appBackgroundColor]];
+            [masterClassTableCell.attendButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             masterClassTableCell.attendCheckmarkImageView.hidden = YES;
             masterClassTableCell.attendButton.selected = NO;
         }
@@ -253,8 +250,11 @@
         [self startGroupSession];
     }
     else {
+        KCGroupSession *groupSession = [self.datasourceArray objectAtIndex:sender.tag];
         _iapSubscription        = [IAPSubscription subscriptionForUser:_userProfile.userID];
-        if(!_iapSubscription) {
+        
+        if(!(groupSession.isFree || _iapSubscription)) {
+            // The masterclass has paid subscription and user hasn't purhchased one
             _subscriptionAlertView = [[KCSubscription alloc] initWithFrame:self.view.frame];
             [_subscriptionAlertView showInView:self.tabBarController.navigationController.view withCompletionHandler:^(BOOL postiveButton) {
                 
@@ -264,7 +264,7 @@
                  properties:@{@"": @""}];
         }
         else {
-            // Book a Masterclass
+            // Book a Masterclass (Either this Masterclass is free or user has purchased this subscription)
             [self requestAttendMasterclassWithIndex:sender.tag];
         }
     }
@@ -349,7 +349,6 @@
     
     KCMasterClassViewController *masterClassController = [self.storyboard instantiateViewControllerWithIdentifier:masterClassViewController];
     masterClassController.masterClassID     = masterClass.sessionID;
-    masterClassController.isFullCapacity    = masterClass.isFullCapacity;
     masterClassController.hasPurhcased      = masterClass.isBooked;
     masterClassController.groupSession      = masterClass;
     [self.navigationController pushViewController:masterClassController animated:YES];
@@ -513,7 +512,7 @@
         [mixpanel track:@"masterclass_list_attend_button"
              properties:@{@"masterclass_id":groupSession.sessionID, @"chef_name":groupSession.chefName}];
         [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"bookASlot", nil)];
-        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kMasterClassID:groupSession.sessionID};
+        NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kMasterClassID:groupSession.sessionID, kIsFree: [NSNumber numberWithBool:groupSession.isFree]};
         __weak KCMasterClassListViewController *weakSelf = self;
         [_groupSessionManager buyMasterClassSpotWithParameter:params withCompletionHandler:^(NSString *title, NSString *message) {
             // Request completed with success

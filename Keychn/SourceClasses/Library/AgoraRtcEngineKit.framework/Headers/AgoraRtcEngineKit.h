@@ -1366,6 +1366,7 @@ __attribute__((visibility("default"))) @interface AgoraRtcEngineKit : NSObject
 - (int)createDataStream:(NSInteger*)streamId
                reliable:(BOOL)reliable
                 ordered:(BOOL)ordered;
+
 - (int)sendStreamMessage:(NSInteger)streamId
                      data:(NSData*)data;
 

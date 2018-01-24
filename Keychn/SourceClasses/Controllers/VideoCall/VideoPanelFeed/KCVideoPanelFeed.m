@@ -20,12 +20,8 @@
     [self addSubview: xibView];
     
     // Set corner radius
-    self.shortnameLabel.layer.cornerRadius          = 11;
-    self.shortnameLabel.layer.masksToBounds         = YES;
-    self.questionLabel.layer.cornerRadius           = 11;
-    self.questionLabel.layer.masksToBounds          = YES;
-    self.queuePositionLabel.layer.cornerRadius      = 11;
-    self.queuePositionLabel.layer.masksToBounds     = YES;
+    self.usernameContainerView.layer.cornerRadius  = 6.0f;
+    self.usernameContainerView.layer.masksToBounds = YES;
     
     return self;
 }

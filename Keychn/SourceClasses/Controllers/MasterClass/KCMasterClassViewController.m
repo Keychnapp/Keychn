@@ -53,6 +53,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *attendButton;
 @property (weak, nonatomic) IBOutlet UIImageView *attendCheckmarkImageView;
 @property (weak, nonatomic) IBOutlet UIButton *playVideoButton;
+@property (weak, nonatomic) IBOutlet TriLabelView *freeClassLabel;
+@property (weak, nonatomic) IBOutlet UIView *attendButtonView;
 
 
 @end
@@ -116,7 +118,7 @@
     else {
         // Show subscription alert if user hasn't purchased the subscription yet
         _iapSubscription        = [IAPSubscription subscriptionForUser:_userProfile.userID];
-        if(!_iapSubscription) {
+        if(!(_groupSession.isFree || _iapSubscription)) {
             _subscriptionAlertView = [[KCSubscription alloc] initWithFrame:self.view.frame];
             [_subscriptionAlertView showInView:self.view withCompletionHandler:^(BOOL postiveButton) {
                 
@@ -346,10 +348,18 @@
     NSDictionary *masterClassDetails = [response objectForKey:kMasterClassDetail];
     _groupSession = [[KCGroupSession alloc] initWithMasterclassDetail:masterClassDetails];
     
-    self.playVideoButton.hidden = YES;
-    [self.masterchefImageView setImageWithURL:[NSURL URLWithString:_groupSession.masterChefImageURL] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        self.playVideoButton.hidden = NO;
-    } usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.masterClassDetailScrollView.hidden = NO;
+    [self.masterchefImageView setImageWithURL:[NSURL URLWithString:_groupSession.masterChefImageURL] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+    // Set if Masterclass is free
+    if(_groupSession.isFree) {
+        self.freeClassLabel.hidden = false;
+        self.freeClassLabel.labelText = [NSLocalizedString(@"free", nil) uppercaseString];
+        self.freeClassLabel.labelFont = [UIFont setRobotoFontBoldStyleWithSize:14];
+    }
+    else {
+        self.freeClassLabel.hidden = true;
+    }
     
     self.masterchefNameLabel.text  = [_groupSession.chefName uppercaseString];
     [self.masterchefLocationButton setTitle:[NSString stringWithFormat:@"  %@", _groupSession.chefLocation] forState:UIControlStateNormal];
@@ -370,7 +380,7 @@
     NSDictionary *attributes = @{NSParagraphStyleAttributeName: paragraphStyles};
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:_groupSession.chefAttribute attributes: attributes];
     self.aboutMasterchefLabel.attributedText = attributedString;
-    self.masterClassDetailScrollView.hidden = NO;
+    self.attendButtonView.hidden            = NO;
 }
 
 - (void)setMasterclassPurchaseStatus:(BOOL)hasPurhcased {
@@ -383,16 +393,9 @@
     }
     else {
         // Check if the Masterclass is Full
-        if(self.isFullCapacity) {
-            self.attendButton.userInteractionEnabled = NO;
-            [self.attendButton setTitle:[NSLocalizedString(@"fullCapacity", nil) uppercaseString] forState:UIControlStateNormal];
-            [self.attendButton setBackgroundColor:[UIColor masterclasFullButtonColor]];
-        }
-        else {
-            self.attendButton.userInteractionEnabled = YES;
-            [self.attendButton setTitle:[NSLocalizedString(@"attend", nil) uppercaseString] forState:UIControlStateNormal];
-            [self.attendButton setBackgroundColor:[UIColor appBackgroundColor]];
-        }
+        self.attendButton.userInteractionEnabled = YES;
+        [self.attendButton setTitle:[NSLocalizedString(@"attend", nil) uppercaseString] forState:UIControlStateNormal];
+        [self.attendButton setBackgroundColor:[UIColor appBackgroundColor]];
         self.attendCheckmarkImageView.hidden     = YES;
         [self.attendButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }

@@ -437,6 +437,7 @@ extern NSString  *kChewIt;
 extern NSString  *kChewItSession;
 extern NSString  *kShareURL;
 extern NSString  *kAmount;
+extern NSString  *kIsFree;
 extern NSString  *kMasterClassAmount;
 extern NSString  *kChewItSessionAmount;
 extern NSString  *kGroupSession;

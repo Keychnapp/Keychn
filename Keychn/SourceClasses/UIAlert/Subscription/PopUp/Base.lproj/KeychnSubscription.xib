@@ -39,7 +39,7 @@
                     <blurEffect style="light"/>
                 </visualEffectView>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="H5v-0S-UOZ">
-                    <rect key="frame" x="32.5" y="89.5" width="310" height="446"/>
+                    <rect key="frame" x="32.5" y="75.5" width="310" height="446"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="310" id="Ejo-rF-gN5"/>
@@ -57,7 +57,7 @@
                     </connections>
                 </collectionView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uXp-VM-Xl5">
-                    <rect key="frame" x="32.5" y="540.5" width="310" height="121.5"/>
+                    <rect key="frame" x="32.5" y="526.5" width="310" height="135.5"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recurring Bill. Cancel Anytime" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="cI3-NH-VwD">
                             <rect key="frame" x="0.0" y="2" width="310" height="16.5"/>
@@ -68,44 +68,60 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K5X-fF-vBE" customClass="TTTAttributedLabel">
-                            <rect key="frame" x="8" y="23" width="294" height="98.5"/>
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S6h-9O-Lfl">
+                            <rect key="frame" x="0.0" y="22.5" width="310" height="113"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K5X-fF-vBE" customClass="TTTAttributedLabel">
+                                    <rect key="frame" x="0.0" y="0.0" width="310" height="126"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="310" id="heG-Ed-lpx"/>
+                                    </constraints>
+                                    <string key="text">If you choose to purchase a subscription, payment will be charged to your iTunes account, and your account will be charged within 24 hours prior to the end of the current period. Auto-renewal may be turned off at any time by going to your settings in the iTunes store after purchase. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable. For more information , please visit our Terms of Service and Privacy Policy</string>
+                                    <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="12"/>
+                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="0Ph-X8-YMN"/>
+                                    </connections>
+                                </label>
+                            </subviews>
                             <constraints>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="67" id="edI-7F-Fbc"/>
+                                <constraint firstAttribute="trailing" secondItem="K5X-fF-vBE" secondAttribute="trailing" id="03R-t8-cLK"/>
+                                <constraint firstItem="K5X-fF-vBE" firstAttribute="top" secondItem="S6h-9O-Lfl" secondAttribute="top" id="9NE-f8-i8I"/>
+                                <constraint firstItem="K5X-fF-vBE" firstAttribute="leading" secondItem="S6h-9O-Lfl" secondAttribute="leading" id="JxF-0S-LOv"/>
+                                <constraint firstAttribute="bottom" secondItem="K5X-fF-vBE" secondAttribute="bottom" id="Sij-ji-3Hq"/>
+                                <constraint firstItem="K5X-fF-vBE" firstAttribute="width" secondItem="S6h-9O-Lfl" secondAttribute="width" id="wgF-G4-dsW"/>
                             </constraints>
-                            <string key="text">If you choose to purchase a subscription, payment will be charged to your iTunes account, and your account will be charged within 24 hours prior to the end of the current period. Auto-renewal may be turned off at any time by going to your settings in the iTunes store after purchase. For more information , please visit our Terms of Service and Privacy Policy</string>
-                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="12"/>
-                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <nil key="highlightedColor"/>
-                            <connections>
-                                <outlet property="delegate" destination="-1" id="0Ph-X8-YMN"/>
-                            </connections>
-                        </label>
+                            <inset key="scrollIndicatorInsets" minX="0.0" minY="0.0" maxX="-5" maxY="0.0"/>
+                        </scrollView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="K5X-fF-vBE" secondAttribute="bottom" id="0qf-om-2wt"/>
-                        <constraint firstItem="K5X-fF-vBE" firstAttribute="leading" secondItem="uXp-VM-Xl5" secondAttribute="leading" constant="8" id="DWA-cK-RiR"/>
+                        <constraint firstAttribute="bottom" secondItem="S6h-9O-Lfl" secondAttribute="bottom" id="1AL-K5-tVQ"/>
+                        <constraint firstAttribute="trailing" secondItem="S6h-9O-Lfl" secondAttribute="trailing" id="2Yc-Iu-FbF"/>
+                        <constraint firstItem="S6h-9O-Lfl" firstAttribute="top" secondItem="cI3-NH-VwD" secondAttribute="bottom" constant="4" id="OaL-UT-oyO"/>
                         <constraint firstItem="cI3-NH-VwD" firstAttribute="leading" secondItem="uXp-VM-Xl5" secondAttribute="leading" id="XpE-MW-axB"/>
-                        <constraint firstAttribute="trailing" secondItem="K5X-fF-vBE" secondAttribute="trailing" constant="8" id="cfZ-cr-U7d"/>
-                        <constraint firstItem="K5X-fF-vBE" firstAttribute="top" secondItem="cI3-NH-VwD" secondAttribute="bottom" constant="4" id="js1-Ga-jBV"/>
-                        <constraint firstAttribute="width" constant="310" id="r0u-6x-NR7"/>
+                        <constraint firstAttribute="height" constant="135.5" id="oSl-m7-E4f">
+                            <variation key="widthClass=regular" constant="150.5"/>
+                        </constraint>
                         <constraint firstAttribute="trailing" secondItem="cI3-NH-VwD" secondAttribute="trailing" id="sYh-v5-2ja"/>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="wr3-B4-UOy"/>
+                        <constraint firstItem="S6h-9O-Lfl" firstAttribute="leading" secondItem="uXp-VM-Xl5" secondAttribute="leading" id="wGT-ZY-u4C"/>
                         <constraint firstItem="cI3-NH-VwD" firstAttribute="top" secondItem="uXp-VM-Xl5" secondAttribute="top" constant="2" id="xLa-4r-JyP"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="H5v-0S-UOZ" firstAttribute="centerY" relation="lessThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="centerY" id="1xc-zR-6Mn"/>
+                <constraint firstItem="uXp-VM-Xl5" firstAttribute="trailing" secondItem="H5v-0S-UOZ" secondAttribute="trailing" id="1mA-R0-58J"/>
                 <constraint firstItem="HPy-SM-YOZ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="296-rt-buz"/>
                 <constraint firstItem="HPy-SM-YOZ" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="JN7-Hw-b7n"/>
+                <constraint firstItem="uXp-VM-Xl5" firstAttribute="leading" secondItem="H5v-0S-UOZ" secondAttribute="leading" id="MS2-IS-tol"/>
                 <constraint firstItem="H5v-0S-UOZ" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Sck-Iu-z3N"/>
                 <constraint firstItem="HPy-SM-YOZ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Uua-yg-QoR"/>
+                <constraint firstItem="H5v-0S-UOZ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="vUN-kp-3ea" secondAttribute="top" id="aax-jD-zNw"/>
+                <constraint firstItem="uXp-VM-Xl5" firstAttribute="top" secondItem="H5v-0S-UOZ" secondAttribute="bottom" constant="5" id="m1H-dc-FHM"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="uXp-VM-Xl5" secondAttribute="bottom" constant="5" id="mHT-td-GIt"/>
-                <constraint firstItem="uXp-VM-Xl5" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="rOb-pw-zgY"/>
-                <constraint firstItem="uXp-VM-Xl5" firstAttribute="top" secondItem="H5v-0S-UOZ" secondAttribute="bottom" constant="5" id="slH-oS-oJH"/>
+                <constraint firstItem="H5v-0S-UOZ" firstAttribute="centerY" relation="lessThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="centerY" id="xkD-Zd-jMp"/>
                 <constraint firstItem="HPy-SM-YOZ" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="z3e-1r-ygd"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

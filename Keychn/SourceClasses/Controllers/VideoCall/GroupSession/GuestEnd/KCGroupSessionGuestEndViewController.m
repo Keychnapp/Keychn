@@ -135,13 +135,13 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     // Reduce the seconds and set the text with animation
     if(_countdownSeconds > 0) {
         --_countdownSeconds;
-        long seconds = [self.secondsLabel.text longLongValue];
+        long long seconds = [self.secondsLabel.text longLongValue];
         if(seconds > 0) {
             [self textChangeAnimationOnLabel:self.secondsLabel withText:[NSString stringWithFormat:@"%ld", (long)seconds-1]];
         }
         else {
             seconds = _countdownSeconds < 60 ? _countdownSeconds :  60;
-            [self textChangeAnimationOnLabel:self.secondsLabel withText:[NSString stringWithFormat:@"%ld", seconds]];
+            [self textChangeAnimationOnLabel:self.secondsLabel withText:[NSString stringWithFormat:@"%lld", seconds]];
             NSString *timerText = [KCUtility formatSeconds:--_countdownSeconds];
             [self textChangeAnimationOnLabel:self.countdownTimerLabel withText:timerText];
         }
@@ -230,7 +230,7 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     // Set corner radius
     self.questionTurnButton.layer.cornerRadius = 20;
     
-    self.usernameContainerView.layer.cornerRadius = 5.0;
+    self.usernameContainerView.layer.cornerRadius = 6.0;
     self.usernameContainerView.layer.masksToBounds = YES;
     
     // Set Language Text For Timers

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class TriLabelView;
+
 @interface KCMasterClassListTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIButton *masterclassDetailButton;
@@ -19,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *masterchefLastNameLabel;
 @property (weak, nonatomic) IBOutlet UIButton *attendButton;
 @property (weak, nonatomic) IBOutlet UIImageView *attendCheckmarkImageView;
+@property (weak, nonatomic) IBOutlet TriLabelView *freeClassLabel;
 
+    
 
 @end

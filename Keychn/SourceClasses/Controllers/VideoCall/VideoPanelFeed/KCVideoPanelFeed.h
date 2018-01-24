@@ -12,12 +12,11 @@
 
 @interface KCVideoPanelFeed : UIView
 
-@property (weak, nonatomic)    IBOutlet UIView  *videoFeedPanel;
-@property (strong, nonatomic)  UIView  *videoRender;
-@property (weak, nonatomic) IBOutlet UILabel *shortnameLabel;
-@property (weak, nonatomic) IBOutlet UILabel *queuePositionLabel;
-@property (weak, nonatomic) IBOutlet UILabel *questionLabel;
-@property (strong, nonatomic) AgoraRtcVideoCanvas *videoCanvas;
+@property (weak, nonatomic) IBOutlet UIView *usernameContainerView;
+@property (weak, nonatomic) IBOutlet UIView  *videoFeedPanel;
+@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *userImage;
+@property (strong, nonatomic)  UIView  *videoRender;
+@property (strong, nonatomic) AgoraRtcVideoCanvas *videoCanvas;
 
 @end
