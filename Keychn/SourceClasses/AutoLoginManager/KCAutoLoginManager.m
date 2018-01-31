@@ -28,6 +28,9 @@
     _userProfile        = [KCUserProfile sharedInstance];
     [userProfileDBManager getLoggedInUserProfile];
     
+    // Check for language update
+    [self checkLanguaeUpdate];
+    
     //Verify version number
     NSString *versionNumber      = [self getAppVersion];
     NSString *savedAppVersion    = [self getSavedAppVersion];
@@ -118,6 +121,21 @@
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     NSString  *appVersion = [standardUserDefaults objectForKey:kAppVersionNumber];
     return appVersion;
+}
+
+- (void)checkLanguaeUpdate {
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSString  *currentLanguage           = [standardUserDefaults objectForKey:kLanguageID];
+    NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
+    NSDictionary *languageDic = [NSLocale componentsFromLocaleIdentifier:language];
+    NSString *languageCode = [languageDic objectForKey:@"kCFLocaleLanguageCodeKey"];
+    if(!([NSString validateString:currentLanguage] && [currentLanguage isEqualToString:languageCode])) {
+        // No language saved || Language Change Detected
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        [mixpanel track:@"language_change"
+             properties:@{@"old_language": currentLanguage == nil ? @"NA" : currentLanguage , @"new_language": languageCode}];
+        [standardUserDefaults setObject:languageCode forKey:kLanguageID];
+    }
 }
 
 - (void)saveNewVersion:(NSString*)version {

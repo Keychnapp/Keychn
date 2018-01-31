@@ -115,6 +115,8 @@
 		654889151FC330A9004D83FD /* TabSwitchAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 654889141FC330A9004D83FD /* TabSwitchAnimationController.m */; };
 		65540CA72006535800C11363 /* TriLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65540CA62006535800C11363 /* TriLabelView.swift */; };
 		6556069A1FC072F400CF6C15 /* KCNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 655606991FC072F400CF6C15 /* KCNavigationController.m */; };
+		659D56DD2020D1CF0030A7A7 /* KCMasterclassPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 659D56DC2020D1CF0030A7A7 /* KCMasterclassPreview.m */; };
+		659D56DF2020D1EF0030A7A7 /* MasterclassPreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 659D56DE2020D1EF0030A7A7 /* MasterclassPreview.xib */; };
 		65A34F2C1FA8BD5A00449513 /* AgoraRtcEngineKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A34F2B1FA8BD5900449513 /* AgoraRtcEngineKit.framework */; };
 		65A34F2E1FA8BF3500449513 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A34F2D1FA8BF3500449513 /* libresolv.tbd */; };
 		65B352F81FAB2294003AB539 /* EventStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B352F71FAB2294003AB539 /* EventStore.m */; };
@@ -622,6 +624,9 @@
 		65540CA62006535800C11363 /* TriLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriLabelView.swift; sourceTree = "<group>"; };
 		655606981FC072F400CF6C15 /* KCNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KCNavigationController.h; sourceTree = "<group>"; };
 		655606991FC072F400CF6C15 /* KCNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KCNavigationController.m; sourceTree = "<group>"; };
+		659D56DB2020D1CF0030A7A7 /* KCMasterclassPreview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KCMasterclassPreview.h; sourceTree = "<group>"; };
+		659D56DC2020D1CF0030A7A7 /* KCMasterclassPreview.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KCMasterclassPreview.m; sourceTree = "<group>"; };
+		659D56DE2020D1EF0030A7A7 /* MasterclassPreview.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MasterclassPreview.xib; sourceTree = "<group>"; };
 		65A34F2B1FA8BD5900449513 /* AgoraRtcEngineKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AgoraRtcEngineKit.framework; sourceTree = "<group>"; };
 		65A34F2D1FA8BF3500449513 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		65B352F61FAB2294003AB539 /* EventStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventStore.h; sourceTree = "<group>"; };
@@ -2046,6 +2051,17 @@
 			path = NavigatonController;
 			sourceTree = "<group>";
 		};
+		659D56DA2020D1030030A7A7 /* MasterclassPreview */ = {
+			isa = PBXGroup;
+			children = (
+				659D56DB2020D1CF0030A7A7 /* KCMasterclassPreview.h */,
+				659D56DC2020D1CF0030A7A7 /* KCMasterclassPreview.m */,
+				659D56DE2020D1EF0030A7A7 /* MasterclassPreview.xib */,
+			);
+			name = MasterclassPreview;
+			path = SourceClasses/Views/MasterclassPreview;
+			sourceTree = "<group>";
+		};
 		65A34F2A1FA8BD5900449513 /* Library */ = {
 			isa = PBXGroup;
 			children = (
@@ -2460,6 +2476,7 @@
 		AA8876871C106EEB00D2CEF4 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				659D56DA2020D1030030A7A7 /* MasterclassPreview */,
 				AA8876881C106EFB00D2CEF4 /* Storyboard */,
 			);
 			name = View;
@@ -2943,6 +2960,7 @@
 				F99EA31D1D896B7500F67292 /* book_big@2x.png in Resources */,
 				F9AF09231F84C366001A177E /* deselect_rating_icon.png in Resources */,
 				F9E413B11D86D15C006CC2B7 /* GoogleService-Info.plist in Resources */,
+				659D56DF2020D1EF0030A7A7 /* MasterclassPreview.xib in Resources */,
 				AA79A5501C3146F10088F7CA /* Roboto-Regular.ttf in Resources */,
 				AA88767D1C1069C300D2CEF4 /* Assets.xcassets in Resources */,
 				F9D11B7E1F56E41400CA55E5 /* share@3x.png in Resources */,
@@ -3320,6 +3338,7 @@
 				6556069A1FC072F400CF6C15 /* KCNavigationController.m in Sources */,
 				653717B11F68653B002B4292 /* KCGroupSessionHostEndViewController.m in Sources */,
 				653717AD1F68653B002B4292 /* KCSplashViewController.m in Sources */,
+				659D56DD2020D1CF0030A7A7 /* KCMasterclassPreview.m in Sources */,
 				653717DA1F68653B002B4292 /* KCPageControl.m in Sources */,
 				653717CB1F68653B002B4292 /* KCTutorial.m in Sources */,
 				653717E91F68653B002B4292 /* KCMenuWebManager.m in Sources */,
@@ -3501,7 +3520,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Keychn Experience SL (VNBHUF22T6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = VNBHUF22T6;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3538,7 +3557,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Keychn Experience SL (VNBHUF22T6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = VNBHUF22T6;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

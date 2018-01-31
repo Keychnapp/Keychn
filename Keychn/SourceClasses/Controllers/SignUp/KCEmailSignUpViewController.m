@@ -152,7 +152,7 @@
         self.isProcessing = true;
         if(isNetworkReachable) {
             [self.activityIndicator startAnimating];
-            Mixpanel *mixpanel = [Mixpanel sharedInstance];
+            __block Mixpanel *mixpanel = [Mixpanel sharedInstance];
             [mixpanel track:@"signup_button"
                  properties:@{@"":@""}];
             // Text field validated, try to register user
@@ -164,7 +164,7 @@
                 weakSelf.isProcessing = false;
                 KCUserProfile *userProfileModel = [KCUserProfile sharedInstance];
                 [userProfileModel getModelFromDictionary:userProfile withType:server];
-                
+                [mixpanel.people set:@{@"$email": userProfileModel.emailID}];
                 // Save current user in local database
                 KCUserProfileDBManager *userProfileDBManager = [[KCUserProfileDBManager alloc] init];
                 [userProfileDBManager saveCurrentUserWithCompletionHandler:^{
@@ -329,6 +329,8 @@
     }
     __weak id weakSelf = self;
     NSDictionary *userSocialProfileDictionary = [[KCUserProfile sharedInstance].facebookProfile getSocialUserProfileDictionary];
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel.people set:@{@"$email": [KCUserProfile sharedInstance].facebookProfile.emailID}];
     [_signUpWebManager signUpWithSocialAccount:userSocialProfileDictionary withCompletionHandler:^(NSDictionary *response) {
         //Save user profile with social profile in local database
         KCUserProfileDBManager *userProfileDBManager = [KCUserProfileDBManager new];

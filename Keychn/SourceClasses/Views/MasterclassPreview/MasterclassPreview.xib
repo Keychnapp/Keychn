@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Optima.ttc">
+            <string>Optima-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="KCMasterclassPreview">
+            <connections>
+                <outlet property="containerView" destination="1oT-32-sb2" id="nnQ-fu-XUa"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="217" height="131"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1oT-32-sb2">
+                    <rect key="frame" x="15" y="15" width="187" height="101"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Masterclass Preview Here" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="jVq-7d-3ud">
+                            <rect key="frame" x="22" y="40.5" width="147" height="20"/>
+                            <fontDescription key="fontDescription" name="Optima-Regular" family="Optima" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="jVq-7d-3ud" firstAttribute="centerY" secondItem="1oT-32-sb2" secondAttribute="centerY" id="2Ak-sQ-G38"/>
+                        <constraint firstItem="jVq-7d-3ud" firstAttribute="leading" secondItem="1oT-32-sb2" secondAttribute="leading" constant="22" id="HAS-gI-Vca"/>
+                        <constraint firstAttribute="trailing" secondItem="jVq-7d-3ud" secondAttribute="trailing" constant="18" id="rzE-1c-GB5"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zMa-5Q-AfD">
+                    <rect key="frame" x="187" y="0.0" width="30" height="30"/>
+                    <color key="backgroundColor" red="0.98039215690000003" green="0.80784313730000001" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="30" id="BCw-4h-r89"/>
+                        <constraint firstAttribute="height" constant="30" id="jaG-qc-ltc"/>
+                    </constraints>
+                    <state key="normal" image="cancel"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="15"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="dismissPreview:" destination="-1" eventType="touchUpInside" id="amg-xY-TBd"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="zMa-5Q-AfD" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Krl-Q2-FTJ"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="1oT-32-sb2" secondAttribute="bottom" constant="15" id="do2-hC-Imh"/>
+                <constraint firstItem="1oT-32-sb2" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="eFq-Mf-OCq"/>
+                <constraint firstAttribute="trailing" secondItem="zMa-5Q-AfD" secondAttribute="trailing" id="hEh-ds-hZ3"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="1oT-32-sb2" secondAttribute="trailing" constant="15" id="nPo-gJ-OGa"/>
+                <constraint firstItem="1oT-32-sb2" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="15" id="wgU-EP-wOT"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="-45.5" y="-213.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="cancel" width="36" height="36"/>
+    </resources>
+</document>

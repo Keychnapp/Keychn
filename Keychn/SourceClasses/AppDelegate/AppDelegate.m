@@ -85,7 +85,7 @@
     }];
     
 #if TARGET_IPHONE_SIMULATOR
-    keychnDeviceToken = [@"AEOI-09IU-56TY-MNB0-NBHY-YKC-DYC" stringByAppendingString:[NSString stringWithFormat:@"%ld", random()]];
+    keychnDeviceToken = [@"AEOI-09IU-56TY-MNB0-YKC-ACD" stringByAppendingString:[NSString stringWithFormat:@"%ld", random()]];
 #endif
      // Validate user login and push the required view controller based on the current user profile status
     isNetworkReachable = YES;
@@ -150,6 +150,7 @@
     [self updatePushNotificationTokenWithToken:keychnDeviceToken andDevieId:DEVICE_UDID];
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel.people addPushDeviceToken:deviceToken];
+    
 }
 
 

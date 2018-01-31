@@ -268,7 +268,7 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" red="0.98017388579999998" green="0.80618470909999995" blue="0.28298133609999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.98039215686274506" green="0.80784313725490198" blue="0.28235294117647058" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="nlh-AV-XKX" secondAttribute="trailing" constant="16" id="Ao5-NX-Eqp"/>
                             <constraint firstItem="ye2-LJ-nGZ" firstAttribute="centerX" secondItem="SyE-nE-wYd" secondAttribute="centerX" id="DWb-af-GCa"/>
@@ -4706,7 +4706,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MASTERCLASS STARTS IN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Azt-Eb-BYO">
-                                        <rect key="frame" x="67" y="252" width="241" height="23.5"/>
+                                        <rect key="frame" x="67.5" y="252" width="241" height="23.5"/>
                                         <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>

@@ -19,6 +19,7 @@
 #import "KCGroupSessionHostEndViewController.h"
 #import "KCGroupSessionGuestEndViewController.h"
 #import "EventStore.h"
+#import "KCMasterclassPreview.h"
 
 @interface KCMasterClassListViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
     NSInteger _cellHeight;
@@ -92,6 +93,12 @@
     // Request for iCalendar permission
     EventStore *store = [EventStore new];
     [store askPermissionForEvent];
+    
+    
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel.people set:@{@"$name": _userProfile.username}];
+    [mixpanel.people set:@{@"$email": _userProfile.emailID}];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -404,6 +411,17 @@
     }
     _masterClassToJoin = [_userScheduleDBManager getNextInteraction];
     [self.masterclassListTableView reloadData];
+    
+    // Add Preview View
+    NSInteger width  = 217;
+    NSInteger height = 131;
+    NSInteger bottomPadding = 15;
+    KCMasterclassPreview *masterclassPreview = [[KCMasterclassPreview alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - width , CGRectGetHeight(self.view.frame) - height - CGRectGetHeight(self.tabBarController.tabBar.frame) + bottomPadding , width, height)];
+    masterclassPreview.hostId   = [_masterClassToJoin.secondUserID integerValue];
+    UIWindow *mainWindow = ((AppDelegate *) [UIApplication sharedApplication].delegate).window;
+    [masterclassPreview setHidden:YES];
+    [masterclassPreview joinConferenceWithId:_masterClassToJoin.conferenceID forUser:_userProfile.userID];
+    [mainWindow addSubview:masterclassPreview];
 }
 
 #pragma mark - Request Completion

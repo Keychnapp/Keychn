@@ -160,6 +160,9 @@
 - (IBAction)loginButtonTapped:(id)sender {
     if([self validateTextFields]) {
         if(isNetworkReachable) {
+            Mixpanel *mixpanel = [Mixpanel sharedInstance];
+            [mixpanel track:@"login_user_credentials"
+                 properties:@{@"":@""}];
             [self loginWithUserDetails];
         }
         else {
@@ -256,7 +259,8 @@
     NSDictionary *userProfileResponse = [[userInfo objectForKey:kUserDetails] objectForKey:kAppUsers];
     KCUserProfile *userProfile = [KCUserProfile sharedInstance];
     [userProfile getModelFromDictionary:userProfileResponse withType:server];
-    
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel.people set:@{@"$email": userProfile.emailID}];
     // Save current user in local database
     KCUserProfileDBManager *userProfileDBManager = [[KCUserProfileDBManager alloc] init];
     [userProfileDBManager saveUserWithSocialProfile:userInfo];
@@ -299,6 +303,8 @@
     }
     __weak id weakSelf = self;
     NSDictionary *userSocialProfileDictionary = [[KCUserProfile sharedInstance].facebookProfile getSocialUserProfileDictionary];
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel.people set:@{@"$email": [KCUserProfile sharedInstance].facebookProfile.emailID}];
     [_signUpWebManager signUpWithSocialAccount:userSocialProfileDictionary withCompletionHandler:^(NSDictionary *response) {
         //Save user profile with social profile in local database
         KCUserProfileDBManager *userProfileDBManager = [KCUserProfileDBManager new];

@@ -72,7 +72,7 @@
                             <rect key="frame" x="0.0" y="22.5" width="310" height="113"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K5X-fF-vBE" customClass="TTTAttributedLabel">
-                                    <rect key="frame" x="0.0" y="0.0" width="310" height="126"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="310" height="127"/>
                                     <constraints>
                                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="310" id="heG-Ed-lpx"/>
                                     </constraints>

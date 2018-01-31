@@ -12,7 +12,7 @@
 #import "EventStore.h"
 #import <UserNotifications/UserNotifications.h>
 
-#define kMaxBufferTimeForCall 1200 // 20 Minutes to join
+#define kMaxBufferTimeForCall 3600 // 60 Minutes to join
 
 @interface KCUserScheduleDBManager() {
     EventStore  *_eventStore;

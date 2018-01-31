@@ -14,6 +14,8 @@
 #import "KCAgoraCallManager.h"
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 
+#define kMasterclassPreInterval 600
+
 @interface KCGroupSessionHostEndViewController () <AgoraRtcEngineDelegate, CAAnimationDelegate> {
     KCUserProfile               *_userProfile;
     NSMutableDictionary         *_liveFeedPanelWithNameDictionary;
@@ -62,7 +64,7 @@
     [self customizeUI];
     
     _countdownSeconds = self.startTimeInterval - [[NSDate date] timeIntervalSince1970];
-    if (_countdownSeconds > 0) {
+    if (_countdownSeconds > kMasterclassPreInterval) {
         // Play a countdown timer
         [self playTimer];
     }
@@ -129,7 +131,7 @@
 
 - (void)countdownTimer {
     // Reduce the seconds and set the text with animation
-    if(_countdownSeconds > 0) {
+    if(_countdownSeconds > kMasterclassPreInterval) {
         --_countdownSeconds;
         long long seconds = [self.secondsLabel.text longLongValue];
         if(seconds > 0) {
@@ -165,7 +167,7 @@
 - (void)authenticateClientWithAppIdentifier:(NSString *)appIdentifier {
     self.agoraKit = [AgoraRtcEngineKit sharedEngineWithAppId:appIdentifier delegate:self];
     [self.agoraKit setChannelProfile:AgoraRtc_ChannelProfile_LiveBroadcasting];
-    [self.agoraKit setClientRole:(AgoraRtc_ClientRole_Broadcaster) withKey:[NSString stringWithFormat:@"%ld",Masterchef]];
+    [self.agoraKit setClientRole:(AgoraRtc_ClientRole_Broadcaster) withKey:[NSString stringWithFormat:@"%@", @(Masterchef)]];
     [self.agoraKit createDataStream:&(DataStreamIndentifier) reliable:YES ordered:YES];
     [self setupUserPreview];
 }
@@ -338,7 +340,6 @@
     // Usernames fetched from server
     _usernameDictionary         = [[NSMutableDictionary alloc] init];
     NSArray *participantArray   = [response objectForKey:kParticipant];
-    
     if([participantArray isKindOfClass:[NSArray class]]) {
         NSInteger index = 0;
         for (NSDictionary *userDictionary in participantArray) {
