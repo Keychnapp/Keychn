@@ -475,6 +475,9 @@
     }
     [self.masterclassListTableView reloadRowsAtIndexPaths:self.masterclassListTableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationAutomatic];
     
+    // Get Next Interaction and refresh tableview 2 minutes prior to the scheduled date and time
+    [self getUserSchedule];
+    
     // Refresh user schedule silently
     NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kCurrentDate:[NSDate getCurrentDateInUTC]};
     [_userScheduleWebManager refreshUseScheduleWithParameters:params];

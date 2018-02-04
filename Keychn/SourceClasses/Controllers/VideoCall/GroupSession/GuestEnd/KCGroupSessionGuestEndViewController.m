@@ -109,15 +109,13 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     
 //    [self expandContractQuestionTurnBoxWithStatus:YES];
     
-    // Change orientation to landscape
-    [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationLandscapeLeft) forKey:@"orientation"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self removeAppDelegateNotification];
     
-    // Change orientation to Portratit
+    // Change orientation to Portrait
     [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationPortrait) forKey:@"orientation"];
 }
 
@@ -395,6 +393,9 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
 - (void)autheticateTwilioSDKWithToken:(NSString *)token {    
     // Autheticate Twilio Token
     __weak id weakSelf = self;
+    // Change orientation to landscape
+    [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationLandscapeLeft) forKey:@"orientation"];
+    [self.view layoutSubviews];
     [[NSNotificationCenter defaultCenter] postNotificationName:kMasterclassPreviewDismissNotification object:nil];
     [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"openingCamera", nil)];
     [_videoCallManager autheticateClientWithToken:token withRole:self.role hasAutheticated:^(BOOL status) {

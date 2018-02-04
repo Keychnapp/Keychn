@@ -63,8 +63,8 @@
     // Customize app UI
     [self customizeUI];
     
-    _countdownSeconds = self.startTimeInterval - [[NSDate date] timeIntervalSince1970];
-    if (_countdownSeconds > kMasterclassPreInterval) {
+    _countdownSeconds = self.startTimeInterval - [[NSDate date] timeIntervalSince1970] - kMasterclassPreInterval;
+    if (_countdownSeconds > 0) {
         // Play a countdown timer
         [self playTimer];
     }
@@ -86,8 +86,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self registerForAppDelegateNotification];
-    // Change orientation to landscape
-    [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationLandscapeLeft) forKey:@"orientation"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -131,7 +129,7 @@
 
 - (void)countdownTimer {
     // Reduce the seconds and set the text with animation
-    if(_countdownSeconds > kMasterclassPreInterval) {
+    if(_countdownSeconds > 0) {
         --_countdownSeconds;
         long long seconds = [self.secondsLabel.text longLongValue];
         if(seconds > 0) {
@@ -353,8 +351,13 @@
         }
     }
     
+    // Change orientation to landscape
+    [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationLandscapeLeft) forKey:@"orientation"];
+    [self.view layoutSubviews];
+    
     // Authetical video SDK and start preview
     if(!self.agoraKit) {
+        
        [self authenticateClientWithAppIdentifier:kAgoraKeychnAppIdentifier];
     }
 }
