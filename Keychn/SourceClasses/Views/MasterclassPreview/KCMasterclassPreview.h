@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "KCMySchedule.h"
 
 @interface KCMasterclassPreview : UIView
 
 @property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (assign, nonatomic) NSInteger hostId;
+@property (strong, nonatomic) KCMySchedule *masterclassToJoin;
 
 
 - (void)joinConferenceWithId:(NSString *)conferenceId forUser:(NSNumber *)userId;

@@ -34,6 +34,7 @@
     KCUserScheduleDBManager *_userScheduleDBManager;
     KCMySchedule            *_masterClassToJoin;
     UIRefreshControl        *_refreshControl;
+    NSMutableArray          *_previewedMasterclassArray;
 }
 @property (weak, nonatomic) IBOutlet UITableView *masterclassListTableView;
 @property (weak, nonatomic) IBOutlet UILabel *learnWithChefLabel;
@@ -71,6 +72,7 @@
     _groupSessionManager    = [KCGroupSessionWebManager new];
     _userScheduleDBManager  = [KCUserScheduleDBManager new];
     _refreshControl         = [[UIRefreshControl alloc] init];
+    _previewedMasterclassArray = [[NSMutableArray alloc] init];
     [_refreshControl addTarget:self action:@selector(refreshControlValueChanged:) forControlEvents:UIControlEventValueChanged];
     [self.masterclassListTableView setRefreshControl:_refreshControl];
     _refreshControl.tintColor = [UIColor appBackgroundColor];
@@ -416,12 +418,16 @@
     NSInteger width  = 217;
     NSInteger height = 131;
     NSInteger bottomPadding = 15;
-    KCMasterclassPreview *masterclassPreview = [[KCMasterclassPreview alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - width , CGRectGetHeight(self.view.frame) - height - CGRectGetHeight(self.tabBarController.tabBar.frame) + bottomPadding , width, height)];
-    masterclassPreview.hostId   = [_masterClassToJoin.secondUserID integerValue];
-    UIWindow *mainWindow = ((AppDelegate *) [UIApplication sharedApplication].delegate).window;
-    [masterclassPreview setHidden:YES];
-    [masterclassPreview joinConferenceWithId:_masterClassToJoin.conferenceID forUser:_userProfile.userID];
-    [mainWindow addSubview:masterclassPreview];
+    if(!([_previewedMasterclassArray containsObject:_masterClassToJoin.conferenceID] || _masterClassToJoin.isHosting)) {
+        // If logged in user is not a Chef who is hosting this class
+        [_previewedMasterclassArray addObject:_masterClassToJoin.conferenceID];
+        KCMasterclassPreview  *masterclassPreview = [[KCMasterclassPreview alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - width , CGRectGetHeight(self.view.frame) - height - CGRectGetHeight(self.tabBarController.tabBar.frame) + bottomPadding , width, height)];
+        masterclassPreview.masterclassToJoin   = _masterClassToJoin;
+        UIWindow *mainWindow = ((AppDelegate *) [UIApplication sharedApplication].delegate).window;
+        [masterclassPreview setHidden:YES];
+        [mainWindow addSubview:masterclassPreview];
+        [masterclassPreview joinConferenceWithId:_masterClassToJoin.conferenceID forUser:_userProfile.userID];
+    }
 }
 
 #pragma mark - Request Completion

@@ -28,6 +28,7 @@
 #define kAppleAppIdForKeychn   @"1133885987"
 #define kMixPanelToken         @"52b17c126ae6a6d4ed209a7543b64091"
 #define kSecondCameraId        680
+#define kMasterclassPreviewDismissNotification @"MasterclassPreviewDismissNotification"
 
 /**
  @abstract Get shared instance of the constant class

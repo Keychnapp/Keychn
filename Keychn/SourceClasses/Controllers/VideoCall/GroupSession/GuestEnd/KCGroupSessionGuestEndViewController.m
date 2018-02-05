@@ -395,6 +395,7 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
 - (void)autheticateTwilioSDKWithToken:(NSString *)token {    
     // Autheticate Twilio Token
     __weak id weakSelf = self;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kMasterclassPreviewDismissNotification object:nil];
     [KCProgressIndicator showProgressIndicatortWithText:NSLocalizedString(@"openingCamera", nil)];
     [_videoCallManager autheticateClientWithToken:token withRole:self.role hasAutheticated:^(BOOL status) {
         if(status) {

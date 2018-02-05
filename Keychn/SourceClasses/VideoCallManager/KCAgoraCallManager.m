@@ -72,6 +72,7 @@
     if(DEBUGGING) NSLog(@"Starting preview on view");
     self.previewView  = view;
     [self.agoraKit enableVideo];
+    [self.agoraKit enableAudio];
     [self.agoraKit setVideoProfile:AgoraRtc_VideoProfile_720P swapWidthAndHeight: false];
     // Default mode is disableVideo
     self.localVideoCanvas = [[AgoraRtcVideoCanvas alloc] init];
