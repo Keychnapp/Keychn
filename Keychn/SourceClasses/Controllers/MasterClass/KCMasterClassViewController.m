@@ -371,7 +371,7 @@
     
     self.playVideoButton.hidden = ![NSString validateString:_groupSession.videoURL];
     
-    self.dateAndMonthLabel.text = [NSString stringWithFormat:@"%@ %@%@",[monthName uppercaseString], [NSNumber numberWithInteger:date],[KCUtility getValueSuffix:date]];
+    self.dateAndMonthLabel.text = [NSString stringWithFormat:@"%@ %@",[monthName uppercaseString], [KCUtility getValueSuffix:date]];
     self.timeLabel.text = [hour stringByAppendingString:@" ET"];
     
     NSMutableParagraphStyle *paragraphStyles = [[NSMutableParagraphStyle alloc] init];

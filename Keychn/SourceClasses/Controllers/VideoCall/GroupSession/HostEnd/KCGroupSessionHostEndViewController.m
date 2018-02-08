@@ -357,7 +357,6 @@
     
     // Authetical video SDK and start preview
     if(!self.agoraKit) {
-        
        [self authenticateClientWithAppIdentifier:kAgoraKeychnAppIdentifier];
     }
 }

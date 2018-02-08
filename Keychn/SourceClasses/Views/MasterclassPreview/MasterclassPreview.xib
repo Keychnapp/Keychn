@@ -13,6 +13,9 @@
         <array key="Optima.ttc">
             <string>Optima-Regular</string>
         </array>
+        <array key="Roboto-Bold.ttf">
+            <string>Roboto-Bold</string>
+        </array>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="KCMasterclassPreview">
@@ -59,12 +62,35 @@
                         <action selector="dismissPreview:" destination="-1" eventType="touchUpInside" id="amg-xY-TBd"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UUx-l2-QIY">
+                    <rect key="frame" x="16" y="3" width="10" height="10"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="10" id="4FZ-8H-tCF"/>
+                        <constraint firstAttribute="height" constant="10" id="nlH-jV-LyG"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LIVE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d8C-wx-BGI">
+                    <rect key="frame" x="30" y="2" width="24.5" height="14.5"/>
+                    <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="12"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
+                <constraint firstItem="UUx-l2-QIY" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="3" id="0Dz-hM-JHw"/>
+                <constraint firstItem="UUx-l2-QIY" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="6L0-MK-Ku5"/>
                 <constraint firstItem="zMa-5Q-AfD" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Krl-Q2-FTJ"/>
+                <constraint firstItem="d8C-wx-BGI" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="2" id="R7M-lX-g5Q"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="1oT-32-sb2" secondAttribute="bottom" constant="15" id="do2-hC-Imh"/>
                 <constraint firstItem="1oT-32-sb2" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="eFq-Mf-OCq"/>
+                <constraint firstItem="d8C-wx-BGI" firstAttribute="leading" secondItem="UUx-l2-QIY" secondAttribute="trailing" constant="4" id="euj-Lj-5Ep"/>
                 <constraint firstAttribute="trailing" secondItem="zMa-5Q-AfD" secondAttribute="trailing" id="hEh-ds-hZ3"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="1oT-32-sb2" secondAttribute="trailing" constant="15" id="nPo-gJ-OGa"/>
                 <constraint firstItem="1oT-32-sb2" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="15" id="wgU-EP-wOT"/>

@@ -224,6 +224,7 @@ NSString  *kReminderNotification     = @"reminder";
 NSString  *kCallDenied               = @"call_denied";
 NSString  *kUserBusy                 = @"user_busy";
 NSString  *kConferenceID             = @"conference_id";
+NSString  *kChefId                   = @"app_user_id";
 NSString  *kUnreadCount              = @"unread_count";
 NSString  *kVoIPToken                = @"voip_device_token";
 NSString  *kNotificationStatus       = @"notification_status";

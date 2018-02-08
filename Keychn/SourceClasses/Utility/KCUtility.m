@@ -94,17 +94,9 @@
 
 + (NSString*)getValueSuffix:(NSInteger)value {
     // Get the value suffix
-    NSInteger modeValue = value % 10;
-    if (modeValue == 1) {
-        return @"ST";
-    }
-    else if (modeValue == 2) {
-        return @"ND";
-    }
-    else if (modeValue == 3) {
-        return @"RD ";
-    }
-    return @"TH";
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    numberFormatter.numberStyle = NSNumberFormatterOrdinalStyle;
+    return [[numberFormatter stringFromNumber:@(value)] uppercaseString];
 }
 
 +(NSString*)getLastNameFromFullName:(NSString*)fullName {

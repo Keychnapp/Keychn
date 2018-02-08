@@ -49,7 +49,8 @@
 
 + (instancetype)subscriptionForUser:(NSNumber  *)userId {
     // Fetch subscription information
-    NSString *clause = [NSString stringWithFormat:@"WHERE user_id = %@ ORDER BY expiration_time_interval DESC LIMIT 1", userId];
+    NSTimeInterval currentTimeInteval = [[NSDate date] timeIntervalSince1970];
+    NSString *clause = [NSString stringWithFormat:@"WHERE user_id = %@ AND expiration_time_interval >= %f ORDER BY expiration_time_interval DESC LIMIT 1",userId, currentTimeInteval];
     KCDatabaseOperation *dbOperation = [KCDatabaseOperation sharedInstance];
     NSArray *subscriptionArray =  [dbOperation fetchDataFromTable:@"purchase_history" withClause:clause];
     if([subscriptionArray count] > 0) {

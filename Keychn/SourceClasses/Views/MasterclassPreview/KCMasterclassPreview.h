@@ -15,6 +15,8 @@
 @property (strong, nonatomic) KCMySchedule *masterclassToJoin;
 
 
+
 - (void)joinConferenceWithId:(NSString *)conferenceId forUser:(NSNumber *)userId;
+- (void)closePreview;
 
 @end

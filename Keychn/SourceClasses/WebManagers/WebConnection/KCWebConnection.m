@@ -128,6 +128,7 @@
             NSString *errorMessage   = [errorDetails objectForKey:kMessage];
             [KCProgressIndicator hideActivityIndicator];
             if(userProfile.accessToken) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:kMasterclassPreviewDismissNotification object:nil];
                 userProfile.accessToken = nil;
                 [userProfile releseSharedInstance];
                 [KCUIAlert showInformationAlertWithHeader:errorTitle message:errorMessage withButtonTapHandler:^{

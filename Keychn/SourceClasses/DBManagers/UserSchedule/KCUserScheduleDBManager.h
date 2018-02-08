@@ -35,6 +35,8 @@
 
 - (KCMySchedule*)getNextInteraction;
 
+- (KCMySchedule*)scheduleWithIdentifier:(NSNumber *)identifier;
+
 /**
  @abstract This method will delete all user schedule from local database
  @param No Parameters

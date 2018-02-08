@@ -37,13 +37,10 @@
     // Add a PanGesture to make Remote Video Movable
     UIPanGestureRecognizer *panGestureRecognizerForRemoteCameraView = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(moveUserPreviewViewWithGesture:)];
     [self addGestureRecognizer:panGestureRecognizerForRemoteCameraView];
-    
+
+    // For force close
     [self addObserver];
-    
-    // Add a tap gesture
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(joinMasterclassInFullScreen)];
-    [self addGestureRecognizer:tapGesture];
-    
+
     return self;
 }
 
@@ -53,7 +50,6 @@
         CGPoint translation = [panGestureRecognizer translationInView:panGestureRecognizer.view];
         frame.origin = CGPointMake(frame.origin.x + translation.x,
                                    frame.origin.y + translation.y);
-        
         
         
         if(frame.origin.x > 0 && (frame.origin.x+frame.size.width) < self.superview.frame.size.width && frame.origin.y > 0 && (frame.origin.y+frame.size.height) < self.superview.frame.size.height) {
@@ -103,10 +99,10 @@
         self.agoraKit   = [AgoraRtcEngineKit sharedEngineWithAppId:kAgoraKeychnAppIdentifier delegate:self];
         self.agoraKit.delegate = self;
         [self.agoraKit createDataStream:&(DataStreamIndentifier) reliable:YES ordered:YES];
-        [self.agoraKit setClientRole:AgoraRtc_ClientRole_Broadcaster withKey:[NSString stringWithFormat:@"%lu",(unsigned long)Listner]];
+        [self.agoraKit setClientRole:AgoraRtc_ClientRole_Audience withKey:[NSString stringWithFormat:@"%lu",(unsigned long)Listner]];
         [self.agoraKit enableVideo];
         [self.agoraKit setVideoProfile:AgoraRtc_VideoProfile_720P swapWidthAndHeight: false];
-        [self.agoraKit setChannelProfile:AgoraRtc_ChannelProfile_Communication];
+        [self.agoraKit setChannelProfile:AgoraRtc_ChannelProfile_LiveBroadcasting];
         [self.agoraKit muteLocalAudioStream: YES];
         [self.agoraKit setEnableSpeakerphone:NO];
         [self.agoraKit disableAudio];
@@ -122,19 +118,6 @@
     }];
     self.agoraKit = nil;
     return (status == 0);
-}
-
-- (void)joinMasterclassInFullScreen {
-    AppDelegate *appDelegate = (AppDelegate *) [UIApplication sharedApplication].delegate;
-    UINavigationController *rootViewController = (UINavigationController *) appDelegate.window.rootViewController;
-    KCGroupSessionGuestEndViewController *gsGuestEndViewController = [rootViewController.storyboard instantiateViewControllerWithIdentifier:guestEndSessionViewController];
-    gsGuestEndViewController.conferenceID    = self.masterclassToJoin.conferenceID;
-    gsGuestEndViewController.hostName        = self.masterclassToJoin.secondUsername;
-    gsGuestEndViewController.sessionID       = self.masterclassToJoin.scheduleID;
-    gsGuestEndViewController.chefUserID      = self.masterclassToJoin.secondUserID;
-    UserRole role                            = self.masterclassToJoin.isListner ? Listner : Speaker;
-    gsGuestEndViewController.role            = role;
-    [rootViewController pushViewController:gsGuestEndViewController animated:YES];
 }
 
 #pragma mark - Connection Delegate
@@ -170,7 +153,11 @@
 }
 
 - (void)removeObserver {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kMasterclassPreviewDismissNotification object:nil];
+    @try {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:kMasterclassPreviewDismissNotification object:nil];
+    } @catch (NSException *exception) {
+        
+    }
 }
 
 @end

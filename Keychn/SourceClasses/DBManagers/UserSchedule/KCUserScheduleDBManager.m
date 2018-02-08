@@ -144,7 +144,6 @@
     return nil;
 }
 
-
 - (void)deleteAllUserSchedules {
     // Cancel all Events
     [_eventStore removeAllEvents];

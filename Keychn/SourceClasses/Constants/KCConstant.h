@@ -378,6 +378,7 @@ extern NSString  *kReminderNotification;
 extern NSString  *kCallDenied;
 extern NSString  *kUserBusy;
 extern NSString  *kConferenceID;
+extern NSString  *kChefId;
 extern NSString  *kUnreadCount;
 extern NSString  *kVoIPToken;
 extern NSString  *kNotificationStatus;

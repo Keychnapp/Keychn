@@ -26,6 +26,8 @@
         self.chefName       = [response objectForKey:kName];
         self.scheduleDate   = [response objectForKey:kScheduleOnDate];
         self.videoURL       = [response objectForKey:kVideoURL];
+        self.conferenceId   = [response objectForKey:kConferenceID];
+        self.chefId         = [response objectForKey:kChefId];
         self.sessionID      = [response objectForKey:kIdentifier];
         self.webLink        = [response objectForKey:kWebsiteLink];
         self.twitterLink    = [response objectForKey:kTwitterLink];

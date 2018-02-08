@@ -274,7 +274,6 @@
 + (NSInteger)getGMTOffSet {
     NSTimeZone *destinationTimeZone = [NSTimeZone systemTimeZone];
     return [destinationTimeZone secondsFromGMT];
-    
 }
 
 @end

@@ -205,6 +205,7 @@
 
 - (IBAction)logoutButtonTapped:(id)sender {
     // Log out user
+    [[NSNotificationCenter defaultCenter] postNotificationName:kMasterclassPreviewDismissNotification object:nil];
     [self logOutUser];
 }
 

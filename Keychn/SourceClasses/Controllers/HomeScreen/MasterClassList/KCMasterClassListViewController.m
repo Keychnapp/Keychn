@@ -35,6 +35,7 @@
     KCMySchedule            *_masterClassToJoin;
     UIRefreshControl        *_refreshControl;
     NSMutableArray          *_previewedMasterclassArray;
+    KCMasterclassPreview   *_masterclassPreview;
 }
 @property (weak, nonatomic) IBOutlet UITableView *masterclassListTableView;
 @property (weak, nonatomic) IBOutlet UILabel *learnWithChefLabel;
@@ -189,7 +190,7 @@
             masterClassTableCell.attendButton.selected = NO;
         }
     
-        masterClassTableCell.dateLabel.text = [NSString stringWithFormat:@"%@ %@%@",[monthName uppercaseString], [NSNumber numberWithInteger:date],[KCUtility getValueSuffix:date]];
+        masterClassTableCell.dateLabel.text = [NSString stringWithFormat:@"%@ %@",[monthName uppercaseString], [KCUtility getValueSuffix:date]];
         masterClassTableCell.timeLabel.text = hour;
         
         // Set image url on Chef Image View
@@ -264,13 +265,7 @@
         
         if(!(groupSession.isFree || _iapSubscription)) {
             // The masterclass has paid subscription and user hasn't purhchased one
-            _subscriptionAlertView = [[KCSubscription alloc] initWithFrame:self.view.frame];
-            [_subscriptionAlertView showInView:self.tabBarController.navigationController.view withCompletionHandler:^(BOOL postiveButton) {
-                
-            }];
-            Mixpanel *mixpanel = [Mixpanel sharedInstance];
-            [mixpanel track:@"user_subscription_open_view"
-                 properties:@{@"": @""}];
+            [self openSubscriptionDialog];
         }
         else {
             // Book a Masterclass (Either this Masterclass is free or user has purchased this subscription)
@@ -386,11 +381,27 @@
     }
 }
 
+- (void)openSubscriptionDialog {
+    _subscriptionAlertView = [[KCSubscription alloc] initWithFrame:self.view.frame];
+    [_subscriptionAlertView showInView:self.tabBarController.navigationController.view withCompletionHandler:^(BOOL postiveButton) {
+        
+    }];
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel track:@"user_subscription_open_view"
+         properties:@{@"": @""}];
+    
+    if(!_masterclassPreview.isHidden) {
+        [_masterclassPreview closePreview];
+    }
+}
+
+
 #pragma mark - Timer Check
 
 - (void)getUserSchedule {
     // Get User schedule and trigger for any current schedule
-    NSTimeInterval firstSchedule = [_userScheduleDBManager getNextInteractionSchedule];
+    KCGroupSession *groupSession = self.allmasterclassListArray.firstObject;
+    NSTimeInterval firstSchedule = [NSDate getSecondsFromDate:groupSession.scheduleDate] + [NSDate getGMTOffSet];
     if(firstSchedule > 0) {
         // Find the difference from current time
         NSTimeInterval currentTimeInterval = [[NSDate date] timeIntervalSince1970];
@@ -411,9 +422,25 @@
     if([self.masterclassListTableView numberOfRowsInSection:0] > 0) {
         [self.masterclassListTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
-    _masterClassToJoin = [_userScheduleDBManager getNextInteraction];
+    KCGroupSession *groupSession        = self.allmasterclassListArray.firstObject;
+    _masterClassToJoin                  = [_userScheduleDBManager scheduleWithIdentifier:groupSession.sessionID];
+    if(!_masterClassToJoin) {
+        // User has not subscribed to this Masterclass
+        _masterClassToJoin                  = [KCMySchedule new];
+        _masterClassToJoin.conferenceID     = groupSession.conferenceId;
+        _masterClassToJoin.secondUsername   = groupSession.chefName;
+        _masterClassToJoin.scheduleID       = groupSession.sessionID;
+        _masterClassToJoin.secondUserID     = groupSession.chefId;
+        _masterClassToJoin.isListner        = _userProfile.userID.integerValue == kSecondCameraId ? NO : YES;
+        _masterClassToJoin.isHosting        = NO;
+    }
     [self.masterclassListTableView reloadData];
-    
+    [self startPreviewForMasterclassType:groupSession.isFree];
+}
+
+#pragma mark - Masterclass Preview
+
+- (void)startPreviewForMasterclassType:(BOOL) isFree {
     // Add Preview View
     NSInteger width  = 217;
     NSInteger height = 131;
@@ -421,12 +448,25 @@
     if(!([_previewedMasterclassArray containsObject:_masterClassToJoin.conferenceID] || _masterClassToJoin.isHosting)) {
         // If logged in user is not a Chef who is hosting this class
         [_previewedMasterclassArray addObject:_masterClassToJoin.conferenceID];
-        KCMasterclassPreview  *masterclassPreview = [[KCMasterclassPreview alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - width , CGRectGetHeight(self.view.frame) - height - CGRectGetHeight(self.tabBarController.tabBar.frame) + bottomPadding , width, height)];
-        masterclassPreview.masterclassToJoin   = _masterClassToJoin;
+        _masterclassPreview = [[KCMasterclassPreview alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - width , CGRectGetHeight(self.view.frame) - height - CGRectGetHeight(self.tabBarController.tabBar.frame) + bottomPadding , width, height)];
+        _masterclassPreview.masterclassToJoin   = _masterClassToJoin;
         UIWindow *mainWindow = ((AppDelegate *) [UIApplication sharedApplication].delegate).window;
-        [masterclassPreview setHidden:YES];
-        [mainWindow addSubview:masterclassPreview];
-        [masterclassPreview joinConferenceWithId:_masterClassToJoin.conferenceID forUser:_userProfile.userID];
+        [_masterclassPreview setHidden:YES];
+        [mainWindow addSubview:_masterclassPreview];
+        [_masterclassPreview joinConferenceWithId:_masterClassToJoin.conferenceID forUser:_userProfile.userID];
+        
+        // Add a tap gesture
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
+        _iapSubscription        = [IAPSubscription subscriptionForUser:_userProfile.userID];
+        
+        if(!(isFree || _iapSubscription)) {
+            // The masterclass has paid subscription and user hasn't purhchased one
+            [tapGesture addTarget:self action:@selector(openSubscriptionDialog)];
+        }
+        else {
+            [tapGesture addTarget:self action:@selector(startGroupSession)];
+        }
+        [_masterclassPreview addGestureRecognizer:tapGesture];
     }
 }
 
