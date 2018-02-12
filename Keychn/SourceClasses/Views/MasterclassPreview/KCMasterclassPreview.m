@@ -117,6 +117,7 @@
         [UIApplication sharedApplication].idleTimerDisabled = NO;
     }];
     self.agoraKit = nil;
+    [self.previewContainerView setHidden:true];
     return (status == 0);
 }
 
@@ -125,12 +126,19 @@
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine firstRemoteVideoDecodedOfUid:(NSUInteger)uid size: (CGSize)size elapsed:(NSInteger)elapsed {
     if(uid == self.masterclassToJoin.secondUserID.integerValue) {
         // Setup remote videos for Host Video and Second Camera Video
+        self.hasStarted = YES;
         AgoraRtcVideoCanvas *videoCanvas = [[AgoraRtcVideoCanvas alloc] init];
         videoCanvas.uid  = uid;
-        videoCanvas.view = self.containerView;
+        if(self.previewView) {
+            videoCanvas.view = self.previewView;
+            [self.previewContainerView setHidden:NO];
+        }
+        else {
+            videoCanvas.view = self.containerView;
+            [self presentWithAnimation];
+        }
         videoCanvas.renderMode = AgoraRtc_Render_Hidden;
         [self.agoraKit setupRemoteVideo:videoCanvas];
-        [self presentWithAnimation];
     }
 }
 
@@ -138,11 +146,22 @@
     
 }
 
+- (void)switchPreview {
+    [self.previewContainerView setHidden:YES];
+    AgoraRtcVideoCanvas *videoCanvas = [[AgoraRtcVideoCanvas alloc] init];
+    videoCanvas.uid  = _masterclassToJoin.secondUserID.integerValue;
+    videoCanvas.view = self.containerView;
+    videoCanvas.renderMode = AgoraRtc_Render_Hidden;
+    [self.agoraKit setupRemoteVideo:videoCanvas];
+    [self presentWithAnimation];
+}
+
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didOfflineOfUid:(NSUInteger)uid reason:(AgoraRtcUserOfflineReason)reason {
     // User left the conference
     if(uid ==  self.masterclassToJoin.secondUserID.integerValue) {
         [self closePreview];
+        self.hasStarted = NO;
     }
 }
 

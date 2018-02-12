@@ -28,14 +28,14 @@
     KCUserScheduleWebManager *_userScheduleWebManager;
     KCUserProfile            *_userProfile;
     NSString                 *_searchKeyword;
-    KCGroupSessionWebManager    *_groupSessionManager;
+    KCGroupSessionWebManager *_groupSessionManager;
     IAPSubscription         *_iapSubscription;
     KCSubscription          *_subscriptionAlertView;
     KCUserScheduleDBManager *_userScheduleDBManager;
     KCMySchedule            *_masterClassToJoin;
     UIRefreshControl        *_refreshControl;
     NSMutableArray          *_previewedMasterclassArray;
-    KCMasterclassPreview   *_masterclassPreview;
+    KCMasterclassPreview    *_masterclassPreview;
 }
 @property (weak, nonatomic) IBOutlet UITableView *masterclassListTableView;
 @property (weak, nonatomic) IBOutlet UILabel *learnWithChefLabel;
@@ -119,6 +119,11 @@
     [super viewDidDisappear:animated];
     self.searchContainerView.hidden = YES;
     [self.searchMasterclassTextField resignFirstResponder];
+    
+    if(_masterclassPreview.hasStarted && _masterclassPreview.isHidden) {
+        // View is not visible hence we are going to switch Preview now
+        [_masterclassPreview switchPreview];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -139,6 +144,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     KCMasterClassListTableViewCell *masterClassTableCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifierForMasterClassList forIndexPath:indexPath];
     // Configure Masterclass Cell
+    if(indexPath.row > 0) {
+        [masterClassTableCell.previewContainerView setHidden:YES];
+    }
     masterClassTableCell.masterchefFirstNameLabel.font = [UIFont setRobotoFontBoldStyleWithSize:_fontSize];
      masterClassTableCell.masterchefLastNameLabel.font = [UIFont setRobotoFontBoldStyleWithSize:_fontSize];
     masterClassTableCell.contentView.backgroundColor   = [UIColor clearColor];
@@ -208,6 +216,17 @@
     [self openMasterclassDetaileWithIndex:indexPath.row];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if(_masterclassPreview.hasStarted && _masterclassPreview.isHidden) {
+        NSIndexPath *firstIndexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+        if(![[self.masterclassListTableView indexPathsForVisibleRows] containsObject:firstIndexPath]) {
+            // Cell is not visible we are going to switch Preview now
+            [_masterclassPreview switchPreview];
+        }
+    }
+}
+
+
 #pragma mark - Text Field Delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -275,24 +294,30 @@
 }
 
 - (IBAction)doneButtonTapped:(id)sender {
-    [self.searchMasterclassTextField resignFirstResponder];
-    CATransition* transition = [CATransition animation];
-    transition.duration = 0.6;
-    transition.type = kCATransitionMoveIn;
-    transition.subtype = kCATransitionFromLeft;
-    [transition setTimingFunction: [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-    [self.searchContainerView.layer addAnimation:transition forKey:kCATransition];
-    [UIView animateWithDuration:0.6 animations:^{
-        self.searchContainerView.alpha = 0.0f;
-    } completion:^(BOOL finished) {
-        self.searchContainerView.alpha = 1.0f;
-        self.searchContainerView.hidden = YES;
-    }];
-    
-    self.datasourceArray = self.allmasterclassListArray;
-    [self.masterclassListTableView reloadData];
-    _searchKeyword = nil;
-    self.searchMasterclassTextField.text = nil;
+    [self closeSearch];
+}
+
+- (void)closeSearch {
+    if(!self.searchContainerView.isHidden) {
+        [self.searchMasterclassTextField resignFirstResponder];
+        CATransition* transition = [CATransition animation];
+        transition.duration = 0.6;
+        transition.type = kCATransitionMoveIn;
+        transition.subtype = kCATransitionFromLeft;
+        [transition setTimingFunction: [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+        [self.searchContainerView.layer addAnimation:transition forKey:kCATransition];
+        [UIView animateWithDuration:0.6 animations:^{
+            self.searchContainerView.alpha = 0.0f;
+        } completion:^(BOOL finished) {
+            self.searchContainerView.alpha = 1.0f;
+            self.searchContainerView.hidden = YES;
+        }];
+        
+        self.datasourceArray = self.allmasterclassListArray;
+        [self.masterclassListTableView reloadData];
+        _searchKeyword = nil;
+        self.searchMasterclassTextField.text = nil;
+    }
 }
 
 #pragma mark - Utility 
@@ -448,27 +473,43 @@
     if(!([_previewedMasterclassArray containsObject:_masterClassToJoin.conferenceID] || _masterClassToJoin.isHosting)) {
         // If logged in user is not a Chef who is hosting this class
         [_previewedMasterclassArray addObject:_masterClassToJoin.conferenceID];
+        // Start Masterclass preview on first TableView Cell
+        [self closeSearch];
+        
         _masterclassPreview = [[KCMasterclassPreview alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.view.frame) - width , CGRectGetHeight(self.view.frame) - height - CGRectGetHeight(self.tabBarController.tabBar.frame) + bottomPadding , width, height)];
         _masterclassPreview.masterclassToJoin   = _masterClassToJoin;
+        // Scroll to top
+        if(self.allmasterclassListArray.count > 0) {
+            NSIndexPath *topIndexPath =  [NSIndexPath indexPathForRow:0 inSection:0];
+            [self.masterclassListTableView scrollToRowAtIndexPath:topIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+            KCMasterClassListTableViewCell *masterclassTableCell = (KCMasterClassListTableViewCell *) [self.masterclassListTableView cellForRowAtIndexPath:topIndexPath];
+            _masterclassPreview.previewView = masterclassTableCell.previewView;
+            _masterclassPreview.previewContainerView = masterclassTableCell.previewContainerView;
+        }
         UIWindow *mainWindow = ((AppDelegate *) [UIApplication sharedApplication].delegate).window;
         [_masterclassPreview setHidden:YES];
         [mainWindow addSubview:_masterclassPreview];
         [_masterclassPreview joinConferenceWithId:_masterClassToJoin.conferenceID forUser:_userProfile.userID];
         
         // Add a tap gesture
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] init];
+        UITapGestureRecognizer *tapGesture1 = [[UITapGestureRecognizer alloc] init];
+        UITapGestureRecognizer *tapGesture2 = [[UITapGestureRecognizer alloc] init];
         _iapSubscription        = [IAPSubscription subscriptionForUser:_userProfile.userID];
         
         if(!(isFree || _iapSubscription)) {
             // The masterclass has paid subscription and user hasn't purhchased one
-            [tapGesture addTarget:self action:@selector(openSubscriptionDialog)];
+            [tapGesture1 addTarget:self action:@selector(openSubscriptionDialog)];
+            [tapGesture2 addTarget:self action:@selector(openSubscriptionDialog)];
         }
         else {
-            [tapGesture addTarget:self action:@selector(startGroupSession)];
+            [tapGesture1 addTarget:self action:@selector(startGroupSession)];
+            [tapGesture2 addTarget:self action:@selector(startGroupSession)];
         }
-        [_masterclassPreview addGestureRecognizer:tapGesture];
+        [_masterclassPreview addGestureRecognizer:tapGesture1];
+        [_masterclassPreview.previewView addGestureRecognizer:tapGesture2];
     }
 }
+
 
 #pragma mark - Request Completion
 

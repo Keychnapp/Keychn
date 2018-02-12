@@ -14,7 +14,8 @@
 - (void)awakeFromNib {
     // Initialization code
     [super awakeFromNib];
-    
+    self.previewContainerView.layer.cornerRadius = 5.0f;
+    self.previewContainerView.layer.masksToBounds = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -13,10 +13,13 @@
 
 @property (weak, nonatomic) IBOutlet UIView *containerView;
 @property (strong, nonatomic) KCMySchedule *masterclassToJoin;
-
-
+@property (weak, nonatomic) UIView *previewView;
+@property (weak, nonatomic) UIView *previewContainerView;
+@property (assign, nonatomic) BOOL hasStarted;
 
 - (void)joinConferenceWithId:(NSString *)conferenceId forUser:(NSNumber *)userId;
 - (void)closePreview;
+- (void)switchPreview;
+
 
 @end

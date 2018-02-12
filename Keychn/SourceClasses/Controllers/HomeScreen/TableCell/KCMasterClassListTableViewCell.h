@@ -22,6 +22,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *attendButton;
 @property (weak, nonatomic) IBOutlet UIImageView *attendCheckmarkImageView;
 @property (weak, nonatomic) IBOutlet TriLabelView *freeClassLabel;
+@property (weak, nonatomic) IBOutlet UIView *previewContainerView;
+@property (weak, nonatomic) IBOutlet UIView *previewView;
 
     
 

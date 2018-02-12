@@ -37,4 +37,5 @@
 @property BOOL                      isFullCapacity;
 @property BOOL                      isFree;
 
+
 @end
