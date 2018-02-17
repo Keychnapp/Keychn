@@ -102,6 +102,13 @@
     [mixpanel.people set:@{@"$name": _userProfile.username}];
     [mixpanel.people set:@{@"$email": _userProfile.emailID}];
     
+    // Set observer for application foreground state
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestMasterClass) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
