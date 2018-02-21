@@ -91,6 +91,9 @@
     // Fetch latest cooked recipes from server
     [self fetchLatestCookedRecipe];
     
+    // Fetch User Banner Images
+    [self fetchUserBannerImage];
+    
     UICollectionViewLeftAlignedLayout *collectionViewLayout = [UICollectionViewLeftAlignedLayout new];
     [self.itemCollectionView setCollectionViewLayout:collectionViewLayout];
     
@@ -112,6 +115,12 @@
     if(_userProfile.selectedImage) {
         self.userProfileImageView.image = _userProfile.selectedImage;
     }
+    
+    _recentRecipesArray = nil;
+    [self.itemCollectionView reloadData];
+    _currentPageIndex       = 0;
+    _totalPages             = 1;
+    [self fetchLatestCookedRecipe];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -342,9 +351,6 @@
     BOOL shouldShowRecipeList        = [_recentRecipesArray count] > 0;
     self.itemCollectionView.hidden   = !shouldShowRecipeList;
     self.noFavoriteRecipeView.hidden = shouldShowRecipeList;
-    
-    // Fetch User Banner Images
-    [self fetchUserBannerImage];
 }
 
 - (void)setItemDataOnCollectionViewCell:(KCRecipeListCollectionViewCell*)itemCell withIndexPath:(NSIndexPath*)indexPath {
@@ -409,10 +415,10 @@
 - (void)fetchLatestCookedRecipe {
     // Fetch lates cooked recipes from server that user has completed
     if(isNetworkReachable && !_requestInProgress) {
-        _requestInProgress = YES;
         
         // Only fetch more items if there are more pages to load
         if(_totalPages > _currentPageIndex) {
+            _requestInProgress = YES;
             [KCProgressIndicator showNonBlockingIndicator];
             NSDictionary *params = nil;
             if(self.isDisplayingFriendPreference) {
@@ -422,7 +428,7 @@
                 params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kPageIndex:[NSNumber numberWithInteger:_currentPageIndex]};
             }
             
-            __weak id weakSelf   = self;
+            __weak KCMyPreferenceViewController *weakSelf   = self;
             [_myPreferenceWebManager getRecentRecipeListWithParameters:params withCompletionHandler:^(NSArray *itemsArray, NSNumber *totalPages, NSNumber *pageIndex) {
                 _requestInProgress = NO;
                 _currentPageIndex = [pageIndex integerValue];
@@ -433,7 +439,7 @@
                 _requestInProgress = NO;
                 [weakSelf fetchUserBannerImage];
                 [KCProgressIndicator hideActivityIndicator];
-                
+                weakSelf.noFavoriteRecipeView.hidden = _recentRecipesArray.count > 0;
             }];
         }
     }
@@ -441,8 +447,7 @@
 
 - (void)fetchUserBannerImage {
     // Fetch User Banner Images
-    if(isNetworkReachable && !_requestInProgress) {
-        _requestInProgress = YES;
+    if(isNetworkReachable) {
         __weak id weakSelf   = self;
         NSDictionary *params = @{kAppLanguage: @1, kLanguageID:@1};
         [_myPreferenceWebManager getBannerImagesWithParameter:params withCompletionHandler:^(NSDictionary *responseDictionary) {

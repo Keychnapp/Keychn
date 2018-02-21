@@ -32,6 +32,7 @@
             // Save group session i.e. MasterClass
             NSArray *groupSessionScheduleArray = [response objectForKey:kGroupSession];
             if(groupSessionScheduleArray && [groupSessionScheduleArray isKindOfClass:[NSArray class]] && [groupSessionScheduleArray count] > 0) {
+                NSMutableString *filterMasterclassIds  = [[NSMutableString alloc] init];
                 for (NSDictionary *groupSessionDictoinary in groupSessionScheduleArray) {
                     NSNumber *sessionID    = [groupSessionDictoinary objectForKey:kMasterClassID];
                     NSString *scheduleDate = [groupSessionDictoinary objectForKey:kScheduleDate];
@@ -57,7 +58,7 @@
                         status              = kMatchStatus;
                     }
                     sessionType = masterClassLabel;
-                    
+                    [filterMasterclassIds appendString:[NSString stringWithFormat:@"%@,",sessionID]];
                     KCMySchedule *mySchedule = [self scheduleWithIdentifier:sessionID];
                     if (mySchedule) {
                         // Update user schedule if the time is updated
@@ -90,6 +91,14 @@
                         [dbOperation executeSQLQuery:insertQuery];
                     }
                 }
+                // Delete old Masterclasses
+                NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM user_schedule WHERE schedule_id NOT IN (%@)", filterMasterclassIds];
+                [dbOperation executeSQLQuery:deleteQuery];
+            }
+            else {
+                // Delete all old Masterclasses
+                NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM user_schedule WHERE 1"];
+                [dbOperation executeSQLQuery:deleteQuery];
             }
         }
     }
