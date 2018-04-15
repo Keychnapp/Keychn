@@ -21,7 +21,6 @@
 #import <AppsFlyerFramework/AppsFlyerLib/AppsFlyerTracker.h>
 #import <Twitter/Twitter.h>
 #import <TwitterCore/TwitterCore.h>
-#import <TwitterKit/TwitterKit.h>
 #import "KCGroupSessionHostEndViewController.h"
 #import "KCGroupSessionGuestEndViewController.h"
 
@@ -29,6 +28,7 @@
 #define kTwitterConsumerSecret @"i0Cff9yVdeMPdWxtJBlMOVfxKuhM5wTqaOYyJNl04tTVEphucO"
 
 @import Firebase;
+@import TwitterKit;
 
 @interface AppDelegate () <UNUserNotificationCenterDelegate> {
     

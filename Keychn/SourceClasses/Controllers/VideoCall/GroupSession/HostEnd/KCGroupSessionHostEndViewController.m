@@ -35,6 +35,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *secondsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *masterclassStartsInLabel;
 @property (weak, nonatomic) IBOutlet UIButton *joinLaterButton;
+@property (weak, nonatomic) IBOutlet UIButton *goLiveButton;
 
 
 
@@ -98,7 +99,6 @@
 #pragma mark - Customize UI
 
 - (void) customizeUI {
-    
     // Set Language Text For Timers
     self.masterclassStartsInLabel.text = NSLocalizedString(@"masterclassStartsIn", nil);
     [self.joinLaterButton setTitle:NSLocalizedString(@"joinLater", nil) forState:UIControlStateNormal];
@@ -172,18 +172,17 @@
 
 - (void)setupUserPreview {
     // Set up user preview
-    [self.agoraKit enableVideo];
     [self.agoraKit setVideoProfile:AgoraRtc_VideoProfile_720P swapWidthAndHeight: false];
     // Default mode is disableVideo
+    [self.agoraKit enableAudio];
+    [self.agoraKit enableVideo];
     self.localVideoCanvas = [[AgoraRtcVideoCanvas alloc] init];
     self.localVideoCanvas.uid = [_userProfile.userID integerValue];
-    
     self.localVideoCanvas.view        = self.previewView;
     self.localVideoCanvas.renderMode  = AgoraRtc_Render_Hidden;
     [self.agoraKit setupLocalVideo:self.localVideoCanvas];
     [self.agoraKit startPreview];
-    
-    [self joinConferenceWithID:_conferenceID];
+    [self joinConferenceWithID:kTempMasterclassId];
 }
 
 - (void)joinConferenceWithID:(NSString*)conferenceID {
@@ -191,7 +190,6 @@
 
     [self.agoraKit joinChannelByKey:nil channelName:conferenceID info:@"Host" uid:[_userProfile.userID integerValue] joinSuccess:^(NSString *channel, NSUInteger uid, NSInteger elapsed) {
         [self.agoraKit setEnableSpeakerphone:YES];
-        [self.agoraKit enableAudio];
         //Keeps the screen active when the call is going on
         [UIApplication sharedApplication].idleTimerDisabled = YES;
     }];
@@ -315,6 +313,14 @@
 
 - (IBAction)joinLaterButtonTapped:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)goLiveButtonTapped:(UIButton *)sender {
+    sender.hidden = true;
+    __weak id weakSelf = self;
+    [self.agoraKit leaveChannel:^(AgoraRtcStats *stat) {
+        [weakSelf joinConferenceWithID: self.conferenceID];
+    }];
 }
 
 

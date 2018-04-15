@@ -154,11 +154,9 @@ static NSString *fkPictureURL           = @"url";
     // Share text on facebook
     self.facebookCompletionHandler = finished;
     FBSDKShareLinkContent *linkContent = [[FBSDKShareLinkContent alloc] init];
-    linkContent.contentDescription     = text;
-    linkContent.contentTitle           = text;
     linkContent.contentURL             = [NSURL URLWithString:kShareURL];
+    linkContent.quote                  = text;
 
-    
     FBSDKShareDialog *facebookShareDialog   = [[FBSDKShareDialog alloc] init];
     // Set mode of the sheet ie: How it should be presented
     facebookShareDialog.mode                = FBSDKShareDialogModeAutomatic;

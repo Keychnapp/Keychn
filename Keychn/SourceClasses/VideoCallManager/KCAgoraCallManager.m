@@ -28,6 +28,7 @@
 @property (nonatomic, strong) void (^joinEvent) (BOOL isConnected, NSString *participantID);
 @property (nonatomic, strong) void (^dataEvent) (NSInteger userID, NSArray *liveQueueArray);
 @property (nonatomic, strong) void (^conneted) (BOOL isConnected);
+@property (nonatomic, strong) NSString *conferenceId;
 
 @end
 
@@ -71,6 +72,9 @@
 - (void)showUserPreviewOnView:(UIView *)view withUserIdentifier:(NSNumber *)userID {
     if(DEBUGGING) NSLog(@"Starting preview on view");
     self.previewView  = view;
+    if(userID.integerValue != kSecondCameraId) {
+        
+    }
     [self.agoraKit enableVideo];
     [self.agoraKit enableAudio];
     [self.agoraKit setVideoProfile:AgoraRtc_VideoProfile_720P swapWidthAndHeight: false];
@@ -125,6 +129,7 @@
     // Join a conference with conference ID
     self.remoteView       = view;
     self.secondCameraView = secondCameraView;
+    self.conferenceId     = conferenceID;
     if(DEBUGGING) NSLog(@"Join channel by uid %@",userID);
     [self.agoraKit joinChannelByKey:nil channelName:conferenceID info:nil uid:[userID integerValue] joinSuccess:^(NSString *channel, NSUInteger uid, NSInteger elapsed) {
         [self.agoraKit setEnableSpeakerphone:YES];
@@ -134,12 +139,19 @@
 }
 
 - (BOOL)closeConference {
-  NSInteger status =   [self.agoraKit leaveChannel:^(AgoraRtcStats *stat) {
+  NSInteger status = [self.agoraKit leaveChannel:^(AgoraRtcStats *stat) {
         [UIApplication sharedApplication].idleTimerDisabled = NO;
     }];
     self.agoraKit = nil;
     return (status == 0);
 }
+
+- (void)closeTemporaryWithCompletionHandler:(void (^)(BOOL status))closed {
+    [self.agoraKit leaveChannel:^(AgoraRtcStats *stat) {
+        closed(true);
+    }];
+}
+
 
 - (void)releaseInstance {
     self.agoraKit = nil;
@@ -196,14 +208,16 @@
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didOfflineOfUid:(NSUInteger)uid reason:(AgoraRtcUserOfflineReason)reason {
     // User left the conference
-    NSString *participantID = [NSString stringWithFormat:@"%@", [NSNumber numberWithInteger:uid]];
-    if(self.isGroupSession) {
-        if(uid ==  self.hostID || uid == self.secondCameraId ) {
+    if(![self.conferenceId isEqualToString:kTempMasterclassId]) {
+        NSString *participantID = [NSString stringWithFormat:@"%@", [NSNumber numberWithInteger:uid]];
+        if(self.isGroupSession) {
+            if(uid ==  self.hostID || uid == self.secondCameraId ) {
+                self.joinEvent(NO, participantID);
+            }
+        }
+        else {
             self.joinEvent(NO, participantID);
         }
-    }
-    else {
-       self.joinEvent(NO, participantID);
     }
 }
 

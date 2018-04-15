@@ -10,6 +10,7 @@
 #import <AgoraRtcEngineKit/AgoraRtcEngineKit.h>
 #import "AppDelegate.h"
 #import "KCGroupSessionGuestEndViewController.h"
+#import "KCGroupSessionWebManager.h"
 
 @interface KCMasterclassPreview () <AgoraRtcEngineDelegate>
 
@@ -109,6 +110,9 @@
         [self.agoraKit joinChannelByKey:nil channelName:conferenceId info:nil uid:[userId integerValue] joinSuccess:^(NSString *channel, NSUInteger uid, NSInteger elapsed) {
             [UIApplication sharedApplication].idleTimerDisabled = YES;
         }];
+        
+        KCUserProfile *userProfile = [KCUserProfile sharedInstance];
+        [self updateGroupSessionStatusForUser:userProfile.userID accessToken:userProfile.accessToken groupSessionID:_masterclassToJoin.scheduleID andUpdateType:kStart];
     }
 }
 
@@ -158,8 +162,10 @@
 
 
 - (void)rtcEngine:(AgoraRtcEngineKit *)engine didOfflineOfUid:(NSUInteger)uid reason:(AgoraRtcUserOfflineReason)reason {
-    // User left the conference
+    // Chef left the conference
     if(uid ==  self.masterclassToJoin.secondUserID.integerValue) {
+        KCUserProfile *userProfile = [KCUserProfile sharedInstance];
+        [self updateGroupSessionStatusForUser:userProfile.userID accessToken:userProfile.accessToken groupSessionID:_masterclassToJoin.scheduleID andUpdateType:kEnd];
         [self closePreview];
         self.hasStarted = NO;
     }
@@ -177,6 +183,21 @@
     } @catch (NSException *exception) {
         
     }
+}
+
+#pragma mark - Server End
+
+- (void)updateGroupSessionStatusForUser:(NSNumber *)userID accessToken:(NSString *)accessToken groupSessionID:(NSNumber *)sessionID andUpdateType:(NSString *)updateType {
+    // Update Group session status on server for guest user in Group Session
+    KCGroupSessionWebManager  *groupSessionWebManager = [KCGroupSessionWebManager new];
+    NSDictionary *parameters = @{kUserID: userID, kAcessToken:accessToken, kSessionID:sessionID, kUpdateType:updateType};
+    // Network request to update the group session status
+    [groupSessionWebManager updateGroupSessionStatusWithParameter:parameters withCompletionHandler:^(NSString *title, NSString *message) {
+        
+    } andFailure:^(NSString *title, NSString *message) {
+        
+    }];
+    
 }
 
 @end

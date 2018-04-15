@@ -18,10 +18,13 @@
 
 #import "FBSDKShareUtility.h"
 
+#import <FBSDKShareKit/FBSDKHashtag.h>
+
 #import "FBSDKCoreKit+Internal.h"
 #import "FBSDKShareConstants.h"
 #import "FBSDKShareError.h"
 #import "FBSDKShareLinkContent+Internal.h"
+#import "FBSDKShareMediaContent.h"
 #import "FBSDKShareOpenGraphContent.h"
 #import "FBSDKShareOpenGraphObject.h"
 #import "FBSDKSharePhoto.h"
@@ -30,9 +33,41 @@
 #import "FBSDKShareVideoContent.h"
 #import "FBSDKSharingContent.h"
 
+#if !TARGET_OS_TV
+#import "FBSDKCameraEffectArguments+Internal.h"
+#import "FBSDKCameraEffectTextures+Internal.h"
+#import "FBSDKShareMessengerContentUtility.h"
+#import "FBSDKShareMessengerGenericTemplateContent.h"
+#import "FBSDKShareMessengerGenericTemplateElement.h"
+#import "FBSDKShareMessengerMediaTemplateContent.h"
+#import "FBSDKShareMessengerOpenGraphMusicTemplateContent.h"
+#import "FBSDKShareMessengerURLActionButton.h"
+#endif
+
 @implementation FBSDKShareUtility
 
 #pragma mark - Class Methods
+
++ (void)assertCollection:(id<NSFastEnumeration>)collection ofClassStrings:(NSArray *)classStrings name:(NSString *)name
+{
+  for (id item in collection) {
+    BOOL validClass = NO;
+    for (NSString *classString in classStrings) {
+      if ([item isKindOfClass:NSClassFromString(classString)]) {
+        validClass = YES;
+        break;
+      }
+    }
+    if (!validClass) {
+      NSString *reason = [[NSString alloc] initWithFormat:
+                          @"Invalid value found in %@: %@ - %@",
+                          name,
+                          item,
+                          collection];
+      @throw [NSException exceptionWithName:NSInvalidArgumentException reason:reason userInfo:nil];
+    }
+  }
+}
 
 + (void)assertCollection:(id<NSFastEnumeration>)collection ofClass:itemClass name:(NSString *)name
 {
@@ -123,6 +158,12 @@
       parameters = @{ @"href": linkContent.contentURL.absoluteString };
     }
   }
+  NSString *hashtagString = [self hashtagStringFromHashtag:content.hashtag];
+  if (hashtagString != nil) {
+    NSMutableDictionary *mutableParameters = [parameters mutableCopy];
+    [FBSDKInternalUtility dictionary:mutableParameters setObject:hashtagString forKey:@"hashtag"];
+    parameters = [mutableParameters copy];
+  }
   if (methodNameRef != NULL) {
     *methodNameRef = methodName;
   }
@@ -133,6 +174,38 @@
     *errorRef = nil;
   }
   return YES;
+}
+
++ (void)buildAsyncWebPhotoContent:(FBSDKSharePhotoContent *)content
+                completionHandler:(void(^)(BOOL, NSString *, NSDictionary *))completion
+{
+  void(^stageImageCompletion)(NSArray<NSString *> *) = ^(NSArray<NSString *> *stagedURIs) {
+    NSString *methodName = @"share";
+    NSMutableDictionary *parameters = [[FBSDKShareUtility parametersForShareContent:content
+                                                              shouldFailOnDataError:NO] mutableCopy];
+    [parameters removeObjectForKey:@"photos"];
+
+    NSString *stagedURIJSONString = [FBSDKInternalUtility JSONStringForObject:stagedURIs
+                                                                        error:nil
+                                                         invalidObjectHandler:NULL];
+    [FBSDKInternalUtility dictionary:parameters
+                           setObject:stagedURIJSONString
+                              forKey:@"media"];
+
+    NSString *hashtagString = [self hashtagStringFromHashtag:content.hashtag];
+    if (hashtagString != nil) {
+      [FBSDKInternalUtility dictionary:parameters
+                             setObject:hashtagString
+                                forKey:@"hashtag"];
+    }
+
+    if (completion != NULL) {
+      completion(YES, methodName, [parameters copy]);
+    }
+  };
+
+  [self _stageImagesForPhotoContent:(FBSDKSharePhotoContent *)content
+              withCompletionHandler:stageImageCompletion];
 }
 
 + (id)convertOpenGraphValue:(id)value
@@ -177,16 +250,52 @@
 + (NSDictionary *)feedShareDictionaryForContent:(id<FBSDKSharingContent>)content
 {
   NSMutableDictionary *parameters = nil;
+#pragma clang diagnostic pop
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   if ([content isKindOfClass:[FBSDKShareLinkContent class]]) {
     FBSDKShareLinkContent *linkContent = (FBSDKShareLinkContent *)content;
     parameters = [[NSMutableDictionary alloc] initWithDictionary:linkContent.feedParameters];
     [FBSDKInternalUtility dictionary:parameters setObject:linkContent.contentDescription forKey:@"description"];
     [FBSDKInternalUtility dictionary:parameters setObject:linkContent.contentURL forKey:@"link"];
+    [FBSDKInternalUtility dictionary:parameters setObject:linkContent.quote forKey:@"quote"];
+    [FBSDKInternalUtility dictionary:parameters setObject:[self hashtagStringFromHashtag:linkContent.hashtag] forKey:@"hashtag"];
     [FBSDKInternalUtility dictionary:parameters setObject:linkContent.contentTitle forKey:@"name"];
     [FBSDKInternalUtility dictionary:parameters setObject:linkContent.imageURL forKey:@"picture"];
     [FBSDKInternalUtility dictionary:parameters setObject:linkContent.ref forKey:@"ref"];
   }
+#pragma clang diagnostic pop
   return [parameters copy];
+}
+
++ (NSString *)hashtagStringFromHashtag:(FBSDKHashtag *)hashtag
+{
+  if (!hashtag) {
+    return nil;
+  }
+  if (hashtag.isValid) {
+    return hashtag.stringRepresentation;
+  } else {
+    [FBSDKLogger singleShotLogEntry:FBSDKLoggingBehaviorDeveloperErrors
+                       formatString:@"Invalid hashtag: '%@'", hashtag.stringRepresentation];
+    return nil;
+  }
+}
+
++ (UIImage *)imageWithCircleColor:(UIColor *)color
+                       canvasSize:(CGSize)canvasSize
+                       circleSize:(CGSize)circleSize
+{
+  CGRect circleFrame = CGRectMake((canvasSize.width - circleSize.width) / 2.0,
+                                  (canvasSize.height - circleSize.height) / 2.0,
+                                  circleSize.width,
+                                  circleSize.height);
+  UIGraphicsBeginImageContextWithOptions(canvasSize, NO, 0);
+  CGContextRef context = UIGraphicsGetCurrentContext();
+  [color setFill];
+  CGContextFillEllipseInRect(context, circleFrame);
+  UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+  UIGraphicsEndImageContext();
+  return image;
 }
 
 + (NSDictionary *)parametersForShareContent:(id<FBSDKSharingContent>)shareContent
@@ -203,6 +312,19 @@
     [self _addToParameters:parameters forShareVideoContent:(FBSDKShareVideoContent *)shareContent];
   } else if ([shareContent isKindOfClass:[FBSDKShareOpenGraphContent class]]) {
     [self _addToParameters:parameters forShareOpenGraphContent:(FBSDKShareOpenGraphContent *)shareContent];
+#if !TARGET_OS_TV
+  } else if ([shareContent isKindOfClass:[FBSDKShareMessengerGenericTemplateContent class]]) {
+    [FBSDKShareMessengerContentUtility addToParameters:parameters
+               forShareMessengerGenericTemplateContent:(FBSDKShareMessengerGenericTemplateContent *)shareContent];
+  } else if ([shareContent isKindOfClass:[FBSDKShareMessengerMediaTemplateContent class]]) {
+    [FBSDKShareMessengerContentUtility addToParameters:parameters
+                 forShareMessengerMediaTemplateContent:(FBSDKShareMessengerMediaTemplateContent *)shareContent];
+  } else if ([shareContent isKindOfClass:[FBSDKShareMessengerOpenGraphMusicTemplateContent class]]) {
+    [FBSDKShareMessengerContentUtility addToParameters:parameters
+        forShareMessengerOpenGraphMusicTemplateContent:(FBSDKShareMessengerOpenGraphMusicTemplateContent *)shareContent];
+  } else if ([shareContent isKindOfClass:[FBSDKShareCameraEffectContent class]]) {
+    [self _addToParameters:parameters forShareCameraEffectContent:(FBSDKShareCameraEffectContent *)shareContent];
+#endif
   }
   return [parameters copy];
 }
@@ -210,23 +332,34 @@
 + (void)testShareContent:(id<FBSDKSharingContent>)shareContent
            containsMedia:(BOOL *)containsMediaRef
           containsPhotos:(BOOL *)containsPhotosRef
+          containsVideos:(BOOL *)containsVideosRef
 {
   BOOL containsMedia = NO;
   BOOL containsPhotos = NO;
+  BOOL containsVideos = NO;
   if ([shareContent isKindOfClass:[FBSDKShareLinkContent class]]) {
     containsMedia = NO;
     containsPhotos = NO;
+    containsVideos = NO;
   } else if ([shareContent isKindOfClass:[FBSDKShareVideoContent class]]) {
     containsMedia = YES;
+    containsVideos = YES;
     containsPhotos = NO;
   } else if ([shareContent isKindOfClass:[FBSDKSharePhotoContent class]]) {
     [self _testObject:((FBSDKSharePhotoContent *)shareContent).photos
         containsMedia:&containsMedia
-       containsPhotos:&containsPhotos];
+       containsPhotos:&containsPhotos
+       containsVideos:&containsVideos];
+  } else if ([shareContent isKindOfClass:[FBSDKShareMediaContent class]]) {
+    [self _testObject:((FBSDKShareMediaContent *)shareContent).media
+        containsMedia:&containsMedia
+       containsPhotos:&containsPhotos
+       containsVideos:&containsVideos];
   } else if ([shareContent isKindOfClass:[FBSDKShareOpenGraphContent class]]) {
     [self _testOpenGraphValueContainer:((FBSDKShareOpenGraphContent *)shareContent).action
                          containsMedia:&containsMedia
-                        containsPhotos:&containsPhotos];
+                        containsPhotos:&containsPhotos
+                        containsVideos:&containsVideos];
   }
   if (containsMediaRef != NULL) {
     *containsMediaRef = containsMedia;
@@ -234,33 +367,109 @@
   if (containsPhotosRef != NULL) {
     *containsPhotosRef = containsPhotos;
   }
+  if (containsVideosRef != NULL) {
+    *containsVideosRef = containsVideos;
+  }
 }
 
+#if !TARGET_OS_TV
 + (BOOL)validateAppInviteContent:(FBSDKAppInviteContent *)appInviteContent error:(NSError *__autoreleasing *)errorRef
 {
   return ([self _validateRequiredValue:appInviteContent name:@"content" error:errorRef] &&
           [self _validateRequiredValue:appInviteContent.appLinkURL name:@"appLinkURL" error:errorRef] &&
           [self _validateNetworkURL:appInviteContent.appLinkURL name:@"appLinkURL" error:errorRef] &&
-          [self _validateNetworkURL:appInviteContent.appInvitePreviewImageURL name:@"appInvitePreviewImageURL" error:errorRef]);
+          [self _validateNetworkURL:appInviteContent.appInvitePreviewImageURL name:@"appInvitePreviewImageURL" error:errorRef] &&
+          [self validatePromoCodeWithError:appInviteContent error:errorRef]);
 }
+
++ (BOOL)validatePromoCodeWithError:(FBSDKAppInviteContent *)appInviteContent error:(NSError *__autoreleasing *)errorRef
+{
+  NSString *promoText = appInviteContent.promotionText;
+  NSString *promoCode = appInviteContent.promotionCode;
+  NSMutableCharacterSet *alphanumericWithSpaces = [NSMutableCharacterSet alphanumericCharacterSet];
+  [alphanumericWithSpaces formUnionWithCharacterSet:[NSCharacterSet whitespaceCharacterSet]];
+
+  if ([promoText length] > 0 || [promoCode length] > 0) {
+
+    // Check for validity of promo text and promo code.
+    if (!([promoText length] > 0 && [promoText length] <= 80)) {
+      if (errorRef != NULL) {
+        *errorRef = [FBSDKError invalidArgumentErrorWithName:@"promotionText" value:promoText message:@"Invalid value for promotionText, promotionText has to be between 1 and 80 characters long."];
+      }
+      return NO;
+    }
+
+    if (!([promoCode length] <= 10)) {
+      if (errorRef != NULL) {
+        *errorRef = [FBSDKError invalidArgumentErrorWithName:@"promotionCode" value:promoCode message:@"Invalid value for promotionCode, promotionCode has to be between 0 and 10 characters long and is required when promoCode is set."];
+      }
+      return NO;
+    }
+
+    if ([promoText rangeOfCharacterFromSet:[alphanumericWithSpaces invertedSet]].location != NSNotFound) {
+      if(errorRef != NULL) {
+        *errorRef = [FBSDKError invalidArgumentErrorWithName:@"promotionText" value:promoText message:@"Invalid value for promotionText, promotionText can contain only alphanumeric characters and spaces."];
+      }
+      return NO;
+    }
+
+    if ([promoCode length] > 0 && [promoCode rangeOfCharacterFromSet:[alphanumericWithSpaces invertedSet]].location != NSNotFound) {
+      if (errorRef != NULL) {
+        *errorRef = [FBSDKError invalidArgumentErrorWithName:@"promotionCode" value:promoCode message:@"Invalid value for promotionCode, promotionCode can contain only alphanumeric characters and spaces."];
+      }
+      return NO;
+    }
+
+  }
+
+  if (errorRef != NULL) {
+    *errorRef = nil;
+  }
+
+  return YES;
+}
+
++ (BOOL)validateShareCameraEffectContent:(FBSDKShareCameraEffectContent *)ShareCameraEffectContent
+                                   error:(NSError *__autoreleasing *)errorRef {
+  NSString *effectID = ShareCameraEffectContent.effectID;
+  NSCharacterSet* nonDigitCharacters = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+
+  if ([effectID length] > 0) {
+    if ([effectID rangeOfCharacterFromSet:nonDigitCharacters].location != NSNotFound) {
+      if (errorRef != NULL) {
+        *errorRef = [FBSDKError invalidArgumentErrorWithName:@"effectID"
+                                                       value:effectID
+                                                     message:@"Invalid value for effectID, effectID can contain only numerical characters."];
+      }
+      return NO;
+    }
+  }
+
+  return YES;
+}
+#endif
 
 + (BOOL)validateAssetLibraryURLWithShareVideoContent:(FBSDKShareVideoContent *)videoContent name:(NSString *)name error:(NSError *__autoreleasing *)errorRef
 {
   FBSDKShareVideo *video = videoContent.video;
   NSURL *videoURL = video.videoURL;
-  if (!videoURL || [[videoURL.scheme lowercaseString] isEqualToString:@"assets-library"]) {
-    if (errorRef != NULL) {
-      *errorRef = nil;
-    }
-    return YES;
-  } else {
-    if (errorRef != NULL) {
-      *errorRef = [FBSDKShareError invalidArgumentErrorWithName:name value:videoURL message:nil];
-    }
-    return NO;
-  }
+  return [self _validateAssetLibraryVideoURL:videoURL name:name error:errorRef];
 }
 
++ (BOOL)validateAssetLibraryURLsWithShareMediaContent:(FBSDKShareMediaContent *)mediaContent name:(NSString *)name error:(NSError *__autoreleasing *)errorRef
+{
+  for (id media in mediaContent.media) {
+    if ([media isKindOfClass:[FBSDKShareVideo class]]) {
+      FBSDKShareVideo *video = (FBSDKShareVideo *)media;
+      if (![self _validateAssetLibraryVideoURL:video.videoURL name:name error:errorRef]) {
+        return NO;
+      }
+    }
+  }
+  return YES;
+}
+
+#if !TARGET_OS_TV
 + (BOOL)validateGameRequestContent:(FBSDKGameRequestContent *)gameRequestContent error:(NSError *__autoreleasing *)errorRef
 {
   if (![self _validateRequiredValue:gameRequestContent name:@"content" error:errorRef]
@@ -329,6 +538,7 @@
                                        @(FBSDKGameRequestFilterAppNonUsers)]
                                error:errorRef];
 }
+#endif
 
 + (BOOL)validateShareContent:(id<FBSDKSharingContent>)shareContent error:(NSError *__autoreleasing *)errorRef
 {
@@ -340,8 +550,20 @@
     return [self validateSharePhotoContent:(FBSDKSharePhotoContent *)shareContent error:errorRef];
   } else if ([shareContent isKindOfClass:[FBSDKShareVideoContent class]]) {
     return [self validateShareVideoContent:(FBSDKShareVideoContent *)shareContent error:errorRef];
+  } else if ([shareContent isKindOfClass:[FBSDKShareMediaContent class]]) {
+    return [self validateShareMediaContent:(FBSDKShareMediaContent *)shareContent error:errorRef];
   } else if ([shareContent isKindOfClass:[FBSDKShareOpenGraphContent class]]) {
     return [self validateShareOpenGraphContent:(FBSDKShareOpenGraphContent *)shareContent error:errorRef];
+#if !TARGET_OS_TV
+  } else if ([shareContent isKindOfClass:[FBSDKShareMessengerMediaTemplateContent class]]) {
+    return [self validateMessengerMediaTemplateContent:(FBSDKShareMessengerMediaTemplateContent *)shareContent error:errorRef];
+  } else if ([shareContent isKindOfClass:[FBSDKShareMessengerGenericTemplateContent class]]) {
+    return [self validateMessengerGenericTemplateContent:(FBSDKShareMessengerGenericTemplateContent *)shareContent error:errorRef];
+  } else if ([shareContent isKindOfClass:[FBSDKShareMessengerOpenGraphMusicTemplateContent class]]) {
+    return [self validateMessengerOpenGraphMusicTemplateContent:(FBSDKShareMessengerOpenGraphMusicTemplateContent *)shareContent error:errorRef];
+  } else if ([shareContent isKindOfClass:[FBSDKShareCameraEffectContent class]]) {
+    return [self validateShareCameraEffectContent:(FBSDKShareCameraEffectContent *)shareContent error:errorRef];
+#endif
   } else {
     if (errorRef != NULL) {
       *errorRef = [FBSDKShareError invalidArgumentErrorWithName:@"shareContent" value:shareContent message:nil];
@@ -382,11 +604,62 @@
   return YES;
 }
 
++ (BOOL)validateShareMediaContent:(FBSDKShareMediaContent *)mediaContent error:(NSError *__autoreleasing *)errorRef
+{
+  NSArray *medias = mediaContent.media;
+  if (![self _validateRequiredValue:mediaContent name:@"shareContent" error:errorRef] ||
+      ![self _validateArray:medias minCount:1 maxCount:20 name:@"photos" error:errorRef]) {
+    return NO;
+  }
+  int videoCount = 0;
+  for (id media in medias) {
+    if ([media isKindOfClass:[FBSDKSharePhoto class]]) {
+      FBSDKSharePhoto *photo = (FBSDKSharePhoto *)media;
+      if (!photo.image) {
+        if (errorRef != NULL) {
+          *errorRef = [FBSDKShareError invalidArgumentErrorWithName:@"media"
+                                                              value:media
+                                                            message:@"photos must have UIImages"];
+        }
+        return NO;
+      }
+    } else if ([media isKindOfClass:[FBSDKShareVideo class]]) {
+      if (videoCount > 0) {
+        if (errorRef != NULL) {
+          *errorRef = [FBSDKShareError invalidArgumentErrorWithName:@"media"
+                                                              value:media
+                                                            message:@"Only 1 video is allowed"];
+          return NO;
+        }
+      }
+      videoCount++;
+      FBSDKShareVideo *video = (FBSDKShareVideo *)media;
+      NSURL *videoURL = video.videoURL;
+      if (![self _validateRequiredValue:video name:@"video" error:errorRef] &&
+          [self _validateRequiredValue:videoURL name:@"videoURL" error:errorRef]) {
+        return NO;
+      }
+
+    } else {
+      if (errorRef != NULL) {
+        *errorRef = [FBSDKShareError invalidArgumentErrorWithName:@"media"
+                                                            value:media
+                                                          message:@"Only FBSDKSharePhoto and FBSDKShareVideo are allowed in `media` property"];
+      }
+      return NO;
+    }
+  }
+  return YES;
+}
+
 + (BOOL)validateShareLinkContent:(FBSDKShareLinkContent *)linkContent error:(NSError *__autoreleasing *)errorRef
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   return ([self _validateRequiredValue:linkContent name:@"shareContent" error:errorRef] &&
           [self _validateNetworkURL:linkContent.contentURL name:@"contentURL" error:errorRef] &&
           [self _validateNetworkURL:linkContent.imageURL name:@"imageURL" error:errorRef]);
+#pragma clang diagnostic pop
 }
 
 + (BOOL)validateShareVideoContent:(FBSDKShareVideoContent *)videoContent error:(NSError *__autoreleasing *)errorRef
@@ -396,6 +669,90 @@
   return ([self _validateRequiredValue:videoContent name:@"videoContent" error:errorRef] &&
           [self _validateRequiredValue:video name:@"video" error:errorRef] &&
           [self _validateRequiredValue:videoURL name:@"videoURL" error:errorRef]);
+}
+
+#if !TARGET_OS_TV
+
++ (BOOL)validateMessengerMediaTemplateContent:(FBSDKShareMessengerMediaTemplateContent *)messengerMediaTemplateContent
+                                        error:(NSError *__autoreleasing *)errorRef
+{
+  if (!messengerMediaTemplateContent.mediaURL && !messengerMediaTemplateContent.attachmentID) {
+    if (errorRef != NULL) {
+      *errorRef = [FBSDKShareError requiredArgumentErrorWithName:@"attachmentID/mediaURL" message:@"Must specify either attachmentID or mediaURL"];
+    }
+    return NO;
+  }
+  return [self _validateMessengerActionButton:messengerMediaTemplateContent.button
+                        isDefaultActionButton:NO
+                                       pageID:messengerMediaTemplateContent.pageID
+                                        error:errorRef];
+}
+
++ (BOOL)validateMessengerGenericTemplateContent:(FBSDKShareMessengerGenericTemplateContent *)genericTemplateContent
+                                          error:(NSError *__autoreleasing *)errorRef
+{
+  return [self _validateRequiredValue:genericTemplateContent.element.title name:@"element.title" error:errorRef] &&
+  [self _validateMessengerActionButton:genericTemplateContent.element.defaultAction
+                 isDefaultActionButton:YES
+                                pageID:genericTemplateContent.pageID
+                                 error:errorRef] &&
+  [self _validateMessengerActionButton:genericTemplateContent.element.button
+                 isDefaultActionButton:NO
+                                pageID:genericTemplateContent.pageID
+                                 error:errorRef];
+}
+
++ (BOOL)validateMessengerOpenGraphMusicTemplateContent:(FBSDKShareMessengerOpenGraphMusicTemplateContent *)openGraphMusicTemplateContent
+                                                 error:(NSError *__autoreleasing *)errorRef
+{
+  return [self _validateRequiredValue:openGraphMusicTemplateContent.url name:@"url" error:errorRef] &&
+  [self _validateRequiredValue:openGraphMusicTemplateContent.pageID name:@"pageID" error:errorRef] &&
+  [self _validateMessengerActionButton:openGraphMusicTemplateContent.button
+                 isDefaultActionButton:NO
+                                pageID:openGraphMusicTemplateContent.pageID
+                                 error:errorRef];
+}
+
++ (BOOL)_validateMessengerActionButton:(id<FBSDKShareMessengerActionButton>)button
+                 isDefaultActionButton:(BOOL)isDefaultActionButton
+                                pageID:(NSString *)pageID
+                                 error:(NSError *__autoreleasing *)errorRef
+{
+  if (!button) {
+    return YES;
+  }
+
+  if ([button isKindOfClass:[FBSDKShareMessengerURLActionButton class]]) {
+    return [self _validateURLActionButton:(FBSDKShareMessengerURLActionButton *)button
+                    isDefaultActionButton:isDefaultActionButton
+                                   pageID:pageID
+                                    error:errorRef];
+  } else {
+    if (errorRef != NULL) {
+      *errorRef = [FBSDKShareError invalidArgumentErrorWithName:@"buttons" value:button message:nil];
+    }
+    return NO;
+  }
+}
+
++ (BOOL)_validateURLActionButton:(FBSDKShareMessengerURLActionButton *)urlActionButton
+           isDefaultActionButton:(BOOL)isDefaultActionButton
+                          pageID:(NSString *)pageID
+                           error:(NSError *__autoreleasing *)errorRef
+{
+  return [self _validateRequiredValue:urlActionButton.url name:@"button.url" error:errorRef] &&
+  (!isDefaultActionButton ? [self _validateRequiredValue:urlActionButton.title name:@"button.title" error:errorRef] : YES) &&
+  (urlActionButton.isMessengerExtensionURL ? [self _validateRequiredValue:pageID name:@"content pageID" error:errorRef] : YES);
+}
+
+#endif
+
++ (BOOL)shareMediaContentContainsPhotosAndVideos:(FBSDKShareMediaContent *)shareMediaContent
+{
+  BOOL containsPhotos = NO;
+  BOOL containsVideos = NO;
+  [self testShareContent:shareMediaContent containsMedia:NULL containsPhotos:&containsPhotos containsVideos:&containsVideos];
+  return containsVideos && containsPhotos;
 }
 
 #pragma mark - Object Lifecycle
@@ -410,6 +767,14 @@
 
 + (void)_addToParameters:(NSMutableDictionary *)parameters forShareContent:(id<FBSDKSharingContent>)shareContent
 {
+  NSString *hashtagString = [self hashtagStringFromHashtag:shareContent.hashtag];
+  if (hashtagString != nil) {
+    [FBSDKInternalUtility dictionary:parameters setObject:@[hashtagString] forKey:@"hashtags"];
+  }
+
+  [FBSDKInternalUtility dictionary:parameters setObject:shareContent.pageID forKey:@"pageID"];
+  [FBSDKInternalUtility dictionary:parameters setObject:shareContent.shareUUID forKey:@"shareUUID"];
+
   if ([shareContent isKindOfClass:[FBSDKShareOpenGraphContent class]]) {
     FBSDKShareOpenGraphAction *action = ((FBSDKShareOpenGraphContent *)shareContent).action;
     [action setArray:shareContent.peopleIDs forKey:@"tags"];
@@ -446,10 +811,19 @@ forShareOpenGraphContent:(FBSDKShareOpenGraphContent *)openGraphContent
 + (void)_addToParameters:(NSMutableDictionary *)parameters
      forShareLinkContent:(FBSDKShareLinkContent *)linkContent
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   [FBSDKInternalUtility dictionary:parameters setObject:linkContent.contentURL forKey:@"link"];
   [FBSDKInternalUtility dictionary:parameters setObject:linkContent.contentTitle forKey:@"name"];
   [FBSDKInternalUtility dictionary:parameters setObject:linkContent.contentDescription forKey:@"description"];
   [FBSDKInternalUtility dictionary:parameters setObject:linkContent.imageURL forKey:@"picture"];
+
+  /**
+   Pass link parameter as "messenger_link" due to versioning requirements for message dialog flow.
+   We will only use the new share flow we developed if messenger_link is present, not link.
+   */
+  [FBSDKInternalUtility dictionary:parameters setObject:linkContent.contentURL forKey:@"messenger_link"];
+#pragma clang diagnostic pop
 }
 
 + (void)_addToParameters:(NSMutableDictionary *)parameters
@@ -466,6 +840,49 @@ forShareOpenGraphContent:(FBSDKShareOpenGraphContent *)openGraphContent
                             forKey:@"previewPhoto"];
   parameters[@"video"] = videoParameters;
 }
+
+#if !TARGET_OS_TV
++ (void)_addToParameters:(NSMutableDictionary *)parameters
+forShareCameraEffectContent:(FBSDKShareCameraEffectContent *)cameraEffectContent
+{
+  [FBSDKInternalUtility dictionary:parameters
+                         setObject:cameraEffectContent.effectID
+                            forKey:@"effect_id"];
+  [FBSDKInternalUtility dictionary:parameters
+                         setObject:[self _convertCameraEffectArguments:cameraEffectContent.effectArguments]
+                            forKey:@"effect_arguments"];
+  [FBSDKInternalUtility dictionary:parameters
+                         setObject:[self _convertCameraEffectTextures:cameraEffectContent.effectTextures]
+                            forKey:@"effect_textures"];
+}
+
++ (NSString *)_convertCameraEffectArguments:(FBSDKCameraEffectArguments *)arguments
+{
+  // Convert a camera effect arguments container to a JSON string.
+  if (arguments == nil) {
+    return nil;
+  }
+  return [FBSDKInternalUtility JSONStringForObject:[arguments allArguments]
+                                             error:NULL
+                              invalidObjectHandler:NULL];
+}
+
++ (NSData *)_convertCameraEffectTextures:(FBSDKCameraEffectTextures *)textures
+{
+  if (textures == nil) {
+    return nil;
+  }
+  // Convert the entire textures dictionary into one NSData, because
+  // the existing API protocol only allows one value to be put into the pasteboard.
+  NSDictionary *texturesDict = [textures allTextures];
+  NSMutableDictionary *texturesDataDict = [NSMutableDictionary dictionaryWithCapacity:texturesDict.count];
+  [texturesDict enumerateKeysAndObjectsUsingBlock:^(NSString *key, UIImage *img, BOOL *stop) {
+    // Convert UIImages to NSData, because UIImage is not archivable.
+    [texturesDataDict setObject:UIImagePNGRepresentation(img) forKey:key];
+  }];
+  return [NSKeyedArchiver archivedDataWithRootObject:texturesDataDict];
+}
+#endif
 
 + (id)_convertObject:(id)object
 {
@@ -561,25 +978,63 @@ forShareOpenGraphContent:(FBSDKShareOpenGraphContent *)openGraphContent
           [value isKindOfClass:[FBSDKShareOpenGraphObject class]]);
 }
 
-+ (void)_testObject:(id)object containsMedia:(BOOL *)containsMediaRef containsPhotos:(BOOL *)containsPhotosRef
++ (void)_stageImagesForPhotoContent:(FBSDKSharePhotoContent *)content
+              withCompletionHandler:(void(^)(NSArray<NSString *> *))completion
+{
+  __block NSMutableArray<NSString *> *stagedURIs = [NSMutableArray array];
+  dispatch_group_t group = dispatch_group_create();
+  for (FBSDKSharePhoto *photo in content.photos) {
+    if (photo.image != nil) {
+      dispatch_group_enter(group);
+      NSDictionary *stagingParameters = @{
+                                          @"file" : photo.image,
+                                          };
+      FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me/staging_resources"
+                                                                     parameters:stagingParameters
+                                                                     HTTPMethod:@"POST"];
+      [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+        NSString *photoStagedURI = result[@"uri"];
+        if (photoStagedURI != nil) {
+          [stagedURIs addObject:photoStagedURI];
+          dispatch_group_leave(group);
+        }
+      }];
+    }
+  }
+
+  dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+    if (completion != NULL) {
+      completion([stagedURIs copy]);
+    }
+  });
+}
+
++ (void)_testObject:(id)object containsMedia:(BOOL *)containsMediaRef containsPhotos:(BOOL *)containsPhotosRef containsVideos:(BOOL *)containsVideosRef
 {
   BOOL containsMedia = NO;
   BOOL containsPhotos = NO;
+  BOOL containsVideos = NO;
   if ([object isKindOfClass:[FBSDKSharePhoto class]]) {
     containsMedia = (((FBSDKSharePhoto *)object).image != nil);
     containsPhotos = YES;
+  } else if ([object isKindOfClass:[FBSDKShareVideo class]]) {
+    containsMedia = YES;
+    containsVideos = YES;
   } else if ([object isKindOfClass:[FBSDKShareOpenGraphValueContainer class]]) {
     [self _testOpenGraphValueContainer:(FBSDKShareOpenGraphValueContainer *)object
                          containsMedia:&containsMedia
-                        containsPhotos:&containsPhotos];
+                        containsPhotos:&containsPhotos
+                        containsVideos:&containsVideos];
   } else if ([object isKindOfClass:[NSArray class]]) {
     for (id item in (NSArray *)object) {
       BOOL itemContainsMedia = NO;
       BOOL itemContainsPhotos = NO;
-      [self _testObject:item containsMedia:&itemContainsMedia containsPhotos:&itemContainsPhotos];
+      BOOL itemContainsVideos = NO;
+      [self _testObject:item containsMedia:&itemContainsMedia containsPhotos:&itemContainsPhotos containsVideos:&itemContainsVideos];
       containsMedia |= itemContainsMedia;
       containsPhotos |= itemContainsPhotos;
-      if (containsMedia && containsPhotos) {
+      containsVideos |= itemContainsVideos;
+      if (containsMedia && containsPhotos && containsVideos) {
         break;
       }
     }
@@ -590,21 +1045,28 @@ forShareOpenGraphContent:(FBSDKShareOpenGraphContent *)openGraphContent
   if (containsPhotosRef != NULL) {
     *containsPhotosRef = containsPhotos;
   }
+  if (containsVideosRef != NULL) {
+    *containsVideosRef = containsVideos;
+  }
 }
 
 + (void)_testOpenGraphValueContainer:(FBSDKShareOpenGraphValueContainer *)container
                        containsMedia:(BOOL *)containsMediaRef
                       containsPhotos:(BOOL *)containsPhotosRef
+                      containsVideos:(BOOL *)containsVideosRef
 {
   __block BOOL containsMedia = NO;
   __block BOOL containsPhotos = NO;
+  __block BOOL containsVideos = NO;
   [container enumerateKeysAndObjectsUsingBlock:^(NSString *key, id object, BOOL *stop) {
     BOOL itemContainsMedia = NO;
     BOOL itemContainsPhotos = NO;
-    [self _testObject:object containsMedia:&itemContainsMedia containsPhotos:&itemContainsPhotos];
+    BOOL itemContainsVideos = NO;
+    [self _testObject:object containsMedia:&itemContainsMedia containsPhotos:&itemContainsPhotos containsVideos:&itemContainsVideos];
     containsMedia |= itemContainsMedia;
     containsPhotos |= itemContainsPhotos;
-    if (containsMedia && containsPhotos) {
+    containsVideos |= itemContainsVideos;
+    if (containsMedia && containsPhotos && containsVideosRef) {
       *stop = YES;
     }
   }];
@@ -613,6 +1075,9 @@ forShareOpenGraphContent:(FBSDKShareOpenGraphContent *)openGraphContent
   }
   if (containsPhotosRef != NULL) {
     *containsPhotosRef = containsPhotos;
+  }
+  if (containsVideosRef != NULL) {
+    *containsVideosRef = containsVideos;
   }
 }
 
@@ -654,7 +1119,7 @@ forShareOpenGraphContent:(FBSDKShareOpenGraphContent *)openGraphContent
     }
     return NO;
   }
-  // ensure that the file exists.  per the latest spec for NSFileManager, we should not be checking for file existance,
+  // ensure that the file exists.  per the latest spec for NSFileManager, we should not be checking for file existence,
   // so they have removed that option for URLs and discourage it for paths, so we just construct a mapped NSData.
   NSError *fileError;
   if (![[NSData alloc] initWithContentsOfURL:URL
@@ -723,6 +1188,21 @@ forShareOpenGraphContent:(FBSDKShareOpenGraphContent *)openGraphContent
     *errorRef = [FBSDKShareError invalidArgumentErrorWithName:argumentName value:@(value) message:nil];
   }
   return NO;
+}
+
++ (BOOL)_validateAssetLibraryVideoURL:(NSURL *)videoURL name:(NSString *)name error:(NSError *__autoreleasing *)errorRef
+{
+  if (!videoURL || [[videoURL.scheme lowercaseString] isEqualToString:@"assets-library"]) {
+    if (errorRef != NULL) {
+      *errorRef = nil;
+    }
+    return YES;
+  } else {
+    if (errorRef != NULL) {
+      *errorRef = [FBSDKShareError invalidArgumentErrorWithName:name value:videoURL message:nil];
+    }
+    return NO;
+  }
 }
 
 @end

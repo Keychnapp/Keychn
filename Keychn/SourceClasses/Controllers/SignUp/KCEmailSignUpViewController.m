@@ -21,15 +21,16 @@
     KCSignUpWebManager      *_signUpWebManager;
 }
 
-@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
-@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
-@property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
-@property (weak, nonatomic) IBOutlet UIView *containerView;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (assign, nonatomic) BOOL isProcessing;
-@property (weak, nonatomic) IBOutlet TOMSMorphingLabel *starcookLabel;
-@property (weak, nonatomic) IBOutlet UIButton *alreadyHaveAnAccountButton;
+
+@property (weak, nonatomic) IBOutlet UITextField                *emailTextField;
+@property (weak, nonatomic) IBOutlet UITextField                *nameTextField;
+@property (weak, nonatomic) IBOutlet UITextField                *passwordTextField;
+@property (weak, nonatomic) IBOutlet UIView                     *containerView;
+@property (weak, nonatomic) IBOutlet UIScrollView               *scrollView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView    *activityIndicator;
+@property (assign, nonatomic) BOOL                              isProcessing;
+@property (weak, nonatomic) IBOutlet TOMSMorphingLabel          *starcookLabel;
+@property (weak, nonatomic) IBOutlet UIButton                   *alreadyHaveAnAccountButton;
 
 @end
 

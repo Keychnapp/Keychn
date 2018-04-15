@@ -80,7 +80,7 @@
 // Alert Title
 
 "networkError"          = "Server Unreachable";
-"congrats"              = "Congratulations Starrcook!";
+"congrats"              = "Congratulations Starcook!";
 "cancelMasterclass"     = "Cancel Masterclass";
 "earlyJoinMasterclass"  = "Want To Join Masterclass?";
 "masterclassCompleted"  = "Masterclass Completed";

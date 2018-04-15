@@ -44,5 +44,6 @@
 
 - (void)startListeningForUserData:(void(^)(NSInteger userID, NSArray *liveQueueArray))dataEvent;
 
+- (void)closeTemporaryWithCompletionHandler:(void (^)(BOOL status))closed;
 
 @end

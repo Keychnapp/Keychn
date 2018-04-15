@@ -10,7 +10,8 @@
 #import <Accounts/Accounts.h>
 #import <Social/Social.h>
 #import <Twitter/Twitter.h>
-#import <TwitterKit/TwitterKit.h>
+
+@import TwitterKit;
 
 @interface KCTwitterManager ()
 

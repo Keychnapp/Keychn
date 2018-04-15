@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="axM-Pc-TWV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="axM-Pc-TWV">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
-            <string>HelveticaNeue-Italic</string>
-        </array>
         <array key="Roboto-Bold.ttf">
             <string>Roboto-Bold</string>
         </array>
@@ -4383,9 +4379,20 @@
                                                         <rect key="frame" x="250.5" y="0.0" width="125" height="333.5"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P4R-Mf-Xiw">
-                                                                <rect key="frame" x="0.0" y="0.0" width="125" height="333"/>
+                                                                <rect key="frame" x="-0.5" y="0.0" width="125" height="333"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             </view>
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zBf-Ia-a01">
+                                                                <rect key="frame" x="20" y="278.5" width="40" height="40"/>
+                                                                <constraints>
+                                                                    <constraint firstAttribute="width" constant="40" id="Ygy-iM-ego"/>
+                                                                    <constraint firstAttribute="height" constant="40" id="zFZ-dl-ux5"/>
+                                                                </constraints>
+                                                                <state key="normal" image="go_live"/>
+                                                                <connections>
+                                                                    <action selector="goLiveButtonTapped:" destination="UBg-qz-cjH" eventType="touchUpInside" id="o1h-1m-QPQ"/>
+                                                                </connections>
+                                                            </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y6T-JD-Y2H">
                                                                 <rect key="frame" x="65" y="278.5" width="40" height="40"/>
                                                                 <constraints>
@@ -4413,9 +4420,11 @@
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="1wn-eG-2Cq" secondAttribute="trailing" constant="20" id="0bd-0a-TFp"/>
                                                             <constraint firstItem="P4R-Mf-Xiw" firstAttribute="top" secondItem="pKz-uG-BRP" secondAttribute="top" id="AwC-eq-vkZ"/>
+                                                            <constraint firstItem="zBf-Ia-a01" firstAttribute="leading" secondItem="pKz-uG-BRP" secondAttribute="leading" constant="20" id="CbR-u3-CCi"/>
                                                             <constraint firstAttribute="bottom" secondItem="P4R-Mf-Xiw" secondAttribute="bottom" id="OOq-TI-Bsb"/>
                                                             <constraint firstAttribute="trailing" secondItem="P4R-Mf-Xiw" secondAttribute="trailing" id="Slp-CW-LTN"/>
                                                             <constraint firstItem="P4R-Mf-Xiw" firstAttribute="leading" secondItem="pKz-uG-BRP" secondAttribute="leading" id="Tdt-Up-PjI"/>
+                                                            <constraint firstAttribute="bottom" secondItem="zBf-Ia-a01" secondAttribute="bottom" constant="15" id="Xqi-Xb-Y6m"/>
                                                             <constraint firstItem="Y6T-JD-Y2H" firstAttribute="top" secondItem="1wn-eG-2Cq" secondAttribute="bottom" constant="15" id="m4o-cT-sFn"/>
                                                             <constraint firstAttribute="trailing" secondItem="Y6T-JD-Y2H" secondAttribute="trailing" constant="20" id="nCP-QQ-ayA"/>
                                                             <constraint firstAttribute="bottom" secondItem="Y6T-JD-Y2H" secondAttribute="bottom" constant="15" id="tE2-kK-cxC"/>
@@ -4441,7 +4450,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MASTERCLASS STARTS IN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EoZ-NC-7Q4">
-                                        <rect key="frame" x="67" y="252" width="241" height="23.5"/>
+                                        <rect key="frame" x="67.5" y="252" width="241" height="23.5"/>
                                         <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -4542,6 +4551,7 @@
                     <connections>
                         <outlet property="countdownTimerLabel" destination="Zcy-Q9-3WC" id="FKe-kg-bxt"/>
                         <outlet property="endCallButton" destination="Y6T-JD-Y2H" id="cCE-vo-rbP"/>
+                        <outlet property="goLiveButton" destination="zBf-Ia-a01" id="YLN-TQ-9MD"/>
                         <outlet property="joinLaterButton" destination="RSJ-JO-koQ" id="H74-UI-KxI"/>
                         <outlet property="masterclassStartsInLabel" destination="EoZ-NC-7Q4" id="Kkv-wK-1H9"/>
                         <outlet property="previewView" destination="P4R-Mf-Xiw" id="yXh-e7-YI3"/>
@@ -4665,6 +4675,17 @@
                                             <constraint firstItem="WLg-1P-bvo" firstAttribute="top" secondItem="szT-Rs-FIS" secondAttribute="top" id="zI0-hA-qGA"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Po5-f0-NIM">
+                                        <rect key="frame" x="315" y="592" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="55n-OK-Ayb"/>
+                                            <constraint firstAttribute="height" constant="40" id="dL9-R6-maP"/>
+                                        </constraints>
+                                        <state key="normal" image="go_live"/>
+                                        <connections>
+                                            <action selector="goLiveButtonTapped:" destination="neO-5H-aoX" eventType="touchUpInside" id="NXE-S7-PS5"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -4681,7 +4702,9 @@
                                     <constraint firstItem="szT-Rs-FIS" firstAttribute="leading" secondItem="pMX-NT-nM2" secondAttribute="leading" constant="18" id="Yst-rT-lr6"/>
                                     <constraint firstAttribute="trailing" secondItem="Fqq-EZ-vyL" secondAttribute="trailing" priority="800" id="aDt-hX-6Rv"/>
                                     <constraint firstItem="Fqq-EZ-vyL" firstAttribute="top" secondItem="pMX-NT-nM2" secondAttribute="top" priority="800" id="b1y-wp-WQp"/>
+                                    <constraint firstAttribute="bottom" secondItem="Po5-f0-NIM" secondAttribute="bottom" constant="35" id="f1W-Xi-rj3"/>
                                     <constraint firstItem="szT-Rs-FIS" firstAttribute="top" secondItem="hGr-XQ-die" secondAttribute="bottom" priority="900" constant="15" id="hve-dg-5f1"/>
+                                    <constraint firstAttribute="trailing" secondItem="Po5-f0-NIM" secondAttribute="trailing" constant="20" id="jkP-Mv-gws"/>
                                     <constraint firstItem="ZQH-n1-myC" firstAttribute="top" secondItem="pMX-NT-nM2" secondAttribute="top" priority="800" constant="16" id="kQ6-2T-hIr"/>
                                     <constraint firstItem="Fqq-EZ-vyL" firstAttribute="leading" secondItem="pMX-NT-nM2" secondAttribute="leading" priority="800" id="ldz-ND-o3F"/>
                                     <constraint firstItem="RdE-gO-9lE" firstAttribute="top" secondItem="szT-Rs-FIS" secondAttribute="bottom" constant="20" id="mka-h7-a3u"/>
@@ -4783,6 +4806,7 @@
                         <outlet property="firstViewTopConstraint" destination="b1y-wp-WQp" id="Tar-0u-Kg8"/>
                         <outlet property="firstViewTrailingConstraint" destination="aDt-hX-6Rv" id="vhB-SE-eWG"/>
                         <outlet property="flipCameraButton" destination="e71-rF-PZA" id="I0O-KH-oXX"/>
+                        <outlet property="goLiveButton" destination="Po5-f0-NIM" id="x2X-Xy-XyC"/>
                         <outlet property="joinLaterButton" destination="aYX-fL-uec" id="WPC-Dl-bqE"/>
                         <outlet property="localPreviewView" destination="WLg-1P-bvo" id="cnH-14-s9e"/>
                         <outlet property="masterclassStartsInLabel" destination="Azt-Eb-BYO" id="cGh-HY-Iuy"/>
@@ -7470,7 +7494,7 @@
                                                 </variation>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yY2-mX-RfC">
-                                                <rect key="frame" x="101.5" y="40" width="10" height="10"/>
+                                                <rect key="frame" x="102" y="40" width="10" height="10"/>
                                                 <color key="backgroundColor" red="0.98609042167663574" green="0.0" blue="0.13642200827598572" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="10" id="6Zf-SF-5A2"/>
@@ -7505,7 +7529,7 @@
                                                 </variation>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LIVE Masterclasses." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BhF-pv-2ea">
-                                                <rect key="frame" x="112.5" y="34" width="150" height="21"/>
+                                                <rect key="frame" x="113" y="34" width="150" height="21"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="184" id="5lY-n1-ZEJ">
                                                         <variation key="heightClass=regular-widthClass=regular" constant="800"/>
@@ -7631,10 +7655,10 @@
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NKi-qL-vSF">
-                                                            <rect key="frame" x="8" y="8" width="359" height="284"/>
+                                                            <rect key="frame" x="8" y="8" width="524" height="284"/>
                                                             <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="masterchef.png" translatesAutoresizingMaskIntoConstraints="NO" id="wX6-4k-V9C">
-                                                                    <rect key="frame" x="10" y="10" width="339" height="204"/>
+                                                                    <rect key="frame" x="10" y="10" width="504" height="204"/>
                                                                     <userDefinedRuntimeAttributes>
                                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                                             <integer key="value" value="5"/>
@@ -7682,14 +7706,14 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CIT-mg-inl">
-                                                                    <rect key="frame" x="317" y="184" width="20" height="22"/>
+                                                                    <rect key="frame" x="482" y="184" width="20" height="22"/>
                                                                     <state key="normal" image="info.png"/>
                                                                     <connections>
                                                                         <action selector="masterclassDetailButtonTapped:" destination="vg7-mO-s0A" eventType="touchUpInside" id="KhM-IV-yea"/>
                                                                     </connections>
                                                                 </button>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xRo-fe-Dnt">
-                                                                    <rect key="frame" x="14" y="224" width="331" height="50"/>
+                                                                    <rect key="frame" x="14" y="224" width="496" height="50"/>
                                                                     <color key="backgroundColor" red="1" green="0.80392156859999997" blue="0.094117647060000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="50" id="vkc-0A-ITk"/>
@@ -7708,26 +7732,26 @@
                                                                     </connections>
                                                                 </button>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="attend.png" translatesAutoresizingMaskIntoConstraints="NO" id="Q0r-Uq-7S5">
-                                                                    <rect key="frame" x="319" y="242" width="14" height="14"/>
+                                                                    <rect key="frame" x="484" y="242" width="14" height="14"/>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DANIEL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Fy6-QK-jwX">
-                                                                    <rect key="frame" x="20" y="114.5" width="329" height="59.5"/>
+                                                                    <rect key="frame" x="20" y="114.5" width="494" height="59.5"/>
                                                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="80"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CHEF" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qmd-s8-vEH">
-                                                                    <rect key="frame" x="20" y="50" width="329" height="59.5"/>
+                                                                    <rect key="frame" x="20" y="50" width="494" height="59.5"/>
                                                                     <rect key="contentStretch" x="0.0" y="0.0" width="1" height="0.94999999999999996"/>
                                                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="80"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kmx-Xq-Vbd">
-                                                                    <rect key="frame" x="10" y="10" width="339" height="204"/>
+                                                                    <rect key="frame" x="10" y="10" width="504" height="204"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YfK-Gh-sLo" customClass="TriLabelView" customModule="Keychn" customModuleProvider="target">
-                                                                            <rect key="frame" x="202" y="0.0" width="137" height="70"/>
+                                                                            <rect key="frame" x="367" y="0.0" width="137" height="70"/>
                                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="70" id="m16-g6-8Qq"/>
@@ -7755,10 +7779,10 @@
                                                                     </constraints>
                                                                 </view>
                                                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zjc-xz-UXX">
-                                                                    <rect key="frame" x="10" y="10" width="339" height="204"/>
+                                                                    <rect key="frame" x="10" y="10" width="504" height="204"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yOd-QB-dq7">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="339" height="204"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="504" height="204"/>
                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </view>
                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ggc-7e-836">
@@ -9055,7 +9079,7 @@
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="myScheduleTableCell" rowHeight="87" id="Xu6-8O-WKd" customClass="KCMyScheduleTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="myScheduleTableCell" rowHeight="87" id="Xu6-8O-WKd" customClass="KCMyScheduleTableViewCell">
                                         <rect key="frame" x="0.0" y="28" width="375" height="87"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xu6-8O-WKd" id="ZUu-FJ-Zie">
@@ -11245,7 +11269,7 @@
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingsLinksTableCell" rowHeight="68" id="RBP-dw-5mp" customClass="KCSettingWebLinksTableCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingsLinksTableCell" rowHeight="68" id="RBP-dw-5mp" customClass="KCSettingWebLinksTableCell">
                                         <rect key="frame" x="0.0" y="55.5" width="375" height="68"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RBP-dw-5mp" id="ste-de-yFH">
@@ -11321,7 +11345,7 @@
                                             <outlet property="settingsURLLabel" destination="dn1-j0-LFo" id="SHQ-oX-reV"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingsSocialAccountTableCell" rowHeight="68" id="TMn-TJ-ANh" customClass="KCSettingsSocialAccountTableCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingsSocialAccountTableCell" rowHeight="68" id="TMn-TJ-ANh" customClass="KCSettingsSocialAccountTableCell">
                                         <rect key="frame" x="0.0" y="123.5" width="375" height="68"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TMn-TJ-ANh" id="k4B-Nz-1xa">
@@ -11714,7 +11738,7 @@
                                 <rect key="frame" x="0.0" y="88" width="375" height="507"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="changePasswordTableCell" rowHeight="94" id="cpq-Hl-xsX" customClass="KCChangePasswordTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="changePasswordTableCell" rowHeight="94" id="cpq-Hl-xsX" customClass="KCChangePasswordTableViewCell">
                                         <rect key="frame" x="0.0" y="28" width="375" height="94"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cpq-Hl-xsX" id="hK6-SM-Ltx">
@@ -12758,6 +12782,7 @@
         <image name="facebook_gray.png" width="20" height="20"/>
         <image name="facebook_white" width="15" height="15"/>
         <image name="flip_camera.png" width="40" height="40"/>
+        <image name="go_live" width="40" height="40"/>
         <image name="gray_tik_mark_icon.png" width="15" height="17"/>
         <image name="greentick.png" width="15" height="17"/>
         <image name="info.png" width="20" height="20"/>

@@ -47,6 +47,7 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
 @property (weak, nonatomic) IBOutlet UIView *secondCameraView;
 @property (weak, nonatomic) IBOutlet UIView *videoFeedView;
 @property (weak, nonatomic) IBOutlet UIView *localPreviewView;
+@property (weak, nonatomic) IBOutlet UIButton *goLiveButton;
 
 
 // Second View Constraints
@@ -210,6 +211,15 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     [self.navigationController popViewControllerAnimated:true];
 }
 
+- (IBAction)goLiveButtonTapped:(UIButton *)sender {
+    sender.hidden = true;
+    // Strat transmitting video for second camera
+    __weak id weakSelf = self;
+    [_videoCallManager closeTemporaryWithCompletionHandler:^(BOOL status) {
+        [weakSelf joinOriginalConference];
+    }];
+}
+
 
 #pragma mark - Instance Method
 
@@ -253,6 +263,9 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     
     UITapGestureRecognizer *tapGestureSecondCameraView = [[UITapGestureRecognizer alloc] initWithTarget: self action:@selector(didTapCameraSwitch:)];
     [self.secondCameraView addGestureRecognizer:tapGestureSecondCameraView];
+    
+    // Hide Go Live button for standard users, it is only available for Second camera
+    self.goLiveButton.hidden = _userProfile.userID.integerValue != kSecondCameraId;
 }
 
 - (void)setText {
@@ -426,7 +439,12 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     _videoCallManager.isGroupSession                      = YES;
     _videoCallManager.hostID                              = [self.chefUserID integerValue];
     _videoCallManager.secondCameraId                      = kSecondCameraId;
-    [_videoCallManager joinConferenceWithID:self.conferenceID userID:_userProfile.userID withRemoteVideoView:self.remoteVideoView andSecondCameraView:self.secondCameraView withCompletionHandler:^(BOOL status) {
+    NSString *conferecneId  = self.conferenceID;
+    if(_userProfile.userID.integerValue == kSecondCameraId) {
+        conferecneId = kTempMasterclassId;
+    }
+    
+    [_videoCallManager joinConferenceWithID:conferecneId userID:_userProfile.userID withRemoteVideoView:self.remoteVideoView andSecondCameraView:self.secondCameraView withCompletionHandler:^(BOOL status) {
         if(status) {
             // Joined the conference
             [weakSelf connectedToConference];
@@ -449,6 +467,8 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
             }
         }
     }];
+    
+    [self updateGroupSessionStatusForUser:_userProfile.userID accessToken:_userProfile.accessToken groupSessionID:self.sessionID andUpdateType:kStart];
 }
 
 - (void)connectedToConference {
@@ -464,6 +484,18 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     }];
     
 }
+
+- (void)joinOriginalConference {
+    // Earlier it was a fake one to just open the preview
+    __weak id weakSelf = self;
+    [_videoCallManager joinConferenceWithID:self.conferenceID userID:_userProfile.userID withRemoteVideoView:self.remoteVideoView andSecondCameraView:self.secondCameraView withCompletionHandler:^(BOOL status) {
+        if(status) {
+            // Joined the conference
+            [weakSelf connectedToConference];
+        }
+    }];
+}
+
 
 
 #pragma mark - Camera and Audio Options

@@ -5,9 +5,9 @@ target 'Keychn' do
     
 pod 'AFNetworking', '2.6.3'
 pod 'SVProgressHUD'
-pod 'FBSDKCoreKit',  '4.8.0'
-pod 'FBSDKLoginKit', '4.8.0'
-pod 'FBSDKShareKit', '4.8.0'
+pod 'FBSDKCoreKit'
+pod 'FBSDKLoginKit'
+pod 'FBSDKShareKit'
 pod 'TOCropViewController'
 pod 'Fabric'
 pod 'TwitterKit'
