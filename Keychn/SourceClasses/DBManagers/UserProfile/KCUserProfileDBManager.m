@@ -93,7 +93,7 @@
     //delete user profile
     KCDatabaseOperation *dbOperation = [KCDatabaseOperation sharedInstance];
     @autoreleasepool {
-        NSArray *tableNames          = @[@"user_profile", @"social_profile", @"user_schedule", @"text_message"];
+        NSArray *tableNames          = @[@"user_profile", @"social_profile", @"user_schedule", @"text_message", @"purchase_history"];
         for (NSString *tableName in tableNames) {
             NSString *deleteQuery    = [NSString stringWithFormat:@"DELETE FROM %@",tableName];
             [dbOperation executeSQLQuery:deleteQuery];

@@ -33,6 +33,7 @@
 #import "Mixpanel/Mixpanel.h"
 #import "AppDelegate.h"
 #import "Keychn-Swift.h"
+#import "SCLAlertView.h"
 
 
 #define AppPlaceholder [KCPlaceholderImage sharedInstance]

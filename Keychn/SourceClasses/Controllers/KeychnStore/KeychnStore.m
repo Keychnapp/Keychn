@@ -11,6 +11,8 @@
 #import "KCWebConnection.h"
 #import "KCUserProfileDBManager.h"
 #import "IAPSubscription.h"
+#import <AppsFlyerFramework/AppsFlyerLib/AppsFlyerTracker.h>
+#include <math.h>
 
 #define kSharedSecret @"a0a0ddd374fe448392a735a91b10f3aa"
 
@@ -107,14 +109,18 @@
                 //Purchase comleted
                 if(DEBUGGING) NSLog(@"paymentQueue --> updatedTransactions --> Purchase completed");
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
-                [self updateIAP];
                 [self verifyAndRestorePurchaseForProductId:requestedProduct];
+                
+                // Update to app flyer
+                [self logAppFlyerPurchaseEvent];
+                
                 break;
                 
             case SKPaymentTransactionStateRestored:
                 //Purchase restored
                 if(DEBUGGING) NSLog(@"paymentQueue --> updatedTransactions --> Purchase restored");
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
+                [KCProgressIndicator hideActivityIndicator];
                 break;
                 
             case SKPaymentTransactionStateFailed:
@@ -155,9 +161,25 @@
 - (void)restoreAppReceiptsForProductId:(NSString *)productId {
     [KCProgressIndicator showNonBlockingIndicator];
     requestedProduct = productId;
-    _receiptRequest             = [[SKReceiptRefreshRequest alloc] init];
-    _receiptRequest.delegate    = self;
-    [_receiptRequest start];
+    [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+    [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+}
+
+// Then this is called
+- (void)paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue {
+    for (SKPaymentTransaction *transaction in queue.transactions) {
+        NSString *productID = transaction.payment.productIdentifier;
+        if([productID isEqualToString:requestedProduct]) {
+            // User has purchases subscription for Auto-Renewal subscription
+            [self verifyAndRestorePurchaseForProductId:productID];
+            break;
+        }
+    }
+    [KCProgressIndicator hideActivityIndicator];
+}
+
+- (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error {
+    [KCProgressIndicator hideActivityIndicator];
 }
 
 #pragma mark - Update Local Database
@@ -179,9 +201,10 @@
 - (void)verifyAndRestorePurchaseForProductId:(NSString *)productId {
     // Update on server that user has purhcased the subscription with valid dates
     [KCProgressIndicator showNonBlockingIndicator];
+    NSUserDefaults *standardUserDefault = [NSUserDefaults standardUserDefaults];
     [self verifyInAppPurcaseStatusForProductId:productId withCompletionHandler:^(BOOL isValid, double expirationTimeInterval, NSString *productId, double requestTimeInterval, NSString *transactionId) {
+        KCUserProfile *userProfile       = [KCUserProfile sharedInstance];
         if(isValid) {
-            KCUserProfile *userProfile       = [KCUserProfile sharedInstance];
             IAPSubscription *iapSubscription = [IAPSubscription new];
             iapSubscription.userId           = userProfile.userID;
             iapSubscription.isSynced         = NO;
@@ -191,10 +214,26 @@
             iapSubscription.transactionId          = transactionId;
             [iapSubscription saveIAPSubscription];
             
+            // Reset default for user subscription expired session
+            [standardUserDefault removeObjectForKey:kSubscriptionChanged];
+            
             // Update on Server
             [self requestUpdateSubscriptionPurchase:iapSubscription];
         }
+        else {
+            // Show alert that user subscription has expired
+            NSString *hasuserlarted = [standardUserDefault objectForKey:kSubscriptionChanged];
+            if(![NSString validateString:hasuserlarted]) {
+                [standardUserDefault setObject:@"YES" forKey:kSubscriptionChanged];
+                SCLAlertView *alert = [[SCLAlertView alloc] initWithNewWindow];
+                [alert showWarning:NSLocalizedString(@"subscriptionExpired", nil) subTitle:NSLocalizedString(@"renewOrRestore", nil) closeButtonTitle:NSLocalizedString(@"ok", nil) duration:0.0f];
+            }
+        }
         [KCProgressIndicator hideActivityIndicator];
+        
+        // Post notification for subscription validatation change
+        [NSNotificationCenter.defaultCenter postNotificationName:kSubscriptionChanged object:nil];
+        
     }];
 }
 
@@ -235,8 +274,8 @@
         }
         [_webConnection httpPOSTRequestWithURL:storeURL andParameters:parameters success:^(NSDictionary *response) {
             // Fetched in App Purhcas Record
-            NSDictionary *inAppPurchaseReceipt = [response objectForKey:@"receipt"];
-            NSArray      *inAppPurchaseRecords = [inAppPurchaseReceipt objectForKey:@"in_app"];
+            NSLog(@"In-App Purchase Record %@", response);
+            NSArray      *inAppPurchaseRecords = [response objectForKey:@"latest_receipt_info"];
             BOOL didPurchaseThisItem           = NO;
             for (NSDictionary *purchasedRecord in inAppPurchaseRecords) {
                 NSString *iapProductId = [purchasedRecord objectForKey:@"product_id"];
@@ -246,7 +285,16 @@
                     double requestTimeInterval    = [[purchasedRecord objectForKey:@"purchase_date_ms"] doubleValue];
                     double expirationTimeInterval = [[purchasedRecord objectForKey:@"expires_date_ms"] doubleValue];
                     NSString *transactionId       = [purchasedRecord objectForKey:@"transaction_id"];
-                    finished(YES, expirationTimeInterval, purchasedProductId, requestTimeInterval,transactionId);
+                    NSTimeInterval currentTimerInterval = [NSDate date].timeIntervalSince1970 * 1000; // Convert to milliseconds
+                    if(currentTimerInterval > expirationTimeInterval) {
+                        // Subscription Expired
+                        finished(NO,0.0f, purchasedProductId, 0.0f, nil);
+                    }
+                    else {
+                        // Subscription is still valid
+                        finished(YES, expirationTimeInterval, purchasedProductId, requestTimeInterval,transactionId);
+                    }
+                    
                     break;
                 }
             }
@@ -259,9 +307,20 @@
            // Request failed
         }];
     }
-    else {
-        finished(NO,0.0f, purchasedProductId, 0.0f, nil); // No App Store receipt found. Alert user if they should Purchase or restore the purchases if already bought.
-    }
+}
+
+- (void)logAppFlyerPurchaseEvent {
+    // Log In-App purchase event
+    SKProduct *purchasedProduct = validProducts.firstObject;
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    [formatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+    [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+    [formatter setLocale:purchasedProduct.priceLocale];
+    NSString *currencyCode   = [formatter currencyCode];
+    NSString *roundedOffValue = [NSString stringWithFormat:@"%d",(int) ceil(purchasedProduct.price.doubleValue)];
+    [[AppsFlyerTracker sharedTracker] trackEvent: AFEventPurchase withValues:
+    @{ AFEventParamRevenue: roundedOffValue, AFEventParamCurrency: currencyCode}
+     ];
 }
 
 @end

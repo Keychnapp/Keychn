@@ -20,6 +20,8 @@ pod 'AppsFlyerFramework'
 pod 'Mixpanel'
 pod 'TOMSMorphingLabel'
 pod 'TTTAttributedLabel'
+pod 'SCLAlertView-Objective-C'
+pod 'AppsFlyerFramework'
 
 end
 

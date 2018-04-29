@@ -23,6 +23,8 @@
 #import <TwitterCore/TwitterCore.h>
 #import "KCGroupSessionHostEndViewController.h"
 #import "KCGroupSessionGuestEndViewController.h"
+#import "KeychnStore.h"
+#import "IAPSubscription.h"
 
 #define kTwitterAPIKey @"YEJvDUQHJl7GC6qd205dYUXPf"
 #define kTwitterConsumerSecret @"i0Cff9yVdeMPdWxtJBlMOVfxKuhM5wTqaOYyJNl04tTVEphucO"
@@ -35,6 +37,7 @@
     KCWebConnection     *_webConnection;
     BOOL                _appLaunched;
     KCAutoLoginManager  *_autoLoginManager;
+    KeychnStore         *_keychnStore;
 }
 
 @end
@@ -44,7 +47,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    sleep(1);
     [[FBSDKApplicationDelegate sharedInstance] application:application
                              didFinishLaunchingWithOptions:launchOptions];
     
@@ -66,7 +68,7 @@
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel identify:mixpanel.distinctId];
     
-    [self registerForPushNotifaction];
+//    [self registerForPushNotifaction];
     
     // Google Firebase Configuration
     [FIRApp configure];
@@ -77,6 +79,8 @@
     //manages the System ActivityIndicator on status bar for on going network request
     AFNetworkActivityIndicatorManager.sharedManager.enabled = YES;
     
+    // Validates in-app purchase
+    _keychnStore = [[KeychnStore alloc] init];
     
     //monitor internet connection
     _webConnection = [KCWebConnection new];
@@ -114,16 +118,25 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     // Track Installs, updates & sessions(app opens) (You must include this API to enable tracking)
     [[AppsFlyerTracker sharedTracker] trackAppLaunch];
+    
+    // Check if the subscription is still valid for logged in user
+    KCUserProfile *userProfile = [KCUserProfile sharedInstance];
+    if(userProfile.userID.integerValue > 0) {
+        // Logged in session
+        NSString *purhcasedProduct = [IAPSubscription purchasedProductForUser:userProfile.userID];
+        if([NSString validateString:purhcasedProduct]) {
+            [_keychnStore verifyAndRestorePurchaseForProductId:purhcasedProduct];
+        }
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-
 #pragma mark - Push Notification
 
-- (void) registerForPushNotifaction {
+- (void)registerForPushNotifaction {
     UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
     center.delegate                  = self;
     [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound)

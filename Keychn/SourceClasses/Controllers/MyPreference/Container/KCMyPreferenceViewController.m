@@ -121,12 +121,17 @@
     _currentPageIndex       = 0;
     _totalPages             = 1;
     [self fetchLatestCookedRecipe];
+    
+    // Susbscribe for IAP Notification
+    [self subscribeIAPNotification];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     // Hide activity indicator before leaving the screen.
     [KCProgressIndicator hideActivityIndicator];
+    // Unsusbscribe for IAP Notification
+    [self unsubscribeIAPNotification];
 }
 
 #pragma mark - Collection View Datasource and Delegate
@@ -458,6 +463,24 @@
         }];
     }
 }
+
+#pragma mark - IAP Subscription Changed
+
+- (void)subscribeIAPNotification {
+    // To get notified when user subscription has changed
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(subscriptionChanged:) name:kSubscriptionChanged object:nil];
+}
+
+- (void)unsubscribeIAPNotification {
+    // Remove observer when user leave this screen
+    [NSNotificationCenter.defaultCenter removeObserver:self name:kSubscriptionChanged object:nil];
+}
+
+- (void)subscriptionChanged:(NSNotification *)sender {
+    // Validate user purchase
+    [self validateUserSubscription];
+}
+
 
 @end
 

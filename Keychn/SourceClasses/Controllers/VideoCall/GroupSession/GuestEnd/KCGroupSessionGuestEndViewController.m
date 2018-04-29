@@ -11,6 +11,7 @@
 #import "KCGroupSessionWebManager.h"
 #import "KCAgoraCallManager.h"
 #import "KCNavigationController.h"
+@import StoreKit;
 
 typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
     START_CALL,
@@ -307,6 +308,28 @@ typedef NS_ENUM(NSUInteger, VideoCallUpdateStatus) {
         [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
         
         [self.navigationController popViewControllerAnimated:YES];
+    }
+    
+    // Ask user to rate the app but first let the
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 10.3) {
+        // Only available to iOS 10.3 and higher
+        [self rateApp];
+    }
+}
+
+- (void)rateApp {
+    NSUserDefaults *standard = [NSUserDefaults standardUserDefaults];
+    if(![standard objectForKey:kRating]) {
+        // Not asked to permitted for once
+        [standard setObject:@"YES" forKey:kRating];
+        
+        SCLAlertView *alertView = [[SCLAlertView alloc] initWithNewWindow];
+        
+        [alertView addButton:NSLocalizedString(@"confirm", nil) actionBlock:^{
+            // Permission granted for notification. Show alert for iOS Notification Permission
+            [SKStoreReviewController requestReview];
+        }];
+        [alertView showWarning:NSLocalizedString(@"enjoyingKeychn", nil) subTitle:NSLocalizedString(@"rateUsOnAppStore", nil) closeButtonTitle:NSLocalizedString(@"cancel", nil) duration:0.0f];
     }
 }
 

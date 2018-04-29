@@ -90,6 +90,9 @@
 "sorryStarcook"         = "Sorry Starcook";
 "resetPassword"         = "Reset Password";
 "selectAnOption"        = "Select An Option";
+"subscriptionExpired"   = "Subscription Expired";
+"loveCooking"           = "Love Cooking!";
+"enjoyingKeychn"        = "Enjoying Keychn!";
 
 // Alert Messages
 
@@ -108,6 +111,9 @@
 "passwordResetSuccessfully" = "New password updated successfully. Please keep it safe for security purposes.";
 "profilePictureNotSelected" = "Select a profile picture to continue.";
 "locationRequired"          = "Unable to fetch current location, please input it manually.";
+"renewOrRestore"            = "Please renew your subscription or restore if already renewed.";
+"notificationPermission"    = "Let us send you notifications for our fresh recipes and Masterclasses. No spam, we promise.";
+"rateUsOnAppStore"          = "Let us know your experience by rating us on App Store.";
 
 // Activity Indicator
 

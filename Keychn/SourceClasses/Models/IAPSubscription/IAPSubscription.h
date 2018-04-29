@@ -22,6 +22,8 @@
 - (void)saveIAPSubscription;
 - (BOOL)doesExist;
 - (void)syncComplete;
+- (void)deleteSubscriptionForUser:(NSNumber *)userId;
++ (NSString*)purchasedProductForUser:(NSNumber *)userId;
 + (instancetype)subscriptionForUser:(NSNumber *)userId;
 - (NSDictionary*)parameters;
 

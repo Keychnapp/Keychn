@@ -94,6 +94,9 @@
 "sorryStarcook"         = "Entschuldigung Sternekoch";
 "resetPassword"         = "Passwort zurücksetzen";
 "selectAnOption"        = "Wähle eine Option aus";
+"subscriptionExpired"   = "Abonnement abgelaufen";
+"loveCooking"           = "Liebe kochen!";
+"enjoyingKeychn"        = "Genieße Keychn!";
 
 // Alert Messages
 
@@ -112,6 +115,9 @@
 "passwordResetSuccessfully" = "Neues Passwort erfolgreich aktualisiert. Bitte bewahre es aus Sicherheitsgründen gut auf.";
 "profilePictureNotSelected" = "Wähle ein Proflbild aus um fortzufahren.";
 "locationRequired"          = "Standort nicht auffindbar, bitte füge gebe ihn manuell ein.";
+"renewOrRestore"            = "Bitte erneuern Sie Ihr Abonnement oder stellen Sie es wieder her, wenn es bereits erneuert wurde.";
+"notificationPermission"    = "Lass uns dir Benachrichtigungen für unsere frischen Rezepte und Masterclasses schicken. Kein Spam, wir glauben.";
+"rateUsOnAppStore"          = "Teilen Sie uns Ihre Erfahrungen mit, indem Sie uns im App Store bewerten.";
 
 // Activity Indicator
 

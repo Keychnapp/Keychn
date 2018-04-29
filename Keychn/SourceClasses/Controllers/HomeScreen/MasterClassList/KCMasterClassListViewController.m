@@ -20,6 +20,7 @@
 #import "KCGroupSessionGuestEndViewController.h"
 #import "EventStore.h"
 #import "KCMasterclassPreview.h"
+@import UserNotifications;
 
 @interface KCMasterClassListViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
     NSInteger _cellHeight;
@@ -78,7 +79,7 @@
     [self.masterclassListTableView setRefreshControl:_refreshControl];
     _refreshControl.tintColor = [UIColor appBackgroundColor];
     
-    _currentDevice               = [KCUtility getiOSDeviceType];
+    _currentDevice   = [KCUtility getiOSDeviceType];
     if(_currentDevice == iPad) {
         _cellHeight = 450;
     }
@@ -93,10 +94,6 @@
     }
     _fontSize                        = [self fontSizeForMasterChefName];
     
-    // Request for iCalendar permission
-    EventStore *store = [EventStore new];
-    [store askPermissionForEvent];
-    
     
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel.people set:@{@"$name": _userProfile.username}];
@@ -105,6 +102,10 @@
     // Set observer for application foreground state
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestMasterClass) name:UIApplicationDidBecomeActiveNotification object:nil];
     
+    // Check for notification permission after 5 seconds
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+        [self showAlertForNotificationPermission];
+    });
 }
 
 - (void)dealloc {
@@ -569,6 +570,9 @@
     // Refresh user schedule silently
     NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kCurrentDate:[NSDate getCurrentDateInUTC]};
     [_userScheduleWebManager refreshUseScheduleWithParameters:params];
+    
+    // iCalendar Permission
+    [self permissonForEvent];
 }
 
 - (void)endRefreshing {
@@ -645,9 +649,7 @@
             [KCUIAlert showInformationAlertWithHeader:title message:message withButtonTapHandler:^{
                 
             }];
-            
         }];
-        
     }
     else {
         [KCUIAlert showInformationAlertWithHeader:NSLocalizedString(@"networkError", nil) message:NSLocalizedString(@"tryReconnecting", nil) withButtonTapHandler:^{
@@ -655,5 +657,33 @@
         }];
     }
 }
+
+#pragma mark - User Permission
+
+- (void)showAlertForNotificationPermission {
+    // Not asked anytime (So permitted for onetime)
+    [[UNUserNotificationCenter currentNotificationCenter] getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+        if(settings.authorizationStatus == UNAuthorizationStatusNotDetermined) {
+            // Pre alert for notification
+            dispatch_async(dispatch_get_main_queue(), ^{
+                SCLAlertView *alertView = [[SCLAlertView alloc] initWithNewWindow];
+                
+                [alertView addButton:NSLocalizedString(@"confirm", nil) actionBlock:^{
+                    // Permission granted for notification. Show alert for iOS Notification Permission
+                    AppDelegate *appDelegate = (AppDelegate *) [UIApplication sharedApplication].delegate;
+                    [appDelegate registerForPushNotifaction];
+                }];
+                [alertView showWarning:NSLocalizedString(@"loveCooking", nil) subTitle:NSLocalizedString(@"notificationPermission", nil) closeButtonTitle:NSLocalizedString(@"cancel", nil) duration:0.0f];
+            });
+        }
+    }];
+}
+
+- (void)permissonForEvent {
+    // Request for iCalendar permission
+    EventStore *store = [EventStore new];
+    [store askPermissionForEvent];
+}
+
 
 @end

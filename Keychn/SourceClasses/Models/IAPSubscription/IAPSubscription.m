@@ -26,6 +26,7 @@
 
 - (void)saveIAPSubscription {
     // Insert Update Subscription Purhcase to local database
+    [self deleteSubscriptionForUser:self.userId];
     KCDatabaseOperation *dbOperation = [KCDatabaseOperation sharedInstance];
     NSString *insertQuery            = [NSString stringWithFormat:@"INSERT INTO purchase_history (user_id, product_id, expiration_time_interval, purchase_time_interval, is_synced, transaction_id) VALUES ('%@', '%@', %f, %f, %d, '%@')", self.userId, self.productId, self.expirationTimeInterval, self.purchaseTimeInterval, self.isSynced, self.transactionId];
     [dbOperation executeSQLQuery:insertQuery];
@@ -49,7 +50,7 @@
 
 + (instancetype)subscriptionForUser:(NSNumber  *)userId {
     // Fetch subscription information
-    NSTimeInterval currentTimeInteval = [[NSDate date] timeIntervalSince1970];
+    NSTimeInterval currentTimeInteval = [[NSDate date] timeIntervalSince1970] * 1000; // Convert to milliseconds
     NSString *clause = [NSString stringWithFormat:@"WHERE user_id = %@ AND expiration_time_interval >= %f ORDER BY expiration_time_interval DESC LIMIT 1",userId, currentTimeInteval];
     KCDatabaseOperation *dbOperation = [KCDatabaseOperation sharedInstance];
     NSArray *subscriptionArray =  [dbOperation fetchDataFromTable:@"purchase_history" withClause:clause];
@@ -66,6 +67,20 @@
         return subscription;
     }
     return nil;
+}
+
++ (NSString*)purchasedProductForUser:(NSNumber *)userId {
+    KCDatabaseOperation *dbOperation = [KCDatabaseOperation sharedInstance];
+    NSString *clause = [NSString stringWithFormat:@"WHERE user_id = %@ ORDER BY expiration_time_interval DESC LIMIT 1", userId];
+    NSArray *resultsArray = [dbOperation fetchColumnDataFromTable:@"purchase_history" andColumnName:@"product_id" withClause:clause];
+    return  resultsArray.firstObject;
+}
+
+- (void)deleteSubscriptionForUser:(NSNumber *)userId {
+    // Delete user subscription locally
+    NSString *query = [NSString stringWithFormat:@"DELETE FROM purchase_history WHERE user_id = %@",userId];
+    KCDatabaseOperation *dbOperation = [KCDatabaseOperation sharedInstance];
+    [dbOperation executeSQLQuery:query];
 }
 
 - (NSDictionary *)parameters {

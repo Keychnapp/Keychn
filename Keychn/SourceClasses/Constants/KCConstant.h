@@ -30,6 +30,7 @@
 #define kSecondCameraId        680
 #define kTempMasterclassId     @"AEI-975TG-67HY-323JU-98UIJ"
 #define kMasterclassPreviewDismissNotification @"MasterclassPreviewDismissNotification"
+#define kSubscriptionChanged @"SubscriptionChanged"
 
 /**
  @abstract Get shared instance of the constant class

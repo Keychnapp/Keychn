@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '5750C7C6833C505D33C4EC5B33AC9097'
-               BlueprintName = 'TOCropViewController'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libTOCropViewController.a'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3906209BB7B6FB0E280C8C5C48909CCC"
+               BlueprintName = "TOCropViewController"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "libTOCropViewController.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
