@@ -235,10 +235,10 @@
 
 - (void)restoreInAppPurchase {
     // Check if user has purchased any item then restore or let the user know that there is no purhchase
-    IAPSubscription *subscription = [IAPSubscription subscriptionForUser:_userProfile.userID];
-    if(subscription) {
+    NSString *productId = [IAPSubscription purchasedProductForUser:_userProfile.userID];
+    if([NSString validateString:productId]) {
         KeychnStore *store = [KeychnStore getSharedInstance];
-        [store restoreAppReceiptsForProductId:subscription.productId];
+        [store restoreAppReceiptsForProductId:productId];
     }
 }
 

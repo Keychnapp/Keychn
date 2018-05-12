@@ -113,7 +113,6 @@
                 
                 // Update to app flyer
                 [self logAppFlyerPurchaseEvent];
-                
                 break;
                 
             case SKPaymentTransactionStateRestored:
@@ -272,9 +271,13 @@
         if (sandbox) {
             storeURL = @"https://sandbox.itunes.apple.com/verifyReceipt";
         }
+        
+        // 1525708470453.894
+        // 1524994186000
+        
         [_webConnection httpPOSTRequestWithURL:storeURL andParameters:parameters success:^(NSDictionary *response) {
             // Fetched in App Purhcas Record
-            NSLog(@"In-App Purchase Record %@", response);
+           if(DEBUGGING) NSLog(@"In-App Purchase Record %@", response);
             NSArray      *inAppPurchaseRecords = [response objectForKey:@"latest_receipt_info"];
             BOOL didPurchaseThisItem           = NO;
             for (NSDictionary *purchasedRecord in inAppPurchaseRecords) {

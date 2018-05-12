@@ -36,7 +36,7 @@
     // Save user In-App Purhcase too
     NSDictionary *iapHistory = [response objectForKey:kSubscriptionPurhcase];
     if([iapHistory isKindOfClass:[NSDictionary class]]) {
-        IAPSubscription *subscription         = [[IAPSubscription alloc] initWithResponse:iapHistory];
+        IAPSubscription *subscription  = [[IAPSubscription alloc] initWithResponse:iapHistory];
         [subscription saveIAPSubscription];
     }
     //save user basic profile
