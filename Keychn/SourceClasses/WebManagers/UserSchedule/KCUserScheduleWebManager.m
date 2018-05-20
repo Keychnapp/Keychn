@@ -126,6 +126,58 @@
     }];
 }
 
+- (void)getMasterClassVideoWithParameter:(NSDictionary*)parameters withCompletionHandler:(void(^)(NSDictionary *responseDictionary))success andFailure:(void(^)(NSString *title, NSString *message))failed {
+    // Get MasterClass
+    [self sendDataToServerWithAction:masterClassVideoAction withParameters:parameters success:^(NSDictionary *response) {
+        //completed with success
+        BOOL status = [self isFinishedWithError:response];
+        if(status) {
+            //requested completed with error
+            if([response isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *errorDictionary = [response objectForKey:kErrorDetails];
+                NSString *title   = [errorDictionary objectForKey:kTitle];
+                NSString *message = [errorDictionary objectForKey:kMessage];
+                if(DEBUGGING) NSLog(@"Failed with response %@",errorDictionary);
+                failed(title,message);
+            }
+        }
+        else {
+            // User scheduled calls and MasterClasses are fetched
+            if(DEBUGGING) NSLog(@"MasterClasses fetched %@",response);
+            success(response);
+        }
+    } failure:^(NSString *response) {
+        if(DEBUGGING) NSLog(@"Failed with response %@",response);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
+    }];
+}
+
+- (void)getMasterChefVideosWithParameter:(NSDictionary*)parameters withCompletionHandler:(void(^)(NSDictionary *responseDictionary))success andFailure:(void(^)(NSString *title, NSString *message))failed {
+    // Get MasterClass
+    [self sendDataToServerWithAction:masterChefVideoAction withParameters:parameters success:^(NSDictionary *response) {
+        //completed with success
+        BOOL status = [self isFinishedWithError:response];
+        if(status) {
+            //requested completed with error
+            if([response isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *errorDictionary = [response objectForKey:kErrorDetails];
+                NSString *title   = [errorDictionary objectForKey:kTitle];
+                NSString *message = [errorDictionary objectForKey:kMessage];
+                if(DEBUGGING) NSLog(@"Failed with response %@",errorDictionary);
+                failed(title,message);
+            }
+        }
+        else {
+            // User scheduled calls and MasterClasses are fetched
+            if(DEBUGGING) NSLog(@"MasterClasses fetched %@",response);
+            success(response);
+        }
+    } failure:^(NSString *response) {
+        if(DEBUGGING) NSLog(@"Failed with response %@",response);
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
+    }];
+}
+
 - (void)requestACallScheduleWithParameter:(NSDictionary*)parameters withCompletionHandler:(void(^)(NSDictionary *responseDictionary))success andFailure:(void(^)(NSString *title, NSString *message))failed {
     // Schedule a call for the selected user's schedule
     [self sendDataToServerWithAction:scheduleACallWithUserAction withParameters:parameters success:^(NSDictionary *response) {

@@ -125,6 +125,7 @@ typedef NS_ENUM(NSUInteger, KeychnPointInAppPurchase) {
 
 typedef NS_ENUM(NSUInteger,TabIndex) {
     Home,
+    Masterclass,
     Recipes,
     MySchedule,
     Profile
@@ -238,6 +239,8 @@ extern NSString  *getTutorialsAction;
 extern NSString  *getUserDataAction;
 extern NSString  *masterClassAndCallsAction;
 extern NSString  *masterClassAction;
+extern NSString  *masterClassVideoAction;
+extern NSString  *masterChefVideoAction;
 extern NSString  *scheduleACallWithUserAction;
 extern NSString  *getMasterClassDetailAction;
 extern NSString  *bookAMasterClassSpotAction;
@@ -480,6 +483,7 @@ extern NSString  *kUserMessageUpdated;
 extern NSString  *kFirstUserID;
 extern NSString   *kIsPresented;
 extern NSString   *kResult;
+extern NSString  *kMasterchefId;
 
 #pragma mark - Storyboard Identifiers
 
@@ -552,6 +556,7 @@ extern NSString  *cellIdentifierForOutgoingMessage;
 extern NSString  *cellIdentifierForIncomingImage;
 extern NSString  *cellIdentifierForOutgoingImage;
 extern NSString  *cellIdentifierForMasterClassList;
+extern NSString  *cellIdentifierStepLabel;
 
 
 

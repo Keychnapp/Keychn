@@ -22,6 +22,7 @@ pod 'TOMSMorphingLabel'
 pod 'TTTAttributedLabel'
 pod 'SCLAlertView-Objective-C'
 pod 'AppsFlyerFramework'
+pod 'MXParallaxHeader'
 
 end
 

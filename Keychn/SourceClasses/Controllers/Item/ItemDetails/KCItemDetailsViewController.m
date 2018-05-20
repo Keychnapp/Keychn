@@ -18,7 +18,9 @@
 #import "KCRecipeDBManager.h"
 #import "KCScheduleAlert.h"
 #import "KCUserScheduleWebManager.h"
+#import "KCItemSteptableViewCell.h"
 
+#define kShareRecipe(s) [NSString stringWithFormat:@"https://keychn.com/#!/recipe_details/%@",s]
 
 @interface KCItemDetailsViewController () <UITableViewDataSource, UITableViewDelegate> {
     NSInteger           _ingredientsCount;
@@ -38,7 +40,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *itemDetailsTableView;
 @property (weak, nonatomic) IBOutlet UIButton *startCookingButton;
 @property (weak, nonatomic) IBOutlet UIButton *scheduleForLaterButton;
-@property (weak, nonatomic) UIButton *itemLikeButton;
+@property (weak, nonatomic) IBOutlet UIButton *itemLikeButton;
 @property (weak, nonatomic) UIButton *likeCounterButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *startCookingButtonHeightConstraintiPad;
 @property (weak, nonatomic) IBOutlet UIImageView *startCookingImageView;
@@ -105,7 +107,7 @@
     //Number of rows will be the sum of Recipe Steps, Ingredient Count and 2 more rows ie: 1 for Item details and 1 for Ingredient selection count
     NSInteger effectiveCount = _recipeStepsCount + _ingredientsCount;
     if(effectiveCount > 0) {
-        return effectiveCount + 2;
+        return effectiveCount + 3;
     }
     return 0;
 }
@@ -135,9 +137,13 @@
         }
         
     }
+    else if (indexPath.row == _ingredientsCount+2) {
+        // Step Label
+        rowHeight = 60;
+    }
     else {
         //Recipe steps row
-        NSInteger effectivePosition = indexPath.row - (_ingredientsCount + 2) ;
+        NSInteger effectivePosition = indexPath.row - (_ingredientsCount + 3) ;
         NSInteger labelWidth  = CGRectGetWidth(self.view.frame) - 34;
         KCItemRecipeStep *recipeStep = [_itemDetails.itemRecipeStepArray objectAtIndex:effectivePosition];
         rowHeight = 395;
@@ -163,7 +169,6 @@
         //Set text on labels
         [self customizeItemDetailCell:itemDetailTableCell];
         [self setDataOnItemDetailCelll:itemDetailTableCell];
-        self.itemLikeButton        = itemDetailTableCell.itemLikeButton;
         self.likeCounterButton     = itemDetailTableCell.likeCounterButton;
         if(_itemDetails.isItemFavorite) {
             self.itemLikeButton.selected = YES;
@@ -215,6 +220,10 @@
         tableViewCell = ingrdientCountTableCell;
         
     }
+    else if (indexPath.row == _ingredientsCount+2) {
+        // Step Label
+        tableViewCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifierStepLabel];
+    }
     else {
         //Recipe steps row
         KCRecipeStepTableViewCell *recipeStepTableCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifierForItemRecipeStep forIndexPath:indexPath];
@@ -222,7 +231,7 @@
         [self customizeRecipeStepCell:recipeStepTableCell];
         
         //Set data on cell
-        NSInteger effectivePosition = indexPath.row - (_ingredientsCount + 2) ;
+        NSInteger effectivePosition = indexPath.row - (_ingredientsCount + 3) ;
         if([_itemDetails.itemRecipeStepArray count] > effectivePosition) {
             KCItemRecipeStep *recipeStep = [_itemDetails.itemRecipeStepArray objectAtIndex:effectivePosition];
             
@@ -245,8 +254,7 @@
                 [recipeStepTableCell.recipeStepImageDownloadActivityIndicator stopAnimating];
             }];
             
-            recipeStepTableCell.stepPositionLabel.font = [UIFont setRobotoFontItalicStyleWithSize:14];
-            recipeStepTableCell.stepPositionLabel.text = [NSString stringWithFormat:@"%@ %@",NSLocalizedString(@"step", nil), recipeStep.stepPosition];
+            recipeStepTableCell.stepPositionLabel.text = [NSString stringWithFormat:@"%@ ", recipeStep.stepPosition];
         }
         
         tableViewCell = recipeStepTableCell;
@@ -295,6 +303,28 @@
     [self addRemoveItemFromFavorite];
 }
 
+- (IBAction)shareItemButtonTapped:(id)sender {
+    // Share this item by URL
+    [self shareItemWith:self.selectedItem.itemIdentifier];
+}
+
+#pragma mark - Sharing
+
+- (void)shareItemWith:(NSNumber *)itemId {
+    NSURL *shareURL = [NSURL URLWithString:kShareRecipe(itemId)];
+    
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:@[shareURL] applicationActivities:nil];
+    
+    NSArray *excludeActivities = @[UIActivityTypeAirDrop,
+                                   UIActivityTypePrint,
+                                   UIActivityTypeAssignToContact,
+                                   UIActivityTypeSaveToCameraRoll,
+                                   UIActivityTypeAddToReadingList];
+    
+    activityVC.excludedActivityTypes = excludeActivities;
+    
+    [self presentViewController:activityVC animated:YES completion:nil];
+}
 
 #pragma mark - Animation Methods
 
@@ -395,19 +425,17 @@
     itemDetailTableCell.likeCounterButton.titleLabel.font = [UIFont setRobotoFontRegularStyleWithSize:16];
     itemDetailTableCell.cookCounterButton.titleLabel.font = [UIFont setRobotoFontRegularStyleWithSize:16];
     
-    // Add double tap gesture on Item Image view to like and unlike
+   /* // Add double tap gesture on Item Image view to like and unlike
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapGesturePerformed:)];
     tapGesture.numberOfTapsRequired    = 2;
     itemDetailTableCell.itemImageView.userInteractionEnabled = YES;
-    [itemDetailTableCell.itemImageView addGestureRecognizer:tapGesture];
+    [itemDetailTableCell.itemImageView addGestureRecognizer:tapGesture]; */
     
 }
 
 - (void) customizeRecipeStepCell:(KCRecipeStepTableViewCell*)recipeStepTableViewCell {
-    recipeStepTableViewCell.stepPositionLabel.font    = [UIFont setRobotoFontItalicStyleWithSize:14];
     recipeStepTableViewCell.recipeProcedureLabel.font = [UIFont setRobotoFontRegularStyleWithSize:13];
     recipeStepTableViewCell.recipeProcedureLabel.textAlignment = NSTextAlignmentLeft;
-    recipeStepTableViewCell.stepBackgroundView.backgroundColor = [UIColor cellBackgroundColor];
     
     if(_deviceType == iPhone5 || _deviceType == iPhone4) {
         recipeStepTableViewCell.recipeStepImageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -485,12 +513,6 @@
     self.scheduleForLaterButton.titleLabel.font = [UIFont setRobotoFontBoldStyleWithSize:14];
     self.startCookingButton.titleLabel.font     = [UIFont setRobotoFontBoldStyleWithSize:14];
     
-    //Add table seperator for iPhones
-    if([KCUtility getiOSDeviceType] != iPad) {
-        self.itemDetailsTableView.separatorStyle    = UITableViewCellSeparatorStyleSingleLine;
-        self.itemDetailsTableView.separatorColor    = [UIColor separatorLineColor];
-        self.itemDetailsTableView.separatorInset    = UIEdgeInsetsZero;
-    }
 }
 
 

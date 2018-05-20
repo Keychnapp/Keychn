@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3906209BB7B6FB0E280C8C5C48909CCC"
+               BlueprintIdentifier = "AB110CD9215D8765CA30CA3C8D2CFD8C"
                BlueprintName = "TOCropViewController"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "libTOCropViewController.a">

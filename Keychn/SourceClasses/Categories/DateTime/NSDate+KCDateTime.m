@@ -155,7 +155,6 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSDate   *dateFromString = [dateFormatter dateFromString:date];
     NSTimeInterval timeInterval = [dateFromString timeIntervalSince1970];
-    if(DEBUGGING) NSLog(@"Masterclass converted timer interval %f", timeInterval); // 1506085200.000000
     return timeInterval;
 }
 
@@ -168,7 +167,6 @@
     NSTimeInterval timeInterval = [dateFromString timeIntervalSince1970];
     return timeInterval;
 }
-
 
 + (NSString*)getDayNameFromTimeInterval:(NSTimeInterval)timeInterval fullName:(BOOL)flag {
     //Get formatted day and time

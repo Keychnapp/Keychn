@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "559C7E64E747039A6AD3804D2CF7105E"
+               BlueprintIdentifier = "894F0B9C73B4B52DC52A5F4D6C995260"
                BlueprintName = "TOMSMorphingLabel"
                ReferencedContainer = "container:Pods.xcodeproj"
                BuildableName = "libTOMSMorphingLabel.a">

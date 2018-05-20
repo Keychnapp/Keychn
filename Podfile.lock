@@ -60,6 +60,7 @@ PODS:
   - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - Mixpanel (3.3.0)
+  - MXParallaxHeader (0.6.1)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
@@ -90,6 +91,7 @@ DEPENDENCIES:
   - Firebase
   - FirebaseMessaging
   - Mixpanel
+  - MXParallaxHeader
   - SCLAlertView-Objective-C
   - SDWebImage
   - SVProgressHUD
@@ -116,6 +118,7 @@ SPEC REPOS:
     - FirebaseMessaging
     - GoogleToolboxForMac
     - Mixpanel
+    - MXParallaxHeader
     - nanopb
     - Protobuf
     - SCLAlertView-Objective-C
@@ -143,6 +146,7 @@ SPEC CHECKSUMS:
   FirebaseMessaging: 75cdb862e86c30e0913a2ff307e48d49357c5b73
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   Mixpanel: 87170a967bb815b48c70a24f3e62de4ebca03454
+  MXParallaxHeader: 858c403532ed933b381556a81ce333d7065ad182
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
   SCLAlertView-Objective-C: 917836fb2349afa58edc43d592d22d21d46bb2a4
@@ -155,6 +159,6 @@ SPEC CHECKSUMS:
   TwitterKit: a2e60ddcedbf54091eac6f27685ca7a87681e1d7
   UIActivityIndicator-for-SDWebImage: 7bf7ebbf0ed1747dedc0d6e949c4603a6d0f9e0c
 
-PODFILE CHECKSUM: 3214b7fae2dc6ec3d679c686432c91b81734efe4
+PODFILE CHECKSUM: 4a1382e413f208ac33cc9ddfeb1778439f4ed77f
 
 COCOAPODS: 1.5.0

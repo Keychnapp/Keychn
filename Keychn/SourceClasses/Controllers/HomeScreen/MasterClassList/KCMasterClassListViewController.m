@@ -20,6 +20,7 @@
 #import "KCGroupSessionGuestEndViewController.h"
 #import "EventStore.h"
 #import "KCMasterclassPreview.h"
+#import "UIView+YGPulseView.h"
 @import UserNotifications;
 
 @interface KCMasterClassListViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
@@ -51,7 +52,7 @@
 @property (strong, nonatomic) NSMutableArray<KCGroupSession*> *searchResultArray;
 @property (strong, nonatomic) NSMutableArray<KCGroupSession*> *datasourceArray;
 
-#define kBaseHeight  294
+#define kBaseHeight  250
 #define kBaseWidth   375
 
 
@@ -81,10 +82,10 @@
     
     _currentDevice   = [KCUtility getiOSDeviceType];
     if(_currentDevice == iPad) {
-        _cellHeight = 450;
+        _cellHeight = 390;
     }
     else if (_currentDevice == iPhoneX) {
-        _cellHeight = 310;
+        _cellHeight = 260;
     }
     else {
         NSInteger apsectRatio        = kBaseWidth/kBaseHeight;
@@ -100,7 +101,7 @@
     [mixpanel.people set:@{@"$email": _userProfile.emailID}];
     
     // Set observer for application foreground state
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestMasterClass) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didBecomeActive) name:UIApplicationDidBecomeActiveNotification object:nil];
     
     // Check for notification permission after 5 seconds
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -119,8 +120,15 @@
     [self requestMasterClass];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    // Set pulse animation on Red Dot
+    [self.redRoundView startPulseWithColor:[UIColor redColor] scaleFrom:0.5 to:3 frequency:10 opacity:0.5f animation:YGPulseViewAnimationTypeRadarPulsing];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -132,6 +140,7 @@
         // View is not visible hence we are going to switch Preview now
         [_masterclassPreview switchPreview];
     }
+    [self.redRoundView stopPulse];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -206,7 +215,15 @@
             masterClassTableCell.attendButton.selected = NO;
         }
     
-        masterClassTableCell.dateLabel.text = [NSString stringWithFormat:@"%@ %@",[monthName uppercaseString], [KCUtility getValueSuffix:date]];
+        NSString *dateText  = [NSString stringWithFormat:@"%@ %@",[monthName uppercaseString], [KCUtility getValueSuffix:date]];
+        NSDate *scheduleDate = [[NSDate alloc] initWithTimeIntervalSince1970: timeInterval];
+        if ([NSCalendar.currentCalendar isDateInToday:scheduleDate]) {
+            dateText = NSLocalizedString(@"today", nil);
+        }
+        else if ([NSCalendar.currentCalendar isDateInTomorrow:scheduleDate]) {
+            dateText = NSLocalizedString(@"tomorrow", nil);
+        }
+        masterClassTableCell.dateLabel.text = dateText;
         masterClassTableCell.timeLabel.text = hour;
         
         // Set image url on Chef Image View
@@ -328,7 +345,17 @@
     }
 }
 
-#pragma mark - Utility 
+#pragma mark - Utility
+
+- (void)didBecomeActive {
+    // Refresh Masterclass
+    [self requestMasterClass];
+    
+    // Restrat animation
+    [self.redRoundView stopPulse];
+    [self.redRoundView startPulseWithColor:[UIColor redColor] scaleFrom:0.5 to:3 frequency:10 opacity:0.5f animation:YGPulseViewAnimationTypeRadarPulsing];
+}
+
 
 - (void)startGroupSession {
     // Start Group Session 1:N
@@ -388,7 +415,9 @@
     masterClassController.masterClassID     = masterClass.sessionID;
     masterClassController.hasPurhcased      = masterClass.isBooked;
     masterClassController.groupSession      = masterClass;
-    [self.navigationController pushViewController:masterClassController animated:YES];
+    [self presentViewController:masterClassController animated:true completion:^{
+        
+    }];
 }
 
 
@@ -585,7 +614,7 @@
     // Server request to fetch MasterClass
     // If Masterclass is alredy being fetched then don't intiate a request.
     static BOOL isProcessing = NO;
-    if (isProcessing) {
+    if (isProcessing || _userProfile.userID == nil) {
         return;
     }
     isProcessing = YES;

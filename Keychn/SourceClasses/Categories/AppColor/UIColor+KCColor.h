@@ -98,5 +98,6 @@
 
 + (UIColor*)onboardBackgroundColor6;
 
++ (UIColor*)stepPositionColor;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "MenuTabBarController.h"
 #import "TabSwitchAnimationController.h"
+#import "UIView+YGPulseView.h"
 
 @interface MenuTabBarController () <UITabBarControllerDelegate>
 
@@ -19,6 +20,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.delegate = self;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    // Add pulse animation to UITabBar first item
+    [self addPulseAnimation];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,6 +45,12 @@
     return [[TabSwitchAnimationController alloc] init];
 }
 
+#pragma mark - Animation Work
+
+- (void)addPulseAnimation {
+    UIView *itemView = self.tabBar.subviews.firstObject;
+    [itemView startPulseWithColor:[UIColor redColor] scaleFrom:0.5 to:3 frequency:10 opacity:0.5f animation:YGPulseViewAnimationTypeRadarPulsing];
+}
 
 #pragma mark - Navigation
 

@@ -42,6 +42,10 @@
 
 - (void)getMasterClassWithParameter:(NSDictionary*)parameters withCompletionHandler:(void(^)(NSDictionary *responseDictionary))success andFailure:(void(^)(NSString *title, NSString *message))failed;
 
+- (void)getMasterClassVideoWithParameter:(NSDictionary*)parameters withCompletionHandler:(void(^)(NSDictionary *responseDictionary))success andFailure:(void(^)(NSString *title, NSString *message))failed;
+
+- (void)getMasterChefVideosWithParameter:(NSDictionary*)parameters withCompletionHandler:(void(^)(NSDictionary *responseDictionary))success andFailure:(void(^)(NSString *title, NSString *message))failed;
+
 /**
  @abstract This method will schedule a call with the selected user's schedule.
  @param Parameter Dictionary and Completion Handlers

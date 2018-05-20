@@ -55,6 +55,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *playVideoButton;
 @property (weak, nonatomic) IBOutlet TriLabelView *freeClassLabel;
 @property (weak, nonatomic) IBOutlet UIView *attendButtonView;
+@property (weak, nonatomic) IBOutlet UIView *masterclassContainerView;
 
 
 @end
@@ -106,7 +107,9 @@
 #pragma mark - Button Actions
 
 - (IBAction)backButtonTapped:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:true completion:^{
+        
+    }];
 }
 
 - (IBAction)attendMasterclassButtonTapped:(UIButton *)sender {
@@ -296,6 +299,13 @@
     self.masterClassDetailScrollView.hidden = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self setMasterclassPurchaseStatus:self.hasPurhcased];
+    
+    // Set shadow
+    self.masterclassContainerView.layer.shadowColor     = [[UIColor blackColor] colorWithAlphaComponent:0.3].CGColor;
+    self.masterclassContainerView.layer.shadowRadius    = 5.0f;
+    self.masterclassContainerView.layer.masksToBounds   = false;
+    self.masterclassContainerView.layer.shadowOpacity   = 1.0f;
+    self.masterchefImageView.layer.cornerRadius         = 5.0f;
 }
 
 - (BOOL)validateMasterClassTime {
@@ -371,7 +381,15 @@
     
     self.playVideoButton.hidden = ![NSString validateString:_groupSession.videoURL];
     
-    self.dateAndMonthLabel.text = [NSString stringWithFormat:@"%@ %@",[monthName uppercaseString], [KCUtility getValueSuffix:date]];
+    NSString *dateText  = [NSString stringWithFormat:@"%@ %@",[monthName uppercaseString], [KCUtility getValueSuffix:date]];
+    NSDate *scheduleDate = [[NSDate alloc] initWithTimeIntervalSince1970: timeInterval];
+    if ([NSCalendar.currentCalendar isDateInToday:scheduleDate]) {
+        dateText = NSLocalizedString(@"today", nil);
+    }
+    else if ([NSCalendar.currentCalendar isDateInTomorrow:scheduleDate]) {
+        dateText = NSLocalizedString(@"tomorrow", nil);
+    }
+    self.dateAndMonthLabel.text = dateText;
     self.timeLabel.text = [hour stringByAppendingString:@" ET"];
     
     NSMutableParagraphStyle *paragraphStyles = [[NSMutableParagraphStyle alloc] init];
@@ -380,7 +398,7 @@
     NSDictionary *attributes = @{NSParagraphStyleAttributeName: paragraphStyles};
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:_groupSession.chefAttribute attributes: attributes];
     self.aboutMasterchefLabel.attributedText = attributedString;
-    self.attendButtonView.hidden            = NO;
+    self.attendButtonView.hidden             = NO;
 }
 
 - (void)setMasterclassPurchaseStatus:(BOOL)hasPurhcased {

@@ -192,5 +192,10 @@
     return [UIColor colorWithRed:0.98f green:1.0f blue:0.42f alpha:1.0f];
 }
 
++ (UIColor*)stepPositionColor {
+    // 74, 74, 74
+    return [UIColor colorWithRed:0.29f green:0.29f blue:0.29f alpha:1.0f];
+}
+
 
 @end

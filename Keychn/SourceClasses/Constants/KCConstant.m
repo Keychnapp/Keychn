@@ -82,6 +82,8 @@ NSString  *getTutorialsAction          = @"listapis/getTutorials";
 NSString  *getUserDataAction           = @"listapis/userInteraction";
 NSString  *masterClassAndCallsAction   = @"listapis/masterClassScheduleList";
 NSString  *masterClassAction           = @"userapis/getMasterClassList";
+NSString  *masterClassVideoAction      = @"MasterclassAPI/getList";
+NSString  *masterChefVideoAction       = @"MasterclassAPI/MasterChefdetails";
 NSString  *scheduleACallWithUserAction = @"listapis/bookASchedule";
 NSString  *getMasterClassDetailAction  = @"listapis/getMasterClassDetails";
 //NSString  *bookAMasterClassSpotAction  = @"userapis/bookMasterClass";
@@ -323,6 +325,7 @@ NSString  *kUserMessageUpdated       = @"user_message_updated";
 NSString  *kFirstUserID              = @"first_user_id";
 NSString   *kIsPresented             = @"is_paperboard_presented";
 NSString   *kResult                  = @"result";
+NSString  *kMasterchefId              = @"masterchef_id";
 
 #pragma mark - Storyboard Identifiers
 
@@ -398,6 +401,7 @@ NSString  *cellIdentifierForOutgoingMessage              = @"outgoingMessageTabl
 NSString  *cellIdentifierForIncomingImage                = @"incomingImageTableCell";
 NSString  *cellIdentifierForOutgoingImage                = @"outgoingImageTableCell";
 NSString  *cellIdentifierForMasterClassList              = @"MasterClassListTableCell";
+NSString  *cellIdentifierStepLabel                       = @"KCItemStepTableViewCell";
 
 #pragma mark - Collection View Cell Identifier
 
