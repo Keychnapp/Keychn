@@ -33,6 +33,8 @@
  */
 - (void)getItemsDetailsWithParametres:(NSDictionary*)parameters withCompletionHandler:(void(^)(NSDictionary *itemsDetailDictionary))success andFailure:(void(^)(NSString *title, NSString *message))failed ;
 
+- (void)getMasterclassDetailsWithParametres:(NSDictionary*)parameters withCompletionHandler:(void(^)(NSDictionary *itemsDetailDictionary))success andFailure:(void(^)(NSString *title, NSString *message))failed;
+
 /**
  @abstract This method will add items to user's favorite
  @param Parameters, Completion Blocks

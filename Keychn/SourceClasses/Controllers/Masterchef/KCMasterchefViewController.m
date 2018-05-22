@@ -189,18 +189,6 @@
             for (NSDictionary *masterclassDictionary in resultArray) {
                 MasterclassVideo *masterclassVideo = [[MasterclassVideo alloc] initWithResponse:masterclassDictionary];
                 [masterclassResults addObject:masterclassVideo];
-                [masterclassResults addObject:masterclassVideo];
-                [masterclassResults addObject:masterclassVideo];
-                [masterclassResults addObject:masterclassVideo];
-                [masterclassResults addObject:masterclassVideo];
-                [masterclassResults addObject:masterclassVideo];
-                [masterclassResults addObject:masterclassVideo];
-                [masterclassResults addObject:masterclassVideo];
-                [masterclassResults addObject:masterclassVideo];
-                [masterclassResults addObject:masterclassVideo];
-                [masterclassResults addObject:masterclassVideo];
-                [masterclassResults addObject:masterclassVideo];
-                
             }
         }
         

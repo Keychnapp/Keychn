@@ -90,6 +90,29 @@
     }];
 }
 
+- (void)getMasterclassDetailsWithParametres:(NSDictionary*)parameters withCompletionHandler:(void(^)(NSDictionary *itemsDetailDictionary))success andFailure:(void(^)(NSString *title, NSString *message))failed {
+    //Get items details from server with Async request
+    [self sendDataToServerWithAction:getMasterclassDetailsAction withParameters:parameters success:^(NSDictionary *response) {
+        //completed with success
+        BOOL status = [self isFinishedWithError:response];
+        if(status) {
+            //Requested completed with error
+            NSDictionary *errorDictionary = [response objectForKey:kErrorDetails];
+            NSString *title   = [errorDictionary objectForKey:kTitle];
+            NSString *message = [errorDictionary objectForKey:kMessage];
+            failed(title,message);
+        }
+        else {
+            //Item details fetched
+            if(DEBUGGING) NSLog(@"Items Details %@",response);
+            NSDictionary *itemDetailsDictionary = [response objectForKey:kItemDetails];
+            success(itemDetailsDictionary);
+        }
+    } failure:^(NSString *response) {
+        failed(NSLocalizedString(@"networkError", nil), NSLocalizedString(@"tryReconnecting", nil));
+    }];
+}
+
 - (void)addItemsToFavoriteWithParameters:(NSDictionary*)parameters withCompletionHandler:(void(^)(NSDictionary *responseDictionary))success andFailure:(void(^)(NSString *title, NSString *message))failed {
     //Add items to Favorite
     [self sendDataToServerWithAction:addItemToFavoriteAction withParameters:parameters success:^(NSDictionary *response) {

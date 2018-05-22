@@ -11,6 +11,7 @@
 #import "KCUserScheduleWebManager.h"
 #import "MasterclassVideo.h"
 #import "KCMasterchefViewController.h"
+#import "MasterclassDetailViewController.h"
 
 
 #define kBaseHeight  230
@@ -130,6 +131,16 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return _cellHeight;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.masterclasses.count > indexPath.row) {
+        // Go to Masterclass Details screen
+        MasterclassVideo *masterclass = [self.masterclasses objectAtIndex:indexPath.row];
+        MasterclassDetailViewController *masterclassVideoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"MasterclassDetailViewController"];
+        masterclassVideoViewController.selectedVideo = masterclass;
+        [self.navigationController pushViewController:masterclassVideoViewController animated:YES];
+    }
 }
 
 #pragma mark - Web Request

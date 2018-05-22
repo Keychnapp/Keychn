@@ -50,6 +50,7 @@ NSString  *forgotPasswordAction        = @"userapis/forgot_password";
 NSString  *getMenuListAction           = @"listapis/getMenus";
 NSString  *getItemsListAction          = @"listapis/getItemsList";
 NSString  *getItemDetailsAction        = @"listapis/itemDetails";
+NSString  *getMasterclassDetailsAction = @"MasterclassAPI/getDetails";
 NSString  *addItemToFavoriteAction     = @"listapis/addItemToFavorite";
 NSString  *getPlaceHolderImagesAction  = @"getPlaceholderImages";
 NSString  *scheduleACallAction         = @"listapis/scheduleACall";

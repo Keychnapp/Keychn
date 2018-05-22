@@ -503,6 +503,7 @@ extern NSString  *rootViewController;
 extern NSString  *itemListViewController;
 extern NSString  *itemDetailsViewController;
 extern NSString  *getItemDetailsAction;
+extern NSString  *getMasterclassDetailsAction;
 extern NSString  *userScheduleViewController;
 extern NSString  *slotScheduleViewController;
 extern NSString  *liveVideoCallController;

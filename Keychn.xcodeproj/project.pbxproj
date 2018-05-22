@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6508750620A6A8A50052123B /* RecordedMasterclassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6508750520A6A8A50052123B /* RecordedMasterclassViewController.m */; };
 		6508750920A6A8BB0052123B /* RecordedMasterclassTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6508750820A6A8BB0052123B /* RecordedMasterclassTableViewCell.m */; };
+		6509571C20B3987D00075B9D /* MasterclassDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6509571B20B3987D00075B9D /* MasterclassDetailViewController.m */; };
 		650E067B20B1A835001B6ACA /* MasterclassVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 650E067A20B1A835001B6ACA /* MasterclassVideo.m */; };
 		650E067F20B1C7E7001B6ACA /* KCMasterchefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 650E067E20B1C7E7001B6ACA /* KCMasterchefViewController.m */; };
 		650F807A20A6CE4B00CFB1BE /* KCItemStepTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 650F807920A6CE4B00CFB1BE /* KCItemStepTableViewCell.m */; };
@@ -414,6 +415,8 @@
 		6508750520A6A8A50052123B /* RecordedMasterclassViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecordedMasterclassViewController.m; sourceTree = "<group>"; };
 		6508750720A6A8BB0052123B /* RecordedMasterclassTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecordedMasterclassTableViewCell.h; sourceTree = "<group>"; };
 		6508750820A6A8BB0052123B /* RecordedMasterclassTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecordedMasterclassTableViewCell.m; sourceTree = "<group>"; };
+		6509571A20B3987D00075B9D /* MasterclassDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterclassDetailViewController.h; sourceTree = "<group>"; };
+		6509571B20B3987D00075B9D /* MasterclassDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterclassDetailViewController.m; sourceTree = "<group>"; };
 		650E067920B1A835001B6ACA /* MasterclassVideo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterclassVideo.h; sourceTree = "<group>"; };
 		650E067A20B1A835001B6ACA /* MasterclassVideo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterclassVideo.m; sourceTree = "<group>"; };
 		650E067D20B1C7E7001B6ACA /* KCMasterchefViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KCMasterchefViewController.h; sourceTree = "<group>"; };
@@ -996,6 +999,15 @@
 			path = TableViewCell;
 			sourceTree = "<group>";
 		};
+		6509571720B3967200075B9D /* MasterclassDetail */ = {
+			isa = PBXGroup;
+			children = (
+				6509571A20B3987D00075B9D /* MasterclassDetailViewController.h */,
+				6509571B20B3987D00075B9D /* MasterclassDetailViewController.m */,
+			);
+			path = MasterclassDetail;
+			sourceTree = "<group>";
+		};
 		650E067620B1A809001B6ACA /* MasterclassVideo */ = {
 			isa = PBXGroup;
 			children = (
@@ -1145,6 +1157,7 @@
 		653715FC1F68653A002B4292 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				6509571720B3967200075B9D /* MasterclassDetail */,
 				650E067C20B1C7D9001B6ACA /* Masterchef */,
 				6508750120A6A88D0052123B /* RecordedClass */,
 				65CC212C1FC9914D001B0B2C /* Landing */,
@@ -3325,6 +3338,7 @@
 				65B352F81FAB2294003AB539 /* EventStore.m in Sources */,
 				653717D21F68653B002B4292 /* KCUserSchedule.m in Sources */,
 				653717F21F68653B002B4292 /* KCWebConnection.m in Sources */,
+				6509571C20B3987D00075B9D /* MasterclassDetailViewController.m in Sources */,
 				653717E11F68653B002B4292 /* KCUtility.m in Sources */,
 				650F807A20A6CE4B00CFB1BE /* KCItemStepTableViewCell.m in Sources */,
 				653717E21F68653B002B4292 /* KCAgoraCallManager.m in Sources */,
