@@ -12,9 +12,11 @@
 #import "TOMSMorphingLabel.h"
 #import "KCFacebookManager.h"
 #import "KCSignUpWebManager.h"
+#import "TTTAttributedLabel.h"
 
+@import SafariServices;
 
-@interface KCEmailSignUpViewController () <UITextFieldDelegate> {
+@interface KCEmailSignUpViewController () <UITextFieldDelegate, TTTAttributedLabelDelegate> {
     KCUserProfile           *_userProfile;
     KCSignUpWebManager      *_signUpManager;
     KCFacebookManager       *_facebookManager;
@@ -31,6 +33,7 @@
 @property (assign, nonatomic) BOOL                              isProcessing;
 @property (weak, nonatomic) IBOutlet TOMSMorphingLabel          *starcookLabel;
 @property (weak, nonatomic) IBOutlet UIButton                   *alreadyHaveAnAccountButton;
+@property (weak, nonatomic) IBOutlet TTTAttributedLabel *termsAndConditionLabel;
 
 @end
 
@@ -54,6 +57,14 @@
     NSAttributedString *signInText = [[NSAttributedString alloc] initWithString:[@" " stringByAppendingString:NSLocalizedString(@"signIn", nil)]  attributes:@{NSFontAttributeName: [UIFont setRobotoFontRegularStyleWithSize:15], NSForegroundColorAttributeName: [UIColor darkGrayColor]}];
     [alreadyHaveAccountString appendAttributedString:signInText];
     [self.alreadyHaveAnAccountButton setAttributedTitle:alreadyHaveAccountString forState:UIControlStateNormal];
+    
+    // Set terms of usage text with link attachment
+    self.termsAndConditionLabel.text = NSLocalizedString(@"termsofusage", nil);
+    NSRange firstLinkRange           = [self.termsAndConditionLabel.text rangeOfString:NSLocalizedString(@"terms", nil)];
+    NSRange secondLinkRange          = [self.termsAndConditionLabel.text rangeOfString:NSLocalizedString(@"privacyPolicy", nil)];
+    [self.termsAndConditionLabel addLinkToURL:[NSURL URLWithString:termsOfUsePolicy] withRange:firstLinkRange];
+    [self.termsAndConditionLabel addLinkToURL:[NSURL URLWithString:privacyPolicyURL] withRange:secondLinkRange];
+    self.termsAndConditionLabel.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -85,6 +96,15 @@
 
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
     return  UIInterfaceOrientationPortrait;
+}
+
+#pragma mark - Link Selection URL
+
+- (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
+    SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:url];
+    [self presentViewController:safariViewController animated:true completion:^{
+        
+    }];
 }
 
 #pragma mark - Text Field Delegate

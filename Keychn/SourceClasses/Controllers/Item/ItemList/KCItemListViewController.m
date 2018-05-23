@@ -40,6 +40,8 @@
 @property (weak, nonatomic) IBOutlet UIView *searchContainerView;
 @property (weak, nonatomic) IBOutlet UITextField *searchTextField;
 @property (weak, nonatomic) IBOutlet UIButton *doneButton;
+@property (weak, nonatomic) IBOutlet UILabel *recipeForEveryoneLabel;
+
 
 @end
 
@@ -67,6 +69,8 @@
     _requestInProgress = NO;
     [self fetchItemsListShouldShowIndicator:true];
     
+    // Set text
+    self.recipeForEveryoneLabel.text = NSLocalizedString(@"recipesForEveryone", nil);
     
     UICollectionViewLeftAlignedLayout *collectionViewLayout = [UICollectionViewLeftAlignedLayout new];
     [self.itemCollectionView setCollectionViewLayout:collectionViewLayout];

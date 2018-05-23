@@ -19,6 +19,8 @@
         self.receipeVisibility = [[responseDictionary objectForKey:kRecipeVisibility] boolValue];
         self.duration          = [responseDictionary objectForKey:kDuration];
         self.servings          = [responseDictionary objectForKey:kServings];
+        self.videoLink         = [responseDictionary objectForKey:@"video_link"];
+        self.trailerLink       = [responseDictionary objectForKey:@"trailer_link"];
         self.itemIdentifier    = [responseDictionary objectForKey:kIdentifier];
         self.menuIdentifier    = [responseDictionary objectForKey:kMenuID];
         self.courseIdentifier  = [responseDictionary objectForKey:kCourseID];

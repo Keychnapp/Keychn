@@ -27,6 +27,7 @@
     self.chefImageURL           = [response objectForKey:@"masterchef_profile_image"];
     self.videoName              = [response objectForKey:@"label_name"];
     self.chefId                 = [response objectForKey:@"masterchef_id"];
+    self.chefName               = [self.chefName stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].capitalizedString;
     
     return self;
 }

@@ -18,6 +18,8 @@
 @property (nonatomic,strong) NSMutableArray *itemRecipeStepArray;
 //Item Details
 @property (nonatomic,copy) NSString *difficulty;
+@property (nonatomic,copy) NSString *trailerLink;
+@property (nonatomic,copy) NSString *videoLink;
 @property (nonatomic,copy) NSString *title;
 @property (nonatomic,copy) NSString *imageURL;
 @property (nonatomic,copy) NSNumber *servings;

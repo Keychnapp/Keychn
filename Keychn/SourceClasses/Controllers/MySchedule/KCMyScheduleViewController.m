@@ -250,9 +250,9 @@ typedef NS_ENUM(NSUInteger, CellUtilityButtonIndex) {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete a scheduled Masterclass
         if(self.myScheduleArray.count > indexPath.row) {
-            __block NSInteger cellTag = indexPath.row;
+            _cellIndexToBeDeleted = indexPath.row;
             // Cofirm user schedule cancellation
-            __block KCMySchedule *mySchedule = [self.myScheduleArray objectAtIndex:cellTag];
+            __block KCMySchedule *mySchedule = [self.myScheduleArray objectAtIndex:_cellIndexToBeDeleted];
             Mixpanel *mixpanel = [Mixpanel sharedInstance];
             [mixpanel track:@"calendar_delete_masterclass"
                  properties:@{ @"masterclass_id":mySchedule.scheduleID}];

@@ -22,6 +22,7 @@
     NSString           *requestedProduct;
     KCWebConnection    *_webConnection;
     SKReceiptRefreshRequest *_receiptRequest;
+    NSDictionary       *_inAppPurchaseRecord;
 }
 
 @property (nonatomic,copy) void (^completionHandler) (BOOL status);
@@ -241,10 +242,13 @@
 - (void)requestUpdateSubscriptionPurchase:(IAPSubscription *)subscription {
     // Update Keychn Subscription Purchase on server
     [KCProgressIndicator showNonBlockingIndicator];
-    NSDictionary *paremters                 = [subscription parameters];
+    NSMutableDictionary *parameters         = [[subscription parameters] mutableCopy];
+    if (_inAppPurchaseRecord != nil) {
+        [parameters setObject:_inAppPurchaseRecord forKey:@"purchase_record"];
+    }
     _webConnection                          = [KCWebConnection new];
    __block IAPSubscription *iapSubscription = subscription;
-    [_webConnection sendDataToServerWithAction:updateSubscriptionAction withParameters:paremters success:^(NSDictionary *response) {
+    [_webConnection sendDataToServerWithAction:updateSubscriptionAction withParameters:parameters success:^(NSDictionary *response) {
         // Update Sync status on local database
         [iapSubscription syncComplete];
         if(self.completionHandler) {
@@ -278,6 +282,7 @@
         [_webConnection httpPOSTRequestWithURL:storeURL andParameters:parameters success:^(NSDictionary *response) {
             // Fetched in App Purhcas Record
            if(DEBUGGING) NSLog(@"In-App Purchase Record %@", response);
+            _inAppPurchaseRecord = response;
             NSArray      *inAppPurchaseRecords = [response objectForKey:@"latest_receipt_info"];
             BOOL didPurchaseThisItem           = NO;
             for (NSDictionary *purchasedRecord in inAppPurchaseRecords) {
@@ -288,15 +293,16 @@
                     double requestTimeInterval    = [[purchasedRecord objectForKey:@"purchase_date_ms"] doubleValue];
                     double expirationTimeInterval = [[purchasedRecord objectForKey:@"expires_date_ms"] doubleValue];
                     NSString *transactionId       = [purchasedRecord objectForKey:@"transaction_id"];
-                    NSTimeInterval currentTimerInterval = [NSDate date].timeIntervalSince1970 * 1000; // Convert to milliseconds
+                   /* NSTimeInterval currentTimerInterval = [NSDate date].timeIntervalSince1970 * 1000; // Convert to milliseconds
                     if(currentTimerInterval > expirationTimeInterval) {
                         // Subscription Expired
                         finished(NO,0.0f, purchasedProductId, 0.0f, nil);
                     }
                     else {
-                        // Subscription is still valid
-                        finished(YES, expirationTimeInterval, purchasedProductId, requestTimeInterval,transactionId);
-                    }
+                        
+                    } */
+                    // Subscription is still valid
+                    finished(YES, expirationTimeInterval, purchasedProductId, requestTimeInterval,transactionId);
                     
                     break;
                 }

@@ -19,11 +19,17 @@
 #import "KCMySchedule.h"
 #import "KCGroupSessionHostEndViewController.h"
 #import "KCGroupSessionGuestEndViewController.h"
+#import "AppDelegate.h"
 
+@import SafariServices;
 
 #define kMasterClassTimeOffSet 900 // Allow users to join MasterClass upto 15 minutes of shceduled session
 
 #define MASTERCLASS_PRE_TEXT(s) [NSString stringWithFormat:@"Get the chance to interact with #%@ at the next #keychn #masterclass",s]
+
+#define kShareLiveClass(s) [NSString stringWithFormat:@"https://keychn.com/#!/livelist/%@",s]
+
+
 #define kBaseHeight  243
 #define kBaseWidth   400
 #define kAspectRatioFactor 1.64
@@ -116,7 +122,11 @@
     // Buy a spot for MasterClass
     if(sender.isSelected) {
         // Start Masterclass now
-        [self startGroupSession];
+        __weak id weakSelf = self;
+        [self dismissViewControllerAnimated:YES completion:^{
+            [weakSelf startGroupSession];
+        }];
+        
     }
     else {
         // Show subscription alert if user hasn't purchased the subscription yet
@@ -142,56 +152,19 @@
 
 - (IBAction)shareButtonTapped:(UIButton*)sender {
     // Show Action Sheet for Twitter and Facebook options
-    if(self.groupSession.chefName) {
-        __weak id weakSelf = self;
-        UIAlertController *alert =   [UIAlertController
-                                      alertControllerWithTitle:NSLocalizedString(@"shareWith", nil)
-                                      message:nil
-                                      preferredStyle:UIAlertControllerStyleActionSheet];
-        
-        UIAlertAction *facebookAction = [UIAlertAction
-                                         actionWithTitle:NSLocalizedString(@"Facebook", nil)
-                                         style:UIAlertActionStyleDefault
-                                         handler:^(UIAlertAction * action)
-                                         {
-                                             [weakSelf shareMasterClassOnFacebook];
-                                             [alert dismissViewControllerAnimated:YES completion:nil];
-                                             
-                                         }];
-        UIAlertAction *twitterAction = [UIAlertAction
-                                        actionWithTitle:NSLocalizedString(@"Twitter", nil)
-                                        style:UIAlertActionStyleDefault
-                                        handler:^(UIAlertAction * action)
-                                        {
-                                            [weakSelf shareMasterClassOnTwitter];
-                                            [alert dismissViewControllerAnimated:YES completion:nil];
-                                            
-                                        }];
-        
-        UIAlertAction *cancelAction = [UIAlertAction
-                                       actionWithTitle:NSLocalizedString(@"cancel", nil)
-                                       style:UIAlertActionStyleDestructive
-                                       handler:^(UIAlertAction * action)
-                                       {
-                                           [alert dismissViewControllerAnimated:YES completion:nil];
-                                           
-                                       }];
-        
-        [alert addAction:facebookAction];
-        [alert addAction:twitterAction];
-        [alert addAction:cancelAction];
-        
-        if([KCUtility getiOSDeviceType] == iPad) {
-            [alert setModalPresentationStyle:UIModalPresentationPopover];
-            
-            UIPopoverPresentationController *popPresenter = [alert
-                                                             popoverPresentationController];
-            popPresenter.sourceView = sender;
-            popPresenter.sourceRect = sender.bounds;
-//            alert.popoverPresentationController.sourceView = self.view;
-        }
-        [self presentViewController:alert animated:YES completion:nil];
-    }
+    NSURL *shareURL = [NSURL URLWithString:kShareLiveClass(self.masterClassID)];
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:@[shareURL] applicationActivities:nil];
+    
+    NSArray *excludeActivities = @[UIActivityTypeAirDrop,
+                                   UIActivityTypePrint,
+                                   UIActivityTypeAssignToContact,
+                                   UIActivityTypeSaveToCameraRoll,
+                                   UIActivityTypeAddToReadingList];
+    
+    activityVC.excludedActivityTypes = excludeActivities;
+    
+    [self presentViewController:activityVC animated:YES completion:nil];
+    
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel track:@"masterclass_share_icon"
          properties:@{@"masterclass_id":_groupSession.sessionID, @"chef_name":self.groupSession.chefName}];
@@ -267,6 +240,10 @@
 
 - (void)startGroupSession {
     // Start Group Session 1:N
+    
+    // Get root viewcontroller
+    UINavigationController *rootViewController =  (UINavigationController *) (((AppDelegate *) [UIApplication sharedApplication].delegate).window.rootViewController);
+    
     if(_masterclassToJoin.isHosting) {
         KCGroupSessionHostEndViewController *gsHostEndViewController = [self.storyboard instantiateViewControllerWithIdentifier:hostEndSessionViewController];
         gsHostEndViewController.conferenceID   = _masterclassToJoin.conferenceID;
@@ -274,7 +251,7 @@
         NSMutableArray *viewControllers = [self.navigationController.viewControllers mutableCopy];
         [viewControllers removeLastObject];
         [viewControllers addObject:gsHostEndViewController];
-        [self.navigationController setViewControllers:viewControllers animated:YES];
+        [rootViewController pushViewController:gsHostEndViewController animated:YES];
     }
     else {
         KCGroupSessionGuestEndViewController *gsGuestEndViewController = [self.storyboard instantiateViewControllerWithIdentifier:guestEndSessionViewController];
@@ -287,7 +264,7 @@
         NSMutableArray *viewControllers = [self.navigationController.viewControllers mutableCopy];
         [viewControllers removeLastObject];
         [viewControllers addObject:gsGuestEndViewController];
-        [self.navigationController setViewControllers:viewControllers animated:YES];
+        [rootViewController pushViewController:gsGuestEndViewController animated:YES];
     }
 }
 
@@ -384,10 +361,10 @@
     NSString *dateText  = [NSString stringWithFormat:@"%@ %@",[monthName uppercaseString], [KCUtility getValueSuffix:date]];
     NSDate *scheduleDate = [[NSDate alloc] initWithTimeIntervalSince1970: timeInterval];
     if ([NSCalendar.currentCalendar isDateInToday:scheduleDate]) {
-        dateText = NSLocalizedString(@"today", nil);
+        dateText = [NSLocalizedString(@"today", nil) uppercaseString];
     }
     else if ([NSCalendar.currentCalendar isDateInTomorrow:scheduleDate]) {
-        dateText = NSLocalizedString(@"tomorrow", nil);
+        dateText = [NSLocalizedString(@"tomorrow", nil) uppercaseString];
     }
     self.dateAndMonthLabel.text = dateText;
     self.timeLabel.text = [hour stringByAppendingString:@" ET"];
@@ -421,16 +398,22 @@
 
 - (void)openWebPageForURL:(NSString*)url {
     // Open web page to show the link
-    KCAppWebViewViewController *webViewController = [self.storyboard instantiateViewControllerWithIdentifier:appWebViewController];
-    webViewController.urlToOpen = url;
-    [self.navigationController pushViewController:webViewController animated:YES];
+    SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url]];
+    [self presentViewController:safariViewController animated:true completion:^{
+        
+    }];
 }
 
 - (void)playVideoWithURL:(NSString*)url {
     // Open web view for play the video
-    KCAppWebViewViewController *webViewController = [self.storyboard instantiateViewControllerWithIdentifier:appWebViewController];
+   /* KCAppWebViewViewController *webViewController = [self.storyboard instantiateViewControllerWithIdentifier:appWebViewController];
     webViewController.urlToOpen = url;
     [self presentViewController:webViewController animated:YES completion:^{
+        
+    }]; */
+    
+    SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url]];
+    [self presentViewController:safariViewController animated:true completion:^{
         
     }];
 }
@@ -442,6 +425,7 @@
     // Refresh user schedule silently
     NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kCurrentDate:[NSDate getCurrentDateInUTC]};
     [_userScheduleWebManager refreshUseScheduleWithParameters:params];
+    [self setMasterclassPurchaseStatus:YES];
 }
 
 - (void)gotoMyPreferencesScreen {

@@ -20,6 +20,8 @@
 #import "KCUserScheduleWebManager.h"
 #import "KCItemSteptableViewCell.h"
 
+@import SafariServices;
+
 #define kShareRecipe(s) [NSString stringWithFormat:@"https://keychn.com/#!/recipe_details/%@",s]
 
 @interface KCItemDetailsViewController () <UITableViewDataSource, UITableViewDelegate> {
@@ -73,7 +75,7 @@
     _deviceType             = [KCUtility getiOSDeviceType];
     
     //Get ingredient selection Array
-    _ingredinetSelectionArray = [[NSMutableArray alloc] initWithArray:[_recipeDBManager getItmesIngredinetsArrayForUser:_userProfile.userID forItem:self.selectedItem.itemIdentifier]];
+    _ingredinetSelectionArray = [[NSMutableArray alloc] initWithArray:[_recipeDBManager getItmesIngredinetsArrayForUser:_userProfile.userID forItem:self.selectedItem.itemIdentifier isMasterclass:NO]];
     
     //Remove table footer view
     self.itemDetailsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -146,7 +148,12 @@
         NSInteger effectivePosition = indexPath.row - (_ingredientsCount + 3) ;
         NSInteger labelWidth  = CGRectGetWidth(self.view.frame) - 34;
         KCItemRecipeStep *recipeStep = [_itemDetails.itemRecipeStepArray objectAtIndex:effectivePosition];
-        rowHeight = 395;
+        if([KCUtility getiOSDeviceType] == iPad) {
+            rowHeight = 460;
+        }
+        else {
+            rowHeight = 395;
+        }
         NSInteger labelHeight = [NSString getHeightForText:recipeStep.recipeStep withViewWidth:labelWidth withFontSize:15];
         if(labelHeight > 60) {
             rowHeight += labelHeight-60;
@@ -242,7 +249,8 @@
             NSDictionary *attributes = @{NSParagraphStyleAttributeName: paragraphStyles, NSFontAttributeName:[UIFont setRobotoFontRegularStyleWithSize:14]};
             NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString: recipeStep.recipeStep attributes: attributes];
             recipeStepTableCell.recipeProcedureLabel.attributedText = attributedString;
-            
+            recipeStepTableCell.recipeStepImageView.contentMode = UIViewContentModeScaleAspectFill;
+            recipeStepTableCell.recipeStepImageView.clipsToBounds = YES;
             
             //Set Image with Aynsc blocks
             [recipeStepTableCell.recipeStepImageDownloadActivityIndicator startAnimating];
@@ -308,6 +316,16 @@
     [self shareItemWith:self.selectedItem.itemIdentifier];
 }
 
+- (IBAction)playVideoButtonTapped:(id)sender {
+    if(_itemDetails.videoLink) {
+        SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:_itemDetails.videoLink]];
+        [self presentViewController:safariViewController animated:true completion:^{
+            
+        }];
+    }
+}
+
+
 #pragma mark - Sharing
 
 - (void)shareItemWith:(NSNumber *)itemId {
@@ -349,12 +367,12 @@
         if([_itemDetails.itemIngredientArray count] > effectivePosition) {
             KCItemIngredient *itemIngredient = [_itemDetails.itemIngredientArray objectAtIndex:effectivePosition];
             if(itemIngredientsTableCell.ingredientAvailableButton.isSelected) {
-                [_recipeDBManager removeItemIngredientAvailability:itemIngredient.ingredientIdentifer forUser:_userProfile.userID andItem:self.selectedItem.itemIdentifier];
+                [_recipeDBManager removeItemIngredientAvailability:itemIngredient.ingredientIdentifer forUser:_userProfile.userID andItem:self.selectedItem.itemIdentifier isMasterclass:NO];
                 [_ingredinetSelectionArray removeObject:itemIngredient.ingredientIdentifer];
             }
             else {
                 [_ingredinetSelectionArray addObject:itemIngredient.ingredientIdentifer];
-                [_recipeDBManager saveItemIngredientAvailability:itemIngredient.ingredientIdentifer forUser:_userProfile.userID andItem:self.selectedItem.itemIdentifier];
+                [_recipeDBManager saveItemIngredientAvailability:itemIngredient.ingredientIdentifer forUser:_userProfile.userID andItem:self.selectedItem.itemIdentifier isMasterclass:NO];
             }
             NSString *ingredientCount =   [NSString stringWithFormat:@"%@/%@",[NSNumber numberWithInteger:[_ingredinetSelectionArray count]],[NSNumber numberWithInteger:_ingredientsCount]];
             self.ingredientSelectionLabel.text = ingredientCount;
@@ -470,6 +488,7 @@
     itemDetailCell.recipeMinuteLabel.text  = [NSString stringWithFormat:@"%@", _itemDetails.duration];
     itemDetailCell.recipeServingLabel.text = [NSString stringWithFormat:@"%@", _itemDetails.servings];
     itemDetailCell.recipeDifficultyLabel.text = _itemDetails.difficulty;
+    itemDetailCell.playVideoButton.hidden     = _itemDetails.videoLink.length == 0;
     
     @autoreleasepool {
         //Set rating

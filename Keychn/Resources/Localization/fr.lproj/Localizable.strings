@@ -20,6 +20,10 @@
 "dontHaveAccount"    = "Hast du kein Konto?";
 "signIn"             = "Se connecter";
 "signUp"             = "S'inscrire";
+"termsofusage"          = "En cliquant sur S'inscrire, vous acceptez notre\ntermes et Politique de confidentialité";
+"terms"                 = "termes";
+"privacyPolicy"          = "Politique de confidentialité";
+
 
 
 // Masterclass List
@@ -145,5 +149,15 @@
 "photos"    = "Photos";
 "today"     = "Aujourd'hui";
 "tomorrow"  = "Demain";
+
+// Keychn 3.0 Texts
+
+"live" = "Live";
+"recipesForEveryone"    = "Des recettes pour tout le monde";
+"masterclassVault"      = "Voûte de Masterclass";
+"learnNewLiveSession"   = "Apprenez avec de nouveaux cours en direct et étape par étape chaque semaine.";
+"accessAllVideoClasses" = "Accédez à toutes les classes vidéo et masterclasses en direct avec un abonnement";
+"updatedEveryday"       = "Mis à jour\ntous les jours";
+"getATrial"             = "ESSAI GRATUIT DE 15 JOURS";
 
 

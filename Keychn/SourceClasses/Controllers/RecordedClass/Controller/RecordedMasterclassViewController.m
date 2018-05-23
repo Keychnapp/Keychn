@@ -14,7 +14,7 @@
 #import "MasterclassDetailViewController.h"
 
 
-#define kBaseHeight  230
+#define kBaseHeight  245
 #define kBaseWidth   375
 
 @interface RecordedMasterclassViewController () <UITableViewDataSource, UITableViewDelegate> {
@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 @property (strong, nonatomic) NSMutableArray *masterclasses;
+@property (weak, nonatomic) IBOutlet UILabel *masterclassVaultLabel;
 
 @end
 
@@ -54,6 +55,9 @@
         float aspectRatioDifference  = widthDifference/apsectRatio;
         _cellHeight                  = kBaseHeight + aspectRatioDifference;
     }
+    
+    // Set text
+    self.masterclassVaultLabel.text = NSLocalizedString(@"masterclassVault", nil);
     
     // Get Instances
     _userProfile            = [KCUserProfile sharedInstance];
@@ -153,7 +157,9 @@
         return;
     }
     isProcessing = YES;
-    [self.activityIndicator startAnimating];
+    if(self.masterclasses.count == 0) {
+        [self.activityIndicator startAnimating];
+    }
     __weak RecordedMasterclassViewController *weakSelf = self;
     NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kPageIndex: @(_currentPage)};
     [_userScheduleWebManager getMasterClassVideoWithParameter:params withCompletionHandler:^(NSDictionary *responseDictionary) {

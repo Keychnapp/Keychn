@@ -69,6 +69,9 @@
     self.redRoundView.layer.cornerRadius = self.redRoundView.bounds.size.width/2;
     self.redRoundView.layer.masksToBounds = YES;
     
+    // Set text
+    self.tabBarItem.title = NSLocalizedString(@"live", nil);
+    
     // Get Instances
     _userProfile            = [KCUserProfile sharedInstance];
     _userScheduleWebManager = [KCUserScheduleWebManager new];
@@ -123,7 +126,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     // Set pulse animation on Red Dot
-    [self.redRoundView startPulseWithColor:[UIColor redColor] scaleFrom:0.5 to:3 frequency:10 opacity:0.5f animation:YGPulseViewAnimationTypeRadarPulsing];
+    [self.redRoundView startPulseWithColor:[UIColor redColor] scaleFrom:0.5 to:3 frequency:5.0f opacity:0.5f animation:YGPulseViewAnimationTypeRadarPulsing];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -218,10 +221,10 @@
         NSString *dateText  = [NSString stringWithFormat:@"%@ %@",[monthName uppercaseString], [KCUtility getValueSuffix:date]];
         NSDate *scheduleDate = [[NSDate alloc] initWithTimeIntervalSince1970: timeInterval];
         if ([NSCalendar.currentCalendar isDateInToday:scheduleDate]) {
-            dateText = NSLocalizedString(@"today", nil);
+            dateText = [NSLocalizedString(@"today", nil) uppercaseString];
         }
         else if ([NSCalendar.currentCalendar isDateInTomorrow:scheduleDate]) {
-            dateText = NSLocalizedString(@"tomorrow", nil);
+            dateText = [NSLocalizedString(@"tomorrow", nil) uppercaseString];
         }
         masterClassTableCell.dateLabel.text = dateText;
         masterClassTableCell.timeLabel.text = hour;
@@ -353,7 +356,7 @@
     
     // Restrat animation
     [self.redRoundView stopPulse];
-    [self.redRoundView startPulseWithColor:[UIColor redColor] scaleFrom:0.5 to:3 frequency:10 opacity:0.5f animation:YGPulseViewAnimationTypeRadarPulsing];
+    [self.redRoundView startPulseWithColor:[UIColor redColor] scaleFrom:0.5 to:3 frequency:5.0f opacity:0.5f animation:YGPulseViewAnimationTypeRadarPulsing];
 }
 
 

@@ -15,14 +15,14 @@
  @param Item Ingredient, Item ID and User ID
  @return void
 */
-- (void) saveItemIngredientAvailability:(NSNumber*)itemIngredientID forUser:(NSNumber*)userID andItem:(NSNumber*)itemID;
+- (void) saveItemIngredientAvailability:(NSNumber*)itemIngredientID forUser:(NSNumber*)userID andItem:(NSNumber*)itemID isMasterclass:(BOOL)masterclass;
 
 /**
  @abstract This method will remove item ingredients selection list for user
  @param Item Ingredient, Item ID and User ID
  @return void
  */
-- (void) removeItemIngredientAvailability:(NSNumber*)itemIngredientID forUser:(NSNumber*)userID andItem:(NSNumber*)itemID;
+- (void) removeItemIngredientAvailability:(NSNumber*)itemIngredientID forUser:(NSNumber*)userID andItem:(NSNumber*)itemID isMasterclass:(BOOL)masterclass;
 
 
 /**
@@ -30,6 +30,6 @@
  @param User ID and Item ID
  @return Ingredient Selection List
  */
-- (NSArray*) getItmesIngredinetsArrayForUser:(NSNumber*)userID forItem:(NSNumber*)itemID;
+- (NSArray*) getItmesIngredinetsArrayForUser:(NSNumber*)userID forItem:(NSNumber*)itemID isMasterclass:(BOOL)masterclass;
 
 @end

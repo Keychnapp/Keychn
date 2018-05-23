@@ -10,8 +10,10 @@
 		6508750620A6A8A50052123B /* RecordedMasterclassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6508750520A6A8A50052123B /* RecordedMasterclassViewController.m */; };
 		6508750920A6A8BB0052123B /* RecordedMasterclassTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6508750820A6A8BB0052123B /* RecordedMasterclassTableViewCell.m */; };
 		6509571C20B3987D00075B9D /* MasterclassDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6509571B20B3987D00075B9D /* MasterclassDetailViewController.m */; };
+		650C3CC820B4A08000085FFD /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65F6758F1FE2CEA2009E9C77 /* SafariServices.framework */; };
+		650C3CCD20B4A44800085FFD /* KCMasterchefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 650C3CCA20B4A44800085FFD /* KCMasterchefViewController.m */; };
+		650C3CD220B4A47500085FFD /* MasterchefNameTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 650C3CD120B4A47500085FFD /* MasterchefNameTableViewCell.m */; };
 		650E067B20B1A835001B6ACA /* MasterclassVideo.m in Sources */ = {isa = PBXBuildFile; fileRef = 650E067A20B1A835001B6ACA /* MasterclassVideo.m */; };
-		650E067F20B1C7E7001B6ACA /* KCMasterchefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 650E067E20B1C7E7001B6ACA /* KCMasterchefViewController.m */; };
 		650F807A20A6CE4B00CFB1BE /* KCItemStepTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 650F807920A6CE4B00CFB1BE /* KCItemStepTableViewCell.m */; };
 		650F807F20A6D61A00CFB1BE /* UIView+YGPulseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 650F807D20A6D61A00CFB1BE /* UIView+YGPulseView.m */; };
 		651ADB101F6D2A6500A60200 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 651ADB0F1F6D2A6500A60200 /* UserNotifications.framework */; };
@@ -417,10 +419,12 @@
 		6508750820A6A8BB0052123B /* RecordedMasterclassTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecordedMasterclassTableViewCell.m; sourceTree = "<group>"; };
 		6509571A20B3987D00075B9D /* MasterclassDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterclassDetailViewController.h; sourceTree = "<group>"; };
 		6509571B20B3987D00075B9D /* MasterclassDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterclassDetailViewController.m; sourceTree = "<group>"; };
+		650C3CCA20B4A44800085FFD /* KCMasterchefViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCMasterchefViewController.m; sourceTree = "<group>"; };
+		650C3CCB20B4A44800085FFD /* KCMasterchefViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCMasterchefViewController.h; sourceTree = "<group>"; };
+		650C3CD020B4A47500085FFD /* MasterchefNameTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterchefNameTableViewCell.h; sourceTree = "<group>"; };
+		650C3CD120B4A47500085FFD /* MasterchefNameTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterchefNameTableViewCell.m; sourceTree = "<group>"; };
 		650E067920B1A835001B6ACA /* MasterclassVideo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterclassVideo.h; sourceTree = "<group>"; };
 		650E067A20B1A835001B6ACA /* MasterclassVideo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterclassVideo.m; sourceTree = "<group>"; };
-		650E067D20B1C7E7001B6ACA /* KCMasterchefViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KCMasterchefViewController.h; sourceTree = "<group>"; };
-		650E067E20B1C7E7001B6ACA /* KCMasterchefViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KCMasterchefViewController.m; sourceTree = "<group>"; };
 		650F807820A6CE4B00CFB1BE /* KCItemStepTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KCItemStepTableViewCell.h; sourceTree = "<group>"; };
 		650F807920A6CE4B00CFB1BE /* KCItemStepTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KCItemStepTableViewCell.m; sourceTree = "<group>"; };
 		650F807D20A6D61A00CFB1BE /* UIView+YGPulseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YGPulseView.m"; sourceTree = "<group>"; };
@@ -944,6 +948,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				650C3CC820B4A08000085FFD /* SafariServices.framework in Frameworks */,
 				65A34F2E1FA8BF3500449513 /* libresolv.tbd in Frameworks */,
 				F9D68A271F83A52000AF67E9 /* AdSupport.framework in Frameworks */,
 				651ADB101F6D2A6500A60200 /* UserNotifications.framework in Frameworks */,
@@ -1008,6 +1013,24 @@
 			path = MasterclassDetail;
 			sourceTree = "<group>";
 		};
+		650C3CC920B4A44800085FFD /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				650C3CCB20B4A44800085FFD /* KCMasterchefViewController.h */,
+				650C3CCA20B4A44800085FFD /* KCMasterchefViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		650C3CCC20B4A44800085FFD /* TableCell */ = {
+			isa = PBXGroup;
+			children = (
+				650C3CD020B4A47500085FFD /* MasterchefNameTableViewCell.h */,
+				650C3CD120B4A47500085FFD /* MasterchefNameTableViewCell.m */,
+			);
+			path = TableCell;
+			sourceTree = "<group>";
+		};
 		650E067620B1A809001B6ACA /* MasterclassVideo */ = {
 			isa = PBXGroup;
 			children = (
@@ -1020,8 +1043,8 @@
 		650E067C20B1C7D9001B6ACA /* Masterchef */ = {
 			isa = PBXGroup;
 			children = (
-				650E067D20B1C7E7001B6ACA /* KCMasterchefViewController.h */,
-				650E067E20B1C7E7001B6ACA /* KCMasterchefViewController.m */,
+				650C3CC920B4A44800085FFD /* Controller */,
+				650C3CCC20B4A44800085FFD /* TableCell */,
 			);
 			path = Masterchef;
 			sourceTree = "<group>";
@@ -3356,6 +3379,7 @@
 				653717881F68653B002B4292 /* KCitemIngredientCountTableViewCell.m in Sources */,
 				653717841F68653B002B4292 /* KCMasterClassListViewController.m in Sources */,
 				653717871F68653B002B4292 /* KCItemDetailTableViewCell.m in Sources */,
+				650C3CCD20B4A44800085FFD /* KCMasterchefViewController.m in Sources */,
 				653717EF1F68653B002B4292 /* KCTextMessageWebManager.m in Sources */,
 				6537179D1F68653B002B4292 /* KCMyScheduleTableViewCell.m in Sources */,
 				653717D91F68653B002B4292 /* KCLabel.m in Sources */,
@@ -3409,6 +3433,7 @@
 				653717861F68653B002B4292 /* KCItemDetailsViewController.m in Sources */,
 				6537177F1F68653B002B4292 /* KCChangePasswordTableViewCell.m in Sources */,
 				653717891F68653B002B4292 /* KCItemIngredientsTableViewCell.m in Sources */,
+				650C3CD220B4A47500085FFD /* MasterchefNameTableViewCell.m in Sources */,
 				6556069A1FC072F400CF6C15 /* KCNavigationController.m in Sources */,
 				653717B11F68653B002B4292 /* KCGroupSessionHostEndViewController.m in Sources */,
 				653717AD1F68653B002B4292 /* KCSplashViewController.m in Sources */,
@@ -3421,7 +3446,6 @@
 				653717F01F68653B002B4292 /* KCTutorialWebManager.m in Sources */,
 				650E067B20B1A835001B6ACA /* MasterclassVideo.m in Sources */,
 				653717CE1F68653B002B4292 /* KCUserMatch.m in Sources */,
-				650E067F20B1C7E7001B6ACA /* KCMasterchefViewController.m in Sources */,
 				653717EE1F68653B002B4292 /* KCStarCookWebManager.m in Sources */,
 				653717B91F68653B002B4292 /* KCUserScheduleDBManager.m in Sources */,
 				653717B01F68653B002B4292 /* KCGroupSessionGuestEndViewController.m in Sources */,

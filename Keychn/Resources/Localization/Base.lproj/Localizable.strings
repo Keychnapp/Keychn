@@ -20,6 +20,10 @@
 "dontHaveAccount"    = "Don't have an account?";
 "signIn"             = "Sign In";
 "signUp"             = "Sign Up";
+"termsofusage"          = "By Clicking Sign Up, you agree to our Terms\nand Privacy Policy";
+"terms"                 = "Terms";
+"privacyPolicy"          = "Privacy Policy";
+
 
 // Masterclass List
 
@@ -141,4 +145,14 @@
 "photos"    = "Photos";
 "today"     = "Today";
 "tomorrow"  = "Tomorrow";
+
+// Keychn 3.0 Texts
+
+"live" = "Live";
+"recipesForEveryone"    = "Recipes for everyone";
+"masterclassVault"      = "Masterclass Vault";
+"learnNewLiveSession"   = "Learn with new live and\nstep-by-step classes\nevery week.";
+"accessAllVideoClasses" = "Access all the video classes\nand live masterclasses\nwith one subscription";
+"updatedEveryday"       = "Updated every day";
+"getATrial"             = "GET A 15 DAY FREE TRIAL";
 

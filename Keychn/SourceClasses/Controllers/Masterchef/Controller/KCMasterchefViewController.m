@@ -11,8 +11,9 @@
 #import "KCUserScheduleWebManager.h"
 #import "MasterclassVideo.h"
 #import <MXParallaxHeader/MXScrollView.h>
+#import "MasterchefNameTableViewCell.h"
 
-#define kBaseHeight  230
+#define kBaseHeight  245
 #define kBaseWidth   375
 
 
@@ -121,14 +122,22 @@
 #pragma mark - TableView Datasource and Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return  self.masterclasses.count;
+    return  self.masterclasses.count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if(indexPath.row == 0) {
+        // For first cell which shows the name of the chef
+        MasterchefNameTableViewCell *masterclassNameTableViewCell = [tableView dequeueReusableCellWithIdentifier:@"MasterchefNameTableViewCell" forIndexPath:indexPath];
+        masterclassNameTableViewCell.chefNameLabel.text = [self.selectedMasterclass.chefName stringByAppendingString:@"'s Masterclasses"];
+        return masterclassNameTableViewCell;
+    }
+    
     RecordedMasterclassTableViewCell *masterclassTableViewCell = [tableView dequeueReusableCellWithIdentifier:@"RecordedMasterclassTableViewCell" forIndexPath:indexPath];
     masterclassTableViewCell.masterchefButton.tag = indexPath.row;
-    if (self.masterclasses.count > indexPath.row) {
-        MasterclassVideo *masterclass = [self.masterclasses objectAtIndex:indexPath.row];
+    if (self.masterclasses.count > indexPath.row-1) {
+        MasterclassVideo *masterclass = [self.masterclasses objectAtIndex:indexPath.row-1];
         masterclassTableViewCell.masterclassTitleLabel.text = masterclass.videoName;
         [masterclassTableViewCell.masterchefImageView setImageWithURL:[NSURL URLWithString:masterclass.chefImageURL] placeholderImage:[UIImage imageNamed:@"masterclass_leaf"] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         [masterclassTableViewCell.masterclassImageView setImageWithURL:[NSURL URLWithString:masterclass.placeholderImageURL] placeholderImage:nil usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -137,6 +146,9 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(indexPath.row == 0) {
+        return 50.0f;
+    }
     return _cellHeight;
 }
 

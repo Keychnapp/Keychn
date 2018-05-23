@@ -92,8 +92,12 @@
                     }
                 }
                 // Delete old Masterclasses
-                NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM user_schedule WHERE schedule_id NOT IN (%@)", filterMasterclassIds];
-                [dbOperation executeSQLQuery:deleteQuery];
+                if(filterMasterclassIds.length > 0) {
+                    NSString *masterclassIds = [filterMasterclassIds substringToIndex:filterMasterclassIds.length-1];
+                    NSString *deleteQuery = [NSString stringWithFormat:@"DELETE FROM user_schedule WHERE schedule_id NOT IN (%@)", masterclassIds];
+                    [dbOperation executeSQLQuery:deleteQuery];
+                }
+                
             }
             else {
                 // Delete all old Masterclasses

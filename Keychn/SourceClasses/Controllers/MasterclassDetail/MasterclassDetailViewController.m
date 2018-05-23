@@ -19,6 +19,10 @@
 #import "KCScheduleAlert.h"
 #import "KCUserScheduleWebManager.h"
 #import "KCItemSteptableViewCell.h"
+#import "IAPSubscription.h"
+#import "KCSubscription.h"
+
+@import SafariServices;
 
 #define kShareMasterclass(s) [NSString stringWithFormat:@"https://keychn.com/#!/unsubscribed/%@",s]
 
@@ -35,6 +39,8 @@
     IOSDevices          _deviceType;
     BOOL                    _isDisplayingAlert;
     UITapGestureRecognizer *_tapGesture;
+    IAPSubscription        *_iapSubscription;
+    KCSubscription          *_subscriptionAlertView;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *itemDetailsTableView;
@@ -44,6 +50,17 @@
 @property (nonatomic,strong) UIImageView     *blurredImageView;
 @property (nonatomic, strong) KCScheduleAlert *scheduleAlert;
 @property (nonatomic,strong) UILabel *ingredientSelectionLabel;
+@property (weak, nonatomic) IBOutlet UIVisualEffectView *blurView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topConstraintBlurView;
+
+#pragma mark - Pop-up view
+
+@property (weak, nonatomic) IBOutlet UILabel *learnWithNewLiveLabel;
+@property (weak, nonatomic) IBOutlet UILabel *accessAllVideoClassLabel;
+@property (weak, nonatomic) IBOutlet UILabel *updatedEverydayLabel;
+@property (weak, nonatomic) IBOutlet UIButton *getTrialButton;
+@property (weak, nonatomic) IBOutlet UIView *popUpContainerView;
+
 
 
 @end
@@ -61,20 +78,45 @@
     
     _deviceType             = [KCUtility getiOSDeviceType];
     
+    // Customize UI
+    
+    self.getTrialButton.layer.cornerRadius  = 8.0f;
+    self.getTrialButton.layer.masksToBounds = YES;
+    self.getTrialButton.layer.borderColor   = [UIColor whiteColor].CGColor;
+    self.getTrialButton.layer.borderWidth   = 4.0f;
+    
     //Get ingredient selection Array
-    _ingredinetSelectionArray = [[NSMutableArray alloc] initWithArray:[_recipeDBManager getItmesIngredinetsArrayForUser:_userProfile.userID forItem:self.selectedVideo.videoId]];
+    _ingredinetSelectionArray = [[NSMutableArray alloc] initWithArray:[_recipeDBManager getItmesIngredinetsArrayForUser:_userProfile.userID forItem:self.selectedVideo.videoId isMasterclass:YES]];
     
     //Remove table footer view
     self.itemDetailsTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
+    _iapSubscription   = [IAPSubscription subscriptionForUser:_userProfile.userID];
     
     //Feth item details
     [self fetchItemDetails];
+    
+    // Set localized text
+    self.learnWithNewLiveLabel.text     = NSLocalizedString(@"learnNewLiveSession", nil);
+    self.accessAllVideoClassLabel.text  = NSLocalizedString(@"accessAllVideoClasses", nil);
+    self.updatedEverydayLabel.text      = NSLocalizedString(@"updatedEveryday", nil);
+    [self.getTrialButton setTitle:NSLocalizedString(@"getATrial", nil) forState:UIControlStateNormal];
+
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self subscribeIAPNotification];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self unsubscribeIAPNotification];
 }
 
 #pragma mark - Tableview Datasource and Delegate
@@ -93,7 +135,7 @@
     if(indexPath.row == 0) {
         //Item details row
         if([KCUtility getiOSDeviceType] == iPad) {
-            rowHeight = 560;
+            rowHeight = 620;
         }
         else {
             rowHeight = 480;
@@ -122,7 +164,13 @@
         NSInteger effectivePosition = indexPath.row - (_ingredientsCount + 3) ;
         NSInteger labelWidth  = CGRectGetWidth(self.view.frame) - 34;
         KCItemRecipeStep *recipeStep = [_itemDetails.itemRecipeStepArray objectAtIndex:effectivePosition];
-        rowHeight = 395;
+        if([KCUtility getiOSDeviceType] == iPad) {
+            rowHeight = 460;
+        }
+        else {
+            rowHeight = 395;
+        }
+        
         NSInteger labelHeight = [NSString getHeightForText:recipeStep.recipeStep withViewWidth:labelWidth withFontSize:15];
         if(labelHeight > 60) {
             rowHeight += labelHeight-60;
@@ -223,6 +271,8 @@
             //Set Image with Aynsc blocks
             [recipeStepTableCell.recipeStepImageDownloadActivityIndicator startAnimating];
             recipeStepTableCell.recipeStepImageView.image = nil;
+            recipeStepTableCell.recipeStepImageView.contentMode = UIViewContentModeScaleAspectFill;
+            recipeStepTableCell.recipeStepImageView.clipsToBounds = YES;
             [recipeStepTableCell.recipeStepImageView setImageWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:recipeStep.imageURL]] placeholderImage:nil success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
                 [recipeStepTableCell.recipeStepImageDownloadActivityIndicator stopAnimating];
                 recipeStepTableCell.recipeStepImageView.image = image;
@@ -258,6 +308,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self closePopUp];
 }
 
 #pragma mark - Button Actions
@@ -283,6 +334,28 @@
     // Share this item by URL
     [self shareItemWith:self.selectedVideo.videoId];
 }
+
+- (IBAction)playVideoButtonTapped:(id)sender {
+    NSString *videoLink;
+    if(_iapSubscription) {
+        videoLink = _itemDetails.videoLink;
+    }
+    else {
+        videoLink = _itemDetails.trailerLink;
+    }
+    if(videoLink) {
+        SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:videoLink]];
+        [self presentViewController:safariViewController animated:true completion:^{
+            
+        }];
+    }
+}
+
+- (IBAction)startTrialButtonTapped:(id)sender {
+    [self closePopUp];
+    [self performSelector:@selector(openSubscriptionDialog) withObject:nil afterDelay:0.5];
+}
+
 
 #pragma mark - Sharing
 
@@ -314,6 +387,54 @@
                      }];
 }
 
+- (void)closePopUp {
+    // Show pop-up with animation
+    if(!self.popUpContainerView.isHidden) {
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            self.popUpContainerView.alpha = 0.0f;
+        } completion:^(BOOL finished) {
+            if(finished) {
+                self.popUpContainerView.hidden = true;
+                self.popUpContainerView.alpha = 1.0f;
+            }
+        }];
+    }
+}
+
+- (void)openSubscriptionDialog {
+    _subscriptionAlertView = [[KCSubscription alloc] initWithFrame:self.view.frame];
+    [_subscriptionAlertView showInView:self.navigationController.view withCompletionHandler:^(BOOL postiveButton) {
+        
+    }];
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel track:@"user_subscription_open_view"
+         properties:@{@"": @""}];
+}
+
+#pragma mark - IAP Subscription Changed
+
+- (void)subscribeIAPNotification {
+    // To get notified when user subscription has changed
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(subscriptionChanged:) name:kSubscriptionChanged object:nil];
+}
+
+- (void)unsubscribeIAPNotification {
+    // Remove observer when user leave this screen
+    [NSNotificationCenter.defaultCenter removeObserver:self name:kSubscriptionChanged object:nil];
+}
+
+- (void)subscriptionChanged:(NSNotification *)sender {
+    // Validate user purchase
+    _iapSubscription = [IAPSubscription subscriptionForUser:_userProfile.userID];
+    if(_iapSubscription) {
+        self.blurView.hidden = YES;
+        self.itemDetailsTableView.scrollEnabled = YES;
+    }
+}
+
+
+
 #pragma mark - Gesture Recoginizer
 
 - (void) tapGesturePerformed:(UIGestureRecognizer*)gestureRecognizer {
@@ -325,12 +446,12 @@
         if([_itemDetails.itemIngredientArray count] > effectivePosition) {
             KCItemIngredient *itemIngredient = [_itemDetails.itemIngredientArray objectAtIndex:effectivePosition];
             if(itemIngredientsTableCell.ingredientAvailableButton.isSelected) {
-                [_recipeDBManager removeItemIngredientAvailability:itemIngredient.ingredientIdentifer forUser:_userProfile.userID andItem:self.selectedVideo.videoId];
+                [_recipeDBManager removeItemIngredientAvailability:itemIngredient.ingredientIdentifer forUser:_userProfile.userID andItem:self.selectedVideo.videoId isMasterclass:YES];
                 [_ingredinetSelectionArray removeObject:itemIngredient.ingredientIdentifer];
             }
             else {
                 [_ingredinetSelectionArray addObject:itemIngredient.ingredientIdentifer];
-                [_recipeDBManager saveItemIngredientAvailability:itemIngredient.ingredientIdentifer forUser:_userProfile.userID andItem:self.selectedVideo.videoId];
+                [_recipeDBManager saveItemIngredientAvailability:itemIngredient.ingredientIdentifer forUser:_userProfile.userID andItem:self.selectedVideo.videoId isMasterclass:YES];
             }
             NSString *ingredientCount =   [NSString stringWithFormat:@"%@/%@",[NSNumber numberWithInteger:[_ingredinetSelectionArray count]],[NSNumber numberWithInteger:_ingredientsCount]];
             self.ingredientSelectionLabel.text = ingredientCount;
@@ -344,6 +465,7 @@
             [self zoomOutAnimationOnView:itemIngredientsTableCell.ingredientAvailableButton];
         }
     }
+    [self closePopUp];
 }
 
 - (void)doubleTapGesturePerformed:(UIGestureRecognizer*)gestureRecognizer {
@@ -489,6 +611,24 @@
     _ingredientsCount = [_itemDetails.itemIngredientArray count];
     _recipeStepsCount = [_itemDetails.itemRecipeStepArray count];
     [self.itemDetailsTableView reloadData];
+    
+    if(!_iapSubscription) {
+        self.blurView.hidden = false;
+        self.blurView.alpha  = 0.7f;
+        self.itemDetailsTableView.scrollEnabled = false;
+        
+        // Show pop-up with animation
+        self.popUpContainerView.transform = CGAffineTransformMakeScale(0.1, 0.1);
+        self.popUpContainerView.hidden = false;
+        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.5 initialSpringVelocity:5.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            self.popUpContainerView.transform = CGAffineTransformMakeScale(1.0, 1.0);
+        } completion:^(BOOL finished) {
+            
+        }];
+    }
+    
+    self.blurView.hidden = YES;
+    self.itemDetailsTableView.scrollEnabled = YES;
 }
 
 #pragma mark  - Blur Effect
