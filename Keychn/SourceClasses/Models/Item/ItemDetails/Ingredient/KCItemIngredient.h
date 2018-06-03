@@ -12,5 +12,6 @@
 
 @property (nonatomic,copy) NSString *ingredientTitle;
 @property (nonatomic,copy) NSNumber *ingredientIdentifer;
+@property (nonatomic,copy) NSString *amount;
 
 @end

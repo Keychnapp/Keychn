@@ -56,6 +56,7 @@
                 KCItemIngredient *itemIngredient = [KCItemIngredient new];
                 itemIngredient.ingredientTitle = [itemIngredientDictionary objectForKey:kLabelName];
                 itemIngredient.ingredientIdentifer = [itemIngredientDictionary objectForKey:kIdentifier];
+                itemIngredient.amount = [itemIngredientDictionary objectForKey:kIngredientAmount];
                 [self.itemIngredientArray addObject:itemIngredient];
             }
         }

@@ -202,7 +202,7 @@
                 itemIngredientsTableCell.ingredientAvailableButton.selected = NO;
             }
         }
-        if(indexPath.row%2 == 0) {//Chage background for ODD EVEN cell
+        if(indexPath.row%2 != 0) {//Chage background for ODD EVEN cell
             itemIngredientsTableCell.containerView.backgroundColor = [UIColor cellBackgroundColor];
         }
         else {
@@ -552,6 +552,7 @@
     //show the button after data loads
     self.scheduleForLaterButton.hidden  = NO;
     self.startCookingButton.hidden      = NO;
+    
     
     // Schedule a pop-up to ask if user is going too cook now
 //    [self performSelector:@selector(scheduleMinuteReminder) withObject:self afterDelay:_itemDetails.popUpDuration];

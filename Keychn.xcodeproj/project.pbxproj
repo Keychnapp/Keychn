@@ -20,6 +20,7 @@
 		651BABA92003FBF3009F0FC9 /* KeychnSubscription.xib in Resources */ = {isa = PBXBuildFile; fileRef = 651BABAB2003FBF3009F0FC9 /* KeychnSubscription.xib */; };
 		651C7DDF1FD425130096829C /* TermsAndConditionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 651C7DE11FD425130096829C /* TermsAndConditionCollectionViewCell.xib */; };
 		651C7DE31FD4253A0096829C /* SubscriptionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 651C7DE51FD4253A0096829C /* SubscriptionCollectionViewCell.xib */; };
+		652A31D820C4015C009EA9C0 /* VimeoVideoExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 652A31D720C4015C009EA9C0 /* VimeoVideoExtractor.swift */; };
 		6535C32A1FD404E3000C800C /* KCEmailSignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6535C3281FD404E2000C800C /* KCEmailSignUpViewController.m */; };
 		653717741F68653B002B4292 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 653715E21F68653A002B4292 /* AppDelegate.m */; };
 		653717751F68653B002B4292 /* KCAutoLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 653715E51F68653A002B4292 /* KCAutoLoginManager.m */; };
@@ -439,6 +440,7 @@
 		651C7DE41FD4253A0096829C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/SubscriptionCollectionViewCell.xib; sourceTree = "<group>"; };
 		651C7DE71FD4253D0096829C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/SubscriptionCollectionViewCell.strings; sourceTree = "<group>"; };
 		651C7DE81FD425580096829C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/TermsAndConditionCollectionViewCell.strings; sourceTree = "<group>"; };
+		652A31D720C4015C009EA9C0 /* VimeoVideoExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VimeoVideoExtractor.swift; sourceTree = "<group>"; };
 		6535C3281FD404E2000C800C /* KCEmailSignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KCEmailSignUpViewController.m; sourceTree = "<group>"; };
 		6535C3291FD404E2000C800C /* KCEmailSignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KCEmailSignUpViewController.h; sourceTree = "<group>"; };
 		653715E11F68653A002B4292 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -1007,6 +1009,7 @@
 		6509571720B3967200075B9D /* MasterclassDetail */ = {
 			isa = PBXGroup;
 			children = (
+				652A31D620C40148009EA9C0 /* VideoExtractor */,
 				6509571A20B3987D00075B9D /* MasterclassDetailViewController.h */,
 				6509571B20B3987D00075B9D /* MasterclassDetailViewController.m */,
 			);
@@ -1064,6 +1067,14 @@
 				650F807E20A6D61A00CFB1BE /* UIView+YGPulseView.h */,
 			);
 			path = YGPulseView;
+			sourceTree = "<group>";
+		};
+		652A31D620C40148009EA9C0 /* VideoExtractor */ = {
+			isa = PBXGroup;
+			children = (
+				652A31D720C4015C009EA9C0 /* VimeoVideoExtractor.swift */,
+			);
+			path = VideoExtractor;
 			sourceTree = "<group>";
 		};
 		653715DF1F68653A002B4292 /* SourceClasses */ = {
@@ -3280,6 +3291,7 @@
 				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
+				"${PODS_ROOT}/ZFPlayer/ZFPlayer/Classes/ControlView/ZFPlayer.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -3305,6 +3317,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterShareExtensionUIResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ZFPlayer.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3385,6 +3398,7 @@
 				653717D91F68653B002B4292 /* KCLabel.m in Sources */,
 				653717C01F68653B002B4292 /* KCItemDetail.m in Sources */,
 				653717EB1F68653B002B4292 /* KCUserProfileUpdateManager.m in Sources */,
+				652A31D820C4015C009EA9C0 /* VimeoVideoExtractor.swift in Sources */,
 				653717951F68653B002B4292 /* KCRecipeListCollectionViewCell.m in Sources */,
 				653717BA1F68653B002B4292 /* KCFileManager.m in Sources */,
 				653717A31F68653B002B4292 /* KCUserSettingViewController.m in Sources */,

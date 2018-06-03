@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *ingredientLabel;
 @property (weak, nonatomic) IBOutlet UIButton *ingredientAvailableButton;
 @property (strong, nonatomic) IBOutlet UIView *containerView;
+@property (weak, nonatomic) IBOutlet UILabel *ingredientAmountLabel;
 
 /**
  @abstract This mehtod will add border to the container view on three side of the view except the bottom

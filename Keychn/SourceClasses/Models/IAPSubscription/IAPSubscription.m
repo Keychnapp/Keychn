@@ -16,10 +16,10 @@
     if([subscriptionDictoinary isKindOfClass:[NSDictionary class]]) {
         self.productId = [subscriptionDictoinary objectForKey:@"product_id"];
         self.userId    = [subscriptionDictoinary objectForKey:@"user_id"];
-        self.transactionId = [subscriptionDictoinary objectForKey:@"transaction_id"];
-        self.isSynced  = [[subscriptionDictoinary objectForKey:@"is_synced"] boolValue];
-        self.expirationTimeInterval    = [[subscriptionDictoinary objectForKey:@"expiration_time_interval"] doubleValue];
-        self.purchaseTimeInterval      = [[subscriptionDictoinary objectForKey:@"purchase_time_interval"] doubleValue];
+        self.transactionId = [subscriptionDictoinary objectForKey:@"original_transaction_id"];
+        self.isSynced      = true;
+        self.expirationTimeInterval    = ([[subscriptionDictoinary objectForKey:@"expires_date_ms"] doubleValue])/1000;
+        self.purchaseTimeInterval      = ([[subscriptionDictoinary objectForKey:@"original_purchase_date_ms"] doubleValue])/1000;
     }
     return self;
 }
@@ -50,10 +50,11 @@
 
 + (instancetype)subscriptionForUser:(NSNumber  *)userId {
     // Fetch subscription information
-    NSTimeInterval currentTimeInteval = [[NSDate date] timeIntervalSince1970] * 1000; // Convert to milliseconds
+    NSTimeInterval currentTimeInteval = [[NSDate date] timeIntervalSince1970];
     NSString *clause = [NSString stringWithFormat:@"WHERE user_id = %@ AND expiration_time_interval >= %f ORDER BY expiration_time_interval DESC LIMIT 1",userId, currentTimeInteval];
     KCDatabaseOperation *dbOperation = [KCDatabaseOperation sharedInstance];
     NSArray *subscriptionArray =  [dbOperation fetchDataFromTable:@"purchase_history" withClause:clause];
+    if (DEBUGGING) NSLog(@"subscriptionForUser %@", subscriptionArray);
     if([subscriptionArray count] > 0) {
         IAPSubscription *subscription = [IAPSubscription new];
         NSDictionary *subscriptionDictoinary = [subscriptionArray firstObject];

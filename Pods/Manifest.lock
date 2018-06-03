@@ -20,46 +20,48 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - AppsFlyerFramework (4.8.4)
+  - AppsFlyerFramework (4.8.5)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
     - Bolts/Tasks (= 1.9.0)
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
-  - Fabric (1.7.6)
-  - FBSDKCoreKit (4.32.0):
+  - Fabric (1.7.7)
+  - FBSDKCoreKit (4.33.0):
     - Bolts (~> 1.7)
-  - FBSDKLoginKit (4.32.0):
+  - FBSDKLoginKit (4.33.0):
     - FBSDKCoreKit
-  - FBSDKShareKit (4.32.0):
-    - FBSDKCoreKit (~> 4.32.0)
-  - Firebase (4.13.0):
-    - Firebase/Core (= 4.13.0)
-  - Firebase/Core (4.13.0):
-    - FirebaseAnalytics (= 4.2.0)
-    - FirebaseCore (= 4.0.20)
-  - FirebaseAnalytics (4.2.0):
-    - FirebaseCore (~> 4.0)
-    - FirebaseInstanceID (~> 2.0)
+  - FBSDKShareKit (4.33.0):
+    - FBSDKCoreKit (~> 4.33.0)
+  - Firebase (5.1.0):
+    - Firebase/Core (= 5.1.0)
+  - Firebase/Core (5.1.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (= 5.0.1)
+  - Firebase/CoreOnly (5.1.0):
+    - FirebaseCore (= 5.0.2)
+  - FirebaseAnalytics (5.0.1):
+    - FirebaseCore (~> 5.0)
+    - FirebaseInstanceID (~> 3.0)
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
     - nanopb (~> 0.3)
-  - FirebaseCore (4.0.20):
+  - FirebaseCore (5.0.2):
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-  - FirebaseInstanceID (2.0.10):
-    - FirebaseCore (~> 4.0)
-  - FirebaseMessaging (2.2.0):
-    - FirebaseAnalytics (~> 4.1)
-    - FirebaseCore (~> 4.0)
-    - FirebaseInstanceID (~> 2.0)
+  - FirebaseInstanceID (3.0.0):
+    - FirebaseCore (~> 5.0)
+  - FirebaseMessaging (3.0.1):
+    - FirebaseCore (~> 5.0)
+    - FirebaseInstanceID (~> 3.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
-    - Protobuf (~> 3.5)
+    - Protobuf (~> 3.1)
   - GoogleToolboxForMac/Defines (2.1.4)
   - GoogleToolboxForMac/Logger (2.1.4):
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
     - GoogleToolboxForMac/Defines (= 2.1.4)
-  - Mixpanel (3.3.0)
+  - HCVimeoVideoExtractor (0.0.1)
+  - Mixpanel (3.3.2)
   - MXParallaxHeader (0.6.1)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
@@ -80,6 +82,13 @@ PODS:
     - TwitterCore (>= 3.1.0)
   - UIActivityIndicator-for-SDWebImage (1.2):
     - SDWebImage (~> 3.7)
+  - ZFPlayer (3.0.0):
+    - ZFPlayer/Core (= 3.0.0)
+  - ZFPlayer/AVPlayer (3.0.0):
+    - ZFPlayer/Core
+  - ZFPlayer/ControlView (3.0.0):
+    - ZFPlayer/Core
+  - ZFPlayer/Core (3.0.0)
 
 DEPENDENCIES:
   - AFNetworking (= 2.6.3)
@@ -90,6 +99,7 @@ DEPENDENCIES:
   - FBSDKShareKit
   - Firebase
   - FirebaseMessaging
+  - HCVimeoVideoExtractor
   - Mixpanel
   - MXParallaxHeader
   - SCLAlertView-Objective-C
@@ -101,9 +111,12 @@ DEPENDENCIES:
   - TwitterCore
   - TwitterKit
   - UIActivityIndicator-for-SDWebImage
+  - ZFPlayer (~> 3.0.0)
+  - ZFPlayer/AVPlayer (~> 3.0.0)
+  - ZFPlayer/ControlView (~> 3.0.0)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - AFNetworking
     - AppsFlyerFramework
     - Bolts
@@ -117,6 +130,7 @@ SPEC REPOS:
     - FirebaseInstanceID
     - FirebaseMessaging
     - GoogleToolboxForMac
+    - HCVimeoVideoExtractor
     - Mixpanel
     - MXParallaxHeader
     - nanopb
@@ -130,22 +144,24 @@ SPEC REPOS:
     - TwitterCore
     - TwitterKit
     - UIActivityIndicator-for-SDWebImage
+    - ZFPlayer
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
-  AppsFlyerFramework: c45bbd289a6f9e9a19976ee270b44edea646aab6
+  AppsFlyerFramework: cf9fdd7367a3871542f46b75b56723395553f951
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
-  Fabric: f8d42c893bb187326a7968b62abe55c36a987a46
-  FBSDKCoreKit: 55d7f2ac45d9c4b9b6119f4e43900fe84b9b7b1b
-  FBSDKLoginKit: 32ac05c2a59952c363c2e85aafa8f73ba93bcbad
-  FBSDKShareKit: 658780d0d108b8ad590a54afb5ac1427bdc8de28
-  Firebase: 5ec5e863d269d82d66b4bf56856726f8fb8f0fb3
-  FirebaseAnalytics: 7ef69e76a5142f643aeb47c780e1cdce4e23632e
-  FirebaseCore: 90cb1c53d69b556f112a1bf72b5fcfaad7650790
-  FirebaseInstanceID: 8d20d890d65c917f9f7d9950b6e10a760ad34321
-  FirebaseMessaging: 75cdb862e86c30e0913a2ff307e48d49357c5b73
+  Fabric: bda89e242bce1b7b8ab264248cf3407774ce0095
+  FBSDKCoreKit: 572b047a7e029bc44542bcf8a59414e7ff2b543e
+  FBSDKLoginKit: 88cb456349cfb3b554427ce4f8b43729d85dfb40
+  FBSDKShareKit: 1869cb24db2cea90666a50cb9d568deb38e2d16e
+  Firebase: e08fb0795f35707aeb1d8a715c731c45bdf6fd56
+  FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
+  FirebaseCore: b81044df1044c0857a0737c6324678b72d4f7f00
+  FirebaseInstanceID: 83e0040351565df711a5db3d8ebe5ea21aca998a
+  FirebaseMessaging: ec6fde5a77824c6da0218f9ca220feb251aa17d5
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
-  Mixpanel: 87170a967bb815b48c70a24f3e62de4ebca03454
+  HCVimeoVideoExtractor: d3c251280f7027ffd324266e1930b3618e0adb46
+  Mixpanel: be4de218d0ffaaae59b498078b2ecf2db1f8072c
   MXParallaxHeader: 858c403532ed933b381556a81ce333d7065ad182
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 8a9838fba8dae3389230e1b7f8c104aa32389c03
@@ -158,7 +174,8 @@ SPEC CHECKSUMS:
   TwitterCore: 644d59e75abccb26cf0a9050d2c4dea0e5412241
   TwitterKit: a2e60ddcedbf54091eac6f27685ca7a87681e1d7
   UIActivityIndicator-for-SDWebImage: 7bf7ebbf0ed1747dedc0d6e949c4603a6d0f9e0c
+  ZFPlayer: 4853d12575f7ab1b7538600b317ecb723a71b7d7
 
-PODFILE CHECKSUM: 4a1382e413f208ac33cc9ddfeb1778439f4ed77f
+PODFILE CHECKSUM: 40daaa957e41d4cfc5de65a11682c038aaba054e
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3

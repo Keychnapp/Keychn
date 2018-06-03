@@ -37,6 +37,7 @@
 @property                  BOOL     isCoursePreferencesOn;
 @property                  BOOL     isLanguagePreferencesOn;
 
+
 /**
  @abstract This method will prepare Item details dictionary from server response
  @param Response Dictionary

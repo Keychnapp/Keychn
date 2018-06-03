@@ -12,6 +12,7 @@
 #import "MasterclassVideo.h"
 #import <MXParallaxHeader/MXScrollView.h>
 #import "MasterchefNameTableViewCell.h"
+#import "MasterclassDetailViewController.h"
 
 #define kBaseHeight  245
 #define kBaseWidth   375
@@ -151,6 +152,18 @@
     }
     return _cellHeight;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.masterclasses.count > indexPath.row) {
+        // Go to Masterclass Details screen
+        MasterclassVideo *masterclass = [self.masterclasses objectAtIndex:indexPath.row];
+        MasterclassDetailViewController *masterclassVideoViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"MasterclassDetailViewController"];
+        masterclassVideoViewController.selectedVideo = masterclass;
+        [self.navigationController pushViewController:masterclassVideoViewController animated:YES];
+    }
+}
+
+
 
 #pragma mark - Web Request
 

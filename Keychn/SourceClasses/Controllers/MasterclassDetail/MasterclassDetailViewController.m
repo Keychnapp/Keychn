@@ -21,13 +21,19 @@
 #import "KCItemSteptableViewCell.h"
 #import "IAPSubscription.h"
 #import "KCSubscription.h"
+#import <ZFPlayer/ZFPlayer.h>
+#import <ZFPlayer/ZFAVPlayerManager.h>
+#import "ZFPlayerControlView.h"
+
 
 @import SafariServices;
+@import AVFoundation;
+@import AVKit;
 
 #define kShareMasterclass(s) [NSString stringWithFormat:@"https://keychn.com/#!/unsubscribed/%@",s]
 
 
-@interface MasterclassDetailViewController () <UITableViewDataSource, UITableViewDelegate> {
+@interface MasterclassDetailViewController () <UITableViewDataSource, UITableViewDelegate, PlayerDelegate> {
     NSInteger           _ingredientsCount;
     NSInteger           _recipeStepsCount;
     KCUserProfile       *_userProfile;
@@ -45,6 +51,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *itemDetailsTableView;
 @property (weak, nonatomic) IBOutlet UIButton *itemLikeButton;
+@property (weak, nonatomic) IBOutlet UIButton *playVideoButton;
 
 @property (weak, nonatomic) UIButton *likeCounterButton;
 @property (nonatomic,strong) UIImageView     *blurredImageView;
@@ -61,7 +68,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *getTrialButton;
 @property (weak, nonatomic) IBOutlet UIView *popUpContainerView;
 
-
+#pragma mark - Vimeo video playing
+@property (nonatomic, strong) NSURL *vimeoVideoURL;
+@property (nonatomic, strong) ZFPlayerController *player;
+@property (nonatomic, strong) ZFPlayerControlView *controlView;
+@property (nonatomic, strong) ZFAVPlayerManager *playerManager;
 
 @end
 
@@ -84,6 +95,7 @@
     self.getTrialButton.layer.masksToBounds = YES;
     self.getTrialButton.layer.borderColor   = [UIColor whiteColor].CGColor;
     self.getTrialButton.layer.borderWidth   = 4.0f;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
     //Get ingredient selection Array
     _ingredinetSelectionArray = [[NSMutableArray alloc] initWithArray:[_recipeDBManager getItmesIngredinetsArrayForUser:_userProfile.userID forItem:self.selectedVideo.videoId isMasterclass:YES]];
@@ -101,7 +113,6 @@
     self.accessAllVideoClassLabel.text  = NSLocalizedString(@"accessAllVideoClasses", nil);
     self.updatedEverydayLabel.text      = NSLocalizedString(@"updatedEveryday", nil);
     [self.getTrialButton setTitle:NSLocalizedString(@"getATrial", nil) forState:UIControlStateNormal];
-
 }
 
 - (void)didReceiveMemoryWarning {
@@ -118,6 +129,7 @@
     [super viewWillDisappear:animated];
     [self unsubscribeIAPNotification];
 }
+
 
 #pragma mark - Tableview Datasource and Delegate
 
@@ -165,7 +177,7 @@
         NSInteger labelWidth  = CGRectGetWidth(self.view.frame) - 34;
         KCItemRecipeStep *recipeStep = [_itemDetails.itemRecipeStepArray objectAtIndex:effectivePosition];
         if([KCUtility getiOSDeviceType] == iPad) {
-            rowHeight = 460;
+            rowHeight = 471;
         }
         else {
             rowHeight = 395;
@@ -194,6 +206,8 @@
         [self customizeItemDetailCell:itemDetailTableCell];
         [self setDataOnItemDetailCelll:itemDetailTableCell];
         self.likeCounterButton     = itemDetailTableCell.likeCounterButton;
+        itemDetailTableCell.playVideoButton.hidden  = self.playerManager.isPlaying;
+        self.playVideoButton       = itemDetailTableCell.playVideoButton;
         if(_itemDetails.isItemFavorite) {
             self.itemLikeButton.selected = YES;
         }
@@ -207,10 +221,13 @@
         KCItemIngredientsTableViewCell *itemIngredientsTableCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifierForItemIngredients forIndexPath:indexPath];
         itemIngredientsTableCell.ingredientLabel.font  = [UIFont setRobotoFontRegularStyleWithSize:13];
         itemIngredientsTableCell.ingredientLabel.textColor = [UIColor lightGrayColor];
+        itemIngredientsTableCell.ingredientAmountLabel.font  = itemIngredientsTableCell.ingredientLabel.font;
+        itemIngredientsTableCell.ingredientAmountLabel.textColor = itemIngredientsTableCell.ingredientLabel.textColor;
         NSInteger effectivePosition = indexPath.row -1;
         if([_itemDetails.itemIngredientArray count] > effectivePosition) {
             KCItemIngredient *itemIngredient = [_itemDetails.itemIngredientArray objectAtIndex:effectivePosition];
             itemIngredientsTableCell.ingredientLabel.text = itemIngredient.ingredientTitle;
+            itemIngredientsTableCell.ingredientAmountLabel.text = itemIngredient.amount;
             itemIngredientsTableCell.ingredientLabel.adjustsFontSizeToFitWidth = YES;
             if([_ingredinetSelectionArray containsObject:itemIngredient.ingredientIdentifer]) {
                 itemIngredientsTableCell.ingredientAvailableButton.selected = YES;
@@ -335,7 +352,9 @@
     [self shareItemWith:self.selectedVideo.videoId];
 }
 
-- (IBAction)playVideoButtonTapped:(id)sender {
+- (IBAction)playVideoButtonTapped:(UIButton *)sender {
+    self.playVideoButton = sender;
+    [sender setHidden:YES];
     NSString *videoLink;
     if(_iapSubscription) {
         videoLink = _itemDetails.videoLink;
@@ -343,11 +362,20 @@
     else {
         videoLink = _itemDetails.trailerLink;
     }
-    if(videoLink) {
+   /* if(videoLink) {
         SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:videoLink]];
         [self presentViewController:safariViewController animated:true completion:^{
             
         }];
+    } */
+    if(_vimeoVideoURL != nil) {
+        // Start playing when vimeo URL is fetched
+        [self setupVimeoPlayer];
+        [self playTheVideoAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] scrollToTop:YES];
+    }
+    else {
+        // Fetch the URl then then play
+        [self fetchVimeoVideoWithURL:videoLink shouldAutoPlay:YES];
     }
 }
 
@@ -612,10 +640,13 @@
     _recipeStepsCount = [_itemDetails.itemRecipeStepArray count];
     [self.itemDetailsTableView reloadData];
     
+    NSString *videoLink;
     if(!_iapSubscription) {
         self.blurView.hidden = false;
         self.blurView.alpha  = 0.7f;
-        self.itemDetailsTableView.scrollEnabled = false;
+        self.itemDetailsTableView.scrollEnabled = NO;
+        
+        videoLink = _itemDetails.trailerLink;
         
         // Show pop-up with animation
         self.popUpContainerView.transform = CGAffineTransformMakeScale(0.1, 0.1);
@@ -626,9 +657,12 @@
             
         }];
     }
+    else {
+        videoLink = _itemDetails.videoLink;
+    }
     
-    self.blurView.hidden = YES;
-    self.itemDetailsTableView.scrollEnabled = YES;
+    // Fetch absolute URL for Vimeo
+    [self fetchVimeoVideoWithURL:videoLink shouldAutoPlay: NO];
 }
 
 #pragma mark  - Blur Effect
@@ -723,7 +757,6 @@
                 [weakSelf itemDislikedSuccessfully];
             }
             
-            
         } andFailure:^(NSString *title, NSString *message) {
             [KCUIAlert showInformationAlertWithHeader:title message:message withButtonTapHandler:^{
                 
@@ -738,5 +771,119 @@
     }
 }
 
+
+#pragma mark - Video Player Integration
+
+
+- (void)fetchVimeoVideoWithURL:(NSString *)videoURL shouldAutoPlay:(BOOL)shouldStart {
+    __weak MasterclassDetailViewController *weakSelf = self;
+    __block BOOL shouldAutoplay = shouldStart;
+    VimeoVideoExtractor *videoExtractor = [[VimeoVideoExtractor alloc] init];
+    [videoExtractor absoluteVimeoURLWith:videoURL completion:^(NSURL *videoURL) {
+       if(DEBUGGING) NSLog(@"Extracted video URL %@", videoURL.absoluteString);
+        weakSelf.vimeoVideoURL = videoURL;
+        if(shouldAutoplay) {
+            [weakSelf setupVimeoPlayer];
+            [weakSelf playTheVideoAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] scrollToTop:YES];
+        }
+    }];
+}
+
+- (void)setupVimeoPlayer {
+    /// playerManager
+    
+    self.playerManager = [[ZFAVPlayerManager alloc] init];
+    [self.playerManager setScalingMode:ZFPlayerScalingModeAspectFill];
+    self.playerManager.shouldAutoPlay = YES;
+    
+    /// player
+    self.player = [ZFPlayerController playerWithScrollView:self.itemDetailsTableView playerManager:self.playerManager containerViewTag:1002];
+    self.player.controlView = self.controlView;
+    self.player.delegate    = self;
+    
+    @weakify(self)
+    self.player.orientationWillChange = ^(ZFPlayerController * _Nonnull player, BOOL isFullScreen) {
+        @strongify(self)
+        [self.view endEditing:YES];
+//        [self setNeedsStatusBarAppearanceUpdate];
+        self.itemDetailsTableView.scrollsToTop = !isFullScreen;
+    };
+    
+    self.player.playerDidToEnd = ^(id  _Nonnull asset) {
+        @strongify(self)
+        [self.playVideoButton setHidden:NO];
+        if (!self.player.isFullScreen) {
+            [self.player stopCurrentPlayingCell];
+            [self.controlView resetControlView];
+        } else {
+            [self.player enterFullScreen:NO animated:YES];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.player.orientationObserver.duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.player stopCurrentPlayingCell];
+            });
+        }
+    };
+    
+    self.player.stopWhileNotVisible = NO;
+    CGFloat margin = 60;
+    CGFloat w = 300;
+    CGFloat h = 200;
+    CGFloat x = ZFPlayer_ScreenWidth - w - margin;
+    CGFloat y = ZFPlayer_ScreenHeight - h - margin;
+    self.player.smallFloatView.frame = CGRectMake(x, y, w, h);
+}
+
+#pragma mark - Player Delegate
+
+- (void)didDismissPlayer:(ZFPlayerController *)playerController {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.playVideoButton setHidden:NO];
+    });
+    self.playerManager = nil;
+    self.player        = nil;
+    self.controlView   = nil;
+}
+
+#pragma mark - private method
+
+/// play the video
+- (void)playTheVideoAtIndexPath:(NSIndexPath *)indexPath scrollToTop:(BOOL)scrollToTop {
+    self.player.assetURLs = @[_vimeoVideoURL];
+    [self.player playTheIndexPath:indexPath scrollToTop:scrollToTop];
+    [self.controlView resetControlView];
+}
+
+- (ZFPlayerControlView *)controlView {
+    if (!_controlView) {
+        _controlView = [ZFPlayerControlView new];
+    }
+    return _controlView;
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (!decelerate) {
+        [self scrollDidStoppedToPlay];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    [self scrollDidStoppedToPlay];
+}
+
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView {
+    [self scrollDidStoppedToPlay];
+}
+
+- (void)scrollDidStoppedToPlay {
+    @weakify(self)
+    if(self.playerManager.isPlaying) {
+        [self.itemDetailsTableView zf_filterShouldPlayCellWhileScrolled:^(NSIndexPath * _Nonnull indexPath) {
+            @strongify(self)
+            indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            [self playTheVideoAtIndexPath:indexPath scrollToTop:NO];
+        }];
+    }
+}
 
 @end

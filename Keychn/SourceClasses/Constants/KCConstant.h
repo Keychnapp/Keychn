@@ -74,6 +74,12 @@ typedef NS_ENUM(NSUInteger,DaysName) {
     saturday
 };
 
+typedef NS_ENUM(NSUInteger, VideoPlayerType) {
+    topFillWidth,
+    bottomSmallWindow,
+    fullScreen
+};
+
 typedef NS_ENUM(NSUInteger,ShiftName) {
   breakfast,
     lunch,
@@ -319,6 +325,7 @@ extern NSString  *kSpeakingLanguage;
 extern NSString  *kLabelList;
 extern NSString  *kSupportedLanguageID;
 extern NSString  *kLabelName;
+extern NSString  *kIngredientAmount;
 extern NSString  *kImageURLiPad;
 extern NSString  *kImageURLiPhone;
 extern NSString  *kSmallImageURLiPad;

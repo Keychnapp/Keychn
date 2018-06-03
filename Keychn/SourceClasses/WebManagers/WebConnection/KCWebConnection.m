@@ -24,11 +24,10 @@
     
     if(DEBUGGING) NSLog(@"Server Request with URL %@ and parameters %@",apiURL,params);
     
-    [manager setResponseSerializer:[AFHTTPResponseSerializer new]];
-    [manager POST:apiURL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSDictionary *responseDictionary = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
-        if([self isUserSessionValid:responseDictionary]) {
-           success(responseDictionary);
+     manager.responseSerializer = [AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments];
+    [manager POST:apiURL parameters:params success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        if([self isUserSessionValid:responseObject]) {
+           success(responseObject);
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -45,8 +44,7 @@
     [manager setRequestSerializer:[AFJSONRequestSerializer new]];
     [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         // Request completed with response
-//        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:NULL];
-        NSLog(@"Request completed with response %@", responseObject);
+        if(DEBUGGING) NSLog(@"Request completed with response %@", responseObject);
         success(responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Unable to reach to server %@",error.description);

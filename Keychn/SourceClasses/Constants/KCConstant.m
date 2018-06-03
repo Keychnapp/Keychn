@@ -105,7 +105,8 @@ NSString  *connetVideoCallAction       = @"videoapis/scheduledACallLaterConnect"
 NSString  *completGroupSessionAction   = @"listapis/markGroupSessionComplete";
 NSString  *updateGroupSessoinLog       = @"listapis/saveGroupSessionLog";
 NSString  *updateKeychPointAction      = @"listapis/addUserCredit";
-NSString  *updateSubscriptionAction    = @"userapis/updateUserSubscription";
+//NSString  *updateSubscriptionAction    = @"userapis/updateUserSubscription";
+NSString  *updateSubscriptionAction    = @"userapis/updateLatestUserSubscription";
 NSString  *getParcipantNamesAction     = @"listapis/allGroupParticipants";
 NSString  *updatePushNotification      = @"userapis/updateToken";
 
@@ -163,6 +164,7 @@ NSString  *kSpeakingLanguage         = @"speaking_language";
 NSString  *kLabelList                = @"label_list";
 NSString  *kSupportedLanguageID      = @"supported_language_id";
 NSString  *kLabelName                = @"label_name";
+NSString  *kIngredientAmount         = @"amount";
 NSString  *kImageURLiPad             = @"image_url_ipad";
 NSString  *kImageURLiPhone           = @"image_url_iphone";
 NSString  *kSmallImageURLiPad        = @"small_image_url_ipad";
