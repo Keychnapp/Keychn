@@ -306,11 +306,11 @@
                         <viewControllerLayoutGuide type="bottom" id="58b-yi-sog"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="hYU-0g-X4V">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HgS-0g-AqN">
-                                <rect key="frame" x="0.0" y="30" width="375" height="540"/>
+                                <rect key="frame" x="0.0" y="30" width="768" height="540"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dZu-Um-koY">
                                         <rect key="frame" x="10" y="5" width="40" height="40"/>
@@ -324,7 +324,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hello, Starcook" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="ggi-cv-8MT" customClass="TOMSMorphingLabel">
-                                        <rect key="frame" x="60" y="10" width="255" height="30"/>
+                                        <rect key="frame" x="60" y="10" width="648" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="1q7-DB-uog"/>
                                         </constraints>
@@ -333,16 +333,16 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wn6-W0-jXi">
-                                        <rect key="frame" x="14" y="65" width="347" height="510"/>
+                                        <rect key="frame" x="159" y="65" width="450" height="510"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="39x-ji-h5H">
-                                                <rect key="frame" x="0.0" y="0.0" width="347" height="510"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="450" height="510"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OxW-vJ-OK8">
-                                                        <rect key="frame" x="0.0" y="0.0" width="347" height="390"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="450" height="390"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rNZ-bY-HRp">
-                                                                <rect key="frame" x="10" y="20" width="337" height="70"/>
+                                                                <rect key="frame" x="10" y="20" width="440" height="70"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j7y-6V-dP0">
                                                                         <rect key="frame" x="20" y="7" width="45" height="21"/>
@@ -351,7 +351,7 @@
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OGQ-UP-Xkt">
-                                                                        <rect key="frame" x="21" y="36" width="295" height="31"/>
+                                                                        <rect key="frame" x="21" y="36" width="398" height="31"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="31" id="RhE-Rl-15d"/>
@@ -364,7 +364,7 @@
                                                                         </connections>
                                                                     </textField>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oSV-hc-rKh">
-                                                                        <rect key="frame" x="21" y="63" width="295" height="1"/>
+                                                                        <rect key="frame" x="21" y="63" width="398" height="1"/>
                                                                         <color key="backgroundColor" white="0.66666666666666663" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="1" id="tsp-Tr-PKS"/>
@@ -385,7 +385,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="32L-nu-dM3">
-                                                                <rect key="frame" x="10" y="102" width="337" height="70"/>
+                                                                <rect key="frame" x="10" y="102" width="440" height="70"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vfi-09-sKq">
                                                                         <rect key="frame" x="20" y="7" width="41" height="21"/>
@@ -394,7 +394,7 @@
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hsA-GR-s3K">
-                                                                        <rect key="frame" x="21" y="36" width="295" height="31"/>
+                                                                        <rect key="frame" x="21" y="36" width="398" height="31"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="31" id="YAl-hL-ZVr"/>
@@ -407,7 +407,7 @@
                                                                         </connections>
                                                                     </textField>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lhP-qZ-4HP">
-                                                                        <rect key="frame" x="21" y="63" width="295" height="1"/>
+                                                                        <rect key="frame" x="21" y="63" width="398" height="1"/>
                                                                         <color key="backgroundColor" white="0.66666666669999997" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="1" id="Xdz-VG-wt3"/>
@@ -428,7 +428,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gqg-hW-v30">
-                                                                <rect key="frame" x="5" y="184" width="337" height="70"/>
+                                                                <rect key="frame" x="5" y="184" width="440" height="70"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RCM-Eg-kz8">
                                                                         <rect key="frame" x="20" y="7" width="74" height="21"/>
@@ -437,7 +437,7 @@
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lRr-HN-qfJ">
-                                                                        <rect key="frame" x="21" y="36" width="295" height="31"/>
+                                                                        <rect key="frame" x="21" y="36" width="398" height="31"/>
                                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="31" id="814-dX-abh"/>
@@ -450,7 +450,7 @@
                                                                         </connections>
                                                                     </textField>
                                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qbm-Lw-kVF">
-                                                                        <rect key="frame" x="21" y="63" width="295" height="1"/>
+                                                                        <rect key="frame" x="21" y="63" width="398" height="1"/>
                                                                         <color key="backgroundColor" white="0.66666666669999997" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="1" id="Fcl-Po-Mr1"/>
@@ -471,7 +471,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jy2-0R-lsf">
-                                                                <rect key="frame" x="109" y="279" width="128" height="45"/>
+                                                                <rect key="frame" x="160.5" y="279" width="128" height="45"/>
                                                                 <color key="backgroundColor" red="0.98017388579999998" green="0.80618470909999995" blue="0.28298133609999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="45" id="5fj-b8-7kd"/>
@@ -491,11 +491,11 @@
                                                                 </connections>
                                                             </button>
                                                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="uMF-QA-WTc">
-                                                                <rect key="frame" x="251" y="291" width="20" height="20"/>
+                                                                <rect key="frame" x="302.5" y="291" width="20" height="20"/>
                                                                 <color key="color" red="0.98017388579999998" green="0.80618470909999995" blue="0.28298133609999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </activityIndicatorView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By Clicking Sign Up, you agree to our Terms and Privacy Policy" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="wE2-ZT-NEo" customClass="TTTAttributedLabel">
-                                                                <rect key="frame" x="55" y="343" width="237" height="28"/>
+                                                                <rect key="frame" x="106.5" y="343" width="237" height="28"/>
                                                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="12"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -527,7 +527,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U5l-kH-Rl0">
-                                                        <rect key="frame" x="63" y="411" width="220" height="30"/>
+                                                        <rect key="frame" x="114.5" y="411" width="220" height="30"/>
                                                         <state key="normal">
                                                             <attributedString key="attributedTitle">
                                                                 <fragment content="Already have an account?">
@@ -557,7 +557,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="67v-4J-g3D">
-                                                        <rect key="frame" x="109.5" y="458" width="128" height="45"/>
+                                                        <rect key="frame" x="161" y="458" width="128" height="45"/>
                                                         <color key="backgroundColor" red="0.22728994490000001" green="0.34826642270000002" blue="0.59661257270000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="128" id="L4g-IU-DPl"/>
@@ -2148,8 +2148,6 @@
                             <mask key="constraints">
                                 <exclude reference="J4i-aQ-09S"/>
                                 <exclude reference="ocf-x3-J11"/>
-                                <exclude reference="3t3-Qr-t0O"/>
-                                <exclude reference="Zxn-S4-SQY"/>
                                 <exclude reference="2jJ-D3-sWN"/>
                                 <exclude reference="WgF-x3-bi8"/>
                                 <exclude reference="YS2-PC-bHI"/>
@@ -2159,6 +2157,8 @@
                                 <exclude reference="jKQ-ae-y6g"/>
                                 <exclude reference="o1y-Ct-L9p"/>
                                 <exclude reference="zXZ-BC-BUX"/>
+                                <exclude reference="3t3-Qr-t0O"/>
+                                <exclude reference="Zxn-S4-SQY"/>
                                 <exclude reference="RjW-MJ-4pm"/>
                                 <exclude reference="0XQ-ja-EBs"/>
                                 <exclude reference="geX-qa-2Qg"/>
@@ -2188,10 +2188,6 @@
                                 <exclude reference="WPc-vo-vnt"/>
                                 <include reference="ocf-x3-J11"/>
                                 <exclude reference="zRW-mN-WZy"/>
-                                <include reference="3t3-Qr-t0O"/>
-                                <exclude reference="BZ2-XO-q2l"/>
-                                <include reference="Zxn-S4-SQY"/>
-                                <exclude reference="xjR-Cj-U0o"/>
                                 <include reference="2jJ-D3-sWN"/>
                                 <exclude reference="Hob-2W-Zjh"/>
                                 <exclude reference="UV1-jH-FeP"/>
@@ -2204,6 +2200,10 @@
                                 <include reference="IKf-pZ-zaw"/>
                                 <include reference="o1y-Ct-L9p"/>
                                 <include reference="zXZ-BC-BUX"/>
+                                <include reference="3t3-Qr-t0O"/>
+                                <exclude reference="BZ2-XO-q2l"/>
+                                <include reference="Zxn-S4-SQY"/>
+                                <exclude reference="xjR-Cj-U0o"/>
                                 <exclude reference="0T4-z2-55d"/>
                                 <include reference="RjW-MJ-4pm"/>
                                 <include reference="0XQ-ja-EBs"/>
@@ -2227,8 +2227,6 @@
                             <mask key="constraints">
                                 <include reference="WPc-vo-vnt"/>
                                 <include reference="zRW-mN-WZy"/>
-                                <include reference="BZ2-XO-q2l"/>
-                                <include reference="xjR-Cj-U0o"/>
                                 <include reference="Hob-2W-Zjh"/>
                                 <include reference="UV1-jH-FeP"/>
                                 <include reference="xO8-5J-WGq"/>
@@ -2236,6 +2234,8 @@
                                 <include reference="BBf-ie-2up"/>
                                 <include reference="PHP-gy-2hg"/>
                                 <include reference="jKQ-ae-y6g"/>
+                                <include reference="BZ2-XO-q2l"/>
+                                <include reference="xjR-Cj-U0o"/>
                                 <include reference="0T4-z2-55d"/>
                                 <include reference="g6W-gc-gLZ"/>
                                 <include reference="wGJ-xy-pHr"/>
@@ -2967,16 +2967,16 @@
                                 <exclude reference="fqh-gv-qjZ"/>
                                 <exclude reference="puz-St-PXv"/>
                                 <exclude reference="v7T-0f-4qN"/>
-                                <exclude reference="Hlj-st-gzm"/>
-                                <exclude reference="VSO-CW-yhA"/>
-                                <exclude reference="Y79-Qj-VlM"/>
-                                <exclude reference="e0q-O3-fOy"/>
                                 <exclude reference="0VJ-ZA-ZXP"/>
                                 <exclude reference="VPp-yV-NYp"/>
                                 <exclude reference="XPY-wY-coI"/>
                                 <exclude reference="ZKP-ya-Bsw"/>
                                 <exclude reference="aB6-pi-8nd"/>
                                 <exclude reference="lKx-Fj-bDH"/>
+                                <exclude reference="Hlj-st-gzm"/>
+                                <exclude reference="VSO-CW-yhA"/>
+                                <exclude reference="Y79-Qj-VlM"/>
+                                <exclude reference="e0q-O3-fOy"/>
                                 <exclude reference="GNb-Mv-0CR"/>
                                 <exclude reference="TDS-qV-RYj"/>
                                 <exclude reference="dDj-sg-k00"/>
@@ -3006,11 +3006,11 @@
                                 <include reference="SWy-w0-OuO"/>
                                 <include reference="puz-St-PXv"/>
                                 <include reference="v7T-0f-4qN"/>
-                                <include reference="VSO-CW-yhA"/>
-                                <include reference="e0q-O3-fOy"/>
                                 <include reference="0VJ-ZA-ZXP"/>
                                 <include reference="VPp-yV-NYp"/>
                                 <include reference="XPY-wY-coI"/>
+                                <include reference="VSO-CW-yhA"/>
+                                <include reference="e0q-O3-fOy"/>
                                 <include reference="GNb-Mv-0CR"/>
                                 <include reference="TDS-qV-RYj"/>
                                 <include reference="afX-zl-1sd"/>
@@ -3028,11 +3028,11 @@
                                 <include reference="SIl-kt-6j1"/>
                                 <include reference="88K-jf-hNY"/>
                                 <include reference="fqh-gv-qjZ"/>
-                                <include reference="Hlj-st-gzm"/>
-                                <include reference="Y79-Qj-VlM"/>
                                 <include reference="ZKP-ya-Bsw"/>
                                 <include reference="aB6-pi-8nd"/>
                                 <include reference="lKx-Fj-bDH"/>
+                                <include reference="Hlj-st-gzm"/>
+                                <include reference="Y79-Qj-VlM"/>
                                 <include reference="dDj-sg-k00"/>
                                 <include reference="xIl-TT-g6e"/>
                                 <include reference="3lh-FM-N27"/>
@@ -3833,16 +3833,16 @@
                                                         <exclude reference="dee-ou-rmz"/>
                                                         <exclude reference="jV5-l1-0yg"/>
                                                         <exclude reference="qoM-Ur-r6L"/>
-                                                        <exclude reference="BHg-rl-EHc"/>
-                                                        <exclude reference="Ej8-km-wkL"/>
-                                                        <exclude reference="Nay-F0-7Zf"/>
-                                                        <exclude reference="ygX-w1-YgX"/>
                                                         <exclude reference="9ep-Dn-I09"/>
                                                         <exclude reference="Evf-aQ-L0R"/>
                                                         <exclude reference="PUI-vu-36L"/>
                                                         <exclude reference="Pum-2N-zPu"/>
                                                         <exclude reference="ttB-e8-9OM"/>
                                                         <exclude reference="zpr-Wz-PqR"/>
+                                                        <exclude reference="BHg-rl-EHc"/>
+                                                        <exclude reference="Ej8-km-wkL"/>
+                                                        <exclude reference="Nay-F0-7Zf"/>
+                                                        <exclude reference="ygX-w1-YgX"/>
                                                         <exclude reference="0Lv-HG-eb5"/>
                                                         <exclude reference="5BX-0K-ZGM"/>
                                                         <exclude reference="9ID-Wl-97L"/>
@@ -3877,11 +3877,11 @@
                                                         <include reference="6O0-ir-JKz"/>
                                                         <include reference="axK-ur-GA8"/>
                                                         <include reference="qoM-Ur-r6L"/>
-                                                        <include reference="Ej8-km-wkL"/>
-                                                        <include reference="ygX-w1-YgX"/>
                                                         <include reference="9ep-Dn-I09"/>
                                                         <include reference="PUI-vu-36L"/>
                                                         <include reference="ttB-e8-9OM"/>
+                                                        <include reference="Ej8-km-wkL"/>
+                                                        <include reference="ygX-w1-YgX"/>
                                                         <include reference="0Lv-HG-eb5"/>
                                                         <include reference="5BX-0K-ZGM"/>
                                                         <include reference="9ID-Wl-97L"/>
@@ -3901,11 +3901,11 @@
                                                         <include reference="Vrp-AH-7zb"/>
                                                         <include reference="dee-ou-rmz"/>
                                                         <include reference="jV5-l1-0yg"/>
-                                                        <include reference="BHg-rl-EHc"/>
-                                                        <include reference="Nay-F0-7Zf"/>
                                                         <include reference="Evf-aQ-L0R"/>
                                                         <include reference="Pum-2N-zPu"/>
                                                         <include reference="zpr-Wz-PqR"/>
+                                                        <include reference="BHg-rl-EHc"/>
+                                                        <include reference="Nay-F0-7Zf"/>
                                                         <include reference="A3q-sc-0Gc"/>
                                                         <include reference="KeJ-pE-Cf2"/>
                                                         <include reference="xbX-dy-egJ"/>
@@ -4417,7 +4417,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MASTERCLASS STARTS IN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EoZ-NC-7Q4">
-                                        <rect key="frame" x="264" y="430.5" width="241" height="23.5"/>
+                                        <rect key="frame" x="263.5" y="430.5" width="241" height="23.5"/>
                                         <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -4696,7 +4696,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="MASTERCLASS STARTS IN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Azt-Eb-BYO">
-                                        <rect key="frame" x="263.5" y="430.5" width="241" height="23.5"/>
+                                        <rect key="frame" x="264" y="430.5" width="241" height="23.5"/>
                                         <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -5403,10 +5403,6 @@
                                 <exclude reference="UZQ-IE-feG"/>
                                 <exclude reference="cXa-ba-0yf"/>
                                 <exclude reference="mcb-JB-QCp"/>
-                                <exclude reference="GUe-xb-Zu9"/>
-                                <exclude reference="hFL-dc-KmH"/>
-                                <exclude reference="itS-t0-9cL"/>
-                                <exclude reference="rsI-QM-1mX"/>
                                 <exclude reference="1UK-OA-oJO"/>
                                 <exclude reference="LOm-vc-vZy"/>
                                 <exclude reference="OA6-N3-JUP"/>
@@ -5415,6 +5411,10 @@
                                 <exclude reference="mJW-j8-Pwf"/>
                                 <exclude reference="n6J-pE-ldo"/>
                                 <exclude reference="sci-Kw-dme"/>
+                                <exclude reference="GUe-xb-Zu9"/>
+                                <exclude reference="hFL-dc-KmH"/>
+                                <exclude reference="itS-t0-9cL"/>
+                                <exclude reference="rsI-QM-1mX"/>
                                 <exclude reference="GMY-Mb-5Dr"/>
                                 <exclude reference="H9f-K2-ZCg"/>
                                 <exclude reference="OOW-qj-w92"/>
@@ -5435,13 +5435,13 @@
                                 <include reference="OcI-RB-SD4"/>
                                 <include reference="UZQ-IE-feG"/>
                                 <include reference="cXa-ba-0yf"/>
-                                <include reference="hFL-dc-KmH"/>
-                                <include reference="rsI-QM-1mX"/>
                                 <include reference="LOm-vc-vZy"/>
                                 <include reference="OA6-N3-JUP"/>
                                 <exclude reference="d3y-Ti-VoA"/>
                                 <include reference="mJW-j8-Pwf"/>
                                 <include reference="sci-Kw-dme"/>
+                                <include reference="hFL-dc-KmH"/>
+                                <include reference="rsI-QM-1mX"/>
                                 <include reference="H9f-K2-ZCg"/>
                                 <include reference="OOW-qj-w92"/>
                                 <include reference="7cu-wg-cWG"/>
@@ -5453,11 +5453,11 @@
                                 <include reference="2eI-do-yjH"/>
                                 <include reference="7Az-vL-zWZ"/>
                                 <include reference="mcb-JB-QCp"/>
-                                <include reference="GUe-xb-Zu9"/>
-                                <include reference="itS-t0-9cL"/>
                                 <include reference="1UK-OA-oJO"/>
                                 <exclude reference="kaF-MX-faf"/>
                                 <exclude reference="n6J-pE-ldo"/>
+                                <include reference="GUe-xb-Zu9"/>
+                                <include reference="itS-t0-9cL"/>
                                 <include reference="GMY-Mb-5Dr"/>
                                 <include reference="oLu-Qf-O59"/>
                                 <include reference="9gT-BB-6aC"/>
@@ -6273,14 +6273,14 @@
                                                     <exclude reference="czn-eR-UUl"/>
                                                     <exclude reference="lQQ-fy-4cH"/>
                                                     <exclude reference="vC3-10-5Wd"/>
+                                                    <exclude reference="Dbk-ib-ZBI"/>
+                                                    <exclude reference="cvN-LS-Qoj"/>
                                                     <exclude reference="0Fr-Oe-q3g"/>
                                                     <exclude reference="Fac-FE-nof"/>
                                                     <exclude reference="KSV-Z6-fr5"/>
                                                     <exclude reference="ayK-C6-LkE"/>
                                                     <exclude reference="jft-gp-dG2"/>
                                                     <exclude reference="znE-xz-Blt"/>
-                                                    <exclude reference="Dbk-ib-ZBI"/>
-                                                    <exclude reference="cvN-LS-Qoj"/>
                                                 </mask>
                                             </variation>
                                             <variation key="heightClass=regular-widthClass=compact">
@@ -6303,10 +6303,10 @@
                                                     <include reference="Anb-qN-3Dk"/>
                                                     <include reference="Dm0-qi-FL4"/>
                                                     <include reference="lQQ-fy-4cH"/>
-                                                    <include reference="0Fr-Oe-q3g"/>
-                                                    <include reference="jft-gp-dG2"/>
                                                     <include reference="Dbk-ib-ZBI"/>
                                                     <include reference="cvN-LS-Qoj"/>
+                                                    <include reference="0Fr-Oe-q3g"/>
+                                                    <include reference="jft-gp-dG2"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>
@@ -7447,10 +7447,10 @@ with one subscription</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NKi-qL-vSF">
-                                                            <rect key="frame" x="0.0" y="8" width="375" height="234"/>
+                                                            <rect key="frame" x="0.0" y="8" width="540" height="234"/>
                                                             <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="masterchef.png" translatesAutoresizingMaskIntoConstraints="NO" id="wX6-4k-V9C">
-                                                                    <rect key="frame" x="10" y="10" width="355" height="214"/>
+                                                                    <rect key="frame" x="10" y="10" width="520" height="214"/>
                                                                     <userDefinedRuntimeAttributes>
                                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                                             <integer key="value" value="5"/>
@@ -7498,30 +7498,30 @@ with one subscription</string>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CIT-mg-inl">
-                                                                    <rect key="frame" x="323" y="194" width="31" height="22"/>
+                                                                    <rect key="frame" x="488" y="194" width="31" height="22"/>
                                                                     <state key="normal" image="info.png"/>
                                                                     <connections>
                                                                         <action selector="masterclassDetailButtonTapped:" destination="vg7-mO-s0A" eventType="touchUpInside" id="KhM-IV-yea"/>
                                                                     </connections>
                                                                 </button>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="DANIEL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Fy6-QK-jwX">
-                                                                    <rect key="frame" x="25" y="119.5" width="340" height="64.5"/>
+                                                                    <rect key="frame" x="25" y="119.5" width="505" height="64.5"/>
                                                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="80"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="CHEF" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="qmd-s8-vEH">
-                                                                    <rect key="frame" x="25" y="50" width="340" height="64.5"/>
+                                                                    <rect key="frame" x="25" y="50" width="505" height="64.5"/>
                                                                     <rect key="contentStretch" x="0.0" y="0.0" width="1" height="0.94999999999999996"/>
                                                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="80"/>
                                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <view clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kmx-Xq-Vbd">
-                                                                    <rect key="frame" x="10" y="10" width="355" height="214"/>
+                                                                    <rect key="frame" x="10" y="10" width="520" height="214"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YfK-Gh-sLo" customClass="TriLabelView" customModule="Keychn" customModuleProvider="target">
-                                                                            <rect key="frame" x="218" y="0.0" width="137" height="70"/>
+                                                                            <rect key="frame" x="383" y="0.0" width="137" height="70"/>
                                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="70" id="m16-g6-8Qq"/>
@@ -7549,10 +7549,10 @@ with one subscription</string>
                                                                     </constraints>
                                                                 </view>
                                                                 <view hidden="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zjc-xz-UXX">
-                                                                    <rect key="frame" x="10" y="10" width="355" height="214"/>
+                                                                    <rect key="frame" x="10" y="10" width="520" height="214"/>
                                                                     <subviews>
                                                                         <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yOd-QB-dq7">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="355" height="214"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="520" height="214"/>
                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         </view>
                                                                         <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ggc-7e-836">
@@ -8837,7 +8837,7 @@ with one subscription</string>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="myScheduleTableCell" rowHeight="87" id="Xu6-8O-WKd" customClass="KCMyScheduleTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="myScheduleTableCell" rowHeight="87" id="Xu6-8O-WKd" customClass="KCMyScheduleTableViewCell">
                                         <rect key="frame" x="0.0" y="28" width="768" height="87"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xu6-8O-WKd" id="ZUu-FJ-Zie">
@@ -9245,14 +9245,14 @@ with one subscription</string>
                                         <exclude reference="llc-8d-OsU"/>
                                         <exclude reference="pNb-We-WJy"/>
                                         <exclude reference="s19-5L-dgj"/>
-                                        <exclude reference="7pK-QB-35u"/>
-                                        <exclude reference="D9C-ry-Hoc"/>
-                                        <exclude reference="bFP-f3-Dby"/>
-                                        <exclude reference="d1V-xU-A2d"/>
                                         <exclude reference="CU0-NF-CYd"/>
                                         <exclude reference="EI8-qc-WM6"/>
                                         <exclude reference="Esw-XX-Hva"/>
                                         <exclude reference="KlR-Q7-Bi9"/>
+                                        <exclude reference="7pK-QB-35u"/>
+                                        <exclude reference="D9C-ry-Hoc"/>
+                                        <exclude reference="bFP-f3-Dby"/>
+                                        <exclude reference="d1V-xU-A2d"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
@@ -9268,10 +9268,10 @@ with one subscription</string>
                                         <exclude reference="ho9-Jp-7kj"/>
                                         <exclude reference="llc-8d-OsU"/>
                                         <include reference="s19-5L-dgj"/>
-                                        <include reference="D9C-ry-Hoc"/>
-                                        <include reference="bFP-f3-Dby"/>
                                         <include reference="Esw-XX-Hva"/>
                                         <include reference="KlR-Q7-Bi9"/>
+                                        <include reference="D9C-ry-Hoc"/>
+                                        <include reference="bFP-f3-Dby"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=regular">
@@ -9280,10 +9280,10 @@ with one subscription</string>
                                         <include reference="Dcy-YY-h2M"/>
                                         <include reference="2jD-oN-kS7"/>
                                         <include reference="pNb-We-WJy"/>
-                                        <include reference="7pK-QB-35u"/>
-                                        <include reference="d1V-xU-A2d"/>
                                         <include reference="CU0-NF-CYd"/>
                                         <include reference="EI8-qc-WM6"/>
+                                        <include reference="7pK-QB-35u"/>
+                                        <include reference="d1V-xU-A2d"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -9458,6 +9458,12 @@ with one subscription</string>
                                 <exclude reference="bOz-Vw-LJ2"/>
                                 <exclude reference="bQl-ch-1PB"/>
                                 <exclude reference="u9M-ly-Dmb"/>
+                                <exclude reference="25g-Gl-YAP"/>
+                                <exclude reference="7VQ-51-i9c"/>
+                                <exclude reference="Uoa-vt-ELG"/>
+                                <exclude reference="Xdh-r3-eii"/>
+                                <exclude reference="ilM-3x-WLe"/>
+                                <exclude reference="tRb-K9-VgL"/>
                                 <exclude reference="6og-vA-SA8"/>
                                 <exclude reference="S3I-3d-mM6"/>
                                 <exclude reference="aHR-Fa-YUa"/>
@@ -9466,6 +9472,12 @@ with one subscription</string>
                                 <exclude reference="qtR-pA-BQO"/>
                                 <exclude reference="wIt-mx-FKD"/>
                                 <exclude reference="xHx-PP-kbT"/>
+                                <exclude reference="Chx-aw-wI6"/>
+                                <exclude reference="EcS-mu-w5g"/>
+                                <exclude reference="GKC-FR-rMi"/>
+                                <exclude reference="HhH-71-7U0"/>
+                                <exclude reference="Tg9-WC-H7D"/>
+                                <exclude reference="mqn-Rv-Nij"/>
                                 <exclude reference="1On-NC-glV"/>
                                 <exclude reference="1P0-oH-elq"/>
                                 <exclude reference="3ig-Bl-UM1"/>
@@ -9475,26 +9487,14 @@ with one subscription</string>
                                 <exclude reference="THg-LQ-ao8"/>
                                 <exclude reference="c0d-jj-600"/>
                                 <exclude reference="nTk-dX-Q07"/>
-                                <exclude reference="Ai2-2o-H0O"/>
-                                <exclude reference="ZbJ-VO-Abo"/>
-                                <exclude reference="Zq4-y8-fBC"/>
-                                <exclude reference="gb7-bh-8mT"/>
                                 <exclude reference="6Rt-RP-pd5"/>
                                 <exclude reference="Agg-J7-hyS"/>
                                 <exclude reference="gcK-X8-x2s"/>
                                 <exclude reference="i6c-nF-ZLb"/>
-                                <exclude reference="25g-Gl-YAP"/>
-                                <exclude reference="7VQ-51-i9c"/>
-                                <exclude reference="Uoa-vt-ELG"/>
-                                <exclude reference="Xdh-r3-eii"/>
-                                <exclude reference="ilM-3x-WLe"/>
-                                <exclude reference="tRb-K9-VgL"/>
-                                <exclude reference="Chx-aw-wI6"/>
-                                <exclude reference="EcS-mu-w5g"/>
-                                <exclude reference="GKC-FR-rMi"/>
-                                <exclude reference="HhH-71-7U0"/>
-                                <exclude reference="Tg9-WC-H7D"/>
-                                <exclude reference="mqn-Rv-Nij"/>
+                                <exclude reference="Ai2-2o-H0O"/>
+                                <exclude reference="ZbJ-VO-Abo"/>
+                                <exclude reference="Zq4-y8-fBC"/>
+                                <exclude reference="gb7-bh-8mT"/>
                                 <exclude reference="2Ln-op-adb"/>
                                 <exclude reference="J4F-op-9Qu"/>
                                 <exclude reference="J9S-Xo-TPb"/>
@@ -9518,22 +9518,22 @@ with one subscription</string>
                                 <include reference="22h-Lh-Ak2"/>
                                 <include reference="DmF-aD-xc7"/>
                                 <include reference="bOz-Vw-LJ2"/>
-                                <include reference="6og-vA-SA8"/>
-                                <include reference="bvw-1O-qZa"/>
-                                <include reference="qtR-pA-BQO"/>
-                                <include reference="1On-NC-glV"/>
-                                <include reference="9rF-Rt-R9z"/>
-                                <include reference="c0d-jj-600"/>
-                                <include reference="Zq4-y8-fBC"/>
-                                <include reference="gb7-bh-8mT"/>
-                                <include reference="Agg-J7-hyS"/>
-                                <include reference="i6c-nF-ZLb"/>
                                 <include reference="25g-Gl-YAP"/>
                                 <include reference="Xdh-r3-eii"/>
                                 <include reference="tRb-K9-VgL"/>
+                                <include reference="6og-vA-SA8"/>
+                                <include reference="bvw-1O-qZa"/>
+                                <include reference="qtR-pA-BQO"/>
                                 <include reference="Chx-aw-wI6"/>
                                 <include reference="GKC-FR-rMi"/>
                                 <include reference="mqn-Rv-Nij"/>
+                                <include reference="1On-NC-glV"/>
+                                <include reference="9rF-Rt-R9z"/>
+                                <include reference="c0d-jj-600"/>
+                                <include reference="Agg-J7-hyS"/>
+                                <include reference="i6c-nF-ZLb"/>
+                                <include reference="Zq4-y8-fBC"/>
+                                <include reference="gb7-bh-8mT"/>
                                 <include reference="2Ln-op-adb"/>
                                 <include reference="WDh-h7-AVL"/>
                                 <include reference="rIY-Tg-t13"/>
@@ -9548,27 +9548,27 @@ with one subscription</string>
                                 <include reference="aqD-xH-k7T"/>
                                 <include reference="bQl-ch-1PB"/>
                                 <include reference="u9M-ly-Dmb"/>
+                                <include reference="7VQ-51-i9c"/>
+                                <include reference="Uoa-vt-ELG"/>
+                                <include reference="ilM-3x-WLe"/>
                                 <include reference="S3I-3d-mM6"/>
                                 <include reference="aHR-Fa-YUa"/>
                                 <exclude reference="eAG-rL-Mms"/>
                                 <include reference="wIt-mx-FKD"/>
                                 <exclude reference="xHx-PP-kbT"/>
+                                <include reference="EcS-mu-w5g"/>
+                                <include reference="HhH-71-7U0"/>
+                                <include reference="Tg9-WC-H7D"/>
                                 <exclude reference="1P0-oH-elq"/>
                                 <include reference="3ig-Bl-UM1"/>
                                 <exclude reference="Dit-cx-a4H"/>
                                 <include reference="QXH-xl-0c2"/>
                                 <exclude reference="THg-LQ-ao8"/>
                                 <exclude reference="nTk-dX-Q07"/>
-                                <include reference="Ai2-2o-H0O"/>
-                                <include reference="ZbJ-VO-Abo"/>
                                 <include reference="6Rt-RP-pd5"/>
                                 <include reference="gcK-X8-x2s"/>
-                                <include reference="7VQ-51-i9c"/>
-                                <include reference="Uoa-vt-ELG"/>
-                                <include reference="ilM-3x-WLe"/>
-                                <include reference="EcS-mu-w5g"/>
-                                <include reference="HhH-71-7U0"/>
-                                <include reference="Tg9-WC-H7D"/>
+                                <include reference="Ai2-2o-H0O"/>
+                                <include reference="ZbJ-VO-Abo"/>
                                 <include reference="J4F-op-9Qu"/>
                                 <include reference="J9S-Xo-TPb"/>
                                 <include reference="KFC-dx-XXG"/>
@@ -9945,10 +9945,6 @@ with one subscription</string>
                                                 <exclude reference="fuN-HY-exa"/>
                                                 <exclude reference="fyg-S0-4cQ"/>
                                                 <exclude reference="r4f-Yu-Joq"/>
-                                                <exclude reference="8JL-DD-N2P"/>
-                                                <exclude reference="HX3-Rg-kkE"/>
-                                                <exclude reference="JAq-Em-VeT"/>
-                                                <exclude reference="ljq-6a-hUn"/>
                                                 <exclude reference="1m6-gx-3ac"/>
                                                 <exclude reference="A1Q-Fk-9M7"/>
                                                 <exclude reference="G56-zM-UDf"/>
@@ -9956,6 +9952,10 @@ with one subscription</string>
                                                 <exclude reference="Qjb-l6-Sgk"/>
                                                 <exclude reference="ZmX-3Q-udM"/>
                                                 <exclude reference="fG1-9D-aKs"/>
+                                                <exclude reference="8JL-DD-N2P"/>
+                                                <exclude reference="HX3-Rg-kkE"/>
+                                                <exclude reference="JAq-Em-VeT"/>
+                                                <exclude reference="ljq-6a-hUn"/>
                                                 <exclude reference="Cdd-vC-cV1"/>
                                                 <exclude reference="QMp-9V-g9L"/>
                                                 <exclude reference="Flj-Qw-HO4"/>
@@ -9985,11 +9985,11 @@ with one subscription</string>
                                                 <include reference="K8x-iB-fLP"/>
                                                 <include reference="KRr-B1-Rgy"/>
                                                 <include reference="fuN-HY-exa"/>
-                                                <include reference="8JL-DD-N2P"/>
-                                                <include reference="JAq-Em-VeT"/>
                                                 <include reference="A1Q-Fk-9M7"/>
                                                 <include reference="G56-zM-UDf"/>
                                                 <include reference="IKD-bK-0dd"/>
+                                                <include reference="8JL-DD-N2P"/>
+                                                <include reference="JAq-Em-VeT"/>
                                                 <include reference="Cdd-vC-cV1"/>
                                                 <include reference="IJf-DK-jy0"/>
                                                 <include reference="gLn-Dx-6r5"/>
@@ -10005,12 +10005,12 @@ with one subscription</string>
                                                 <include reference="dGi-28-HbZ"/>
                                                 <include reference="fyg-S0-4cQ"/>
                                                 <include reference="r4f-Yu-Joq"/>
-                                                <include reference="HX3-Rg-kkE"/>
-                                                <include reference="ljq-6a-hUn"/>
                                                 <include reference="1m6-gx-3ac"/>
                                                 <include reference="Qjb-l6-Sgk"/>
                                                 <include reference="ZmX-3Q-udM"/>
                                                 <exclude reference="fG1-9D-aKs"/>
+                                                <include reference="HX3-Rg-kkE"/>
+                                                <include reference="ljq-6a-hUn"/>
                                                 <include reference="QMp-9V-g9L"/>
                                                 <include reference="Flj-Qw-HO4"/>
                                                 <include reference="ZBg-6y-rcO"/>
@@ -10665,6 +10665,12 @@ with one subscription</string>
                                                 <exclude reference="lVi-EK-Jql"/>
                                                 <exclude reference="m0S-8j-D6b"/>
                                                 <exclude reference="rlY-eZ-xD0"/>
+                                                <exclude reference="Cds-Xv-W9y"/>
+                                                <exclude reference="Dda-hI-Sv4"/>
+                                                <exclude reference="Ily-vX-KYb"/>
+                                                <exclude reference="Tk7-FN-8sp"/>
+                                                <exclude reference="gyt-Xq-NRF"/>
+                                                <exclude reference="iaP-Tx-oLV"/>
                                                 <exclude reference="75c-fU-GAu"/>
                                                 <exclude reference="MsC-yb-1pz"/>
                                                 <exclude reference="RxS-HY-iRW"/>
@@ -10674,12 +10680,6 @@ with one subscription</string>
                                                 <exclude reference="rUt-o5-7LV"/>
                                                 <exclude reference="ydM-Y5-wvK"/>
                                                 <exclude reference="zsl-Tv-VBh"/>
-                                                <exclude reference="Cds-Xv-W9y"/>
-                                                <exclude reference="Dda-hI-Sv4"/>
-                                                <exclude reference="Ily-vX-KYb"/>
-                                                <exclude reference="Tk7-FN-8sp"/>
-                                                <exclude reference="gyt-Xq-NRF"/>
-                                                <exclude reference="iaP-Tx-oLV"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=regular-widthClass=compact">
@@ -10692,13 +10692,13 @@ with one subscription</string>
                                                 <include reference="I46-dm-S8O"/>
                                                 <include reference="lVi-EK-Jql"/>
                                                 <include reference="m0S-8j-D6b"/>
+                                                <include reference="Cds-Xv-W9y"/>
+                                                <include reference="Dda-hI-Sv4"/>
+                                                <include reference="Ily-vX-KYb"/>
                                                 <include reference="MsC-yb-1pz"/>
                                                 <include reference="RxS-HY-iRW"/>
                                                 <include reference="rUt-o5-7LV"/>
                                                 <include reference="ydM-Y5-wvK"/>
-                                                <include reference="Cds-Xv-W9y"/>
-                                                <include reference="Dda-hI-Sv4"/>
-                                                <include reference="Ily-vX-KYb"/>
                                             </mask>
                                         </variation>
                                         <variation key="heightClass=regular-widthClass=regular">
@@ -10706,14 +10706,14 @@ with one subscription</string>
                                                 <include reference="DGr-MZ-cFK"/>
                                                 <include reference="aQL-Kp-oQ3"/>
                                                 <include reference="rlY-eZ-xD0"/>
+                                                <include reference="Tk7-FN-8sp"/>
+                                                <include reference="gyt-Xq-NRF"/>
+                                                <include reference="iaP-Tx-oLV"/>
                                                 <exclude reference="75c-fU-GAu"/>
                                                 <include reference="Wwp-Mj-25Z"/>
                                                 <include reference="mvy-BR-2KE"/>
                                                 <exclude reference="nQW-Zy-civ"/>
                                                 <include reference="zsl-Tv-VBh"/>
-                                                <include reference="Tk7-FN-8sp"/>
-                                                <include reference="gyt-Xq-NRF"/>
-                                                <include reference="iaP-Tx-oLV"/>
                                             </mask>
                                         </variation>
                                     </view>
@@ -11027,7 +11027,7 @@ with one subscription</string>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingsLinksTableCell" rowHeight="68" id="RBP-dw-5mp" customClass="KCSettingWebLinksTableCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingsLinksTableCell" rowHeight="68" id="RBP-dw-5mp" customClass="KCSettingWebLinksTableCell">
                                         <rect key="frame" x="0.0" y="55.5" width="768" height="68"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RBP-dw-5mp" id="ste-de-yFH">
@@ -11103,7 +11103,7 @@ with one subscription</string>
                                             <outlet property="settingsURLLabel" destination="dn1-j0-LFo" id="SHQ-oX-reV"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingsSocialAccountTableCell" rowHeight="68" id="TMn-TJ-ANh" customClass="KCSettingsSocialAccountTableCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingsSocialAccountTableCell" rowHeight="68" id="TMn-TJ-ANh" customClass="KCSettingsSocialAccountTableCell">
                                         <rect key="frame" x="0.0" y="123.5" width="768" height="68"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TMn-TJ-ANh" id="k4B-Nz-1xa">
@@ -11496,7 +11496,7 @@ with one subscription</string>
                                 <rect key="frame" x="0.0" y="82" width="768" height="869"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="changePasswordTableCell" rowHeight="94" id="cpq-Hl-xsX" customClass="KCChangePasswordTableViewCell">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="changePasswordTableCell" rowHeight="94" id="cpq-Hl-xsX" customClass="KCChangePasswordTableViewCell">
                                         <rect key="frame" x="0.0" y="28" width="768" height="94"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cpq-Hl-xsX" id="hK6-SM-Ltx">
@@ -11683,10 +11683,6 @@ with one subscription</string>
                                 <exclude reference="LRD-wN-NZy"/>
                                 <exclude reference="nbC-oA-Ubn"/>
                                 <exclude reference="ozl-cr-lru"/>
-                                <exclude reference="7Mg-uE-qdA"/>
-                                <exclude reference="OyI-cD-R4P"/>
-                                <exclude reference="cHZ-Af-67Z"/>
-                                <exclude reference="pT8-vT-jyd"/>
                                 <exclude reference="A3R-Vd-hVk"/>
                                 <exclude reference="AI2-r4-VFS"/>
                                 <exclude reference="H3p-2q-Z4c"/>
@@ -11699,6 +11695,10 @@ with one subscription</string>
                                 <exclude reference="MIs-9f-V64"/>
                                 <exclude reference="PNh-I1-Txg"/>
                                 <exclude reference="t6r-mC-O3Q"/>
+                                <exclude reference="7Mg-uE-qdA"/>
+                                <exclude reference="OyI-cD-R4P"/>
+                                <exclude reference="cHZ-Af-67Z"/>
+                                <exclude reference="pT8-vT-jyd"/>
                                 <exclude reference="0LZ-2h-Zex"/>
                                 <exclude reference="6Uv-ip-jrw"/>
                                 <exclude reference="E0Q-q3-yr3"/>
@@ -11720,14 +11720,14 @@ with one subscription</string>
                             <mask key="constraints">
                                 <include reference="nbC-oA-Ubn"/>
                                 <include reference="ozl-cr-lru"/>
-                                <include reference="OyI-cD-R4P"/>
-                                <include reference="cHZ-Af-67Z"/>
                                 <include reference="A3R-Vd-hVk"/>
                                 <include reference="HtE-YB-Rm1"/>
                                 <include reference="qa7-TG-K3S"/>
                                 <include reference="1l8-NP-cG2"/>
                                 <include reference="PNh-I1-Txg"/>
                                 <include reference="t6r-mC-O3Q"/>
+                                <include reference="OyI-cD-R4P"/>
+                                <include reference="cHZ-Af-67Z"/>
                                 <include reference="6Uv-ip-jrw"/>
                                 <include reference="Nkm-QC-JuM"/>
                                 <include reference="c11-vA-0Bk"/>
@@ -11738,14 +11738,14 @@ with one subscription</string>
                             <mask key="constraints">
                                 <include reference="HcW-Ru-gdR"/>
                                 <include reference="LRD-wN-NZy"/>
-                                <include reference="7Mg-uE-qdA"/>
-                                <include reference="pT8-vT-jyd"/>
                                 <include reference="AI2-r4-VFS"/>
                                 <include reference="H3p-2q-Z4c"/>
                                 <include reference="aQ4-VR-WUK"/>
                                 <include reference="Hjo-vJ-YaE"/>
                                 <include reference="IMj-o8-CZz"/>
                                 <include reference="MIs-9f-V64"/>
+                                <include reference="7Mg-uE-qdA"/>
+                                <include reference="pT8-vT-jyd"/>
                                 <include reference="0LZ-2h-Zex"/>
                                 <include reference="E0Q-q3-yr3"/>
                                 <include reference="Tpq-0L-8aS"/>
@@ -12049,6 +12049,12 @@ with one subscription</string>
                                         <exclude reference="UPq-M0-h9z"/>
                                         <exclude reference="nEa-n7-pkx"/>
                                         <exclude reference="r6V-aF-Z0r"/>
+                                        <exclude reference="3XS-KF-VPy"/>
+                                        <exclude reference="5Al-Et-Fl1"/>
+                                        <exclude reference="HTJ-Sl-b8Q"/>
+                                        <exclude reference="cXy-nt-c92"/>
+                                        <exclude reference="qhn-3y-4c3"/>
+                                        <exclude reference="sWL-pS-Zgq"/>
                                         <exclude reference="BO8-b1-ehk"/>
                                         <exclude reference="HTm-oB-jjQ"/>
                                         <exclude reference="RWx-Tt-6Yn"/>
@@ -12056,12 +12062,6 @@ with one subscription</string>
                                         <exclude reference="jmU-Wj-q6C"/>
                                         <exclude reference="wTR-IL-XwG"/>
                                         <exclude reference="ytL-K9-sOj"/>
-                                        <exclude reference="3XS-KF-VPy"/>
-                                        <exclude reference="5Al-Et-Fl1"/>
-                                        <exclude reference="HTJ-Sl-b8Q"/>
-                                        <exclude reference="cXy-nt-c92"/>
-                                        <exclude reference="qhn-3y-4c3"/>
-                                        <exclude reference="sWL-pS-Zgq"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
@@ -12074,13 +12074,13 @@ with one subscription</string>
                                         <include reference="Uj3-bc-AIS"/>
                                         <include reference="UPq-M0-h9z"/>
                                         <include reference="r6V-aF-Z0r"/>
+                                        <include reference="5Al-Et-Fl1"/>
+                                        <include reference="HTJ-Sl-b8Q"/>
+                                        <include reference="cXy-nt-c92"/>
                                         <include reference="HTm-oB-jjQ"/>
                                         <include reference="RWx-Tt-6Yn"/>
                                         <include reference="jmU-Wj-q6C"/>
                                         <include reference="wTR-IL-XwG"/>
-                                        <include reference="5Al-Et-Fl1"/>
-                                        <include reference="HTJ-Sl-b8Q"/>
-                                        <include reference="cXy-nt-c92"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=regular">
@@ -12089,12 +12089,12 @@ with one subscription</string>
                                         <include reference="7vf-v8-HBe"/>
                                         <include reference="J2T-W2-Aog"/>
                                         <include reference="nEa-n7-pkx"/>
-                                        <include reference="BO8-b1-ehk"/>
-                                        <include reference="XIw-UR-TAE"/>
-                                        <include reference="ytL-K9-sOj"/>
                                         <include reference="3XS-KF-VPy"/>
                                         <include reference="qhn-3y-4c3"/>
                                         <include reference="sWL-pS-Zgq"/>
+                                        <include reference="BO8-b1-ehk"/>
+                                        <include reference="XIw-UR-TAE"/>
+                                        <include reference="ytL-K9-sOj"/>
                                     </mask>
                                 </variation>
                             </view>
@@ -12188,10 +12188,6 @@ with one subscription</string>
                                 <exclude reference="lUh-KB-ybU"/>
                                 <exclude reference="nEg-Vm-S49"/>
                                 <exclude reference="z47-R6-hsW"/>
-                                <exclude reference="4Ly-fR-fUK"/>
-                                <exclude reference="BBV-cU-zLC"/>
-                                <exclude reference="lYh-kB-aDm"/>
-                                <exclude reference="rjk-Vv-ayT"/>
                                 <exclude reference="Azh-UO-Jvi"/>
                                 <exclude reference="Gm2-GH-yIf"/>
                                 <exclude reference="H8I-EX-37i"/>
@@ -12202,6 +12198,10 @@ with one subscription</string>
                                 <exclude reference="9o9-wU-Ish"/>
                                 <exclude reference="hZT-tv-Yei"/>
                                 <exclude reference="wCM-IG-eUx"/>
+                                <exclude reference="4Ly-fR-fUK"/>
+                                <exclude reference="BBV-cU-zLC"/>
+                                <exclude reference="lYh-kB-aDm"/>
+                                <exclude reference="rjk-Vv-ayT"/>
                                 <exclude reference="2zm-wd-lMY"/>
                                 <exclude reference="O0B-hf-OOs"/>
                                 <exclude reference="pkU-UP-mP2"/>
@@ -12234,13 +12234,13 @@ with one subscription</string>
                             <mask key="constraints">
                                 <include reference="QpT-aZ-yJb"/>
                                 <include reference="lUh-KB-ybU"/>
-                                <include reference="4Ly-fR-fUK"/>
-                                <include reference="rjk-Vv-ayT"/>
                                 <include reference="dAB-Ws-def"/>
                                 <include reference="ox3-fG-1l7"/>
                                 <include reference="p9U-CN-px3"/>
                                 <include reference="hZT-tv-Yei"/>
                                 <include reference="wCM-IG-eUx"/>
+                                <include reference="4Ly-fR-fUK"/>
+                                <include reference="rjk-Vv-ayT"/>
                                 <include reference="O0B-hf-OOs"/>
                                 <include reference="v5f-ub-E1d"/>
                                 <include reference="mip-5X-gUX"/>
@@ -12255,13 +12255,13 @@ with one subscription</string>
                             <mask key="constraints">
                                 <include reference="nEg-Vm-S49"/>
                                 <include reference="z47-R6-hsW"/>
-                                <include reference="BBV-cU-zLC"/>
-                                <include reference="lYh-kB-aDm"/>
                                 <include reference="Azh-UO-Jvi"/>
                                 <include reference="Gm2-GH-yIf"/>
                                 <include reference="H8I-EX-37i"/>
                                 <include reference="3qn-b3-cwz"/>
                                 <include reference="9o9-wU-Ish"/>
+                                <include reference="BBV-cU-zLC"/>
+                                <include reference="lYh-kB-aDm"/>
                                 <include reference="2zm-wd-lMY"/>
                                 <include reference="pkU-UP-mP2"/>
                                 <include reference="KHL-H3-ERw"/>
@@ -12608,10 +12608,10 @@ with one subscription</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HBa-QM-m6R">
-                                                            <rect key="frame" x="8" y="8" width="359" height="229"/>
+                                                            <rect key="frame" x="8" y="8" width="524" height="229"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="masterclass_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="hax-8Y-OuI">
-                                                                    <rect key="frame" x="15.5" y="15" width="328" height="163"/>
+                                                                    <rect key="frame" x="15.5" y="15" width="493" height="163"/>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AeR-8b-KRs">
                                                                     <rect key="frame" x="20" y="182" width="207" height="43"/>
@@ -12795,7 +12795,7 @@ by Chef Daniel</string>
         <!--Masterclass-->
         <scene sceneID="wTO-YZ-6TN">
             <objects>
-                <viewController id="Oyq-ng-fgE" customClass="RecordedMasterclassViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RecordedMasterclassViewController" id="Oyq-ng-fgE" customClass="RecordedMasterclassViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fzb-zf-ajk"/>
                         <viewControllerLayoutGuide type="bottom" id="Ekz-ds-2sO"/>
@@ -12961,10 +12961,10 @@ by Chef Daniel</string>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F0M-a4-xdW">
-                                                            <rect key="frame" x="8" y="8" width="359" height="229"/>
+                                                            <rect key="frame" x="8" y="8" width="524" height="229"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="masterclass_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="hf2-A5-IAw">
-                                                                    <rect key="frame" x="15.5" y="15" width="328" height="163"/>
+                                                                    <rect key="frame" x="15.5" y="15" width="493" height="163"/>
                                                                 </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HhE-bz-Dxf">
                                                                     <rect key="frame" x="20" y="182" width="207" height="43"/>
@@ -12975,7 +12975,7 @@ by Chef Daniel</string>
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mN1-qp-zcw">
-                                                                    <rect key="frame" x="309" y="186.5" width="30" height="34"/>
+                                                                    <rect key="frame" x="474" y="186.5" width="30" height="34"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="30" id="FlI-GT-R1u"/>
                                                                         <constraint firstAttribute="height" constant="34" id="XiZ-8M-jRl"/>
@@ -12986,7 +12986,7 @@ by Chef Daniel</string>
                                                                     </connections>
                                                                 </button>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="masterclass_leaf" translatesAutoresizingMaskIntoConstraints="NO" id="62i-fb-vSZ">
-                                                                    <rect key="frame" x="299" y="184.5" width="40" height="40"/>
+                                                                    <rect key="frame" x="464" y="184.5" width="40" height="40"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="width" constant="40" id="2zM-5y-kW5"/>
                                                                         <constraint firstAttribute="height" constant="40" id="n4E-sc-daS"/>
@@ -13914,14 +13914,14 @@ by Chef Daniel</string>
                                                     <exclude reference="adg-L9-EpX"/>
                                                     <exclude reference="g7h-Ko-TMa"/>
                                                     <exclude reference="iz3-Z1-Qo5"/>
-                                                    <exclude reference="Fe0-MG-Kuc"/>
-                                                    <exclude reference="OQB-Bs-MSm"/>
-                                                    <exclude reference="Ul7-b6-nT8"/>
-                                                    <exclude reference="rqS-IK-yHi"/>
                                                     <exclude reference="KGv-Pz-chz"/>
                                                     <exclude reference="p2j-24-CVD"/>
                                                     <exclude reference="sXk-J2-lIU"/>
                                                     <exclude reference="y6F-V9-hF5"/>
+                                                    <exclude reference="Fe0-MG-Kuc"/>
+                                                    <exclude reference="OQB-Bs-MSm"/>
+                                                    <exclude reference="Ul7-b6-nT8"/>
+                                                    <exclude reference="rqS-IK-yHi"/>
                                                 </mask>
                                             </variation>
                                             <variation key="heightClass=regular-widthClass=compact">
@@ -13933,11 +13933,11 @@ by Chef Daniel</string>
                                                     <include reference="FsQ-Aa-KlF"/>
                                                     <include reference="g7h-Ko-TMa"/>
                                                     <include reference="iz3-Z1-Qo5"/>
+                                                    <include reference="KGv-Pz-chz"/>
+                                                    <include reference="y6F-V9-hF5"/>
                                                     <include reference="Fe0-MG-Kuc"/>
                                                     <include reference="OQB-Bs-MSm"/>
                                                     <include reference="Ul7-b6-nT8"/>
-                                                    <include reference="KGv-Pz-chz"/>
-                                                    <include reference="y6F-V9-hF5"/>
                                                 </mask>
                                             </variation>
                                             <variation key="heightClass=regular-widthClass=regular">
@@ -13945,9 +13945,9 @@ by Chef Daniel</string>
                                                     <include reference="3sS-RY-O5P"/>
                                                     <include reference="NIr-EM-k5q"/>
                                                     <include reference="adg-L9-EpX"/>
-                                                    <include reference="rqS-IK-yHi"/>
                                                     <include reference="p2j-24-CVD"/>
                                                     <include reference="sXk-J2-lIU"/>
+                                                    <include reference="rqS-IK-yHi"/>
                                                 </mask>
                                             </variation>
                                         </tableViewCellContentView>

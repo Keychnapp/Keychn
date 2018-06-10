@@ -35,7 +35,7 @@
 #pragma mark - App Navigation
 
 - (void)pushNextViewController {
-    //push next view controller based on the condition
+    // Push next view controller based on the condition
     KCUserProfileDBManager *userProfileDBManager = [KCUserProfileDBManager new];
     [userProfileDBManager getLoggedInUserProfile];
     KCUserProfile *userProfile = [KCUserProfile sharedInstance];

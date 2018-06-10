@@ -130,6 +130,12 @@
     [self unsubscribeIAPNotification];
 }
 
+- (BOOL)prefersStatusBarHidden {
+    if(self.player && self.player.isFullScreen) {
+        return YES;
+    }
+    return  NO;
+}
 
 #pragma mark - Tableview Datasource and Delegate
 
@@ -841,6 +847,10 @@
     self.playerManager = nil;
     self.player        = nil;
     self.controlView   = nil;
+}
+
+- (void)didEnterFullscreenPlayer:(ZFPlayerController *)playerController {
+    // Hide status bar
 }
 
 #pragma mark - private method

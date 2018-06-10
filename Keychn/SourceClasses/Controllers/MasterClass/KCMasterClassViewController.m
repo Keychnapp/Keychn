@@ -20,6 +20,7 @@
 #import "KCGroupSessionHostEndViewController.h"
 #import "KCGroupSessionGuestEndViewController.h"
 #import "AppDelegate.h"
+#import "Branch.h"
 
 @import SafariServices;
 
@@ -34,7 +35,7 @@
 #define kBaseWidth   400
 #define kAspectRatioFactor 1.64
 
-@interface KCMasterClassViewController () {
+@interface KCMasterClassViewController ()  {
     KCUserProfile               *_userProfile;
     KCGroupSessionWebManager    *_groupSessionManager;
     KCFacebookManager           *_facebookManager;
@@ -67,6 +68,7 @@
 @end
 
 @implementation KCMasterClassViewController
+
 
 #pragma mark - Life Cycle Methods
 
@@ -108,6 +110,12 @@
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+}
+
+#pragma mark - Deep Link Delegate
+
+- (void)configureControlWithData:(NSDictionary *)data {
+    
 }
 
 #pragma mark - Button Actions
@@ -504,5 +512,5 @@
         }];
     }
 }
-
-@end
+     
+     @end

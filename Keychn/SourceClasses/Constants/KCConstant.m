@@ -328,7 +328,10 @@ NSString  *kUserMessageUpdated       = @"user_message_updated";
 NSString  *kFirstUserID              = @"first_user_id";
 NSString   *kIsPresented             = @"is_paperboard_presented";
 NSString   *kResult                  = @"result";
-NSString  *kMasterchefId              = @"masterchef_id";
+NSString  *kMasterchefId             = @"masterchef_id";
+NSString  *kDeeplinkParameter        = @"deeplink_parameter";
+NSString  *kController               = @"controller";
+NSString  *kIdentifer                = @"identifier";
 
 #pragma mark - Storyboard Identifiers
 

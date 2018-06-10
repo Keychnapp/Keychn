@@ -25,6 +25,8 @@
 #import "KCGroupSessionGuestEndViewController.h"
 #import "KeychnStore.h"
 #import "IAPSubscription.h"
+#import "Branch.h"
+#import "KCDeepLinkManager.h"
 
 #define kTwitterAPIKey @"YEJvDUQHJl7GC6qd205dYUXPf"
 #define kTwitterConsumerSecret @"i0Cff9yVdeMPdWxtJBlMOVfxKuhM5wTqaOYyJNl04tTVEphucO"
@@ -58,6 +60,25 @@
     
     UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = self;
+    
+    // Setup Branch for Deep Linking
+    Branch *branch = [Branch getInstance];
+    [branch initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary *params, NSError *error) {
+        if (!error && params) {
+            // params are the deep linked params associated with the link that the user clicked -> was re-directed to this app
+            // params will be empty if no data found
+            // ... insert custom logic here ...
+            NSLog(@"params: %@", params.description);
+            KCUserProfile *userProfile = [KCUserProfile sharedInstance];
+            if(userProfile.userID.integerValue > 0) {
+                [KCDeepLinkManager navigateLinkWithParameter:params];
+            }
+            else if([params objectForKey:kController]) {
+                // Cache parameters
+                [[NSUserDefaults standardUserDefaults] setObject:params forKey:kDeeplinkParameter];
+            }
+        }
+    }];
     
     // Appsflyer
     [AppsFlyerTracker sharedTracker].appsFlyerDevKey = kAppsFlyerDeveloperKey;
@@ -219,13 +240,35 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                          openURL:url
-                                                sourceApplication:sourceApplication
-                                                       annotation:annotation
-            ];
+    if([url.absoluteString containsString:@"fb"]) {
+        // Facebook
+        return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                              openURL:url
+                                                    sourceApplication:sourceApplication
+                                                           annotation:annotation
+                ];
+    }
+    else {
+      // Branch IO
+        [[Branch getInstance]
+         application:application
+         openURL:url
+         sourceApplication:sourceApplication
+         annotation:annotation];
+    }
+    return YES;
+   
 }
 
+#pragma mark - Branch (Deep Linking)
+
+// Respond to Universal Links
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
+    BOOL handledByBranch = [[Branch getInstance] continueUserActivity:userActivity];
+    
+    return handledByBranch;
+}
 
 #pragma mark- System Datbase Management
 

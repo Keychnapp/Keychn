@@ -21,6 +21,9 @@
 #import "EventStore.h"
 #import "KCMasterclassPreview.h"
 #import "UIView+YGPulseView.h"
+#import "Branch.h"
+#import "KCDeepLinkManager.h"
+
 @import UserNotifications;
 
 @interface KCMasterClassListViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
@@ -110,6 +113,12 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         [self showAlertForNotificationPermission];
     });
+    
+    // Check if user should navigate to deep linking params
+    NSDictionary *params = [[NSUserDefaults standardUserDefaults] objectForKey: kDeeplinkParameter];
+    if(params) {
+        [KCDeepLinkManager navigateLinkWithParameter:params];
+    }
 }
 
 - (void)dealloc {
@@ -149,6 +158,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Deep Linking
+
+- (void)setupDeepLinking {
+    
 }
 
 #pragma mark - TableView Datasource and Delegate
@@ -716,6 +731,5 @@
     EventStore *store = [EventStore new];
     [store askPermissionForEvent];
 }
-
 
 @end

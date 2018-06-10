@@ -441,6 +441,9 @@
         UIInterfaceOrientation orientation =  UIInterfaceOrientationUnknown;
         orientation = fullScreen? UIInterfaceOrientationLandscapeRight : UIInterfaceOrientationPortrait;
         [self.orientationObserver enterLandscapeFullScreen:orientation animated:animated];
+        if(fullScreen) {
+            [self.delegate didEnterFullscreenPlayer:self];
+        }
     }
 }
 

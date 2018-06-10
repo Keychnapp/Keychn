@@ -491,6 +491,10 @@ extern NSString  *kFirstUserID;
 extern NSString   *kIsPresented;
 extern NSString   *kResult;
 extern NSString  *kMasterchefId;
+extern NSString  *kDeeplinkParameter;
+extern NSString  *kController;
+extern NSString  *kIdentifer;
+
 
 #pragma mark - Storyboard Identifiers
 

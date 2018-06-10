@@ -129,6 +129,7 @@
 		659D56DF2020D1EF0030A7A7 /* MasterclassPreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 659D56DE2020D1EF0030A7A7 /* MasterclassPreview.xib */; };
 		65A34F2C1FA8BD5A00449513 /* AgoraRtcEngineKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A34F2B1FA8BD5900449513 /* AgoraRtcEngineKit.framework */; };
 		65A34F2E1FA8BF3500449513 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A34F2D1FA8BF3500449513 /* libresolv.tbd */; };
+		65AE935620CCF2C9000CE15B /* KCDeepLinkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 65AE935520CCF2C9000CE15B /* KCDeepLinkManager.m */; };
 		65B352F81FAB2294003AB539 /* EventStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 65B352F71FAB2294003AB539 /* EventStore.m */; };
 		65C662611FC5F19C00A1D2DF /* AAPLSlideTransitionInteractionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C6625C1FC5F19B00A1D2DF /* AAPLSlideTransitionInteractionController.m */; };
 		65C662621FC5F19C00A1D2DF /* AAPLSlideTransitionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C6625D1FC5F19B00A1D2DF /* AAPLSlideTransitionDelegate.m */; };
@@ -651,6 +652,8 @@
 		659D56DE2020D1EF0030A7A7 /* MasterclassPreview.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MasterclassPreview.xib; sourceTree = "<group>"; };
 		65A34F2B1FA8BD5900449513 /* AgoraRtcEngineKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AgoraRtcEngineKit.framework; sourceTree = "<group>"; };
 		65A34F2D1FA8BF3500449513 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		65AE935420CCF2C9000CE15B /* KCDeepLinkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KCDeepLinkManager.h; sourceTree = "<group>"; };
+		65AE935520CCF2C9000CE15B /* KCDeepLinkManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KCDeepLinkManager.m; sourceTree = "<group>"; };
 		65B352F61FAB2294003AB539 /* EventStore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventStore.h; sourceTree = "<group>"; };
 		65B352F71FAB2294003AB539 /* EventStore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventStore.m; sourceTree = "<group>"; };
 		65B352F91FAB2451003AB539 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
@@ -1080,6 +1083,7 @@
 		653715DF1F68653A002B4292 /* SourceClasses */ = {
 			isa = PBXGroup;
 			children = (
+				65AE935320CCF2A8000CE15B /* DeepLinkManager */,
 				653715E01F68653A002B4292 /* AppDelegate */,
 				65540CA42006532E00C11363 /* TriangleView */,
 				65B352F51FAB2279003AB539 /* EventStore */,
@@ -2194,6 +2198,15 @@
 			path = Library;
 			sourceTree = "<group>";
 		};
+		65AE935320CCF2A8000CE15B /* DeepLinkManager */ = {
+			isa = PBXGroup;
+			children = (
+				65AE935420CCF2C9000CE15B /* KCDeepLinkManager.h */,
+				65AE935520CCF2C9000CE15B /* KCDeepLinkManager.m */,
+			);
+			path = DeepLinkManager;
+			sourceTree = "<group>";
+		};
 		65B352F51FAB2279003AB539 /* EventStore */ = {
 			isa = PBXGroup;
 			children = (
@@ -2938,6 +2951,9 @@
 							com.apple.Push = {
 								enabled = 1;
 							};
+							com.apple.SafariKeychain = {
+								enabled = 1;
+							};
 						};
 					};
 				};
@@ -3367,6 +3383,7 @@
 				6537178E1F68653B002B4292 /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				653717961F68653B002B4292 /* KCMyPreferenceViewController.m in Sources */,
 				653717DB1F68653B002B4292 /* KCUIAlert.m in Sources */,
+				65AE935620CCF2C9000CE15B /* KCDeepLinkManager.m in Sources */,
 				653717F11F68653B002B4292 /* KCUserScheduleWebManager.m in Sources */,
 				653717D31F68653B002B4292 /* KCMusicPlayer.m in Sources */,
 				653717741F68653B002B4292 /* AppDelegate.m in Sources */,

@@ -205,6 +205,11 @@
 
 - (void)masterclassFetchedWithResponse:(NSDictionary *)response {
     // Masterclass fetched, reload table
+    NSDictionary *masterchefProfile = [response objectForKey:kMasterChef];
+    [self.masterchefImageView setImageWithURL:[NSURL URLWithString:[masterchefProfile objectForKey:kImageURL] ] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.masterchefNameLabel.text   = [masterchefProfile objectForKey:kMasterChefName];
+    self.aboutMasterchefLabel.text  = [masterchefProfile objectForKey:kAboutUser];
+    
     NSArray *resultArray = [response objectForKey:kItemDetails];
     [_refreshControl endRefreshing];
     [self.activityIndicator stopAnimating];
@@ -218,7 +223,6 @@
         }
         
         self.masterclasses = masterclassResults;
-        
     }
     else {
         self.masterclasses = nil;

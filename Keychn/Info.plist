@@ -2,6 +2,36 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>branch_key</key>
+	<dict>
+		<key>live</key>
+		<string>key_live_alt5yHVqorJLKeMBmNBsCabgFypa6yyx</string>
+		<key>test</key>
+		<string>key_test_faE7BHVwerHGSpRCiMy07llfsDfnXqFL</string>
+	</dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>keychn</string>
+			</array>
+			<key>CFBundleURLName</key>
+			<string>com.chrome.Keychn</string>
+		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>twitterkit-YEJvDUQHJl7GC6qd205dYUXPf</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb734970449970175</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -18,21 +48,6 @@
 	<string>3.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>twitterkit-YEJvDUQHJl7GC6qd205dYUXPf</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>fb734970449970175</string>
-			</array>
-		</dict>
-	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>Fabric</key>
@@ -55,6 +70,7 @@
 	<string>Keychn</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>keychn</string>
 		<string>fbapi</string>
 		<string>fbapi20130214</string>
 		<string>fbapi20130410</string>
@@ -124,6 +140,8 @@
 	<string>Requires Microphone access to let you make Video Call.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Requires access to your photos to update your Profile Picture.</string>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Roboto-Bold.ttf</string>

@@ -256,6 +256,7 @@
 - (void)removeUserSessions {
     // Delete user profile
     [_userProfileDBManager deleteUserProfile];
+    [_userProfile releseSharedInstance];
     
     //remove all view controllers and set a new stack
     UIViewController *viewController = [self.storyboard instantiateViewControllerWithIdentifier:signUpViewController];

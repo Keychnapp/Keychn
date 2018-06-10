@@ -27,6 +27,7 @@ pod 'HCVimeoVideoExtractor'
 pod 'ZFPlayer', '~> 3.0.0'
 pod 'ZFPlayer/ControlView', '~> 3.0.0'
 pod 'ZFPlayer/AVPlayer', '~> 3.0.0'
+pod 'Branch'
 
 
 end

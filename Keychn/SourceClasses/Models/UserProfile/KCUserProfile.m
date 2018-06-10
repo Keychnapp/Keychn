@@ -25,7 +25,7 @@
 
 - (void)releseSharedInstance {
     //Set user profile to nil
-    self.userID                 = 0;
+    self.userID                 = nil;
     self.username               = nil;;
     self.emailID                = nil;
     self.password               = nil;

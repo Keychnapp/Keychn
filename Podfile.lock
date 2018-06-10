@@ -27,6 +27,9 @@ PODS:
   - Bolts/AppLinks (1.9.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.9.0)
+  - Branch (0.25.0):
+    - Branch/Core (= 0.25.0)
+  - Branch/Core (0.25.0)
   - Fabric (1.7.7)
   - FBSDKCoreKit (4.33.0):
     - Bolts (~> 1.7)
@@ -93,6 +96,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (= 2.6.3)
   - AppsFlyerFramework
+  - Branch
   - Fabric
   - FBSDKCoreKit
   - FBSDKLoginKit
@@ -120,6 +124,7 @@ SPEC REPOS:
     - AFNetworking
     - AppsFlyerFramework
     - Bolts
+    - Branch
     - Fabric
     - FBSDKCoreKit
     - FBSDKLoginKit
@@ -150,6 +155,7 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   AppsFlyerFramework: cf9fdd7367a3871542f46b75b56723395553f951
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
+  Branch: 127d29ab0a8866025eece1cf9e950ddb6f7d4070
   Fabric: bda89e242bce1b7b8ab264248cf3407774ce0095
   FBSDKCoreKit: 572b047a7e029bc44542bcf8a59414e7ff2b543e
   FBSDKLoginKit: 88cb456349cfb3b554427ce4f8b43729d85dfb40
@@ -176,6 +182,6 @@ SPEC CHECKSUMS:
   UIActivityIndicator-for-SDWebImage: 7bf7ebbf0ed1747dedc0d6e949c4603a6d0f9e0c
   ZFPlayer: 4853d12575f7ab1b7538600b317ecb723a71b7d7
 
-PODFILE CHECKSUM: 40daaa957e41d4cfc5de65a11682c038aaba054e
+PODFILE CHECKSUM: 2a67dd1ddb20220c59892b4b1e1cb9a18b71fb45
 
 COCOAPODS: 1.5.3

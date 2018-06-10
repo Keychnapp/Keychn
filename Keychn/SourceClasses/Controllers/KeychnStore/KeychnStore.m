@@ -211,10 +211,10 @@
 
 - (void)requestUpdateSubscriptionPurchase {
     // Update Keychn Subscription Purchase on server
-    if(_inAppPurchaseRecord == nil) {
+    __block KCUserProfile *userProfile       = [KCUserProfile sharedInstance];
+    if(_inAppPurchaseRecord == nil || userProfile.userID == nil) {
         return;
     }
-    __block KCUserProfile *userProfile       = [KCUserProfile sharedInstance];
     static BOOL isAlertOpen = NO;
     NSMutableDictionary *parameters  = [[NSMutableDictionary alloc] init];
     /*NSData *jsonData = [NSJSONSerialization dataWithJSONObject:_inAppPurchaseRecord options:NSJSONWritingPrettyPrinted error:nil];
@@ -282,7 +282,7 @@
     [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
     [formatter setLocale:purchasedProduct.priceLocale];
     NSString *currencyCode   = [formatter currencyCode];
-    NSString *roundedOffValue = [NSString stringWithFormat:@"%d",(int) ceil(purchasedProduct.price.doubleValue)];
+    NSString *roundedOffValue = [NSString stringWithFormat:@"%f",purchasedProduct.price.doubleValue];
     [[AppsFlyerTracker sharedTracker] trackEvent: AFEventPurchase withValues:
     @{ AFEventParamRevenue: roundedOffValue, AFEventParamCurrency: currencyCode}
      ];

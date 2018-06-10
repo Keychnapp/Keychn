@@ -35,6 +35,7 @@
 @optional
 
 - (void)didDismissPlayer:(ZFPlayerController *)playerController;
+- (void)didEnterFullscreenPlayer:(ZFPlayerController *)playerController;
 
 @end
 
