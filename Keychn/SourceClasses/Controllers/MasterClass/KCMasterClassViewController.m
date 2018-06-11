@@ -20,7 +20,7 @@
 #import "KCGroupSessionHostEndViewController.h"
 #import "KCGroupSessionGuestEndViewController.h"
 #import "AppDelegate.h"
-#import "Branch.h"
+#import "KCDeepLinkManager.h"
 
 @import SafariServices;
 
@@ -160,7 +160,7 @@
 
 - (IBAction)shareButtonTapped:(UIButton*)sender {
     // Show Action Sheet for Twitter and Facebook options
-    NSURL *shareURL = [NSURL URLWithString:kShareLiveClass(self.masterClassID)];
+  /*  NSURL *shareURL = [NSURL URLWithString:kShareLiveClass(self.masterClassID)];
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:@[shareURL] applicationActivities:nil];
     
     NSArray *excludeActivities = @[UIActivityTypeAirDrop,
@@ -175,7 +175,12 @@
     
     Mixpanel *mixpanel = [Mixpanel sharedInstance];
     [mixpanel track:@"masterclass_share_icon"
-         properties:@{@"masterclass_id":_groupSession.sessionID, @"chef_name":self.groupSession.chefName}];
+         properties:@{@"masterclass_id":_groupSession.sessionID, @"chef_name":self.groupSession.chefName}]; */
+    
+    if(_groupSession != nil) {
+        NSString *canonicalURL = kShareLiveClass(_groupSession.sessionID);
+        [KCDeepLinkManager shareLinkWithTitle:_groupSession.chefName content:NSLocalizedString(@"shareLiveCookingChef", nil) canonicalURL:canonicalURL imageURL:_groupSession.masterChefImageURL controller:@"LiveClass" identfier:_groupSession.sessionID presentOn:self];
+    }
     
 }
 

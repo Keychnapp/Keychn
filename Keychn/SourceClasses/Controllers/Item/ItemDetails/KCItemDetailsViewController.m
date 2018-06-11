@@ -19,6 +19,7 @@
 #import "KCScheduleAlert.h"
 #import "KCUserScheduleWebManager.h"
 #import "KCItemSteptableViewCell.h"
+#import "KCDeepLinkManager.h"
 
 @import SafariServices;
 
@@ -298,13 +299,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (IBAction)startCookingButtonTapped:(id)sender {
-    
-}
-
-- (IBAction)scheduleForLaerButtonTapped:(id)sender {
-    
-}
 
 - (IBAction)addItemToFavoriteButtonTapped:(UIButton*)sender {
     // Add or remove this item from favorite
@@ -329,7 +323,7 @@
 #pragma mark - Sharing
 
 - (void)shareItemWith:(NSNumber *)itemId {
-    NSURL *shareURL = [NSURL URLWithString:kShareRecipe(itemId)];
+   /* NSURL *shareURL = [NSURL URLWithString:kShareRecipe(itemId)];
     
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:@[shareURL] applicationActivities:nil];
     
@@ -341,7 +335,12 @@
     
     activityVC.excludedActivityTypes = excludeActivities;
     
-    [self presentViewController:activityVC animated:YES completion:nil];
+    [self presentViewController:activityVC animated:YES completion:nil]; */
+    
+    if(_itemDetails != nil) {
+        NSString *canonicalURL = kShareRecipe(itemId);
+        [KCDeepLinkManager shareLinkWithTitle:self.selectedItem.title content:NSLocalizedString(@"shareARecipe", nil) canonicalURL:canonicalURL imageURL:_itemDetails.imageURL controller:@"Recipe" identfier:itemId presentOn:self];
+    }
 }
 
 #pragma mark - Animation Methods
@@ -471,7 +470,7 @@
 
 - (void) setDataOnItemDetailCelll:(KCItemDetailTableViewCell*)itemDetailCell {
     //Set Data on Item Detail from server response
-    itemDetailCell.itemTitleLabel.text = [self.selectedItem.title uppercaseString];
+    itemDetailCell.itemTitleLabel.text = [_itemDetails.title uppercaseString];
     
     //Set image with async blocks
     [itemDetailCell.itemImageDownloadActivityIndicator startAnimating];

@@ -15,10 +15,39 @@
 #import "KCItem.h"
 #import "AppDelegate.h"
 #import "RecordedMasterclassViewController.h"
+#import "BranchUniversalObject.h"
+#import "BranchLinkProperties.h"
 
 #define kControllerMapping @{@"LiveClass":@"masterClassViewController", @"Recipe":@"itemDetailsViewController", @"Masterchef":@"KCMasterchefViewController", @"RecordedClass":@"MasterclassDetailViewController"}
 
 @implementation KCDeepLinkManager
+
+#pragma mark - Link Sharing
+
++ (void)shareLinkWithTitle:(NSString *)title content:(NSString *)text canonicalURL:(NSString *)url imageURL:(NSString *)imageURL controller:(NSString *)controller identfier:(NSNumber *)identifier presentOn:(UIViewController *)viewController {
+    // Create a link and share
+    NSString *urlIdentifier = [NSString stringWithFormat:@"%@/identifier/%@/%@", controller, identifier, [KCUserProfile sharedInstance].userID];
+    BranchUniversalObject *branchUniversalObject = [[BranchUniversalObject alloc] initWithCanonicalIdentifier:urlIdentifier];
+    branchUniversalObject.title              = title;
+    branchUniversalObject.contentDescription = text;
+    branchUniversalObject.imageUrl           = imageURL;
+    branchUniversalObject.canonicalUrl       = url;
+    [branchUniversalObject.contentMetadata.customMetadata setObject:controller forKey:@"controller"];
+    [branchUniversalObject.contentMetadata.customMetadata setObject:[NSString stringWithFormat:@"%@",identifier] forKey:@"identifier"];
+    BranchLinkProperties *linkProperties = [[BranchLinkProperties alloc] init];
+    linkProperties.feature = @"share";
+    linkProperties.channel = @"facebook";
+    
+    
+    [branchUniversalObject showShareSheetWithLinkProperties:linkProperties
+                                               andShareText:text
+                                         fromViewController:viewController
+                                                 completion:^(NSString *activityType, BOOL completed) {
+                                                     NSLog(@"finished presenting");
+                                                 }];
+}
+
+#pragma mark - Navigation
 
 + (void)navigateLinkWithParameter:(NSDictionary *)parameters {
     // Navigate screen to link

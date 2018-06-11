@@ -13,10 +13,12 @@
 #import <MXParallaxHeader/MXScrollView.h>
 #import "MasterchefNameTableViewCell.h"
 #import "MasterclassDetailViewController.h"
+#import "KCDeepLinkManager.h"
 
 #define kBaseHeight  245
 #define kBaseWidth   375
 
+#define kShareMasterchef(s) [NSString stringWithFormat:@"https://www.keychn.com/#!/masterchef_details/%@",s]
 
 @interface KCMasterchefViewController () <UITableViewDataSource, UITableViewDelegate> {
     CGFloat _cellHeight;
@@ -114,6 +116,15 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (IBAction)shareButtonTapped:(id)sender {
+    // Share Masterchef
+    if(self.masterclasses != nil) {
+        NSString *canonicalURL = kShareMasterchef(self.selectedMasterclass.chefId);
+        [KCDeepLinkManager shareLinkWithTitle:self.selectedMasterclass.chefName content:NSLocalizedString(@"shareAMasterchef", nil) canonicalURL:canonicalURL imageURL:self.selectedMasterclass.chefImageURL controller:@"Masterchef" identfier:self.selectedMasterclass.chefId presentOn:self];
+    }
+}
+
+
 #pragma mark - Navigation
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -206,9 +217,13 @@
 - (void)masterclassFetchedWithResponse:(NSDictionary *)response {
     // Masterclass fetched, reload table
     NSDictionary *masterchefProfile = [response objectForKey:kMasterChef];
-    [self.masterchefImageView setImageWithURL:[NSURL URLWithString:[masterchefProfile objectForKey:kImageURL] ] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.masterchefNameLabel.text   = [masterchefProfile objectForKey:kMasterChefName];
-    self.aboutMasterchefLabel.text  = [masterchefProfile objectForKey:kAboutUser];
+    self.selectedMasterclass.chefName       = [masterchefProfile objectForKey:kMasterChefName];
+    self.selectedMasterclass.aboutChef      = [masterchefProfile objectForKey:kAboutUser];
+    self.selectedMasterclass.chefImageURL   = [masterchefProfile objectForKey:kImageURL];
+    self.masterchefNameLabel.text           = self.selectedMasterclass.chefName;
+    self.aboutMasterchefLabel.text          = self.selectedMasterclass.aboutChef;
+    [self.masterchefImageView setImageWithURL:[NSURL URLWithString:self.selectedMasterclass.chefImageURL] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
     
     NSArray *resultArray = [response objectForKey:kItemDetails];
     [_refreshControl endRefreshing];

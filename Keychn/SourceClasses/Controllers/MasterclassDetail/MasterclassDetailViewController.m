@@ -24,6 +24,7 @@
 #import <ZFPlayer/ZFPlayer.h>
 #import <ZFPlayer/ZFAVPlayerManager.h>
 #import "ZFPlayerControlView.h"
+#import "KCDeepLinkManager.h"
 
 
 @import SafariServices;
@@ -394,7 +395,7 @@
 #pragma mark - Sharing
 
 - (void)shareItemWith:(NSNumber *)itemId {
-    NSURL *shareURL = [NSURL URLWithString:kShareMasterclass(itemId)];
+    /* NSURL *shareURL = [NSURL URLWithString:kShareMasterclass(itemId)];
     
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:@[shareURL] applicationActivities:nil];
     
@@ -406,7 +407,11 @@
     
     activityVC.excludedActivityTypes = excludeActivities;
     
-    [self presentViewController:activityVC animated:YES completion:nil];
+    [self presentViewController:activityVC animated:YES completion:nil]; */
+    if(_itemDetails != nil) {
+        NSString *canonicalURL = kShareMasterclass(itemId);
+        [KCDeepLinkManager shareLinkWithTitle:@"Masterclass" content:NSLocalizedString(@"shareAMasterclass", nil) canonicalURL:canonicalURL imageURL:_itemDetails.imageURL controller:@"RecordedClass" identfier:itemId presentOn:self];
+    }
 }
 
 #pragma mark - Animation Methods
@@ -585,7 +590,7 @@
 
 - (void) setDataOnItemDetailCelll:(KCItemDetailTableViewCell*)itemDetailCell {
     //Set Data on Item Detail from server response
-    itemDetailCell.itemTitleLabel.text = [self.selectedVideo.videoName uppercaseString];
+    itemDetailCell.itemTitleLabel.text = [_itemDetails.title uppercaseString];
     
     //Set image with async blocks
     [itemDetailCell.itemImageDownloadActivityIndicator startAnimating];

@@ -12,4 +12,6 @@
 
 + (void)navigateLinkWithParameter:(NSDictionary *)parameters;
 
++ (void)shareLinkWithTitle:(NSString *)title content:(NSString *)text canonicalURL:(NSString *)url imageURL:(NSString *)imageURL controller:(NSString *)controller identfier:(NSNumber *)identifier presentOn:(UIViewController *)viewController;
+
 @end

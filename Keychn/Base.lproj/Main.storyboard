@@ -495,7 +495,7 @@
                                                                 <color key="color" red="0.98017388579999998" green="0.80618470909999995" blue="0.28298133609999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </activityIndicatorView>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="By Clicking Sign Up, you agree to our Terms and Privacy Policy" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="wE2-ZT-NEo" customClass="TTTAttributedLabel">
-                                                                <rect key="frame" x="106.5" y="343" width="237" height="28"/>
+                                                                <rect key="frame" x="108" y="343" width="234" height="28.5"/>
                                                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="12"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -12592,6 +12592,9 @@ with one subscription</string>
                                     <constraint firstAttribute="width" constant="30" id="k7L-uH-7iO"/>
                                 </constraints>
                                 <state key="normal" image="share-alternative"/>
+                                <connections>
+                                    <action selector="shareButtonTapped:" destination="42g-aC-zej" eventType="touchUpInside" id="Xar-wv-wuE"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lfP-U8-LFS">
                                 <rect key="frame" x="0.0" y="71" width="768" height="953"/>
