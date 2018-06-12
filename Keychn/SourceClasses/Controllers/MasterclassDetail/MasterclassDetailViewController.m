@@ -363,11 +363,24 @@
     self.playVideoButton = sender;
     [sender setHidden:YES];
     NSString *videoLink;
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
     if(_iapSubscription) {
         videoLink = _itemDetails.videoLink;
+        // Track user behavior
+        if(self.selectedVideo.videoName) {
+            [mixpanel track:@"masterclass_preview_click_video"
+                 properties:@{@"masterclass_name": self.selectedVideo.videoName}];
+        }
+        
     }
     else {
         videoLink = _itemDetails.trailerLink;
+        // Track user behavior
+        if(self.selectedVideo.videoName) {
+            Mixpanel *mixpanel = [Mixpanel sharedInstance];
+            [mixpanel track:@"masterclass_subscriber_watches_class"
+                 properties:@{@"masterclass_name": self.selectedVideo.videoName}];
+        }
     }
    /* if(videoLink) {
         SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:videoLink]];
@@ -411,6 +424,11 @@
     if(_itemDetails != nil) {
         NSString *canonicalURL = kShareMasterclass(itemId);
         [KCDeepLinkManager shareLinkWithTitle:@"Masterclass" content:NSLocalizedString(@"shareAMasterclass", nil) canonicalURL:canonicalURL imageURL:_itemDetails.imageURL controller:@"RecordedClass" identfier:itemId presentOn:self];
+        
+        // Track user behavior
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        [mixpanel track:@"masterclass_vault_share"
+             properties:@{@"recipe": _itemDetails.title}];
     }
 }
 
@@ -497,7 +515,7 @@
             
             
             Mixpanel *mixpanel = [Mixpanel sharedInstance];
-            [mixpanel track:@"ingredient_tick"
+            [mixpanel track:@"ingredient_tick_masterclass"
                  properties:@{@"total_count":ingredientCount}];
             
             itemIngredientsTableCell.ingredientAvailableButton.selected = !itemIngredientsTableCell.ingredientAvailableButton.isSelected;
@@ -652,7 +670,10 @@
     [self.itemDetailsTableView reloadData];
     
     NSString *videoLink;
-    if(!_iapSubscription) {
+    if(_iapSubscription || _itemDetails.receipeVisibility) {
+        videoLink = _itemDetails.videoLink;
+    }
+    else {
         self.blurView.hidden = false;
         self.blurView.alpha  = 0.7f;
         self.itemDetailsTableView.scrollEnabled = NO;
@@ -668,12 +689,14 @@
             
         }];
     }
-    else {
-        videoLink = _itemDetails.videoLink;
-    }
     
     // Fetch absolute URL for Vimeo
     [self fetchVimeoVideoWithURL:videoLink shouldAutoPlay: NO];
+    
+    // Track user behavior
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel track:@"masterclass_vault"
+         properties:@{@"recipe": _itemDetails.title}];
 }
 
 #pragma mark  - Blur Effect

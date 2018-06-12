@@ -393,6 +393,11 @@
         gsGuestEndViewController.role            = role;
         [self.navigationController pushViewController:gsGuestEndViewController animated:YES];
     }
+    
+    // Track user behavior
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel track:@"user_enter_class_from_preview"
+         properties:@{@"chef_name": _masterClassToJoin.secondUsername}];
 }
 
 - (NSInteger)fontSizeForMasterChefName {
@@ -562,6 +567,11 @@
         }
         [_masterclassPreview addGestureRecognizer:tapGesture1];
         [_masterclassPreview.previewView addGestureRecognizer:tapGesture2];
+        
+        // Track user behavior
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        [mixpanel track:@"live_masterclass_preview_started"
+             properties:@{@"chef_name": _masterClassToJoin.secondUsername}];
     }
 }
 

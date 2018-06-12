@@ -23,7 +23,9 @@
     KCUserProfile            *_userProfile;
     KCUserScheduleWebManager *_userScheduleWebManager;
     UIRefreshControl        *_refreshControl;
-    NSInteger               _currentPage;
+    NSNumber                *_pageIndex;
+    NSNumber                *_totalPages;
+    BOOL                    _isProcessing;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *masterclassVaultTableView;
@@ -62,12 +64,22 @@
     // Get Instances
     _userProfile            = [KCUserProfile sharedInstance];
     _userScheduleWebManager = [KCUserScheduleWebManager new];
-    _currentPage            = 0;
+    _pageIndex              = @0;
+    _totalPages             = @1;
+    self.masterclasses      = [[NSMutableArray alloc] init];
     
     _refreshControl = [[UIRefreshControl alloc] init];
     [_refreshControl addTarget:self action:@selector(refreshControlValueChanged:) forControlEvents:UIControlEventValueChanged];
     [self.masterclassVaultTableView setRefreshControl:_refreshControl];
     _refreshControl.tintColor = [UIColor appBackgroundColor];
+    
+    // Fetch Masterclass videos
+    [self requestMasterClass];
+    
+    // Track user behavior
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel track:@"masterclass_vault_list"
+         properties:@{@"": @""}];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -77,9 +89,12 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    // Fetch Masterclass videos
-    [self requestMasterClass];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [_refreshControl endRefreshing];
+    [self.activityIndicator stopAnimating];
 }
 
 #pragma mark - IB Action
@@ -94,6 +109,8 @@
 }
 
 - (void)refreshControlValueChanged:(UIRefreshControl *)sender {
+    _pageIndex  = @0;
+    _totalPages = @1;
     [self requestMasterClass];
 }
 
@@ -147,29 +164,45 @@
     }
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)aScrollView {
+    //Pagination for Items, when user scrolls to the bottom row,new rows will be added if available
+    CGPoint offset = aScrollView.contentOffset;
+    CGRect bounds = aScrollView.bounds;
+    CGSize size = aScrollView.contentSize;
+    UIEdgeInsets inset = aScrollView.contentInset;
+    float y = offset.y + bounds.size.height - inset.bottom;
+    float h = size.height;
+    
+    if(y > h-10 && !_isProcessing) {
+        [self requestMasterClass];
+    }
+}
+
 #pragma mark - Web Request
 
 - (void)requestMasterClass {
     // Server request to fetch MasterClass Videos
     // If Masterclass is alredy being fetched then don't intiate a request.
-    static BOOL isProcessing = NO;
-    if (isProcessing) {
+    if (self.activityIndicator.isAnimating) {
         return;
     }
-    isProcessing = YES;
+    if([_totalPages integerValue] < [_pageIndex integerValue] ) {
+        return;
+    }
     if(self.masterclasses.count == 0) {
         [self.activityIndicator startAnimating];
     }
     __weak RecordedMasterclassViewController *weakSelf = self;
-    NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kPageIndex: @(_currentPage)};
+    _isProcessing = YES;
+    NSDictionary *params = @{kUserID:_userProfile.userID, kAcessToken:_userProfile.accessToken, kPageIndex: _pageIndex};
     [_userScheduleWebManager getMasterClassVideoWithParameter:params withCompletionHandler:^(NSDictionary *responseDictionary) {
         // Request completed with response
-        isProcessing = NO;
         [weakSelf masterclassFetchedWithResponse:responseDictionary];
+        _isProcessing = NO;
     } andFailure:^(NSString *title, NSString *message) {
         // Request failed, present retry options
+        _isProcessing = NO;
         [weakSelf endRefreshing];
-        isProcessing = NO;
         if(isNetworkReachable) {
             [weakSelf requestMasterClass];
         }
@@ -190,9 +223,16 @@
 - (void)masterclassFetchedWithResponse:(NSDictionary *)response {
     // Masterclass fetched, reload table
     NSArray *resultArray = [response objectForKey:kItemDetails];
-    [_refreshControl endRefreshing];
+    if(_refreshControl.isRefreshing) {
+        self.masterclasses = [[NSMutableArray alloc] init];
+        [self.masterclassVaultTableView reloadData];
+        [_refreshControl endRefreshing];
+    }
+    
     [self.activityIndicator stopAnimating];
     if([resultArray isKindOfClass:[NSArray class]] && [resultArray count] > 0) {
+        _pageIndex  = [response objectForKey:kPageIndex];
+        _totalPages = [response objectForKey:kTotalPages];
         NSMutableArray *masterclassResults = [[NSMutableArray alloc] init];
         @autoreleasepool {
             for (NSDictionary *masterclassDictionary in resultArray) {
@@ -201,15 +241,20 @@
             }
         }
         
-        self.masterclasses = masterclassResults;
+        NSInteger oldItemCount = [self.masterclasses count];
+        NSInteger newItemCount = [masterclassResults count];
+        [self.masterclasses addObjectsFromArray:masterclassResults];
         
-    }
-    else {
-        self.masterclasses = nil;
+        // Add objects from array
+        NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+        for (NSInteger i=oldItemCount; i < oldItemCount+newItemCount; i++) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+            [indexPaths addObject:indexPath];
+        }
+        [self.masterclassVaultTableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.masterclassVaultTableView scrollToRowAtIndexPath:indexPaths.firstObject atScrollPosition:UITableViewScrollPositionBottom animated:true];
     }
     
-    // Refresh Table View
-    [self.masterclassVaultTableView reloadData];
 }
 
 @end

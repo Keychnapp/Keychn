@@ -23,6 +23,7 @@
     KCWebConnection    *_webConnection;
     SKReceiptRefreshRequest *_receiptRequest;
     NSDictionary       *_inAppPurchaseRecord;
+    BOOL               _isNewProduct;
 }
 
 @property (nonatomic,copy) void (^completionHandler) (BOOL status);
@@ -48,6 +49,7 @@
         [KCProgressIndicator showNonBlockingIndicator];
         self.completionHandler    = finished;
         self.isPurchaseInProgress = YES;
+        _isNewProduct             = YES;
         NSSet *productIdentifiers = [NSSet
                                      setWithObjects:productToPurchase , nil];
         
@@ -111,9 +113,6 @@
                 if(DEBUGGING) NSLog(@"paymentQueue --> updatedTransactions --> Purchase completed");
                 [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
                 [self verifyAndRestorePurchaseForProductId:requestedProduct];
-                
-                // Update to app flyer
-                [self logAppFlyerPurchaseEvent];
                 break;
                 
             case SKPaymentTransactionStateRestored:
@@ -180,6 +179,7 @@
 
 - (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error {
     [KCProgressIndicator hideActivityIndicator];
+    _isNewProduct = NO;
 }
 
 #pragma mark - Update Local Database
@@ -259,6 +259,10 @@
         BOOL sandbox       = [[receiptURL lastPathComponent] isEqualToString:@"sandboxReceipt"];
         if (sandbox) {
             storeURL = @"https://sandbox.itunes.apple.com/verifyReceipt";
+        }
+        else if (_isNewProduct) {
+            // Update to AppsFlyer only for New Product purchase
+            [self logAppFlyerPurchaseEvent];
         }
         
         [_webConnection httpPOSTRequestWithURL:storeURL andParameters:parameters success:^(NSDictionary *response) {

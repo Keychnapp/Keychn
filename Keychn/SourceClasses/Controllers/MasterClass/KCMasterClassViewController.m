@@ -180,6 +180,11 @@
     if(_groupSession != nil) {
         NSString *canonicalURL = kShareLiveClass(_groupSession.sessionID);
         [KCDeepLinkManager shareLinkWithTitle:_groupSession.chefName content:NSLocalizedString(@"shareLiveCookingChef", nil) canonicalURL:canonicalURL imageURL:_groupSession.masterChefImageURL controller:@"LiveClass" identfier:_groupSession.sessionID presentOn:self];
+        
+        // Track user behavior
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        [mixpanel track:@"live_masterclass_share"
+             properties:@{@"chef_name": _groupSession.chefName}];
     }
     
 }

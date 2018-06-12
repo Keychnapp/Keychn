@@ -121,6 +121,11 @@
     if(self.masterclasses != nil) {
         NSString *canonicalURL = kShareMasterchef(self.selectedMasterclass.chefId);
         [KCDeepLinkManager shareLinkWithTitle:self.selectedMasterclass.chefName content:NSLocalizedString(@"shareAMasterchef", nil) canonicalURL:canonicalURL imageURL:self.selectedMasterclass.chefImageURL controller:@"Masterchef" identfier:self.selectedMasterclass.chefId presentOn:self];
+        
+        // Track user behavior
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        [mixpanel track:@"masterclass_vault_chefprofile_share"
+             properties:@{@"recipe": self.selectedMasterclass.chefName}];
     }
 }
 
@@ -224,6 +229,10 @@
     self.aboutMasterchefLabel.text          = self.selectedMasterclass.aboutChef;
     [self.masterchefImageView setImageWithURL:[NSURL URLWithString:self.selectedMasterclass.chefImageURL] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
+    // Track user behavior
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel track:@"masterclass_vault_chefprofile"
+         properties:@{@"recipe": self.selectedMasterclass.chefName}];
     
     NSArray *resultArray = [response objectForKey:kItemDetails];
     [_refreshControl endRefreshing];
