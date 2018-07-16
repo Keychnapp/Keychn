@@ -23,11 +23,15 @@
 #import "UIView+YGPulseView.h"
 #import "Branch.h"
 #import "KCDeepLinkManager.h"
+#import "KCKeychnTVTableViewCellTableViewCell.h"
+#import "JPVideoPlayerKit.h"
+#import "FloatingPlayerView.h"
 
 @import UserNotifications;
 
 @interface KCMasterClassListViewController () <UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate> {
     NSInteger _cellHeight;
+    NSInteger _keychnTVCellHeight;
     NSInteger _fontSize;
     IOSDevices _currentDevice;
     KCUserScheduleWebManager *_userScheduleWebManager;
@@ -41,6 +45,7 @@
     UIRefreshControl        *_refreshControl;
     NSMutableArray          *_previewedMasterclassArray;
     KCMasterclassPreview    *_masterclassPreview;
+    BOOL                    _isLiveClassInProgress;
 }
 @property (weak, nonatomic) IBOutlet UITableView *masterclassListTableView;
 @property (weak, nonatomic) IBOutlet UILabel *learnWithChefLabel;
@@ -49,6 +54,14 @@
 @property (weak, nonatomic) IBOutlet UIView *searchContainerView;
 @property (weak, nonatomic) IBOutlet UITextField *searchMasterclassTextField;
 @property (weak, nonatomic) IBOutlet UIButton *doneButton;
+
+#pragma mark - Video Player Property
+
+@property (strong, nonatomic) NSString *originalVimeoURL;
+@property (strong, nonatomic) NSURL *vimeoVideoURL;
+@property (nonatomic, strong) UIView *headerView;
+
+
 
 #pragma mark - Datasource Array
 @property (strong, nonatomic) NSMutableArray<KCGroupSession*> *allmasterclassListArray;
@@ -86,9 +99,12 @@
     [self.masterclassListTableView setRefreshControl:_refreshControl];
     _refreshControl.tintColor = [UIColor appBackgroundColor];
     
+    NSInteger padding    = 36;
+    _keychnTVCellHeight  = (CGRectGetWidth(self.view.frame) - padding) * 0.56 + padding + 2;
     _currentDevice   = [KCUtility getiOSDeviceType];
     if(_currentDevice == iPad) {
         _cellHeight = 390;
+        _keychnTVCellHeight  = (CGRectGetWidth(self.masterclassListTableView.frame)) * CGRectGetWidth(self.masterclassListTableView.frame)/CGRectGetHeight(self.view.frame) + padding;
     }
     else if (_currentDevice == iPhoneX) {
         _cellHeight = 260;
@@ -136,11 +152,14 @@
     [super viewDidAppear:animated];
     // Set pulse animation on Red Dot
     [self.redRoundView startPulseWithColor:[UIColor redColor] scaleFrom:0.5 to:3 frequency:5.0f opacity:0.5f animation:YGPulseViewAnimationTypeRadarPulsing];
+    
+    [self.headerView jp_resume];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    
+    [self.headerView jp_pause];
+    self.headerView.jp_volume = 0.0;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -160,26 +179,64 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Deep Linking
+#pragma mark - Setup Player
 
-- (void)setupDeepLinking {
-    
+- (void)setupKeychnTV {
+    // Configure Keychn TV
+    if(self.vimeoVideoURL) {
+        // Player Manager
+        __weak KCMasterClassListViewController *weakSelf = self;
+        [self.headerView jp_playVideoWithURL:self.vimeoVideoURL bufferingIndicator:nil controlView:nil progressView:nil configurationCompletion:^(UIView *view, JPVideoPlayerModel * _Nonnull playerModel) {
+            weakSelf.headerView.jp_volume = 0.0;
+        }];
+    }
+    else if (self.originalVimeoURL) {
+        [self fetchVimeoVideoWithURL:self.originalVimeoURL shouldAutoPlay:YES];
+    }
+}
+
+- (void)fetchVimeoVideoWithURL:(NSString *)videoURL shouldAutoPlay:(BOOL)shouldStart {
+    __weak KCMasterClassListViewController *weakSelf = self;
+    __block BOOL shouldAutoplay = shouldStart;
+    VimeoVideoExtractor *videoExtractor = [[VimeoVideoExtractor alloc] init];
+    [videoExtractor absoluteVimeoURLWith:videoURL completion:^(NSURL *videoURL) {
+        if(DEBUGGING) NSLog(@"Extracted video URL %@", videoURL.absoluteString);
+        weakSelf.vimeoVideoURL = videoURL;
+        if(shouldAutoplay) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf setupKeychnTV];
+            });
+        }
+    }];
 }
 
 #pragma mark - TableView Datasource and Delegate
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.datasourceArray count];
+    NSInteger liveClassCount = [self.datasourceArray count];
+    return _isLiveClassInProgress ? liveClassCount : (liveClassCount + 1);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(!_isLiveClassInProgress && indexPath.row == 0)  {
+        return _keychnTVCellHeight;
+    }
     return _cellHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger effectiveIndex = _isLiveClassInProgress ?  indexPath.row : indexPath.row - 1;
+    if(indexPath.row == 0 && !_isLiveClassInProgress) {
+        // Keychn TV Cell
+        KCKeychnTVTableViewCellTableViewCell *keychnTVCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifierKeychnTV forIndexPath:indexPath];
+        self.headerView = keychnTVCell.playerView;
+        [self setupKeychnTV];
+        return keychnTVCell;
+    }
+    
     KCMasterClassListTableViewCell *masterClassTableCell = [tableView dequeueReusableCellWithIdentifier:cellIdentifierForMasterClassList forIndexPath:indexPath];
     // Configure Masterclass Cell
-    if(indexPath.row > 0) {
+    if(indexPath.row > effectiveIndex) {
         [masterClassTableCell.previewContainerView setHidden:YES];
     }
     masterClassTableCell.masterchefFirstNameLabel.font = [UIFont setRobotoFontBoldStyleWithSize:_fontSize];
@@ -189,8 +246,8 @@
     masterClassTableCell.masterclassDetailButton.tag   = indexPath.row;
     masterClassTableCell.attendButton.tag              = indexPath.row;
     // Configure cell for Masterclass
-    if([self.datasourceArray count] > indexPath.row) {
-        KCGroupSession *masterClass = [self.datasourceArray objectAtIndex:indexPath.row];
+    if([self.datasourceArray count] > effectiveIndex) {
+        KCGroupSession *masterClass = [self.datasourceArray objectAtIndex:effectiveIndex];
         masterClassTableCell.masterchefLastNameLabel.text  = [[KCUtility getLastNameFromFullName:masterClass.chefName] uppercaseString];
         masterClassTableCell.masterchefFirstNameLabel.text = [KCUtility getFirstNameFromFullName:[masterClass.chefName uppercaseString]];
         NSTimeInterval timeInterval = [NSDate getSecondsFromDate:masterClass.scheduleDate] + [NSDate getGMTOffSet];
@@ -256,7 +313,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Go to Masterclass Detail screen
-    [self openMasterclassDetaileWithIndex:indexPath.row];
+    if(!_isLiveClassInProgress) {
+        if(indexPath.row > 0) {
+            [self openMasterclassDetaileWithIndex:indexPath.row-1];
+        }
+    }
+    else {
+        [self openMasterclassDetaileWithIndex:indexPath.row];
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -485,6 +549,7 @@
 
 - (void)getUserSchedule {
     // Get User schedule and trigger for any current schedule
+    _isLiveClassInProgress = false;
     KCGroupSession *groupSession = self.allmasterclassListArray.firstObject;
     NSTimeInterval firstSchedule = [NSDate getSecondsFromDate:groupSession.scheduleDate] + [NSDate getGMTOffSet];
     if(firstSchedule > 0) {
@@ -503,7 +568,9 @@
 }
 
 - (void)refreshUserSchedule {
-    // Refresh table view
+    // Refresh table view (Keychn TV will be removed when Live class starts)
+    _isLiveClassInProgress = true;
+    
     if([self.masterclassListTableView numberOfRowsInSection:0] > 0) {
         [self.masterclassListTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
@@ -582,6 +649,14 @@
     // Masterclass fetched, reload table
     NSArray *resultArray = [response objectForKey:kResult];
     [_refreshControl endRefreshing];
+    NSDictionary *featuredMasterclass = [response objectForKey:@"featured_masterclass"];
+    if([featuredMasterclass isKindOfClass:[NSDictionary class]]) {
+        NSString *videoURL = [featuredMasterclass objectForKey:@"video_link"];
+        if(![self.originalVimeoURL isEqualToString:videoURL]) {
+            self.originalVimeoURL = videoURL;
+            [self fetchVimeoVideoWithURL:videoURL shouldAutoPlay:YES];
+        }
+    }
     if([resultArray isKindOfClass:[NSArray class]] && [resultArray count] > 0) {
         NSMutableArray *masterclassResults = [[NSMutableArray alloc] init];
         @autoreleasepool {

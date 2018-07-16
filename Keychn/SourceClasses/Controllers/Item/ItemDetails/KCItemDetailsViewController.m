@@ -20,6 +20,9 @@
 #import "KCUserScheduleWebManager.h"
 #import "KCItemSteptableViewCell.h"
 #import "KCDeepLinkManager.h"
+#import "JPVideoPlayerKit.h"
+#import "FloatingPlayerView.h"
+
 
 @import SafariServices;
 
@@ -37,6 +40,8 @@
     IOSDevices          _deviceType;
     BOOL                    _isDisplayingAlert;
     UITapGestureRecognizer *_tapGesture;
+    NSInteger            _firstCellHeight;
+    NSInteger           _playerCellHeight;
     
 }
 
@@ -45,22 +50,33 @@
 @property (weak, nonatomic) IBOutlet UIButton *scheduleForLaterButton;
 @property (weak, nonatomic) IBOutlet UIButton *itemLikeButton;
 @property (weak, nonatomic) UIButton *likeCounterButton;
+@property (weak, nonatomic) UIButton *playVideoButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *startCookingButtonHeightConstraintiPad;
 @property (weak, nonatomic) IBOutlet UIImageView *startCookingImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *scheduleForLaterImageView;
 @property (nonatomic,strong) UIImageView     *blurredImageView;
 @property (nonatomic, strong) KCScheduleAlert *scheduleAlert;
+@property (weak, nonatomic) IBOutlet UIView *videoPlayerView;
 
 
 //Ingredient selection label
+
 @property (nonatomic,strong) UILabel *ingredientSelectionLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *startCookingButtonHeightConstraint;
+
+#pragma mark - Video Player Property
+
+@property (strong, nonatomic) NSURL *vimeoVideoURL;
+@property (nonatomic, strong) UIView *headerView;
+@property (nonatomic, strong) UIView *hoverView;
+
 
 @end
 
 @implementation KCItemDetailsViewController
 
 #pragma mark - Life Cycle Methods
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -86,6 +102,14 @@
     self.scheduleForLaterButton.hidden  = YES;
     self.startCookingButton.hidden      = YES;
     
+    if([KCUtility getiOSDeviceType] == iPad) {
+        _firstCellHeight = 620;
+    }
+    else {
+        _firstCellHeight = 605;
+    }
+    [self setupVideoPlayer];
+    
     //Feth item details
     [self fetchItemDetails];
 }
@@ -102,6 +126,8 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [NSThread cancelPreviousPerformRequestsWithTarget:self];
+    [self.headerView jp_stopPlay];
+    [self.hoverView jp_stopPlay];
 }
 
 #pragma mark - Tableview Datasource and Delegate
@@ -119,12 +145,7 @@
     NSInteger rowHeight = 0;
     if(indexPath.row == 0) {
         //Item details row
-        if([KCUtility getiOSDeviceType] == iPad) {
-            rowHeight = 620;
-        }
-        else {
-          rowHeight = 605;
-        }
+        rowHeight = _firstCellHeight;
     }
     else if (indexPath.row <= _ingredientsCount) {
         //Ingredient row
@@ -185,6 +206,11 @@
             self.itemLikeButton.selected = NO;
         }
         tableViewCell = itemDetailTableCell;
+        self.playVideoButton    = itemDetailTableCell.playVideoButton;
+        self.headerView         = itemDetailTableCell.videoPlayerView;
+        // Caculate player cell height
+        _playerCellHeight = CGRectGetWidth(self.view.frame) / 1.77 + CGRectGetHeight(itemDetailTableCell.itemDetailContainerView.frame);
+        NSLog(@"Player cell height %@",@(_playerCellHeight));
     }
     else if (indexPath.row <= _ingredientsCount) {
         //Ingredient row
@@ -310,12 +336,30 @@
     [self shareItemWith:self.selectedItem.itemIdentifier];
 }
 
-- (IBAction)playVideoButtonTapped:(id)sender {
-    if(_itemDetails.videoLink) {
-        SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:_itemDetails.videoLink]];
-        [self presentViewController:safariViewController animated:true completion:^{
-            
-        }];
+- (IBAction)playVideoButtonTapped:(UIButton *)sender {
+    // Reload first cell
+    sender.hidden = YES;
+    _firstCellHeight = _playerCellHeight;
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//    [self.itemDetailsTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.itemDetailsTableView reloadData];
+    
+    self.playVideoButton = sender;
+    NSString *videoLink;
+    videoLink = _itemDetails.videoLink;
+    self.headerView.hidden = NO;
+    // Track user behavior
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel track:@"free_receipe_click_video"
+         properties:@{@"recipe_name": _itemDetails.title}];
+    
+    if(_vimeoVideoURL != nil) {
+        // Start playing when vimeo URL is fetched
+        [self setupVimeoPlayer];
+    }
+    else {
+        // Fetch the URl then then play
+        [self fetchVimeoVideoWithURL:videoLink shouldAutoPlay:YES];
     }
 }
 
@@ -323,20 +367,6 @@
 #pragma mark - Sharing
 
 - (void)shareItemWith:(NSNumber *)itemId {
-   /* NSURL *shareURL = [NSURL URLWithString:kShareRecipe(itemId)];
-    
-    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:@[shareURL] applicationActivities:nil];
-    
-    NSArray *excludeActivities = @[UIActivityTypeAirDrop,
-                                   UIActivityTypePrint,
-                                   UIActivityTypeAssignToContact,
-                                   UIActivityTypeSaveToCameraRoll,
-                                   UIActivityTypeAddToReadingList];
-    
-    activityVC.excludedActivityTypes = excludeActivities;
-    
-    [self presentViewController:activityVC animated:YES completion:nil]; */
-    
     if(_itemDetails != nil) {
         NSString *canonicalURL = kShareRecipe(itemId);
         [KCDeepLinkManager shareLinkWithTitle:self.selectedItem.title content:NSLocalizedString(@"shareARecipe", nil) canonicalURL:canonicalURL imageURL:_itemDetails.imageURL controller:@"Recipe" identfier:itemId presentOn:self];
@@ -414,7 +444,6 @@
 
 - (void) customizeItemDetailCell:(KCItemDetailTableViewCell*)itemDetailTableCell {
     //Customize Item Detail Table Cell
-    
     itemDetailTableCell.minutesTextLabel.adjustsFontSizeToFitWidth  = YES;
     itemDetailTableCell.difficultyLabel.adjustsFontSizeToFitWidth   = YES;
     itemDetailTableCell.servingsLabel.adjustsFontSizeToFitWidth     = YES;
@@ -424,7 +453,7 @@
       itemDetailTableCell.itemDetailContainerView.backgroundColor = [UIColor transparentWhiteColor];
         itemDetailTableCell.scrollContentImageView.hidden         = YES;
     }
-    else if (_deviceType == iPhone5 || _deviceType == iPhone4) {
+    else if (_deviceType == iPhone5) {
         itemDetailTableCell.itemImageView.contentMode = UIViewContentModeScaleAspectFit;
         itemDetailTableCell.itemImageView.clipsToBounds = YES;
     }
@@ -487,7 +516,10 @@
     itemDetailCell.recipeMinuteLabel.text  = [NSString stringWithFormat:@"%@", _itemDetails.duration];
     itemDetailCell.recipeServingLabel.text = [NSString stringWithFormat:@"%@", _itemDetails.servings];
     itemDetailCell.recipeDifficultyLabel.text = _itemDetails.difficulty;
-    itemDetailCell.playVideoButton.hidden     = _itemDetails.videoLink.length == 0;
+    self.playVideoButton                      = itemDetailCell.playVideoButton;
+    if (_firstCellHeight != _playerCellHeight) {
+        itemDetailCell.playVideoButton.hidden     = _itemDetails.videoLink.length == 0;
+    }
     
     @autoreleasepool {
         //Set rating
@@ -557,6 +589,15 @@
 //    [self performSelector:@selector(scheduleMinuteReminder) withObject:self afterDelay:_itemDetails.popUpDuration];
 }
 
+#pragma mark - Setup Video Player
+
+- (void)setupVideoPlayer {
+    // Video player option
+    self.hoverView = [[FloatingPlayerView alloc] init];
+    [self.view addSubview:self.hoverView];
+    self.hoverView.hidden = YES;
+}
+
 #pragma mark  - Blur Effect
 
 - (void)addBlurView {
@@ -579,6 +620,61 @@
     [self removeTapGesture];
     _isDisplayingAlert         = NO;
 }
+
+#pragma mark - Video Player Integration
+
+
+- (void)fetchVimeoVideoWithURL:(NSString *)videoURL shouldAutoPlay:(BOOL)shouldStart {
+    __weak KCItemDetailsViewController *weakSelf = self;
+    __block BOOL shouldAutoplay = shouldStart;
+    VimeoVideoExtractor *videoExtractor = [[VimeoVideoExtractor alloc] init];
+    [videoExtractor absoluteVimeoURLWith:videoURL completion:^(NSURL *videoURL) {
+        if(DEBUGGING) NSLog(@"Extracted video URL %@", videoURL.absoluteString);
+        weakSelf.vimeoVideoURL = videoURL;
+        if(shouldAutoplay) {
+            [weakSelf setupVimeoPlayer];
+        }
+    }];
+}
+
+- (void)setupVimeoPlayer {
+    /// Player Manager
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.headerView jp_playVideoWithURL:self.vimeoVideoURL bufferingIndicator:nil controlView:nil progressView:nil configurationCompletion:^(UIView *view, JPVideoPlayerModel * _Nonnull playerModel) {
+        }];
+    });
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if(!self.playVideoButton.isHidden) {
+        // Starts only when user has already started it
+        return;
+    }
+    BOOL headerVisible = scrollView.contentOffset.y < 10;
+    if(headerVisible && !self.hoverView.hidden){
+        self.hoverView.hidden = YES;
+        [self.headerView jp_resumePlayWithURL:self.vimeoVideoURL
+                           bufferingIndicator:nil
+                                  controlView:nil
+                                 progressView:nil
+                      configurationCompletion:nil];
+    }
+    else if(!headerVisible && self.hoverView.hidden){
+        self.hoverView.hidden = NO;
+        [self.hoverView jp_resumePlayWithURL:self.vimeoVideoURL
+                                     options:JPVideoPlayerRetryFailed
+                     configurationCompletion:nil];
+    }
+}
+
+
+#pragma mark - JPVideoPlayerDelegate
+
+- (BOOL)shouldResumePlaybackFromPlaybackRecordForURL:(NSURL *)videoURL
+                                      elapsedSeconds:(NSTimeInterval)elapsedSeconds {
+    return YES;
+}
+
 
 #pragma mark - Schedule Pop Up
 

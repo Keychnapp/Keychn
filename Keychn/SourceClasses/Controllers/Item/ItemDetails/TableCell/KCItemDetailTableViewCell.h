@@ -28,5 +28,6 @@
 @property (strong, nonatomic) IBOutlet UIImageView *scrollContentImageView;
 @property (weak, nonatomic) IBOutlet UILabel *cookingNowLabel;
 @property (weak, nonatomic) IBOutlet UIButton *playVideoButton;
+@property (weak, nonatomic) IBOutlet UIView *videoPlayerView;
 
 @end

@@ -21,10 +21,9 @@
 #import "KCItemSteptableViewCell.h"
 #import "IAPSubscription.h"
 #import "KCSubscription.h"
-#import <ZFPlayer/ZFPlayer.h>
-#import <ZFPlayer/ZFAVPlayerManager.h>
-#import "ZFPlayerControlView.h"
 #import "KCDeepLinkManager.h"
+#import "JPVideoPlayerKit.h"
+#import "FloatingPlayerView.h"
 
 
 @import SafariServices;
@@ -34,7 +33,7 @@
 #define kShareMasterclass(s) [NSString stringWithFormat:@"https://keychn.com/#!/unsubscribed/%@",s]
 
 
-@interface MasterclassDetailViewController () <UITableViewDataSource, UITableViewDelegate, PlayerDelegate> {
+@interface MasterclassDetailViewController () <UITableViewDataSource, UITableViewDelegate, JPVideoPlayerDelegate> {
     NSInteger           _ingredientsCount;
     NSInteger           _recipeStepsCount;
     KCUserProfile       *_userProfile;
@@ -69,11 +68,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *getTrialButton;
 @property (weak, nonatomic) IBOutlet UIView *popUpContainerView;
 
-#pragma mark - Vimeo video playing
-@property (nonatomic, strong) NSURL *vimeoVideoURL;
-@property (nonatomic, strong) ZFPlayerController *player;
-@property (nonatomic, strong) ZFPlayerControlView *controlView;
-@property (nonatomic, strong) ZFAVPlayerManager *playerManager;
+#pragma mark - Video Player Property
+
+@property (strong, nonatomic) NSURL *vimeoVideoURL;
+@property (nonatomic, strong) UIView *headerView;
+@property (nonatomic, strong) UIView *hoverView;
 
 @end
 
@@ -97,6 +96,7 @@
     self.getTrialButton.layer.borderColor   = [UIColor whiteColor].CGColor;
     self.getTrialButton.layer.borderWidth   = 4.0f;
     self.automaticallyAdjustsScrollViewInsets = NO;
+    [self setupVideoPlayer];
     
     //Get ingredient selection Array
     _ingredinetSelectionArray = [[NSMutableArray alloc] initWithArray:[_recipeDBManager getItmesIngredinetsArrayForUser:_userProfile.userID forItem:self.selectedVideo.videoId isMasterclass:YES]];
@@ -124,18 +124,24 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self subscribeIAPNotification];
+    self.navigationController.navigationBarHidden = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self unsubscribeIAPNotification];
+    [self.headerView jp_stopPlay];
+    [self.hoverView jp_stopPlay];
 }
 
-- (BOOL)prefersStatusBarHidden {
-    if(self.player && self.player.isFullScreen) {
-        return YES;
-    }
-    return  NO;
+
+#pragma mark - Setup Video Player
+
+- (void)setupVideoPlayer {
+    // Video player option
+    self.hoverView = [[FloatingPlayerView alloc] init];
+    [self.view addSubview:self.hoverView];
+    self.hoverView.hidden = YES;
 }
 
 #pragma mark - Tableview Datasource and Delegate
@@ -151,14 +157,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger rowHeight = 0;
+    NSInteger itemDetailContainerHeight = 229;
+    NSInteger calulcatedHeight          = CGRectGetWidth(self.view.frame) * 0.56 + itemDetailContainerHeight;
     if(indexPath.row == 0) {
         //Item details row
-        if([KCUtility getiOSDeviceType] == iPad) {
-            rowHeight = 620;
-        }
-        else {
-            rowHeight = 480;
-        }
+        rowHeight = calulcatedHeight;
     }
     else if (indexPath.row <= _ingredientsCount) {
         //Ingredient row
@@ -213,7 +216,6 @@
         [self customizeItemDetailCell:itemDetailTableCell];
         [self setDataOnItemDetailCelll:itemDetailTableCell];
         self.likeCounterButton     = itemDetailTableCell.likeCounterButton;
-        itemDetailTableCell.playVideoButton.hidden  = self.playerManager.isPlaying;
         self.playVideoButton       = itemDetailTableCell.playVideoButton;
         if(_itemDetails.isItemFavorite) {
             self.itemLikeButton.selected = YES;
@@ -221,6 +223,8 @@
         else {
             self.itemLikeButton.selected = NO;
         }
+        self.headerView                        =  itemDetailTableCell.videoPlayerView;
+        self.headerView.jp_videoPlayerDelegate = self;
         tableViewCell = itemDetailTableCell;
     }
     else if (indexPath.row <= _ingredientsCount) {
@@ -341,14 +345,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (IBAction)startCookingButtonTapped:(id)sender {
-    
-}
-
-- (IBAction)scheduleForLaerButtonTapped:(id)sender {
-    
-}
-
 - (IBAction)addItemToFavoriteButtonTapped:(UIButton*)sender {
     // Add or remove this item from favorite
     [self addRemoveItemFromFavorite];
@@ -382,16 +378,9 @@
                  properties:@{@"masterclass_name": self.selectedVideo.videoName}];
         }
     }
-   /* if(videoLink) {
-        SFSafariViewController *safariViewController = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:videoLink]];
-        [self presentViewController:safariViewController animated:true completion:^{
-            
-        }];
-    } */
     if(_vimeoVideoURL != nil) {
         // Start playing when vimeo URL is fetched
         [self setupVimeoPlayer];
-        [self playTheVideoAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] scrollToTop:YES];
     }
     else {
         // Fetch the URl then then play
@@ -818,110 +807,46 @@
         weakSelf.vimeoVideoURL = videoURL;
         if(shouldAutoplay) {
             [weakSelf setupVimeoPlayer];
-            [weakSelf playTheVideoAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] scrollToTop:YES];
         }
     }];
 }
 
 - (void)setupVimeoPlayer {
-    /// playerManager
-    
-    self.playerManager = [[ZFAVPlayerManager alloc] init];
-    [self.playerManager setScalingMode:ZFPlayerScalingModeAspectFill];
-    self.playerManager.shouldAutoPlay = YES;
-    
-    /// player
-    self.player = [ZFPlayerController playerWithScrollView:self.itemDetailsTableView playerManager:self.playerManager containerViewTag:1002];
-    self.player.controlView = self.controlView;
-    self.player.delegate    = self;
-    
-    @weakify(self)
-    self.player.orientationWillChange = ^(ZFPlayerController * _Nonnull player, BOOL isFullScreen) {
-        @strongify(self)
-        [self.view endEditing:YES];
-//        [self setNeedsStatusBarAppearanceUpdate];
-        self.itemDetailsTableView.scrollsToTop = !isFullScreen;
-    };
-    
-    self.player.playerDidToEnd = ^(id  _Nonnull asset) {
-        @strongify(self)
-        [self.playVideoButton setHidden:NO];
-        if (!self.player.isFullScreen) {
-            [self.player stopCurrentPlayingCell];
-            [self.controlView resetControlView];
-        } else {
-            [self.player enterFullScreen:NO animated:YES];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.player.orientationObserver.duration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.player stopCurrentPlayingCell];
-            });
-        }
-    };
-    
-    self.player.stopWhileNotVisible = NO;
-    CGFloat margin = 60;
-    CGFloat w = 300;
-    CGFloat h = 200;
-    CGFloat x = ZFPlayer_ScreenWidth - w - margin;
-    CGFloat y = ZFPlayer_ScreenHeight - h - margin;
-    self.player.smallFloatView.frame = CGRectMake(x, y, w, h);
+    /// Player Manager
+    [self.headerView jp_playVideoWithURL:self.vimeoVideoURL bufferingIndicator:nil controlView:nil progressView:nil configurationCompletion:^(UIView *view, JPVideoPlayerModel * _Nonnull playerModel) {
+    }];
+
 }
 
-#pragma mark - Player Delegate
-
-- (void)didDismissPlayer:(ZFPlayerController *)playerController {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.playVideoButton setHidden:NO];
-    });
-    self.playerManager = nil;
-    self.player        = nil;
-    self.controlView   = nil;
-}
-
-- (void)didEnterFullscreenPlayer:(ZFPlayerController *)playerController {
-    // Hide status bar
-}
-
-#pragma mark - private method
-
-/// play the video
-- (void)playTheVideoAtIndexPath:(NSIndexPath *)indexPath scrollToTop:(BOOL)scrollToTop {
-    self.player.assetURLs = @[_vimeoVideoURL];
-    [self.player playTheIndexPath:indexPath scrollToTop:scrollToTop];
-    [self.controlView resetControlView];
-}
-
-- (ZFPlayerControlView *)controlView {
-    if (!_controlView) {
-        _controlView = [ZFPlayerControlView new];
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if(!self.playVideoButton.isHidden) {
+        // Starts only when user has already started it
+        return;
     }
-    return _controlView;
-}
-
-#pragma mark - UIScrollViewDelegate
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    if (!decelerate) {
-        [self scrollDidStoppedToPlay];
+    BOOL headerVisible = scrollView.contentOffset.y < 10;
+    if(headerVisible && !self.hoverView.hidden){
+        self.hoverView.hidden = YES;
+        [self.headerView jp_resumePlayWithURL:self.vimeoVideoURL
+                           bufferingIndicator:nil
+                                  controlView:nil
+                                 progressView:nil
+                                configurationCompletion:nil];
+    }
+    else if(!headerVisible && self.hoverView.hidden){
+        self.hoverView.hidden = NO;
+        [self.hoverView jp_resumePlayWithURL:self.vimeoVideoURL
+                                     options:JPVideoPlayerRetryFailed
+                               configurationCompletion:nil];
     }
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    [self scrollDidStoppedToPlay];
+
+#pragma mark - JPVideoPlayerDelegate
+
+- (BOOL)shouldResumePlaybackFromPlaybackRecordForURL:(NSURL *)videoURL
+                                      elapsedSeconds:(NSTimeInterval)elapsedSeconds {
+    return YES;
 }
 
-- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView {
-    [self scrollDidStoppedToPlay];
-}
-
-- (void)scrollDidStoppedToPlay {
-    @weakify(self)
-    if(self.playerManager.isPlaying) {
-        [self.itemDetailsTableView zf_filterShouldPlayCellWhileScrolled:^(NSIndexPath * _Nonnull indexPath) {
-            @strongify(self)
-            indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-            [self playTheVideoAtIndexPath:indexPath scrollToTop:NO];
-        }];
-    }
-}
 
 @end

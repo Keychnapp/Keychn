@@ -110,7 +110,7 @@
     }];
     
 #if TARGET_IPHONE_SIMULATOR
-    keychnDeviceToken = [@"AEOI-09IU-hyuY-MNB0-YKC-ACD" stringByAppendingString:[NSString stringWithFormat:@"%ld", random()]];
+    keychnDeviceToken = [@"AEOI-09IU-hyuY-MNB0-YKC-FCG" stringByAppendingString:[NSString stringWithFormat:@"%ld", random()]];
 #endif
      // Validate user login and push the required view controller based on the current user profile status
     isNetworkReachable = YES;

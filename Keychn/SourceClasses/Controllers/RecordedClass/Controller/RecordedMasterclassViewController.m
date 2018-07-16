@@ -12,7 +12,7 @@
 #import "MasterclassVideo.h"
 #import "KCMasterchefViewController.h"
 #import "MasterclassDetailViewController.h"
-
+#import <JPNavigationControllerKit.h>
 
 #define kBaseHeight  245
 #define kBaseWidth   375

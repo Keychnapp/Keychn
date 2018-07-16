@@ -408,6 +408,7 @@ NSString  *cellIdentifierForIncomingImage                = @"incomingImageTableC
 NSString  *cellIdentifierForOutgoingImage                = @"outgoingImageTableCell";
 NSString  *cellIdentifierForMasterClassList              = @"MasterClassListTableCell";
 NSString  *cellIdentifierStepLabel                       = @"KCItemStepTableViewCell";
+NSString  *cellIdentifierKeychnTV                        = @"KeychnTVTableViewCell";
 
 #pragma mark - Collection View Cell Identifier
 

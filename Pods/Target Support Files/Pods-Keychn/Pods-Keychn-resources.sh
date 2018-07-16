@@ -93,6 +93,8 @@ EOM
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle"
+  install_resource "${PODS_ROOT}/JPNavigationController/JPNavigationController/JPNavigationController.bundle"
+  install_resource "${PODS_ROOT}/JPVideoPlayer/JPVideoPlayer/JPVideoPlayer.bundle"
   install_resource "${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowLeft.png"
   install_resource "${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowLeft@2x.png"
   install_resource "${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowRight.png"
@@ -114,10 +116,11 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle"
   install_resource "${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle"
   install_resource "${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle"
-  install_resource "${PODS_ROOT}/ZFPlayer/ZFPlayer/Classes/ControlView/ZFPlayer.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle"
+  install_resource "${PODS_ROOT}/JPNavigationController/JPNavigationController/JPNavigationController.bundle"
+  install_resource "${PODS_ROOT}/JPVideoPlayer/JPVideoPlayer/JPVideoPlayer.bundle"
   install_resource "${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowLeft.png"
   install_resource "${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowLeft@2x.png"
   install_resource "${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowRight.png"
@@ -139,7 +142,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle"
   install_resource "${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle"
   install_resource "${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle"
-  install_resource "${PODS_ROOT}/ZFPlayer/ZFPlayer/Classes/ControlView/ZFPlayer.bundle"
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

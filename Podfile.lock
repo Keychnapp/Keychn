@@ -64,6 +64,8 @@ PODS:
   - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - HCVimeoVideoExtractor (0.0.1)
+  - JPNavigationController (2.1.3)
+  - JPVideoPlayer (3.1.0)
   - Mixpanel (3.3.2)
   - MXParallaxHeader (0.6.1)
   - nanopb (0.3.8):
@@ -85,13 +87,6 @@ PODS:
     - TwitterCore (>= 3.1.0)
   - UIActivityIndicator-for-SDWebImage (1.2):
     - SDWebImage (~> 3.7)
-  - ZFPlayer (3.0.0):
-    - ZFPlayer/Core (= 3.0.0)
-  - ZFPlayer/AVPlayer (3.0.0):
-    - ZFPlayer/Core
-  - ZFPlayer/ControlView (3.0.0):
-    - ZFPlayer/Core
-  - ZFPlayer/Core (3.0.0)
 
 DEPENDENCIES:
   - AFNetworking (= 2.6.3)
@@ -104,6 +99,8 @@ DEPENDENCIES:
   - Firebase
   - FirebaseMessaging
   - HCVimeoVideoExtractor
+  - JPNavigationController (~> 2.1.3)
+  - JPVideoPlayer
   - Mixpanel
   - MXParallaxHeader
   - SCLAlertView-Objective-C
@@ -115,9 +112,6 @@ DEPENDENCIES:
   - TwitterCore
   - TwitterKit
   - UIActivityIndicator-for-SDWebImage
-  - ZFPlayer (~> 3.0.0)
-  - ZFPlayer/AVPlayer (~> 3.0.0)
-  - ZFPlayer/ControlView (~> 3.0.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -136,6 +130,8 @@ SPEC REPOS:
     - FirebaseMessaging
     - GoogleToolboxForMac
     - HCVimeoVideoExtractor
+    - JPNavigationController
+    - JPVideoPlayer
     - Mixpanel
     - MXParallaxHeader
     - nanopb
@@ -149,7 +145,6 @@ SPEC REPOS:
     - TwitterCore
     - TwitterKit
     - UIActivityIndicator-for-SDWebImage
-    - ZFPlayer
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
@@ -167,6 +162,8 @@ SPEC CHECKSUMS:
   FirebaseMessaging: ec6fde5a77824c6da0218f9ca220feb251aa17d5
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   HCVimeoVideoExtractor: d3c251280f7027ffd324266e1930b3618e0adb46
+  JPNavigationController: f174edc3572edd9cd60cc65b51a14b6d75e47e9a
+  JPVideoPlayer: 1f1b5165101fb0e25273039b486c9d15897353ab
   Mixpanel: be4de218d0ffaaae59b498078b2ecf2db1f8072c
   MXParallaxHeader: 858c403532ed933b381556a81ce333d7065ad182
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
@@ -180,8 +177,7 @@ SPEC CHECKSUMS:
   TwitterCore: 644d59e75abccb26cf0a9050d2c4dea0e5412241
   TwitterKit: a2e60ddcedbf54091eac6f27685ca7a87681e1d7
   UIActivityIndicator-for-SDWebImage: 7bf7ebbf0ed1747dedc0d6e949c4603a6d0f9e0c
-  ZFPlayer: 4853d12575f7ab1b7538600b317ecb723a71b7d7
 
-PODFILE CHECKSUM: 2a67dd1ddb20220c59892b4b1e1cb9a18b71fb45
+PODFILE CHECKSUM: b629aca45df102963366d9225305a994b639b8b5
 
 COCOAPODS: 1.5.3

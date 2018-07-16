@@ -123,8 +123,10 @@
 		653717F21F68653B002B4292 /* KCWebConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 653717731F68653B002B4292 /* KCWebConnection.m */; };
 		654889121FC33016004D83FD /* MenuTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 654889111FC33016004D83FD /* MenuTabBarController.m */; };
 		654889151FC330A9004D83FD /* TabSwitchAnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 654889141FC330A9004D83FD /* TabSwitchAnimationController.m */; };
+		654C8A4920E8F11A00648BE1 /* FloatingPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 654C8A4820E8F11A00648BE1 /* FloatingPlayerView.m */; };
 		65540CA72006535800C11363 /* TriLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65540CA62006535800C11363 /* TriLabelView.swift */; };
 		6556069A1FC072F400CF6C15 /* KCNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 655606991FC072F400CF6C15 /* KCNavigationController.m */; };
+		6566876520F1ECF7002BA438 /* KCKeychnTVTableViewCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6566876420F1ECF7002BA438 /* KCKeychnTVTableViewCellTableViewCell.m */; };
 		659D56DD2020D1CF0030A7A7 /* KCMasterclassPreview.m in Sources */ = {isa = PBXBuildFile; fileRef = 659D56DC2020D1CF0030A7A7 /* KCMasterclassPreview.m */; };
 		659D56DF2020D1EF0030A7A7 /* MasterclassPreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 659D56DE2020D1EF0030A7A7 /* MasterclassPreview.xib */; };
 		65A34F2C1FA8BD5A00449513 /* AgoraRtcEngineKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A34F2B1FA8BD5900449513 /* AgoraRtcEngineKit.framework */; };
@@ -643,10 +645,14 @@
 		654889111FC33016004D83FD /* MenuTabBarController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MenuTabBarController.m; sourceTree = "<group>"; };
 		654889131FC330A9004D83FD /* TabSwitchAnimationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabSwitchAnimationController.h; sourceTree = "<group>"; };
 		654889141FC330A9004D83FD /* TabSwitchAnimationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TabSwitchAnimationController.m; sourceTree = "<group>"; };
+		654C8A4720E8F11A00648BE1 /* FloatingPlayerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FloatingPlayerView.h; sourceTree = "<group>"; };
+		654C8A4820E8F11A00648BE1 /* FloatingPlayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FloatingPlayerView.m; sourceTree = "<group>"; };
 		65540CA52006535700C11363 /* Keychn-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Keychn-Bridging-Header.h"; sourceTree = "<group>"; };
 		65540CA62006535800C11363 /* TriLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriLabelView.swift; sourceTree = "<group>"; };
 		655606981FC072F400CF6C15 /* KCNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KCNavigationController.h; sourceTree = "<group>"; };
 		655606991FC072F400CF6C15 /* KCNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KCNavigationController.m; sourceTree = "<group>"; };
+		6566876320F1ECF7002BA438 /* KCKeychnTVTableViewCellTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KCKeychnTVTableViewCellTableViewCell.h; sourceTree = "<group>"; };
+		6566876420F1ECF7002BA438 /* KCKeychnTVTableViewCellTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KCKeychnTVTableViewCellTableViewCell.m; sourceTree = "<group>"; };
 		659D56DB2020D1CF0030A7A7 /* KCMasterclassPreview.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KCMasterclassPreview.h; sourceTree = "<group>"; };
 		659D56DC2020D1CF0030A7A7 /* KCMasterclassPreview.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KCMasterclassPreview.m; sourceTree = "<group>"; };
 		659D56DE2020D1EF0030A7A7 /* MasterclassPreview.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MasterclassPreview.xib; sourceTree = "<group>"; };
@@ -1291,6 +1297,8 @@
 			children = (
 				6537161C1F68653A002B4292 /* KCMasterClassListTableViewCell.h */,
 				6537161D1F68653A002B4292 /* KCMasterClassListTableViewCell.m */,
+				6566876320F1ECF7002BA438 /* KCKeychnTVTableViewCellTableViewCell.h */,
+				6566876420F1ECF7002BA438 /* KCKeychnTVTableViewCellTableViewCell.m */,
 			);
 			path = TableCell;
 			sourceTree = "<group>";
@@ -2159,6 +2167,16 @@
 			path = MenuTabBar;
 			sourceTree = "<group>";
 		};
+		654C8A4420E8F09E00648BE1 /* FloatingPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				654C8A4720E8F11A00648BE1 /* FloatingPlayerView.h */,
+				654C8A4820E8F11A00648BE1 /* FloatingPlayerView.m */,
+			);
+			name = FloatingPlayer;
+			path = SourceClasses/Views/FloatingPlayer;
+			sourceTree = "<group>";
+		};
 		65540CA42006532E00C11363 /* TriangleView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2611,6 +2629,7 @@
 		AA8876871C106EEB00D2CEF4 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				654C8A4420E8F09E00648BE1 /* FloatingPlayer */,
 				659D56DA2020D1030030A7A7 /* MasterclassPreview */,
 				AA8876881C106EFB00D2CEF4 /* Storyboard */,
 			);
@@ -3286,6 +3305,8 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Keychn/Pods-Keychn-resources.sh",
 				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
+				"${PODS_ROOT}/JPNavigationController/JPNavigationController/JPNavigationController.bundle",
+				"${PODS_ROOT}/JPVideoPlayer/JPVideoPlayer/JPVideoPlayer.bundle",
 				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowLeft.png",
 				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowLeft@2x.png",
 				"${PODS_ROOT}/Mixpanel/Mixpanel/Images/MPArrowRight.png",
@@ -3307,11 +3328,12 @@
 				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
 				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
-				"${PODS_ROOT}/ZFPlayer/ZFPlayer/Classes/ControlView/ZFPlayer.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/JPNavigationController.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/JPVideoPlayer.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPArrowLeft.png",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPArrowLeft@2x.png",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MPArrowRight.png",
@@ -3333,7 +3355,6 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterKitResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TwitterShareExtensionUIResources.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ZFPlayer.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -3398,6 +3419,7 @@
 				653717D01F68653B002B4292 /* KCUserProfile.m in Sources */,
 				653717BE1F68653B002B4292 /* IAPSubscription.m in Sources */,
 				653717E71F68653B002B4292 /* KCForgotPasswordWebManager.m in Sources */,
+				654C8A4920E8F11A00648BE1 /* FloatingPlayerView.m in Sources */,
 				653717C91F68653B002B4292 /* KCSupportedLanguage.m in Sources */,
 				653717CD1F68653B002B4292 /* KCUserData.m in Sources */,
 				653717C11F68653B002B4292 /* KCItemRecipeStep.m in Sources */,
@@ -3468,6 +3490,7 @@
 				6556069A1FC072F400CF6C15 /* KCNavigationController.m in Sources */,
 				653717B11F68653B002B4292 /* KCGroupSessionHostEndViewController.m in Sources */,
 				653717AD1F68653B002B4292 /* KCSplashViewController.m in Sources */,
+				6566876520F1ECF7002BA438 /* KCKeychnTVTableViewCellTableViewCell.m in Sources */,
 				659D56DD2020D1CF0030A7A7 /* KCMasterclassPreview.m in Sources */,
 				653717DA1F68653B002B4292 /* KCPageControl.m in Sources */,
 				653717CB1F68653B002B4292 /* KCTutorial.m in Sources */,

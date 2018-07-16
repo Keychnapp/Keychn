@@ -569,6 +569,7 @@ extern NSString  *cellIdentifierForIncomingImage;
 extern NSString  *cellIdentifierForOutgoingImage;
 extern NSString  *cellIdentifierForMasterClassList;
 extern NSString  *cellIdentifierStepLabel;
+extern NSString  *cellIdentifierKeychnTV;
 
 
 
